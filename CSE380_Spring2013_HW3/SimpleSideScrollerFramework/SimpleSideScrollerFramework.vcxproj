@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0368864D-6F5F-4B71-9422-843096A3650F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>SimpleSideScrollerFramework</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\HW3PropertySheet.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\HW3PropertySheet.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\dataLoader\GameDataLoader.cpp" />
+    <ClCompile Include="src\game\Game.cpp" />
+    <ClCompile Include="src\game\WStringTable.cpp" />
+    <ClCompile Include="src\graphics\GameGraphics.cpp" />
+    <ClCompile Include="src\graphics\RenderList.cpp" />
+    <ClCompile Include="src\graphics\TextureManager.cpp" />
+    <ClCompile Include="src\gsm\ai\BotRecycler.cpp" />
+    <ClCompile Include="src\gsm\ai\bots\RandomFloatingBot.cpp" />
+    <ClCompile Include="src\gsm\ai\bots\RandomJumpingBot.cpp" />
+    <ClCompile Include="src\gsm\physics\AABB.cpp" />
+    <ClCompile Include="src\gsm\physics\CollidableObject.cpp" />
+    <ClCompile Include="src\gsm\physics\Physics.cpp" />
+    <ClCompile Include="src\gsm\sprite\AnimatedSprite.cpp" />
+    <ClCompile Include="src\gsm\sprite\AnimatedSpriteType.cpp" />
+    <ClCompile Include="src\gsm\sprite\SpriteManager.cpp" />
+    <ClCompile Include="src\gsm\state\GameStateManager.cpp" />
+    <ClCompile Include="src\gsm\world\SparseLayer.cpp" />
+    <ClCompile Include="src\gsm\world\TiledLayer.cpp" />
+    <ClCompile Include="src\gsm\world\World.cpp" />
+    <ClCompile Include="src\gui\Button.cpp" />
+    <ClCompile Include="src\gui\Cursor.cpp" />
+    <ClCompile Include="src\gui\GameGUI.cpp" />
+    <ClCompile Include="src\gui\ScreenGUI.cpp" />
+    <ClCompile Include="src\gui\Viewport.cpp" />
+    <ClCompile Include="src\input\GameInput.cpp" />
+    <ClCompile Include="src\PlatformPlugins\DirectXPlugin\DirectXGraphics.cpp" />
+    <ClCompile Include="src\PlatformPlugins\DirectXPlugin\DirectXTextureManager.cpp" />
+    <ClCompile Include="src\PlatformPlugins\WindowsPlugin\WindowsInput.cpp" />
+    <ClCompile Include="src\PlatformPlugins\WindowsPlugin\WindowsOS.cpp" />
+    <ClCompile Include="src\PlatformPlugins\WindowsPlugin\WindowsTimer.cpp" />
+    <ClCompile Include="src\text\BufferedTextFileReader.cpp" />
+    <ClCompile Include="src\text\GameText.cpp" />
+    <ClCompile Include="src\text\TextFileWriter.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\dataLoader\GameDataLoader.h" />
+    <ClInclude Include="src\game\Game.h" />
+    <ClInclude Include="src\game\IllegalArgumentException.h" />
+    <ClInclude Include="src\game\IllegalFileFormatException.h" />
+    <ClInclude Include="src\game\WStringTable.h" />
+    <ClInclude Include="src\graphics\GameGraphics.h" />
+    <ClInclude Include="src\graphics\RenderList.h" />
+    <ClInclude Include="src\graphics\TextureManager.h" />
+    <ClInclude Include="src\gsm\ai\Bot.h" />
+    <ClInclude Include="src\gsm\ai\BotRecycler.h" />
+    <ClInclude Include="src\gsm\ai\bots\RandomFloatingBot.h" />
+    <ClInclude Include="src\gsm\ai\bots\RandomJumpingBot.h" />
+    <ClInclude Include="src\gsm\physics\AABB.h" />
+    <ClInclude Include="src\gsm\physics\CollidableObject.h" />
+    <ClInclude Include="src\gsm\physics\Collision.h" />
+    <ClInclude Include="src\gsm\physics\CollisionListener.h" />
+    <ClInclude Include="src\gsm\physics\PhysicalProperties.h" />
+    <ClInclude Include="src\gsm\physics\Physics.h" />
+    <ClInclude Include="src\gsm\sprite\AnimatedSprite.h" />
+    <ClInclude Include="src\gsm\sprite\AnimatedSpriteType.h" />
+    <ClInclude Include="src\gsm\sprite\SpriteManager.h" />
+    <ClInclude Include="src\gsm\state\GameState.h" />
+    <ClInclude Include="src\gsm\state\GameStateManager.h" />
+    <ClInclude Include="src\gsm\world\SparseLayer.h" />
+    <ClInclude Include="src\gsm\world\Tile.h" />
+    <ClInclude Include="src\gsm\world\TiledLayer.h" />
+    <ClInclude Include="src\gsm\world\World.h" />
+    <ClInclude Include="src\gsm\world\WorldLayer.h" />
+    <ClInclude Include="src\gui\Button.h" />
+    <ClInclude Include="src\gui\Cursor.h" />
+    <ClInclude Include="src\gui\GameGUI.h" />
+    <ClInclude Include="src\gui\OverlayImage.h" />
+    <ClInclude Include="src\gui\ScreenGUI.h" />
+    <ClInclude Include="src\gui\Viewport.h" />
+    <ClInclude Include="src\input\ButtonEventHandler.h" />
+    <ClInclude Include="src\input\GameInput.h" />
+    <ClInclude Include="src\input\KeyEventHandler.h" />
+    <ClInclude Include="src\os\GameOS.h" />
+    <ClInclude Include="src\PlatformPlugins\DirectXPlugin\DirectXGraphics.h" />
+    <ClInclude Include="src\PlatformPlugins\DirectXPlugin\DirectXTextureManager.h" />
+    <ClInclude Include="src\PlatformPlugins\WindowsPlugin\WindowsInput.h" />
+    <ClInclude Include="src\PlatformPlugins\WindowsPlugin\WindowsOS.h" />
+    <ClInclude Include="src\PlatformPlugins\WindowsPlugin\WindowsTimer.h" />
+    <ClInclude Include="src\text\BufferedTextFileReader.h" />
+    <ClInclude Include="src\text\GameText.h" />
+    <ClInclude Include="src\text\TextFileWriter.h" />
+    <ClInclude Include="src\text\TextGenerator.h" />
+    <ClInclude Include="src\timer\GameTimer.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

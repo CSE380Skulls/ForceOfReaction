@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="VS2010Files">
+      <UniqueIdentifier>{03133919-c950-4b5a-9a26-27e202a21296}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\dataLoader">
+      <UniqueIdentifier>{d492cac5-d45a-434c-a242-398a76c6c6d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\game">
+      <UniqueIdentifier>{d09707f7-13ec-4a28-92de-dd7b2a96853b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\graphics">
+      <UniqueIdentifier>{cacb35d8-b0ac-4abb-9d11-0e5aeb4d5c41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gsm">
+      <UniqueIdentifier>{e46d8843-7831-4c12-862d-504f9873dd43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gsm\ai">
+      <UniqueIdentifier>{a1366187-09f5-4a1f-a285-e2af5175e86b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gsm\physics">
+      <UniqueIdentifier>{1fa24a70-8575-46d6-800e-700911ff9a06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gsm\sprite">
+      <UniqueIdentifier>{8ae2c783-c404-4e17-9cf0-2c3a21b30de0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gsm\state">
+      <UniqueIdentifier>{5a32d70a-138e-4c2c-b535-30835c5f83d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gsm\world">
+      <UniqueIdentifier>{d5a98b14-020b-497f-8323-227dc76187e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gui">
+      <UniqueIdentifier>{052f7c2d-5d10-48e0-a276-e83a74710cee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\input">
+      <UniqueIdentifier>{42cc266b-9c61-4c97-a141-be4cd5d1d66b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\os">
+      <UniqueIdentifier>{e57685fb-ff1d-4693-86fa-10cececbc669}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PlatformPlugins">
+      <UniqueIdentifier>{a73a4114-389b-48c6-956d-0d4c9dc9343f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PlatformPlugins\DirectXPlugin">
+      <UniqueIdentifier>{0a6936c2-b13a-426b-87f2-3b2552e19ee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PlatformPlugins\WindowsPlugin">
+      <UniqueIdentifier>{1e1a6b1c-7e40-4119-b1d8-2b3799cc6ebb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\text">
+      <UniqueIdentifier>{916f82a1-25a6-4b81-be51-62bc057d05a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\timer">
+      <UniqueIdentifier>{98746d59-f030-47ee-b584-9ff6bb09939e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gsm\ai\bots">
+      <UniqueIdentifier>{a87d81ee-be61-4b4e-a0bf-3f147cae57ce}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>VS2010Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dataLoader\GameDataLoader.cpp">
+      <Filter>src\dataLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Game.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\WStringTable.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\GameGraphics.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\RenderList.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\TextureManager.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gsm\ai\BotRecycler.cpp">
+      <Filter>src\gsm\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gsm\world\SparseLayer.cpp">
+      <Filter>src\gsm\world</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gsm\world\TiledLayer.cpp">
+      <Filter>src\gsm\world</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gsm\world\World.cpp">
+      <Filter>src\gsm\world</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gsm\state\GameStateManager.cpp">
+      <Filter>src\gsm\state</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gsm\sprite\AnimatedSprite.cpp">
+      <Filter>src\gsm\sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gsm\sprite\AnimatedSpriteType.cpp">
+      <Filter>src\gsm\sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gsm\sprite\SpriteManager.cpp">
+      <Filter>src\gsm\sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gsm\physics\Physics.cpp">
+      <Filter>src\gsm\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\Button.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\Cursor.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\GameGUI.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\ScreenGUI.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\Viewport.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\input\GameInput.cpp">
+      <Filter>src\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PlatformPlugins\DirectXPlugin\DirectXGraphics.cpp">
+      <Filter>src\PlatformPlugins\DirectXPlugin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PlatformPlugins\DirectXPlugin\DirectXTextureManager.cpp">
+      <Filter>src\PlatformPlugins\DirectXPlugin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PlatformPlugins\WindowsPlugin\WindowsInput.cpp">
+      <Filter>src\PlatformPlugins\WindowsPlugin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PlatformPlugins\WindowsPlugin\WindowsOS.cpp">
+      <Filter>src\PlatformPlugins\WindowsPlugin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PlatformPlugins\WindowsPlugin\WindowsTimer.cpp">
+      <Filter>src\PlatformPlugins\WindowsPlugin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\text\BufferedTextFileReader.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
+    <ClCompile Include="src\text\GameText.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
+    <ClCompile Include="src\text\TextFileWriter.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gsm\ai\bots\RandomJumpingBot.cpp">
+      <Filter>src\gsm\ai\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gsm\ai\bots\RandomFloatingBot.cpp">
+      <Filter>src\gsm\ai\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gsm\physics\CollidableObject.cpp">
+      <Filter>src\gsm\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gsm\physics\AABB.cpp">
+      <Filter>src\gsm\physics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>VS2010Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>VS2010Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dataLoader\GameDataLoader.h">
+      <Filter>src\dataLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Game.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\IllegalArgumentException.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\IllegalFileFormatException.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\WStringTable.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\GameGraphics.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\RenderList.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\TextureManager.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\ai\Bot.h">
+      <Filter>src\gsm\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\ai\BotRecycler.h">
+      <Filter>src\gsm\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\world\SparseLayer.h">
+      <Filter>src\gsm\world</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\world\TiledLayer.h">
+      <Filter>src\gsm\world</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\world\World.h">
+      <Filter>src\gsm\world</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\world\WorldLayer.h">
+      <Filter>src\gsm\world</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\state\GameState.h">
+      <Filter>src\gsm\state</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\state\GameStateManager.h">
+      <Filter>src\gsm\state</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\sprite\AnimatedSprite.h">
+      <Filter>src\gsm\sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\sprite\AnimatedSpriteType.h">
+      <Filter>src\gsm\sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\sprite\SpriteManager.h">
+      <Filter>src\gsm\sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\physics\CollidableObject.h">
+      <Filter>src\gsm\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\physics\PhysicalProperties.h">
+      <Filter>src\gsm\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\physics\Physics.h">
+      <Filter>src\gsm\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\Button.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\Cursor.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\GameGUI.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\OverlayImage.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\ScreenGUI.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\Viewport.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\input\ButtonEventHandler.h">
+      <Filter>src\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\input\GameInput.h">
+      <Filter>src\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\input\KeyEventHandler.h">
+      <Filter>src\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\os\GameOS.h">
+      <Filter>src\os</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PlatformPlugins\DirectXPlugin\DirectXGraphics.h">
+      <Filter>src\PlatformPlugins\DirectXPlugin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PlatformPlugins\DirectXPlugin\DirectXTextureManager.h">
+      <Filter>src\PlatformPlugins\DirectXPlugin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PlatformPlugins\WindowsPlugin\WindowsInput.h">
+      <Filter>src\PlatformPlugins\WindowsPlugin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PlatformPlugins\WindowsPlugin\WindowsOS.h">
+      <Filter>src\PlatformPlugins\WindowsPlugin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PlatformPlugins\WindowsPlugin\WindowsTimer.h">
+      <Filter>src\PlatformPlugins\WindowsPlugin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\text\BufferedTextFileReader.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="src\text\GameText.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="src\text\TextFileWriter.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="src\text\TextGenerator.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="src\timer\GameTimer.h">
+      <Filter>src\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\ai\bots\RandomFloatingBot.h">
+      <Filter>src\gsm\ai\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\ai\bots\RandomJumpingBot.h">
+      <Filter>src\gsm\ai\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\physics\Collision.h">
+      <Filter>src\gsm\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\physics\AABB.h">
+      <Filter>src\gsm\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\physics\CollisionListener.h">
+      <Filter>src\gsm\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\world\Tile.h">
+      <Filter>src\gsm\world</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
