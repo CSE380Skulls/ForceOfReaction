@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <sprite_type>
- <width>64</width>
+ <width>32</width>
  <height>64</height>
  <images_list>
   <image_file id="1" file_name="idle_left.png"/>

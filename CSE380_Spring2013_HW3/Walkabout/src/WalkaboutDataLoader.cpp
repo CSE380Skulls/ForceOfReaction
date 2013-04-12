@@ -35,53 +35,137 @@
 // ANIMATED SPRITE TYPE LOADING
 #include "src\PoseurSpriteTypesImporter.h"
 
+// LUA
+#include "LuaPlus.h"
+using namespace LuaPlus;
+
 /*
 	loadGame - This method loads the setup game data into the game and
 	constructs all the needed objects for the game to work.
 */
 void WalkaboutDataLoader::loadGame(Game *game, wstring gameInitFile)
 {
+	// Init Lua
+	LuaState* luaPState = LuaState::Create();
+
+	// Open the Lua Script File
+	int result = luaPState->DoFile("data/lua_scripts/game_init.lua");
+	
+	// name
+	LuaObject obj = luaPState->GetGlobal("title");
+	string title = obj.GetString();
+
+	// screen width
+	obj = luaPState->GetGlobal("screen_width");
+	int screen_width = obj.GetInteger();
+
+	// screen height
+	obj = luaPState->GetGlobal("screen_height");
+	int screen_height = obj.GetInteger();
+
+	//full screen 
+	obj = luaPState->GetGlobal("fullscreen_mode");
+	bool fullscreen = obj.GetBoolean();
+
+	// Font size
+	obj = luaPState->GetGlobal("font_size");
+	int font_size = obj.GetInteger();
+
+	// x offset
+	obj = luaPState->GetGlobal("viewport_offset_x");
+	int viewport_offset_x = obj.GetInteger();
+
+	// y offset
+	obj = luaPState->GetGlobal("viewport_offset_y");
+	int viewport_offset_y = obj.GetInteger();
+
+	// font red
+	obj = luaPState->GetGlobal("font_color_red");
+	int font_color_red = obj.GetInteger();
+
+	// font green
+	obj = luaPState->GetGlobal("font_color_green");
+	int font_color_green = obj.GetInteger();
+
+	// font blue
+	obj = luaPState->GetGlobal("font_color_blue");
+	int font_color_blue = obj.GetInteger();
+	
+	// key red
+	obj = luaPState->GetGlobal("color_key_red");
+	int color_key_red = obj.GetInteger();
+
+	// key green
+	obj = luaPState->GetGlobal("color_key_green");
+	int color_key_green = obj.GetInteger();
+
+	// key blue
+	obj = luaPState->GetGlobal("color_key_blue");
+	int color_key_blue = obj.GetInteger();
+
+
 	// AND LET'S READ IN THE GAME SETUP INFO
 	// FIRST LOAD ALL THE PROPERTIES
-	map<wstring,wstring> *properties = new map<wstring,wstring>();
-	loadGameProperties(game, properties, gameInitFile);
+	//map<wstring,wstring> *properties = new map<wstring,wstring>();
+	//loadGameProperties(game, properties, gameInitFile);
 
 	// WE NEED THE TITLE AND USE_FULLSCREEN_MODE TO INITIALIZE OUR WINDOW
-	wstring titleProp = (*properties)[W_TITLE];
-	wstring useFullscreenProp = (*properties)[W_USE_FULLSCREEN_MODE];
-	bool useFullscreen = false;
-	if (useFullscreenProp.compare(L"true") == 0)
-		useFullscreen = true;
+	//wstring titleProp = (*properties)[W_TITLE];
+	//wstring useFullscreenProp = (*properties)[W_USE_FULLSCREEN_MODE];
+	//bool useFullscreen = false;
+	//if (useFullscreenProp.compare(L"true") == 0)
+	//	useFullscreen = true;
 
 	// GET THE SCREEN WIDTH AND HEIGHT
-	int screenWidth, screenHeight;
-	wstring screenWidthProp = (*properties)[W_SCREEN_WIDTH];
-	wstring screenHeightProp = (*properties)[W_SCREEN_HEIGHT];
-	wstringstream(screenWidthProp) >> screenWidth;
-	wstringstream(screenHeightProp) >> screenHeight;
+	//int screenWidth, screenHeight;
+	//wstring screenWidthProp = (*properties)[W_SCREEN_WIDTH];
+	//wstring screenHeightProp = (*properties)[W_SCREEN_HEIGHT];
+	//wstringstream(screenWidthProp) >> screenWidth;
+	//wstringstream(screenHeightProp) >> screenHeight;
 
 	// MAKE A CUSTOM GameOS OBJECT (WindowsOS) FOR SOME WINDOWS
 	// PLATFORM STUFF, INCLUDING A Window OF COURSE
-	WindowsOS *walkaboutOS = new WindowsOS(	hInstance, 
+	/*WindowsOS *walkaboutOS = new WindowsOS(	hInstance, 
 										nCmdShow,
 										useFullscreen,
 										titleProp,
 										screenWidth, screenHeight,
 										game);
+	*/
 	
-	int textFontSize;
-	wstring textFontSizeProp = (*properties)[W_TEXT_FONT_SIZE];
-	wstringstream(textFontSizeProp) >> textFontSize;
+	std::wstring wsTmp(title.begin(), title.end());
+
+	WindowsOS *walkaboutOS = new WindowsOS(	hInstance, 
+										nCmdShow,
+										fullscreen,
+										wsTmp,
+										screen_width, screen_height,
+										game);
+
+	//int textFontSize;
+	//wstring textFontSizeProp = (*properties)[W_TEXT_FONT_SIZE];
+	//wstringstream(textFontSizeProp) >> textFontSize;
 
 	// RENDERING WILL BE DONE USING DirectX
 	DirectXGraphics *walkaboutGraphics = new DirectXGraphics(game);
-	walkaboutGraphics->init(screenWidth, screenHeight);
+	/*walkaboutGraphics->init(screenWidth, screenHeight);
 	walkaboutGraphics->initGraphics(walkaboutOS, useFullscreen);
 	walkaboutGraphics->initTextFont(textFontSize);
+	*/
+	walkaboutGraphics->init(screen_width, screen_height);
+	walkaboutGraphics->initGraphics(walkaboutOS, fullscreen);
+	walkaboutGraphics->initTextFont(font_size);
 
 	// AND NOW LOAD THE COLORS THE GRAPHICS WILL USE
 	// AS A COLOR KEY AND FOR RENDERING TEXT
-	initColors(walkaboutGraphics, properties);
+	//initColors(walkaboutGraphics, properties);
+
+	// COLOR USED FOR RENDERING TEXT
+	walkaboutGraphics->setFontColor(font_color_red, font_color_green, font_color_blue);
+	// COLOR KEY - COLOR TO BE IGNORED WHEN LOADING AN IMAGE
+	// NOTE, IF YOU WISH TO USE PNG IMAGES THAT CONTAIN ALPHA
+	// CHANNEL DATA, YOU DON'T NEED A COLOR KEY
+	walkaboutGraphics->setColorKey(color_key_red, color_key_green, color_key_blue);
 
 	// WE'LL USE WINDOWS PLATFORM METHODS FOR GETTING INPUT
 	WindowsInput *walkaboutInput = new WindowsInput();
@@ -105,10 +189,18 @@ void WalkaboutDataLoader::loadGame(Game *game, wstring gameInitFile)
 	text->setTextGenerator((TextGenerator*)walkaboutTextGenerator);
 
 	// INIT THE VIEWPORT TOO
-	initViewport(game->getGUI(), properties);	
+	//initViewport(game->getGUI(), properties);
+	int viewportWidth = screen_width - viewport_offset_x;
+	int viewportHeight = screen_height - viewport_offset_y;
+
+	Viewport *viewport = game->getGUI()->getViewport();
+	viewport->setViewportWidth(viewportWidth);
+	viewport->setViewportHeight(viewportHeight);
+	viewport->setViewportOffsetX(viewport_offset_x);
+	viewport->setViewportOffsetY(viewport_offset_y);
 
 	// WE DON'T NEED THE PROPERTIES MAP ANYMORE, THE GAME IS ALL LOADED
-	delete properties;
+	//delete properties;
 }
 
 /*
