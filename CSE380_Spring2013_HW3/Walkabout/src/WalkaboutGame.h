@@ -10,7 +10,7 @@
 
 // HERE IS THE Walkabout GAME SETUP/INIT FILE. EVERYTHING WOULD START FROM HERE
 static const wstring	W_LEVEL_1_DIR			= L"data/levels/earth/";
-static const wstring	W_LEVEL_1_NAME			= L"mini.tmx";
+static const wstring	W_LEVEL_1_NAME			= L"earth.tmx";
 static const wstring	W_LEVEL_1_PATH			= W_LEVEL_1_DIR + W_LEVEL_1_NAME;
 static const wstring	W_INIT_FILE				= L"data/WalkaboutInit.txt";
 static const wstring	W_GUI_INIT_FILE			= L"data/WalkaboutGUI.txt";
@@ -39,14 +39,18 @@ static const wstring	W_QUIT_COMMAND			= L"Quit";
 //static const wstring	W_GREEN_CURSOR_PATH		= L"data/gui/cursor/green_cursor.png";
 //static const wstring	W_RED_CURSOR_PATH		= L"data/gui/cursor/red_cursor.png";
 static const wstring    W_CURSOR_PATH           = L"data/gui/cursor/cursor.png";
-static const wstring	W_SPLASH_SCREEN_PATH	= L"data/gui/overlays/spiked_acid_splash_screen_overlay.png";
-static const wstring	W_MAIN_MENU_PATH		= L"data/gui/overlays/spiked_acid_main_menu_overlay.png";
+static const wstring	W_SPLASH_SCREEN_PATH	= L"data/gui/overlays/fon_splash_screen_overlay.png";
+static const wstring	W_MAIN_MENU_PATH		= L"data/gui/overlays/fon_main_menu_overlay.png";
 static const wstring	W_START_IMAGE_PATH		= L"data/gui/buttons/start_game.png";
 static const wstring	W_START_IMAGE_MO_PATH	= L"data/gui/buttons/start_game_mo.png";
 static const wstring	W_EXIT_IMAGE_PATH		= L"data/gui/buttons/exit_game.png";
 static const wstring	W_EXIT_IMAGE_MO_PATH	= L"data/gui/buttons/exit_game_mo.png";
 static const wstring	W_QUIT_IMAGE_PATH		= L"data/gui/buttons/quit.png";
 static const wstring	W_QUIT_IMAGE_MO_PATH	= L"data/gui/buttons/quit_mo.png";
+static const wstring	W_OPTIONS_IMAGE_PATH	= L"data/gui/buttons/options.png";
+static const wstring	W_OPTIONS_IMAGE_MO_PATH	= L"data/gui/buttons/options_mo.png";
+static const wstring	W_CREDITS_IMAGE_PATH	= L"data/gui/buttons/credits.png";
+static const wstring	W_CREDITS_IMAGE_MO_PATH	= L"data/gui/buttons/credits_mo.png";
 
 // FOR OUR SPRITE
 static const wstring	SPRITE_TYPES_DIR = L"data/sprite_types/";

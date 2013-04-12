@@ -333,12 +333,12 @@ void WalkaboutDataLoader::initMainMenu(GameGUI *gui,	DirectXTextureManager *guiT
 	ScreenGUI *mainMenuGUI = new ScreenGUI();
 	unsigned int imageID = guiTextureManager->loadTexture(W_MAIN_MENU_PATH);
 	OverlayImage *imageToAdd = new OverlayImage();
-	imageToAdd->x = 256;
-	imageToAdd->y = 100;
+	imageToAdd->x = 0;
+	imageToAdd->y = 0;
 	imageToAdd->z = 0;
-	imageToAdd->alpha = 200;
-	imageToAdd->width = 512;
-	imageToAdd->height = 512;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 1024;
+	imageToAdd->height = 768;
 	imageToAdd->imageID = imageID;
 	mainMenuGUI->addOverlayImage(imageToAdd);
 
@@ -346,18 +346,58 @@ void WalkaboutDataLoader::initMainMenu(GameGUI *gui,	DirectXTextureManager *guiT
 	Button *buttonToAdd = new Button();
 
 	// - GET THE BUTTON COMMAND AND IMAGE IDs
-	int normalTextureID = guiTextureManager->loadTexture(W_EXIT_IMAGE_PATH);
-	int mouseOverTextureID = guiTextureManager->loadTexture(W_EXIT_IMAGE_MO_PATH);
+	int normalTextureID = guiTextureManager->loadTexture(W_QUIT_IMAGE_PATH);
+	int mouseOverTextureID = guiTextureManager->loadTexture(W_QUIT_IMAGE_MO_PATH);
 
 	// - INIT THE EXIT BUTTON
 	buttonToAdd->initButton(normalTextureID, 
 							mouseOverTextureID,
-							412,
-							500,
+							325,
+							570,
 							0,
 							255,
-							200,
-							100,
+							378,
+							80,
+							false,
+							W_EXIT_COMMAND);
+
+	// AND NOW LOAD IT INTO A ScreenGUI
+	mainMenuGUI->addButton(buttonToAdd);
+
+	// AND LET'S ADD A START BUTTON
+	buttonToAdd = new Button();
+	normalTextureID = guiTextureManager->loadTexture(W_OPTIONS_IMAGE_PATH);
+	mouseOverTextureID = guiTextureManager->loadTexture(W_OPTIONS_IMAGE_MO_PATH);
+
+	// - INIT THE EXIT BUTTON
+	buttonToAdd->initButton(normalTextureID, 
+							mouseOverTextureID,
+							325,
+							390,
+							0,
+							255,
+							378,
+							80,
+							false,
+							W_EXIT_COMMAND);
+
+	// AND NOW LOAD IT INTO A ScreenGUI
+	mainMenuGUI->addButton(buttonToAdd);
+
+	// AND LET'S ADD A START BUTTON
+	buttonToAdd = new Button();
+	normalTextureID = guiTextureManager->loadTexture(W_CREDITS_IMAGE_PATH);
+	mouseOverTextureID = guiTextureManager->loadTexture(W_CREDITS_IMAGE_MO_PATH);
+
+	// - INIT THE EXIT BUTTON
+	buttonToAdd->initButton(normalTextureID, 
+							mouseOverTextureID,
+							325,
+							480,
+							0,
+							255,
+							378,
+							80,
 							false,
 							W_EXIT_COMMAND);
 
@@ -375,12 +415,12 @@ void WalkaboutDataLoader::initMainMenu(GameGUI *gui,	DirectXTextureManager *guiT
 	// - INIT THE START BUTTON
 	buttonToAdd->initButton(normalTextureID, 
 							mouseOverTextureID,
-							412,
-							350,
+							325,
+							300,
 							0,
 							255,
-							200,
-							100,
+							378,
+							80,
 							false,
 							W_START_COMMAND);
 
@@ -399,8 +439,8 @@ void WalkaboutDataLoader::initInGameGUI(GameGUI *gui, DirectXTextureManager *gui
 	// NOW ADD THE IN-GAME GUI
 	ScreenGUI *inGameGUI = new ScreenGUI();
 
-	unsigned int normalTextureID = guiTextureManager->loadTexture(W_QUIT_IMAGE_PATH);
-	unsigned int mouseOverTextureID = guiTextureManager->loadTexture(W_QUIT_IMAGE_MO_PATH);
+	unsigned int normalTextureID = guiTextureManager->loadTexture(W_EXIT_IMAGE_PATH);
+	unsigned int mouseOverTextureID = guiTextureManager->loadTexture(W_EXIT_IMAGE_MO_PATH);
 
 	// INIT THE QUIT BUTTON
 	Button *buttonToAdd = new Button();
