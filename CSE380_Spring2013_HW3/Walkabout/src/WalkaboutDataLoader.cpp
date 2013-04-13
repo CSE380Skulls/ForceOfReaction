@@ -316,6 +316,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	for (int i = 0; i < 14; i++)
 		makeRandomJumpingBot(game, botSpriteType, 1700.0f + (i*100.0f), 1300.0f);
 */		
+	game->getGSM()->goToGame();
 }
 
 void WalkaboutDataLoader::makeRandomJumpingBot(Game *game, AnimatedSpriteType *randomJumpingBotType, float initX, float initY)
@@ -350,7 +351,10 @@ void WalkaboutDataLoader::hardCodedLoadGUIExample(Game *game)
 	initCursor(gui, guiTextureManager);
 	initSplashScreen(game, gui, guiTextureManager);
 	initMainMenu(gui, guiTextureManager);
+	initOptions(gui, guiTextureManager);
+	initCredits(gui, guiTextureManager);
 	initInGameGUI(gui, guiTextureManager);
+	initLoading(gui, guiTextureManager);
 }
 
 /*
@@ -471,7 +475,7 @@ void WalkaboutDataLoader::initMainMenu(GameGUI *gui,	DirectXTextureManager *guiT
 							378,
 							80,
 							false,
-							W_EXIT_COMMAND);
+							W_HELP_COMMAND);
 
 	// AND NOW LOAD IT INTO A ScreenGUI
 	mainMenuGUI->addButton(buttonToAdd);
@@ -491,7 +495,7 @@ void WalkaboutDataLoader::initMainMenu(GameGUI *gui,	DirectXTextureManager *guiT
 							378,
 							80,
 							false,
-							W_EXIT_COMMAND);
+							W_CREDITS_COMMAND);
 
 	// AND NOW LOAD IT INTO A ScreenGUI
 	mainMenuGUI->addButton(buttonToAdd);
@@ -522,7 +526,80 @@ void WalkaboutDataLoader::initMainMenu(GameGUI *gui,	DirectXTextureManager *guiT
 	// AND LET'S ADD OUR SCREENS
 	gui->addScreenGUI(GS_MAIN_MENU,		mainMenuGUI);
 }
+void WalkaboutDataLoader::initLoading(GameGUI *gui,	DirectXTextureManager *guiTextureManager)
+{
+	// NOW, FIRST LET'S ADD A SPLASH SCREEN GUI
+	ScreenGUI *loadingGUI = new ScreenGUI();
 
+	// WE'LL ONLY HAVE ONE IMAGE FOR OUR GIANT BUTTON
+	unsigned int imageID = guiTextureManager->loadTexture(W_LOADING_SCREEN_PATH);
+
+	// INIT THE QUIT BUTTON
+	OverlayImage *imageToAdd = new OverlayImage();
+	imageToAdd->x = 0;
+	imageToAdd->y = 0;
+	imageToAdd->z = 0;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 1024;
+	imageToAdd->height = 768;
+	imageToAdd->imageID = imageID;
+	loadingGUI->addOverlayImage(imageToAdd);
+
+	// AND REGISTER IT WITH THE GUI
+	gui->addScreenGUI(GS_STARTING_LEVEL, loadingGUI);
+}
+void WalkaboutDataLoader::initOptions(GameGUI *gui,	DirectXTextureManager *guiTextureManager)
+{
+	// NOW, FIRST LET'S ADD A SPLASH SCREEN GUI
+	ScreenGUI *optionsGUI = new ScreenGUI();
+
+	// WE'LL ONLY HAVE ONE IMAGE FOR OUR GIANT BUTTON
+	unsigned int normalTextureID = guiTextureManager->loadTexture(W_OPTION_SCREEN_PATH);
+	unsigned int mouseOverTextureID = normalTextureID;
+
+	// INIT THE QUIT BUTTON
+	Button *buttonToAdd = new Button();
+	buttonToAdd->initButton(normalTextureID, 
+							mouseOverTextureID,
+							0,
+							0,
+							0,
+							255,
+							1024,
+							768,
+							false,
+							W_GO_TO_MM_COMMAND);
+	optionsGUI->addButton(buttonToAdd);
+
+	// AND REGISTER IT WITH THE GUI
+	gui->addScreenGUI(GS_MENU_HELP_MENU, optionsGUI);
+}
+void WalkaboutDataLoader::initCredits(GameGUI *gui,	DirectXTextureManager *guiTextureManager)
+{
+	// NOW, FIRST LET'S ADD A SPLASH SCREEN GUI
+	ScreenGUI *creditsGUI = new ScreenGUI();
+
+	// WE'LL ONLY HAVE ONE IMAGE FOR OUR GIANT BUTTON
+	unsigned int normalTextureID = guiTextureManager->loadTexture(W_CREDITS_SCREEN_PATH);
+	unsigned int mouseOverTextureID = normalTextureID;
+
+	// INIT THE QUIT BUTTON
+	Button *buttonToAdd = new Button();
+	buttonToAdd->initButton(normalTextureID, 
+							mouseOverTextureID,
+							0,
+							0,
+							0,
+							255,
+							1024,
+							768,
+							false,
+							W_GO_TO_MM_COMMAND);
+	creditsGUI->addButton(buttonToAdd);
+
+	// AND REGISTER IT WITH THE GUI
+	gui->addScreenGUI(GS_MENU_ABOUT_MENU, creditsGUI);
+}
 /*
 	initInGameGUI - initializes the game's in-game gui.
 */
@@ -542,8 +619,8 @@ void WalkaboutDataLoader::initInGameGUI(GameGUI *gui, DirectXTextureManager *gui
 							0,
 							0,
 							255,
-							200,
-							100,
+							255,
+							378,
 							false,
 							W_QUIT_COMMAND);
 	inGameGUI->addButton(buttonToAdd);
