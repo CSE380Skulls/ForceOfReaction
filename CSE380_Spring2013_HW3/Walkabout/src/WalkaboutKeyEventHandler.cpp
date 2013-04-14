@@ -56,7 +56,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		{
 			vX = -PLAYER_SPEED;
 			//player->setCurrentState(ATTACKING_LEFT);
-			player->setCurrentState(IDLE_LEFT);
+			player->setCurrentState(WALKING_LEFT);
 		}
 		else if (input->isKeyDown(D_KEY))
 		{
