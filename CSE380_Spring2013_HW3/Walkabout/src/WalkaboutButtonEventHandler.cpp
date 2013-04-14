@@ -37,6 +37,11 @@ void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game,
 		game->setCurrentLevelFileName(W_LEVEL_1_NAME);
 		game->startGame();
 	}
+	else if (command.compare(W_RETURN_COMMAND) == 0)
+	{
+		game->getGSM()->getPhysics()->togglePhysics();
+		game->getGSM()->goToGame();
+	}
 	else if (command.compare(W_HELP_COMMAND) == 0)
 	{
 		GameStateManager *gsm = game->getGSM();

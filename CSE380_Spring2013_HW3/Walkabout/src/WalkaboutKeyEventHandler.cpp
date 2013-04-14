@@ -87,7 +87,9 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		}
 		if (input->isKeyDownForFirstTime(P_KEY))
 		{
-			gsm->getPhysics()->togglePhysics();
+			if (gsm->getPhysics()->isActivated())
+				gsm->getPhysics()->togglePhysics();
+			gsm->goToPaused();
 		}
 		if (input->isKeyDownForFirstTime(T_KEY))
 		{

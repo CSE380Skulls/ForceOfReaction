@@ -71,6 +71,11 @@ void GameStateManager::goToCredits()
 	currentGameState = GS_MENU_ABOUT_MENU;
 }
 
+void GameStateManager::goToPaused()
+{
+	currentGameState = GS_PAUSED;
+}
+
 /*
 	goToLoadLevel - This method transitions the game application from main menu
 	to the level loading.

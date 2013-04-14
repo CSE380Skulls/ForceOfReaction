@@ -39,6 +39,7 @@ static const wstring	W_EXIT_COMMAND			= L"Exit";
 static const wstring	W_QUIT_COMMAND			= L"Quit";
 static const wstring	W_HELP_COMMAND			= L"Help";
 static const wstring	W_CREDITS_COMMAND		= L"Credits";
+static const wstring	W_RETURN_COMMAND		= L"Return";
 //static const wstring	W_GREEN_CURSOR_PATH		= L"data/gui/cursor/green_cursor.png";
 //static const wstring	W_RED_CURSOR_PATH		= L"data/gui/cursor/red_cursor.png";
 static const wstring    W_CURSOR_PATH           = L"data/gui/cursor/cursor.png";
@@ -47,6 +48,7 @@ static const wstring	W_CREDITS_SCREEN_PATH	= L"data/gui/overlays/fon_credits_ove
 static const wstring	W_OPTION_SCREEN_PATH	= L"data/gui/overlays/fon_help_overlay.png";
 static const wstring	W_LOADING_SCREEN_PATH	= L"data/gui/overlays/fon_loading_overlay.png";
 static const wstring	W_MAIN_MENU_PATH		= L"data/gui/overlays/fon_main_menu_overlay.png";
+static const wstring	W_PAUSED_MENU_PATH		= L"data/gui/overlays/fon_in_game_menu_overlay.png";
 static const wstring	W_START_IMAGE_PATH		= L"data/gui/buttons/start_game.png";
 static const wstring	W_START_IMAGE_MO_PATH	= L"data/gui/buttons/start_game_mo.png";
 static const wstring	W_EXIT_IMAGE_PATH		= L"data/gui/buttons/exit_game.png";
@@ -57,6 +59,8 @@ static const wstring	W_OPTIONS_IMAGE_PATH	= L"data/gui/buttons/options.png";
 static const wstring	W_OPTIONS_IMAGE_MO_PATH	= L"data/gui/buttons/options_mo.png";
 static const wstring	W_CREDITS_IMAGE_PATH	= L"data/gui/buttons/credits.png";
 static const wstring	W_CREDITS_IMAGE_MO_PATH	= L"data/gui/buttons/credits_mo.png";
+static const wstring	W_RETURN_IMAGE_PATH		= L"data/gui/buttons/return.png";
+static const wstring	W_RETURN_IMAGE_MO_PATH	= L"data/gui/buttons/return_mo.png";
 
 // FOR OUR SPRITE
 static const wstring	SPRITE_TYPES_DIR = L"data/sprite_types/";
