@@ -67,12 +67,15 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 			vX = 0.0f;
 			if(player->getCurrentState() == WALKING_RIGHT)
 				player->setCurrentState(IDLE_RIGHT);
-
 			if(player->getCurrentState() == WALKING_LEFT)
 				player->setCurrentState(IDLE_LEFT);
 			if(player->getCurrentState() == JUMPING_RIGHT && player->getPhysicalProperties()->getVelocityY()==0)
 				player->setCurrentState(IDLE_RIGHT);
 			if(player->getCurrentState() == JUMPING_LEFT && player->getPhysicalProperties()->getVelocityY()==0)
+				player->setCurrentState(IDLE_LEFT);
+			if(player->getCurrentState() == ATTACKING_RIGHT && player->getFrameIndex()==12)
+				player->setCurrentState(IDLE_RIGHT);
+			if(player->getCurrentState() == ATTACKING_LEFT && player->getFrameIndex()==12)
 				player->setCurrentState(IDLE_LEFT);
 		}
 		if (input->isKeyDownForFirstTime(SPACE_KEY))
@@ -101,7 +104,16 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		{
 			gsm->getPhysics()->activateForSingleUpdate();
 		}
-
+		if (input->isKeyDownForFirstTime(MOUSE_LEFT))
+		{
+			if (player->wasOnTileLastFrame())
+			{
+				if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
+					player->setCurrentState(ATTACKING_RIGHT);
+				if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
+					player->setCurrentState(ATTACKING_LEFT);
+			}
+		}
 		// NOW SET THE ACTUAL PLAYER VELOCITY
  		pp->setVelocity(vX, vY);
 

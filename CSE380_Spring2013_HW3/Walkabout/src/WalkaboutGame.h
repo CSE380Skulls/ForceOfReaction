@@ -96,6 +96,8 @@ static const wstring	JUMPING_RIGHT(L"JUMPING_RIGHT");
 static const wstring	JUMPING_LEFT(L"JUMPING_LEFT");
 static const wstring	FALLING_RIGHT(L"FALLING_RIGHT");
 static const wstring	FALLING_LEFT(L"FALLING_LEFT");
+static const wstring	ATTACKING_RIGHT(L"ATTACKING_RIGHT");
+static const wstring	ATTACKING_LEFT(L"ATTACKING_LEFT");
 
 // USED FOR MOVEMENT
 const unsigned int W_KEY = (unsigned int)'W';
@@ -110,6 +112,7 @@ const unsigned int LEFT_KEY = VK_LEFT;
 const unsigned int RIGHT_KEY = VK_RIGHT;
 const unsigned int SPACE_KEY = VK_SPACE;
 const unsigned int ENTER_KEY = VK_RETURN;
+const unsigned int MOUSE_LEFT = VK_LBUTTON;
 
 // THIS IS JUST FOR SHOWING HOW THE CURSOR CAN BE CHANGED
 //const unsigned int C_KEY = (unsigned int)'C';
