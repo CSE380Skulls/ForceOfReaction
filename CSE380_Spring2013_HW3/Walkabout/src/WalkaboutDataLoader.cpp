@@ -49,7 +49,7 @@ void WalkaboutDataLoader::loadGame(Game *game, wstring gameInitFile)
 	LuaState* luaPState = LuaState::Create();
 
 	// Open the Lua Script File
-	int result = luaPState->DoFile("data/lua_scripts/game_init.lua");
+	int result = luaPState->DoFile(GAME_INIT_FILE);
 	
 	// name
 	LuaObject obj = luaPState->GetGlobal("title");

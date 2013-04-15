@@ -15,7 +15,7 @@ static const wstring	W_LEVEL_1_PATH			= W_LEVEL_1_DIR + W_LEVEL_1_NAME;
 static const wstring	W_INIT_FILE				= L"data/WalkaboutInit.txt";
 static const wstring	W_GUI_INIT_FILE			= L"data/WalkaboutGUI.txt";
 static const string		W_DEBUG_FILE			= "DebugOutput.txt";
-//static const string		GAME_INIT_FILE          = "data/lua_scripts/game_init.lua";
+static const char*		GAME_INIT_FILE          = "data/lua_scripts/game_init.lua";
 
 // HERE ARE THE GAME PROPERTIES WE ARE LOADING FROM FROM THE SETUP FILE
 static const wstring	W_TITLE					= L"TITLE";
@@ -79,7 +79,7 @@ static const float		JUMPING_BOT_MIN_CYCLES = 30;
 static const float		JUMPING_BOT_MAX_CYCLES = 120;
 static const float		JUMPING_BOT_MAX_VELOCITY = 40;
 static const float		PLAYER_INIT_X = 250.0f;
-static const float		PLAYER_INIT_Y = 750.0f;
+static const float		PLAYER_INIT_Y = 250.0f;
 static const float		JUMP_SPEED = -18.0f;
 static const float		PLAYER_SPEED = 6.0f;
 //static const int		MIN_FPS = 5;
