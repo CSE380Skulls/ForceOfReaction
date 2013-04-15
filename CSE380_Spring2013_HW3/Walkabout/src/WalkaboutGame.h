@@ -62,6 +62,11 @@ static const wstring	W_CREDITS_IMAGE_MO_PATH	= L"data/gui/buttons/credits_mo.png
 static const wstring	W_RETURN_IMAGE_PATH		= L"data/gui/buttons/return.png";
 static const wstring	W_RETURN_IMAGE_MO_PATH	= L"data/gui/buttons/return_mo.png";
 
+static const wstring	W_STATUS_HEAD_PATH		= L"data/gui/ingame/mc_head.png";
+static const wstring	W_STATUS_FIRE_PATH		= L"data/gui/ingame/fire_health.png";
+static const wstring	W_STATUS_WATER_PATH		= L"data/gui/ingame/water_health.png";
+static const wstring	W_STATUS_EARTH_PATH		= L"data/gui/ingame/earth_health.png";
+
 // FOR OUR SPRITE
 static const wstring	SPRITE_TYPES_DIR = L"data/sprite_types/";
 static const wstring	SPRITE_TYPES_LIST = SPRITE_TYPES_DIR + L"sprite_type_list.xml";

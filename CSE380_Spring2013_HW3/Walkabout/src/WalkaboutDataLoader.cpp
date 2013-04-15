@@ -271,7 +271,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	physics->addCollidableObject(player);
 
 	// NOTE THAT RED BOX MAN IS SPRITE ID 2
-	AnimatedSpriteType *playerSpriteType = spriteManager->getSpriteType(4);
+	AnimatedSpriteType *playerSpriteType = spriteManager->getSpriteType(0);
 	player->setSpriteType(playerSpriteType);
 	player->setAlpha(255);
 	//player->setCurrentState(IDLE);
@@ -286,7 +286,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	player->setOnTileLastFrame(false);
 	player->affixTightAABBBoundingVolume();
 
-	AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
+	//AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
 	// AND LET'S ADD A BUNCH OF RANDOM JUMPING BOTS, FIRST ALONG
 	// A LINE NEAR THE TOP
 
@@ -663,6 +663,50 @@ void WalkaboutDataLoader::initInGameGUI(GameGUI *gui, DirectXTextureManager *gui
 {
 	// NOW ADD THE IN-GAME GUI
 	ScreenGUI *inGameGUI = new ScreenGUI();
+
+	unsigned int imageID = guiTextureManager->loadTexture(W_STATUS_HEAD_PATH);
+	OverlayImage *imageToAdd = new OverlayImage();
+	imageToAdd->x = 20;
+	imageToAdd->y = 20;
+	imageToAdd->z = 0;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 64;
+	imageToAdd->height = 64;
+	imageToAdd->imageID = imageID;
+	inGameGUI->addOverlayImage(imageToAdd);
+
+	imageID = guiTextureManager->loadTexture(W_STATUS_FIRE_PATH);
+	imageToAdd = new OverlayImage();
+	imageToAdd->x = 84;
+	imageToAdd->y = 15;
+	imageToAdd->z = 0;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 340;
+	imageToAdd->height = 22;
+	imageToAdd->imageID = imageID;
+	inGameGUI->addOverlayImage(imageToAdd);
+
+	imageID = guiTextureManager->loadTexture(W_STATUS_WATER_PATH);
+	imageToAdd = new OverlayImage();
+	imageToAdd->x = 84;
+	imageToAdd->y = 40;
+	imageToAdd->z = 0;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 340;
+	imageToAdd->height = 22;
+	imageToAdd->imageID = imageID;
+	inGameGUI->addOverlayImage(imageToAdd);
+
+	imageID = guiTextureManager->loadTexture(W_STATUS_EARTH_PATH);
+	imageToAdd = new OverlayImage();
+	imageToAdd->x = 84;
+	imageToAdd->y = 67;
+	imageToAdd->z = 0;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 340;
+	imageToAdd->height = 22;
+	imageToAdd->imageID = imageID;
+	inGameGUI->addOverlayImage(imageToAdd);
 
 	// AND LET'S ADD OUR SCREENS
 	gui->addScreenGUI(GS_GAME_IN_PROGRESS,	inGameGUI);
