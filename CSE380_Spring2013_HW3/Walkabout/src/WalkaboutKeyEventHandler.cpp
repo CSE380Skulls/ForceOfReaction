@@ -52,31 +52,26 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 
 		if (input->isKeyDown(A_KEY))
 		{
-			//vX = -PLAYER_SPEED;
-			//player->setCurrentState(ATTACKING_LEFT);
 
 			player->getPhysicsBody()->SetLinearVelocity(b2Vec2(-10.0f,
 				player->getPhysicsBody()->GetLinearVelocity().y));
 
-			//if (player->wasOnTileLastFrame())
+			if (player->getPhysicsBody()->GetLinearVelocity().y==0)
 				player->setCurrentState(WALKING_LEFT);
 
 		}
 		else if (input->isKeyDown(D_KEY))
 		{
-			//vX = PLAYER_SPEED;
-			//player->setCurrentState(ATTACKING_RIGHT);
-			player->setCurrentState(WALKING_RIGHT);
 
 			player->getPhysicsBody()->SetLinearVelocity(b2Vec2(10.0f,
 				player->getPhysicsBody()->GetLinearVelocity().y));
 
-			//if (player->wasOnTileLastFrame())
+			if (player->getPhysicsBody()->GetLinearVelocity().y==0)
 				player->setCurrentState(WALKING_RIGHT);
 		}
 		else
 		{
-			//vX = 0.0f;
+			player->getPhysicsBody()->SetLinearVelocity(b2Vec2(0, player->getPhysicsBody()->GetLinearVelocity().y));
 			if(player->getCurrentState() == WALKING_RIGHT)
 				player->setCurrentState(IDLE_RIGHT);
 			if(player->getCurrentState() == WALKING_LEFT)
@@ -97,14 +92,17 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 			//TODO: get a better understanding of mass in this world
 			//		and how the velocity affects it, this high vel is
 			//		not right...
-			player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(0.0f, 60.0f),
-				player->getPhysicsBody()->GetPosition());
+			if(player->getPhysicsBody()->GetLinearVelocity().y==0)
+			{
+				player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(0.0f, 60.0f),
+					player->getPhysicsBody()->GetPosition());
 			
-			if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
-				player->setCurrentState(JUMPING_RIGHT);
+				if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
+					player->setCurrentState(JUMPING_RIGHT);
 
-			if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
-				player->setCurrentState(JUMPING_LEFT);
+				if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
+					player->setCurrentState(JUMPING_LEFT);
+			}
 
 			//if (player->wasOnTileLastFrame())
 			//{
@@ -141,13 +139,10 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		}
 		if (input->isKeyDownForFirstTime(MOUSE_LEFT))
 		{
-			if (player->wasOnTileLastFrame())
-			{
-				if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
-					player->setCurrentState(ATTACKING_RIGHT);
-				if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
-					player->setCurrentState(ATTACKING_LEFT);
-			}
+			if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
+				player->setCurrentState(ATTACKING_RIGHT);
+			if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
+				player->setCurrentState(ATTACKING_LEFT);
 		}
 		// NOW SET THE ACTUAL PLAYER VELOCITY
  		//pp->setVelocity(vX, vY);

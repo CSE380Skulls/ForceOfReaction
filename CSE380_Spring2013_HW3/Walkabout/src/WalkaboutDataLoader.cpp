@@ -321,7 +321,27 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	//AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
 	// AND LET'S ADD A BUNCH OF RANDOM JUMPING BOTS, FIRST ALONG
 	// A LINE NEAR THE TOP
+	RandomJumpingBot *bot = new RandomJumpingBot(physics, 30, 120, 40);
+	bot->setSpriteType(botSpriteType);
+	bot->setAlpha(255);
+	//bot->setCurrentState(IDLE);
+	bot->setCurrentState(IDLE_RIGHT);
+	PhysicalProperties *botProps = bot->getPhysicalProperties();
+	botProps->setX(PLAYER_INIT_X+100);
+	botProps->setY(PLAYER_INIT_Y);
+	botProps->setVelocity(0.0f, 0.0f);
+	botProps->setAccelerationX(0);
+	botProps->setAccelerationY(0);
+	bot->setOnTileThisFrame(false);
+	bot->setOnTileLastFrame(false);
+	bot->affixTightAABBBoundingVolume();
 
+	extent_x = bot->getSpriteType()->getTextureWidth()/2;
+	extent_y = bot->getSpriteType()->getTextureHeight()/2; 
+	game->getGSM()->getBoxPhysics()->createDynamicBox(game,bot,bot,
+					PLAYER_INIT_X + 100 + extent_x,PLAYER_INIT_Y + extent_y, extent_x, extent_y);
+	physics->addCollidableObject(bot);
+	spriteManager->addBot(bot);
 // UNCOMMENT THE FOLLOWING CODE BLOCK WHEN YOU ARE READY TO ADD SOME BOTS
 /*	for (int i = 2; i <= 26; i++)
 	{

@@ -11,7 +11,7 @@ void BoxContactListener::BeginContact(b2Contact *contact){
 	void * bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
 	if (bodyUserData){
 		//then this is a sprite
-
+		
 	}
 
 	bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <sprite_type>
  <width>32</width>
- <height>64</height>
+ <height>63</height>
  <images_list>
   <image_file id="1" file_name="idle_left.png"/>
   <image_file id="2" file_name="idle_right.png"/>
