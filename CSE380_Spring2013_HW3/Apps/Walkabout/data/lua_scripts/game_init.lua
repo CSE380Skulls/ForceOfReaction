@@ -1,0 +1,13 @@
+title = "Force of Reaction"
+screen_width = 1024
+screen_height = 768
+fullscreen_mode = false
+font_size = 20
+viewport_offset_x = 0
+viewport_offset_y = 0
+font_color_red = 200
+font_color_green = 100
+font_color_blue = 200
+color_key_red = 96
+color_key_green = 128
+color_key_blue = 224
