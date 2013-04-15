@@ -165,6 +165,9 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	TMXMapImporter tmxMapImporter;
 	tmxMapImporter.loadWorld(game, W_LEVEL_1_DIR, W_LEVEL_1_NAME);
 
+	//add all of the items to the physics system
+	game->getGSM()->getWorld()->initWorldPhysicsSystem(game);
+
 	// LOAD THE LEVEL'S SPRITE IMAGES
 	PoseurSpriteTypesImporter psti;
 	psti.loadSpriteTypes(game, SPRITE_TYPES_LIST);
@@ -193,6 +196,34 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	player->setOnTileThisFrame(false);
 	player->setOnTileLastFrame(false);
 	player->affixTightAABBBoundingVolume();
+
+	float extent_x = player->getSpriteType()->getTextureWidth()/2;
+	float extent_y = player->getSpriteType()->getTextureHeight()/2;
+	game->getGSM()->getBoxPhysics()->createDynamicBox(game,player,player,
+					PLAYER_INIT_X + extent_x,PLAYER_INIT_Y + extent_y, extent_x, extent_y);
+
+	//This is the test box2d Sprite
+	//AnimatedSprite *test_sprite = spriteManager->getTestSprite();
+	//AnimatedSpriteType *test_spriteType= spriteManager->getSpriteType(4);
+	//test_sprite->setSpriteType(test_spriteType);
+	//test_sprite->setAlpha(255);
+	////player->setCurrentState(IDLE);
+	//test_sprite->setCurrentState(IDLE_RIGHT);
+	//PhysicalProperties *testProps = test_sprite->getPhysicalProperties();
+	//testProps->setX(PLAYER_INIT_X);
+	//testProps->setY(PLAYER_INIT_Y - 300);
+	//test_sprite->setOnTileThisFrame(false);
+	//test_sprite->setOnTileLastFrame(false);
+	//test_sprite->affixTightAABBBoundingVolume();
+
+	/*	set the box2dBody; note this is seriously a test, make this entire sprite
+		creation business into a factory class or function to do this.
+	*/
+	/*float extent_x = test_sprite->getSpriteType()->getTextureWidth()/2;
+	float extent_y = test_sprite->getSpriteType()->getTextureHeight()/2;*/
+
+	/*game->getGSM()->getBoxPhysics()->createDynamicBox(game,test_sprite,test_sprite,
+					PLAYER_INIT_X + extent_x,(PLAYER_INIT_Y - 300) + extent_y, extent_x/2, extent_y);*/
 
 	AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
 	// AND LET'S ADD A BUNCH OF RANDOM JUMPING BOTS, FIRST ALONG

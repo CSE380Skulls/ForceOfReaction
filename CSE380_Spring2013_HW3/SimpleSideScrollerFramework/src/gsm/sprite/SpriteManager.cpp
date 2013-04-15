@@ -23,13 +23,18 @@
 	parameter is inside the viewport. If it is, a RenderItem is generated
 	for that sprite and it is added to the render list.
 */
-void SpriteManager::addSpriteToRenderList(AnimatedSprite *sprite,
+void SpriteManager::addSpriteToRenderList(Game *game, AnimatedSprite *sprite,
 										  RenderList *renderList,
 										  Viewport *viewport)
 {
 	// GET THE SPRITE TYPE INFO FOR THIS SPRITE
 	AnimatedSpriteType *spriteType = sprite->getSpriteType();
 	PhysicalProperties *pp = sprite->getPhysicalProperties();
+
+	//IMPORTANT STEP
+	/******* Update the sprite's screen coordinates from physics world ******/
+	pp->setX(game->getGSM()->physicsToScreenX(sprite->getCurrentBodyX()) - spriteType->getTextureWidth());
+	pp->setY(game->getGSM()->physicsToScreenY(sprite->getCurrentBodyY()) - spriteType->getTextureHeight());
 
 	// IS THE SPRITE VIEWABLE?
 	if (viewport->areWorldCoordinatesInViewport(	
@@ -67,7 +72,7 @@ void SpriteManager::addSpriteItemsToRenderList(	Game *game)
 		Viewport *viewport = gui->getViewport();
 
 		// ADD THE PLAYER SPRITE
-		addSpriteToRenderList(&player, renderList, viewport);
+		addSpriteToRenderList(game, &player, renderList, viewport);
 
 		// NOW ADD THE REST OF THE SPRITES
 		list<Bot*>::iterator botIterator;
@@ -75,7 +80,7 @@ void SpriteManager::addSpriteItemsToRenderList(	Game *game)
 		while (botIterator != bots.end())
 		{			
 			Bot *bot = (*botIterator);
-			addSpriteToRenderList(bot, renderList, viewport);
+			addSpriteToRenderList(game, bot, renderList, viewport);
 			botIterator++;
 		}
 	}
@@ -163,3 +168,13 @@ void SpriteManager::update(Game *game)
 		botIterator++;
 	}
 }
+
+///* This will update all of the sprite rendering information after the box2d
+//	physics step has happened. This function may be irelevant for where it is
+//	being used now (in the boxphysics update function). I would perfer that this
+//	conversion happens right before the renderlist item is placed in the render
+//	list. (seems appropriate)*/
+//
+//void SpriteManager::updateSpriteLocations(int conversion_factor){
+//	
+//}

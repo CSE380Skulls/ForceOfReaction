@@ -226,6 +226,14 @@ void GameStateManager::update(Game *game)
 	world.update(game);
 	if (physics.isActivated() || physics.isActivatedForSingleUpdate())
 	{
-		physics.update(game);
+		//physics.update(game);
 	}
+
+	//this is for stepping the box 2d bodies in the world
+	/*NOTE: For now there is only one dynamic object, which is our
+		player (he is not moving with the bulit in physics class
+		available by the Physics.cpp). The only static objects will
+		be the tiles in the collidable layer.
+	*/
+	boxPhysics.update(game);
 }

@@ -136,6 +136,28 @@ void TiledLayer::addRenderItemsToRenderList(RenderList *renderList,
 	}
 }
 
+void TiledLayer::addItemsToPhysicsSystem(Game *game){
+	BoxPhysics *boxPhysics = game->getGSM()->getBoxPhysics();
+	if(collidableTiles){
+		float extent_x = tileWidth/2.0f;
+		float extent_y = tileHeight/2.0f;
+		for (int i = 0; i < rows; i++)
+		{
+			for (int j = 0; j < columns; j++)
+			{
+				Tile *tile = getTile(i,j);
+				//if the tile is collidable, add to physics system
+				if(tile->collidable == true){
+				//(tileWidth * j) + tileWidth ???
+					boxPhysics->createStaticBox(game,tile,
+						(tileWidth * j) + tileWidth, (tileHeight * i) + tileHeight,
+						extent_x, extent_y);
+				}
+			}
+		}
+	}
+}
+
 /*
 	addTile - This method places initTile into the Tile grid
 	for this background. Note that all tiles must be added
@@ -245,6 +267,18 @@ Tile* TiledLayer::getTile(int row, int column)
 	int cellIndex = (row * columns) + column;
 	return tileLayout->at(cellIndex);
 }	
+
+int TiledLayer::getTileColumn(int index){
+	return index % columns;
+}
+
+int TiledLayer::getTileRow(int index){
+	int column = index % columns;
+	return (index - (index % column)) / (index % column);
+}
+
+
+
 
 /*
 	init - This method initializes the layer, including calculating

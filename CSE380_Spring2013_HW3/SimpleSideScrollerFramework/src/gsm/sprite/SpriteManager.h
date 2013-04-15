@@ -50,10 +50,13 @@ public:
 	void				addBot(Bot *botToAdd);
 	void				addSpriteItemsToRenderList(Game *game);
 	unsigned int		addSpriteType(AnimatedSpriteType *spriteTypeToAdd);
-	void				addSpriteToRenderList(AnimatedSprite *sprite, RenderList *renderList, Viewport *viewport);
+	void				addSpriteToRenderList(Game *game, AnimatedSprite *sprite, RenderList *renderList, Viewport *viewport);
 	void				clearSprites();
 	AnimatedSpriteType* getSpriteType(unsigned int typeIndex);
 	Bot*				removeBot(Bot *botToRemove);
 	void				unloadSprites();
 	void				update(Game *game);
+
+	//Box2d test method: this will update all of the sprite locations for rendering
+	void				updateSpriteLocations(int conversion_factor);
 };

@@ -18,6 +18,7 @@
 #include "src\gui\Viewport.h"
 #include "src\gsm\physics\CollidableObject.h"
 #include "src\gsm\physics\Physics.h"
+#include "src\gsm\physics\BoxPhysics.h"
 
 // THIS CLASS IS-A WorldLayer
 
@@ -63,6 +64,7 @@ public:
 				int initWorldWidth, int initWorldHeight);
 	~TiledLayer();
 	void	addRenderItemsToRenderList(RenderList *renderList, Viewport *viewport);
+	void	addItemsToPhysicsSystem(Game *game);
 	void	addTile(Tile *initTile);
 	int		calculateAndSetLayerHeight();
 	int		calculateAndSetLayerWidth();
@@ -71,6 +73,8 @@ public:
 	int		calculateViewportStartColumn(int viewportX, int viewportWidth);
 	int		calculateViewportStartRow(int viewportY, int viewportHeight);
 	Tile*	getTile(int row, int column);
+	int		getTileColumn(int index);
+	int		getTileRow(int index);
 	void	init(	int initColumns,	int initRows, 
 					int initTileWidth,	int initTileHeight, 
 					int initZ, 

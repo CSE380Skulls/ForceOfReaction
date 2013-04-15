@@ -41,8 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(IncludePath)</IncludePath>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Box2D\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Common\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -50,11 +50,22 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Common\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -86,6 +97,8 @@
     <ClCompile Include="src\gsm\ai\bots\RandomFloatingBot.cpp" />
     <ClCompile Include="src\gsm\ai\bots\RandomJumpingBot.cpp" />
     <ClCompile Include="src\gsm\physics\AABB.cpp" />
+    <ClCompile Include="src\gsm\physics\BoxContactListener.cpp" />
+    <ClCompile Include="src\gsm\physics\BoxPhysics.cpp" />
     <ClCompile Include="src\gsm\physics\CollidableObject.cpp" />
     <ClCompile Include="src\gsm\physics\Physics.cpp" />
     <ClCompile Include="src\gsm\sprite\AnimatedSprite.cpp" />
@@ -125,6 +138,9 @@
     <ClInclude Include="src\gsm\ai\bots\RandomFloatingBot.h" />
     <ClInclude Include="src\gsm\ai\bots\RandomJumpingBot.h" />
     <ClInclude Include="src\gsm\physics\AABB.h" />
+    <ClInclude Include="src\gsm\physics\BoxContactListener.h" />
+    <ClInclude Include="src\gsm\physics\BoxPhysics.h" />
+    <ClInclude Include="src\gsm\physics\BoxPhysicsObject.h" />
     <ClInclude Include="src\gsm\physics\CollidableObject.h" />
     <ClInclude Include="src\gsm\physics\Collision.h" />
     <ClInclude Include="src\gsm\physics\CollisionListener.h" />

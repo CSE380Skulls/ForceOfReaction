@@ -25,6 +25,16 @@
 class Game;
 class SpriteManager;
 
+/*
+	This is the EXTREMELY important conversion factor between the screen
+	space and the world space. 
+
+	TODO: This may not be the place for this, but I will leave it here for
+		now to conduct some tests on Box2D
+*/
+
+static const float32 WORLD_CONV_FACTOR = 32.0f;
+
 class World
 {
 private:
@@ -40,10 +50,12 @@ private:
 
 public:
 	// INLINED ACCESSOR METHODS
-	vector<WorldLayer*>*	getLayers()	{ return layers;				}
-	int						getNumLayers() { return layers->size(); }
-	int						getWorldHeight()	{ return worldHeight;			}
-	int						getWorldWidth()		{ return worldWidth;			}
+	vector<WorldLayer*>*	getLayers()				{ return layers;			}
+	int						getNumLayers()			{ return layers->size();	}
+	int						getWorldHeight()		{ return worldHeight;		}
+	int						getWorldWidth()			{ return worldWidth;		}
+	float32					getWorldHeightMeters()	{ return worldHeight/WORLD_CONV_FACTOR; }
+	float32					getWorldWidthMeters()	{ return worldHeight/WORLD_CONV_FACTOR; }
 
 	// INLINED MUTATOR METHODS
 	void setWorldHeight(int initWorldHeight)
@@ -56,6 +68,7 @@ public:
 	~World();
 	void	addLayer(WorldLayer *layerToAdd);
 	void	addWorldRenderItemsToRenderList(Game *game);
+	void	initWorldPhysicsSystem(Game *game);
 	void	unloadWorld();
 	void	update(Game *game);
 };

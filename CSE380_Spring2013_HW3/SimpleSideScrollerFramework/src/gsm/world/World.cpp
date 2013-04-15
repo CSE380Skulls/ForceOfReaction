@@ -71,6 +71,15 @@ void World::addWorldRenderItemsToRenderList(Game *game)
 	}
 }
 
+void World::initWorldPhysicsSystem(Game *game){
+	vector<WorldLayer*>::iterator layerIt = layers->begin();
+	while(layerIt != layers->end()){
+		WorldLayer * layer = (*layerIt);
+		layer->addItemsToPhysicsSystem(game);
+		layerIt++;
+	}
+}
+
 /*
 	clear - This method removes all data from the World. It should
 	be called first when a level is unloaded or changed. If it

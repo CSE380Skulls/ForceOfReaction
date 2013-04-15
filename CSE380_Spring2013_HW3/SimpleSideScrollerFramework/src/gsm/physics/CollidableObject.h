@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "src\gsm\physics\AABB.h"
 #include "src\gsm\physics\PhysicalProperties.h"
+#include <Box2D\Box2D.h>
 
 // THESE ARE THE SWEEP AND PRUNE ORDERINGS
 const unsigned int LEFT_EDGE = 0;

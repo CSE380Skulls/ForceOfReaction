@@ -10,7 +10,8 @@
 
 // HERE IS THE Walkabout GAME SETUP/INIT FILE. EVERYTHING WOULD START FROM HERE
 static const wstring	W_LEVEL_1_DIR			= L"data/levels/earth/";
-static const wstring	W_LEVEL_1_NAME			= L"earth.tmx";
+static const wstring	W_LEVEL_1_NAME			= L"mini.tmx";
+//static const wstring	W_LEVEL_1_NAME			= L"earth.tmx";
 static const wstring	W_LEVEL_1_PATH			= W_LEVEL_1_DIR + W_LEVEL_1_NAME;
 static const wstring	W_INIT_FILE				= L"data/WalkaboutInit.txt";
 static const wstring	W_GUI_INIT_FILE			= L"data/WalkaboutGUI.txt";

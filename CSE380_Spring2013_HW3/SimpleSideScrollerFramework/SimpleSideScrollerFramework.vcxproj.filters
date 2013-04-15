@@ -169,6 +169,12 @@
     <ClCompile Include="src\gsm\physics\AABB.cpp">
       <Filter>src\gsm\physics</Filter>
     </ClCompile>
+    <ClCompile Include="src\gsm\physics\BoxPhysics.cpp">
+      <Filter>src\gsm\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gsm\physics\BoxContactListener.cpp">
+      <Filter>src\gsm\physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -320,6 +326,15 @@
     </ClInclude>
     <ClInclude Include="src\gsm\world\Tile.h">
       <Filter>src\gsm\world</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\physics\BoxPhysics.h">
+      <Filter>src\gsm\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\physics\BoxPhysicsObject.h">
+      <Filter>src\gsm\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\physics\BoxContactListener.h">
+      <Filter>src\gsm\physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

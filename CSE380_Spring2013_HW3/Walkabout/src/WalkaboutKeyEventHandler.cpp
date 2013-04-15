@@ -47,26 +47,33 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		// WASD KEY PRESSES WILL CONTROL THE PLAYER
 		// SO WE'LL UPDATE THE PLAYER VELOCITY WHEN THESE KEYS ARE
 		// PRESSED, THAT WAY PHYSICS CAN CORRECT AS NEEDED
-		float vX = pp->getVelocityX();
-		float vY = pp->getVelocityY();
+		//float vX = pp->getVelocityX();
+		//float vY = pp->getVelocityY();
 
 		// YOU MIGHT WANT TO UNCOMMENT THIS FOR SOME TESTING,
 		// BUT IN THIS ASSIGNMENT, THE USER MOVES VIA MOUSE BUTTON PRESSES
 		if (input->isKeyDown(A_KEY))
 		{
-			vX = -PLAYER_SPEED;
+			//vX = -PLAYER_SPEED;
 			//player->setCurrentState(ATTACKING_LEFT);
 			player->setCurrentState(IDLE_LEFT);
+
+			player->getPhysicsBody()->SetLinearVelocity(b2Vec2(-10.0f,
+				player->getPhysicsBody()->GetLinearVelocity().y));
+
 		}
 		else if (input->isKeyDown(D_KEY))
 		{
-			vX = PLAYER_SPEED;
+			//vX = PLAYER_SPEED;
 			//player->setCurrentState(ATTACKING_RIGHT);
 			player->setCurrentState(WALKING_RIGHT);
+
+			player->getPhysicsBody()->SetLinearVelocity(b2Vec2(10.0f,
+				player->getPhysicsBody()->GetLinearVelocity().y));
 		}
 		else
 		{
-			vX = 0.0f;
+			//vX = 0.0f;
 			if(player->getCurrentState() == WALKING_RIGHT)
 				player->setCurrentState(IDLE_RIGHT);
 
@@ -76,14 +83,23 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		}
 		if (input->isKeyDownForFirstTime(SPACE_KEY))
 		{
-			if (player->wasOnTileLastFrame())
-			{
-				vY = JUMP_SPEED;
-			}
-			else
-			{
-				cout << "WHAT HAPPENED?";
-			}
+			//Need to create a box2d listener to set a similiar "wasOnTileLastFrame"
+			//condition, otherwise he will continually jump even in midair :)
+			//TODO: get a better understanding of mass in this world
+			//		and how the velocity affects it, this high vel is
+			//		not right...
+			player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(0.0f, 120.0f),
+				player->getPhysicsBody()->GetPosition());
+
+
+			//if (player->wasOnTileLastFrame())
+			//{
+			//	vY = JUMP_SPEED;
+			//}
+			//else
+			//{
+			//	cout << "WHAT HAPPENED?";
+			//}
 		}
 		if (input->isKeyDownForFirstTime(P_KEY))
 		{
@@ -95,7 +111,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		}
 
 		// NOW SET THE ACTUAL PLAYER VELOCITY
- 		pp->setVelocity(vX, vY);
+ 		//pp->setVelocity(vX, vY);
 
 		bool viewportMoved = false;
 		float viewportVx = 0.0f;

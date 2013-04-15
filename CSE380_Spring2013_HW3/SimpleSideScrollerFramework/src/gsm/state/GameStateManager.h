@@ -22,6 +22,7 @@
 #include "src\graphics\RenderList.h"
 #include "src\gsm\state\GameState.h"
 #include "src\gsm\physics\Physics.h"
+#include "src\gsm\physics\BoxPhysics.h"
 #include "src\gsm\sprite\SpriteManager.h"
 #include "src\gsm\world\World.h"
 #include "src\gsm\world\WorldLayer.h"
@@ -61,6 +62,9 @@ private:
 
 	// FOR DOING ALL COLLISION DETECTION AND RESOLUTION
 	Physics			physics;
+	
+	//This is the Box 2d Physics engine
+	BoxPhysics		boxPhysics;
 
 public:
 	// INLINED ACCESSOR METHODS
@@ -68,6 +72,7 @@ public:
 	unsigned int	getCurrentLevel()		{ return currentLevel;				}
 	unsigned int	getNumLevels()			{ return levelNames.size();			}
 	Physics*		getPhysics()			{ return &physics;					}
+	BoxPhysics*		getBoxPhysics()			{ return &boxPhysics;				}
 	SpriteManager*	getSpriteManager()		{ return spriteManager;				}
 	World*			getWorld()				{ return &world;					}
 	wstring			getCurrentLevelName()	{ return levelNames[currentLevel];	}
@@ -95,4 +100,21 @@ public:
 	void			loadLevel(Game *game, wstring levelName);
 	void			unloadCurrentLevel();
 	void			update(Game *game);
+
+	/*Convertsion Methods between the screen coordinate space and the physics
+		world coordinate space. I placed this here for now because the game
+		state manager manages the updates for both the static world
+		(The World class) and the dynamic world (Physics class)*/
+
+	/* Return the center X coordinate (not screen top left)*/
+	float32 physicsToScreenX	(float32 physicsX){ return physicsX * WORLD_CONV_FACTOR;}
+	/* Return the center Y coordinate (not screen top left)*/
+	float32 physicsToScreenY	(float32 physicsY)
+		{ return (-physicsY + world.getWorldHeightMeters()) * WORLD_CONV_FACTOR;}
+	/* Return the center screen X coordinate*/
+	float32 screenToPhysicsX	(float32 screenX) { return screenX/WORLD_CONV_FACTOR;}
+	/* Return the center Y screen coordinate*/
+	//check this function for correctness later, could be wrong
+	float32 screenToPhysicsY	(float32 screenY) 
+		{ return (screenY - world.getWorldHeightMeters())/WORLD_CONV_FACTOR;}
 };

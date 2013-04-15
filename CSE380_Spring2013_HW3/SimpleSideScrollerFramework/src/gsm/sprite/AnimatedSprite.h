@@ -12,11 +12,12 @@
 #pragma once
 #include "stdafx.h"
 #include "src\gsm\physics\CollidableObject.h"
+#include "src\gsm\physics\BoxPhysicsObject.h"
 #include "src\gsm\physics\PhysicalProperties.h"
 #include "src\gsm\sprite\AnimatedSpriteType.h"
 #include "src\gui\Viewport.h"
 
-class AnimatedSprite : public CollidableObject
+class AnimatedSprite : public CollidableObject , public BoxPhysicsObject
 {
 protected:
 	// SPRITE TYPE FOR THIS SPRITE. THE SPRITE TYPE IS THE ID
