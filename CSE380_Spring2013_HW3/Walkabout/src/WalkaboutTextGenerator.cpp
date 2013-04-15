@@ -27,6 +27,7 @@ static const int		W_TARGET_FPS_Y	= 5;
 */
 void WalkaboutTextGenerator::appendTargetFPS(Game *game)
 {
+
 	// WE'LL BUILD OUR WIDE STRING USING A WIDE STRING STREAM
 	wstringstream wss;
 	WindowsTimer *timer = (WindowsTimer*)game->getTimer();
@@ -45,12 +46,14 @@ void WalkaboutTextGenerator::appendTargetFPS(Game *game)
 */
 void WalkaboutTextGenerator::initText(Game *game)
 {
+	/*
 	// FIRST UPDATE THE TEXT THIS GENERATOR IS USING
 	appendTargetFPS(game);
 
 	// AND THEN HAND IT TO THE TEXT MANAGER, SPECIFYING WHERE IT SHOULD BE RENDERED
 	GameText *text = game->getText();
 	text->addText(&textToGenerate, W_TARGET_FPS_X, W_TARGET_FPS_Y, game->getGraphics()->getScreenWidth(), game->getGraphics()->getScreenHeight());
+	*/
 }
 
 /*
@@ -63,6 +66,7 @@ void WalkaboutTextGenerator::updateText(Game *game)
 	// THE TEXT MANAGER (GameText) HAS A POINTER TO OUR TEXT, SO WE CAN
 	// SIMPLY CLEAR IT OUT OF OLD CHARACTER DATA AND FILL IT IN WITH
 	// WHAT WE WANT.
+	/*
 	textToGenerate.clear();
 	appendTargetFPS(game);
 
@@ -74,4 +78,5 @@ void WalkaboutTextGenerator::updateText(Game *game)
 		wss << game->getGSM()->getSpriteManager()->getPlayer()->getPhysicalProperties()->getY();
 		textToGenerate.append(wss.str());
 	}
+	*/
 }

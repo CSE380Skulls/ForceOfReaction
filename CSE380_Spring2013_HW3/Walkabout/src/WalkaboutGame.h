@@ -87,6 +87,10 @@ static const wstring	IDLE_RIGHT(L"IDLE_RIGHT");
 static const wstring	IDLE_LEFT(L"IDLE_LEFT");
 static const wstring	WALKING_RIGHT(L"WALKING_RIGHT");
 static const wstring	WALKING_LEFT(L"WALKING_LEFT");
+static const wstring	JUMPING_RIGHT(L"JUMPING_RIGHT");
+static const wstring	JUMPING_LEFT(L"JUMPING_LEFT");
+static const wstring	FALLING_RIGHT(L"FALLING_RIGHT");
+static const wstring	FALLING_LEFT(L"FALLING_LEFT");
 
 // USED FOR MOVEMENT
 const unsigned int W_KEY = (unsigned int)'W';
@@ -100,6 +104,7 @@ const unsigned int DOWN_KEY = VK_DOWN;
 const unsigned int LEFT_KEY = VK_LEFT;
 const unsigned int RIGHT_KEY = VK_RIGHT;
 const unsigned int SPACE_KEY = VK_SPACE;
+const unsigned int ENTER_KEY = VK_RETURN;
 
 // THIS IS JUST FOR SHOWING HOW THE CURSOR CAN BE CHANGED
 //const unsigned int C_KEY = (unsigned int)'C';

@@ -50,19 +50,17 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		float vX = pp->getVelocityX();
 		float vY = pp->getVelocityY();
 
-		// YOU MIGHT WANT TO UNCOMMENT THIS FOR SOME TESTING,
-		// BUT IN THIS ASSIGNMENT, THE USER MOVES VIA MOUSE BUTTON PRESSES
 		if (input->isKeyDown(A_KEY))
 		{
 			vX = -PLAYER_SPEED;
-			//player->setCurrentState(ATTACKING_LEFT);
-			player->setCurrentState(WALKING_LEFT);
+			if (player->wasOnTileLastFrame())
+				player->setCurrentState(WALKING_LEFT);
 		}
 		else if (input->isKeyDown(D_KEY))
 		{
 			vX = PLAYER_SPEED;
-			//player->setCurrentState(ATTACKING_RIGHT);
-			player->setCurrentState(WALKING_RIGHT);
+			if (player->wasOnTileLastFrame())
+				player->setCurrentState(WALKING_RIGHT);
 		}
 		else
 		{
@@ -72,20 +70,28 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 
 			if(player->getCurrentState() == WALKING_LEFT)
 				player->setCurrentState(IDLE_LEFT);
-			//player->setCurrentState(IDLE);
+			if(player->getCurrentState() == JUMPING_RIGHT && player->getPhysicalProperties()->getVelocityY()==0)
+				player->setCurrentState(IDLE_RIGHT);
+			if(player->getCurrentState() == JUMPING_LEFT && player->getPhysicalProperties()->getVelocityY()==0)
+				player->setCurrentState(IDLE_LEFT);
 		}
 		if (input->isKeyDownForFirstTime(SPACE_KEY))
 		{
 			if (player->wasOnTileLastFrame())
 			{
 				vY = JUMP_SPEED;
+				if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
+				player->setCurrentState(JUMPING_RIGHT);
+
+				if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
+				player->setCurrentState(JUMPING_LEFT);
 			}
 			else
 			{
 				cout << "WHAT HAPPENED?";
 			}
 		}
-		if (input->isKeyDownForFirstTime(P_KEY))
+		if (input->isKeyDownForFirstTime(ENTER_KEY))
 		{
 			if (gsm->getPhysics()->isActivated())
 				gsm->getPhysics()->togglePhysics();
