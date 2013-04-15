@@ -2,4 +2,5 @@
 <sprite_type_list>
   <sprite_type>main_character</sprite_type>
   <sprite_type>enemy_shubbuth</sprite_type>
+  <sprite_type>breakable_wall</sptire_type>
 </sprite_type_list>
