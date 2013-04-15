@@ -35,53 +35,137 @@
 // ANIMATED SPRITE TYPE LOADING
 #include "src\PoseurSpriteTypesImporter.h"
 
+// LUA
+#include "LuaPlus.h"
+using namespace LuaPlus;
+
 /*
 	loadGame - This method loads the setup game data into the game and
 	constructs all the needed objects for the game to work.
 */
 void WalkaboutDataLoader::loadGame(Game *game, wstring gameInitFile)
 {
+	// Init Lua
+	LuaState* luaPState = LuaState::Create();
+
+	// Open the Lua Script File
+	int result = luaPState->DoFile(GAME_INIT_FILE);
+	
+	// name
+	LuaObject obj = luaPState->GetGlobal("title");
+	string title = obj.GetString();
+
+	// screen width
+	obj = luaPState->GetGlobal("screen_width");
+	int screen_width = obj.GetInteger();
+
+	// screen height
+	obj = luaPState->GetGlobal("screen_height");
+	int screen_height = obj.GetInteger();
+
+	//full screen 
+	obj = luaPState->GetGlobal("fullscreen_mode");
+	bool fullscreen = obj.GetBoolean();
+
+	// Font size
+	obj = luaPState->GetGlobal("font_size");
+	int font_size = obj.GetInteger();
+
+	// x offset
+	obj = luaPState->GetGlobal("viewport_offset_x");
+	int viewport_offset_x = obj.GetInteger();
+
+	// y offset
+	obj = luaPState->GetGlobal("viewport_offset_y");
+	int viewport_offset_y = obj.GetInteger();
+
+	// font red
+	obj = luaPState->GetGlobal("font_color_red");
+	int font_color_red = obj.GetInteger();
+
+	// font green
+	obj = luaPState->GetGlobal("font_color_green");
+	int font_color_green = obj.GetInteger();
+
+	// font blue
+	obj = luaPState->GetGlobal("font_color_blue");
+	int font_color_blue = obj.GetInteger();
+	
+	// key red
+	obj = luaPState->GetGlobal("color_key_red");
+	int color_key_red = obj.GetInteger();
+
+	// key green
+	obj = luaPState->GetGlobal("color_key_green");
+	int color_key_green = obj.GetInteger();
+
+	// key blue
+	obj = luaPState->GetGlobal("color_key_blue");
+	int color_key_blue = obj.GetInteger();
+
+
 	// AND LET'S READ IN THE GAME SETUP INFO
 	// FIRST LOAD ALL THE PROPERTIES
-	map<wstring,wstring> *properties = new map<wstring,wstring>();
-	loadGameProperties(game, properties, gameInitFile);
+	//map<wstring,wstring> *properties = new map<wstring,wstring>();
+	//loadGameProperties(game, properties, gameInitFile);
 
 	// WE NEED THE TITLE AND USE_FULLSCREEN_MODE TO INITIALIZE OUR WINDOW
-	wstring titleProp = (*properties)[W_TITLE];
-	wstring useFullscreenProp = (*properties)[W_USE_FULLSCREEN_MODE];
-	bool useFullscreen = false;
-	if (useFullscreenProp.compare(L"true") == 0)
-		useFullscreen = true;
+	//wstring titleProp = (*properties)[W_TITLE];
+	//wstring useFullscreenProp = (*properties)[W_USE_FULLSCREEN_MODE];
+	//bool useFullscreen = false;
+	//if (useFullscreenProp.compare(L"true") == 0)
+	//	useFullscreen = true;
 
 	// GET THE SCREEN WIDTH AND HEIGHT
-	int screenWidth, screenHeight;
-	wstring screenWidthProp = (*properties)[W_SCREEN_WIDTH];
-	wstring screenHeightProp = (*properties)[W_SCREEN_HEIGHT];
-	wstringstream(screenWidthProp) >> screenWidth;
-	wstringstream(screenHeightProp) >> screenHeight;
+	//int screenWidth, screenHeight;
+	//wstring screenWidthProp = (*properties)[W_SCREEN_WIDTH];
+	//wstring screenHeightProp = (*properties)[W_SCREEN_HEIGHT];
+	//wstringstream(screenWidthProp) >> screenWidth;
+	//wstringstream(screenHeightProp) >> screenHeight;
 
 	// MAKE A CUSTOM GameOS OBJECT (WindowsOS) FOR SOME WINDOWS
 	// PLATFORM STUFF, INCLUDING A Window OF COURSE
-	WindowsOS *walkaboutOS = new WindowsOS(	hInstance, 
+	/*WindowsOS *walkaboutOS = new WindowsOS(	hInstance, 
 										nCmdShow,
 										useFullscreen,
 										titleProp,
 										screenWidth, screenHeight,
 										game);
+	*/
 	
-	int textFontSize;
-	wstring textFontSizeProp = (*properties)[W_TEXT_FONT_SIZE];
-	wstringstream(textFontSizeProp) >> textFontSize;
+	std::wstring wsTmp(title.begin(), title.end());
+
+	WindowsOS *walkaboutOS = new WindowsOS(	hInstance, 
+										nCmdShow,
+										fullscreen,
+										wsTmp,
+										screen_width, screen_height,
+										game);
+
+	//int textFontSize;
+	//wstring textFontSizeProp = (*properties)[W_TEXT_FONT_SIZE];
+	//wstringstream(textFontSizeProp) >> textFontSize;
 
 	// RENDERING WILL BE DONE USING DirectX
 	DirectXGraphics *walkaboutGraphics = new DirectXGraphics(game);
-	walkaboutGraphics->init(screenWidth, screenHeight);
+	/*walkaboutGraphics->init(screenWidth, screenHeight);
 	walkaboutGraphics->initGraphics(walkaboutOS, useFullscreen);
 	walkaboutGraphics->initTextFont(textFontSize);
+	*/
+	walkaboutGraphics->init(screen_width, screen_height);
+	walkaboutGraphics->initGraphics(walkaboutOS, fullscreen);
+	walkaboutGraphics->initTextFont(font_size);
 
 	// AND NOW LOAD THE COLORS THE GRAPHICS WILL USE
 	// AS A COLOR KEY AND FOR RENDERING TEXT
-	initColors(walkaboutGraphics, properties);
+	//initColors(walkaboutGraphics, properties);
+
+	// COLOR USED FOR RENDERING TEXT
+	walkaboutGraphics->setFontColor(font_color_red, font_color_green, font_color_blue);
+	// COLOR KEY - COLOR TO BE IGNORED WHEN LOADING AN IMAGE
+	// NOTE, IF YOU WISH TO USE PNG IMAGES THAT CONTAIN ALPHA
+	// CHANNEL DATA, YOU DON'T NEED A COLOR KEY
+	walkaboutGraphics->setColorKey(color_key_red, color_key_green, color_key_blue);
 
 	// WE'LL USE WINDOWS PLATFORM METHODS FOR GETTING INPUT
 	WindowsInput *walkaboutInput = new WindowsInput();
@@ -105,10 +189,18 @@ void WalkaboutDataLoader::loadGame(Game *game, wstring gameInitFile)
 	text->setTextGenerator((TextGenerator*)walkaboutTextGenerator);
 
 	// INIT THE VIEWPORT TOO
-	initViewport(game->getGUI(), properties);	
+	//initViewport(game->getGUI(), properties);
+	int viewportWidth = screen_width - viewport_offset_x;
+	int viewportHeight = screen_height - viewport_offset_y;
+
+	Viewport *viewport = game->getGUI()->getViewport();
+	viewport->setViewportWidth(viewportWidth);
+	viewport->setViewportHeight(viewportHeight);
+	viewport->setViewportOffsetX(viewport_offset_x);
+	viewport->setViewportOffsetY(viewport_offset_y);
 
 	// WE DON'T NEED THE PROPERTIES MAP ANYMORE, THE GAME IS ALL LOADED
-	delete properties;
+	//delete properties;
 }
 
 /*
@@ -182,7 +274,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	physics->addCollidableObject(player);
 
 	// NOTE THAT RED BOX MAN IS SPRITE ID 2
-	AnimatedSpriteType *playerSpriteType = spriteManager->getSpriteType(4);
+	AnimatedSpriteType *playerSpriteType = spriteManager->getSpriteType(0);
 	player->setSpriteType(playerSpriteType);
 	player->setAlpha(255);
 	//player->setCurrentState(IDLE);
@@ -226,6 +318,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 					PLAYER_INIT_X + extent_x,(PLAYER_INIT_Y - 300) + extent_y, extent_x/2, extent_y);*/
 
 	AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
+	//AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
 	// AND LET'S ADD A BUNCH OF RANDOM JUMPING BOTS, FIRST ALONG
 	// A LINE NEAR THE TOP
 
@@ -255,6 +348,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	for (int i = 0; i < 14; i++)
 		makeRandomJumpingBot(game, botSpriteType, 1700.0f + (i*100.0f), 1300.0f);
 */		
+	game->getGSM()->goToGame();
 }
 
 void WalkaboutDataLoader::makeRandomJumpingBot(Game *game, AnimatedSpriteType *randomJumpingBotType, float initX, float initY)
@@ -289,7 +383,11 @@ void WalkaboutDataLoader::hardCodedLoadGUIExample(Game *game)
 	initCursor(gui, guiTextureManager);
 	initSplashScreen(game, gui, guiTextureManager);
 	initMainMenu(gui, guiTextureManager);
+	initOptions(gui, guiTextureManager);
+	initCredits(gui, guiTextureManager);
 	initInGameGUI(gui, guiTextureManager);
+	initLoading(gui, guiTextureManager);
+	initPaused(gui, guiTextureManager);
 }
 
 /*
@@ -355,6 +453,61 @@ void WalkaboutDataLoader::initSplashScreen(Game *game, GameGUI *gui,	DirectXText
 	gui->addScreenGUI(GS_SPLASH_SCREEN, splashScreenGUI);
 }
 
+void WalkaboutDataLoader::initPaused(GameGUI *gui,	DirectXTextureManager *guiTextureManager)
+{
+	// NOW, FIRST LET'S ADD A SPLASH SCREEN GUI
+	ScreenGUI *pausedGUI = new ScreenGUI();
+
+	unsigned int imageID = guiTextureManager->loadTexture(W_PAUSED_MENU_PATH);
+	OverlayImage *imageToAdd = new OverlayImage();
+	imageToAdd->x = 0;
+	imageToAdd->y = 0;
+	imageToAdd->z = 0;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 1024;
+	imageToAdd->height = 768;
+	imageToAdd->imageID = imageID;
+	pausedGUI->addOverlayImage(imageToAdd);
+
+	// WE'LL ONLY HAVE ONE IMAGE FOR OUR GIANT BUTTON
+	unsigned int normalTextureID = guiTextureManager->loadTexture(W_EXIT_IMAGE_PATH);
+	unsigned int mouseOverTextureID = guiTextureManager->loadTexture(W_EXIT_IMAGE_MO_PATH);
+
+	// INIT THE QUIT BUTTON
+	Button *buttonToAdd = new Button();
+	buttonToAdd->initButton(normalTextureID, 
+							mouseOverTextureID,
+							310,
+							500,
+							0,
+							255,
+							378,
+							80,
+							false,
+							W_QUIT_COMMAND);
+	pausedGUI->addButton(buttonToAdd);
+
+	normalTextureID = guiTextureManager->loadTexture(W_RETURN_IMAGE_PATH);
+	mouseOverTextureID = guiTextureManager->loadTexture(W_RETURN_IMAGE_MO_PATH);
+
+	// INIT THE QUIT BUTTON
+	buttonToAdd = new Button();
+	buttonToAdd->initButton(normalTextureID, 
+							mouseOverTextureID,
+							310,
+							350,
+							0,
+							255,
+							378,
+							80,
+							false,
+							W_RETURN_COMMAND);
+	pausedGUI->addButton(buttonToAdd);
+
+	// AND REGISTER IT WITH THE GUI
+	gui->addScreenGUI(GS_PAUSED, pausedGUI);
+}
+
 /*
 	initMainMenu - initializes the game's main menu gui.
 */
@@ -410,7 +563,7 @@ void WalkaboutDataLoader::initMainMenu(GameGUI *gui,	DirectXTextureManager *guiT
 							378,
 							80,
 							false,
-							W_EXIT_COMMAND);
+							W_HELP_COMMAND);
 
 	// AND NOW LOAD IT INTO A ScreenGUI
 	mainMenuGUI->addButton(buttonToAdd);
@@ -430,7 +583,7 @@ void WalkaboutDataLoader::initMainMenu(GameGUI *gui,	DirectXTextureManager *guiT
 							378,
 							80,
 							false,
-							W_EXIT_COMMAND);
+							W_CREDITS_COMMAND);
 
 	// AND NOW LOAD IT INTO A ScreenGUI
 	mainMenuGUI->addButton(buttonToAdd);
@@ -461,17 +614,36 @@ void WalkaboutDataLoader::initMainMenu(GameGUI *gui,	DirectXTextureManager *guiT
 	// AND LET'S ADD OUR SCREENS
 	gui->addScreenGUI(GS_MAIN_MENU,		mainMenuGUI);
 }
-
-/*
-	initInGameGUI - initializes the game's in-game gui.
-*/
-void WalkaboutDataLoader::initInGameGUI(GameGUI *gui, DirectXTextureManager *guiTextureManager)
+void WalkaboutDataLoader::initLoading(GameGUI *gui,	DirectXTextureManager *guiTextureManager)
 {
-	// NOW ADD THE IN-GAME GUI
-	ScreenGUI *inGameGUI = new ScreenGUI();
+	// NOW, FIRST LET'S ADD A SPLASH SCREEN GUI
+	ScreenGUI *loadingGUI = new ScreenGUI();
 
-	unsigned int normalTextureID = guiTextureManager->loadTexture(W_EXIT_IMAGE_PATH);
-	unsigned int mouseOverTextureID = guiTextureManager->loadTexture(W_EXIT_IMAGE_MO_PATH);
+	// WE'LL ONLY HAVE ONE IMAGE FOR OUR GIANT BUTTON
+	unsigned int imageID = guiTextureManager->loadTexture(W_LOADING_SCREEN_PATH);
+
+	// INIT THE QUIT BUTTON
+	OverlayImage *imageToAdd = new OverlayImage();
+	imageToAdd->x = 0;
+	imageToAdd->y = 0;
+	imageToAdd->z = 0;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 1024;
+	imageToAdd->height = 768;
+	imageToAdd->imageID = imageID;
+	loadingGUI->addOverlayImage(imageToAdd);
+
+	// AND REGISTER IT WITH THE GUI
+	gui->addScreenGUI(GS_STARTING_LEVEL, loadingGUI);
+}
+void WalkaboutDataLoader::initOptions(GameGUI *gui,	DirectXTextureManager *guiTextureManager)
+{
+	// NOW, FIRST LET'S ADD A SPLASH SCREEN GUI
+	ScreenGUI *optionsGUI = new ScreenGUI();
+
+	// WE'LL ONLY HAVE ONE IMAGE FOR OUR GIANT BUTTON
+	unsigned int normalTextureID = guiTextureManager->loadTexture(W_OPTION_SCREEN_PATH);
+	unsigned int mouseOverTextureID = normalTextureID;
 
 	// INIT THE QUIT BUTTON
 	Button *buttonToAdd = new Button();
@@ -481,11 +653,92 @@ void WalkaboutDataLoader::initInGameGUI(GameGUI *gui, DirectXTextureManager *gui
 							0,
 							0,
 							255,
-							200,
-							100,
+							1024,
+							768,
 							false,
-							W_QUIT_COMMAND);
-	inGameGUI->addButton(buttonToAdd);
+							W_GO_TO_MM_COMMAND);
+	optionsGUI->addButton(buttonToAdd);
+
+	// AND REGISTER IT WITH THE GUI
+	gui->addScreenGUI(GS_MENU_HELP_MENU, optionsGUI);
+}
+void WalkaboutDataLoader::initCredits(GameGUI *gui,	DirectXTextureManager *guiTextureManager)
+{
+	// NOW, FIRST LET'S ADD A SPLASH SCREEN GUI
+	ScreenGUI *creditsGUI = new ScreenGUI();
+
+	// WE'LL ONLY HAVE ONE IMAGE FOR OUR GIANT BUTTON
+	unsigned int normalTextureID = guiTextureManager->loadTexture(W_CREDITS_SCREEN_PATH);
+	unsigned int mouseOverTextureID = normalTextureID;
+
+	// INIT THE QUIT BUTTON
+	Button *buttonToAdd = new Button();
+	buttonToAdd->initButton(normalTextureID, 
+							mouseOverTextureID,
+							0,
+							0,
+							0,
+							255,
+							1024,
+							768,
+							false,
+							W_GO_TO_MM_COMMAND);
+	creditsGUI->addButton(buttonToAdd);
+
+	// AND REGISTER IT WITH THE GUI
+	gui->addScreenGUI(GS_MENU_ABOUT_MENU, creditsGUI);
+}
+/*
+	initInGameGUI - initializes the game's in-game gui.
+*/
+void WalkaboutDataLoader::initInGameGUI(GameGUI *gui, DirectXTextureManager *guiTextureManager)
+{
+	// NOW ADD THE IN-GAME GUI
+	ScreenGUI *inGameGUI = new ScreenGUI();
+
+	unsigned int imageID = guiTextureManager->loadTexture(W_STATUS_HEAD_PATH);
+	OverlayImage *imageToAdd = new OverlayImage();
+	imageToAdd->x = 20;
+	imageToAdd->y = 20;
+	imageToAdd->z = 0;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 64;
+	imageToAdd->height = 64;
+	imageToAdd->imageID = imageID;
+	inGameGUI->addOverlayImage(imageToAdd);
+
+	imageID = guiTextureManager->loadTexture(W_STATUS_FIRE_PATH);
+	imageToAdd = new OverlayImage();
+	imageToAdd->x = 84;
+	imageToAdd->y = 15;
+	imageToAdd->z = 0;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 340;
+	imageToAdd->height = 22;
+	imageToAdd->imageID = imageID;
+	inGameGUI->addOverlayImage(imageToAdd);
+
+	imageID = guiTextureManager->loadTexture(W_STATUS_WATER_PATH);
+	imageToAdd = new OverlayImage();
+	imageToAdd->x = 84;
+	imageToAdd->y = 40;
+	imageToAdd->z = 0;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 340;
+	imageToAdd->height = 22;
+	imageToAdd->imageID = imageID;
+	inGameGUI->addOverlayImage(imageToAdd);
+
+	imageID = guiTextureManager->loadTexture(W_STATUS_EARTH_PATH);
+	imageToAdd = new OverlayImage();
+	imageToAdd->x = 84;
+	imageToAdd->y = 67;
+	imageToAdd->z = 0;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 340;
+	imageToAdd->height = 22;
+	imageToAdd->imageID = imageID;
+	inGameGUI->addOverlayImage(imageToAdd);
 
 	// AND LET'S ADD OUR SCREENS
 	gui->addScreenGUI(GS_GAME_IN_PROGRESS,	inGameGUI);

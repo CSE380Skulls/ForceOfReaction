@@ -88,6 +88,10 @@ public:
 	void			goToGame();
 	void			goToLoadLevel();
 	void			goToMainMenu();
+	void			goToHelp();
+	void			goToCredits();
+	void			goToLoading();
+	void			goToPaused();
 
 	// METHODS DEFINED in GameStateManager.cpp
 	GameStateManager();

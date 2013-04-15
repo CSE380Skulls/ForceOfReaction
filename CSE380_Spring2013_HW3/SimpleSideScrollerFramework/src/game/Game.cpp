@@ -215,7 +215,8 @@ void Game::startGame()
 {
 	// AND UPDATE THE GAME STATE OF COURSE
 	gsm->goToLoadLevel();	// NOTE THAT CURRENTLY THERE IS NO LEVEL FILE,
-	
+	graphics->fillRenderLists(this);
+	graphics->renderGame(this);
 	// THAT'S ONE THING YOU'LL BE DOING
 	dataLoader->loadWorld(this, currentLevelFileName);
 }

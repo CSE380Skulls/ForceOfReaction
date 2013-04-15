@@ -1,10 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <sprite_type>
- <width>64</width>
+ <width>32</width>
  <height>64</height>
  <images_list>
   <image_file id="1" file_name="idle_left.png"/>
   <image_file id="2" file_name="idle_right.png"/>
+  <image_file id="3" file_name="run_left_1.png"/>
+  <image_file id="4" file_name="run_left_2.png"/>
+  <image_file id="5" file_name="run_left_3.png"/>
+  <image_file id="6" file_name="run_left_4.png"/>
+  <image_file id="7" file_name="run_left_5.png"/>
+  <image_file id="8" file_name="run_left_6.png"/>
+  <image_file id="9" file_name="run_left_7.png"/>
+  <image_file id="10" file_name="run_left_8.png"/>
+  <image_file id="11" file_name="run_right_1.png"/>
+  <image_file id="12" file_name="run_right_2.png"/>
+  <image_file id="13" file_name="run_right_3.png"/>
+  <image_file id="14" file_name="run_right_4.png"/>
+  <image_file id="15" file_name="run_right_5.png"/>
+  <image_file id="16" file_name="run_right_6.png"/>
+  <image_file id="17" file_name="run_right_7.png"/>
+  <image_file id="18" file_name="run_right_8.png"/>
+  <image_file id="19" file_name="jumping_right_1.png"/>
+  <image_file id="20" file_name="jumping_right_2.png"/>
+  <image_file id="21" file_name="jumping_right_3.png"/>
+  <image_file id="22" file_name="jumping_right_4.png"/>
+  <image_file id="23" file_name="jumping_right_5.png"/>
+  <image_file id="24" file_name="jumping_right_6.png"/>
+  <image_file id="25" file_name="jumping_left_1.png"/>
+  <image_file id="26" file_name="jumping_left_2.png"/>
+  <image_file id="27" file_name="jumping_left_3.png"/>
+  <image_file id="28" file_name="jumping_left_4.png"/>
+  <image_file id="29" file_name="jumping_left_5.png"/>
+  <image_file id="30" file_name="jumping_left_6.png"/>
+  <image_file id="31" file_name="attacking_right_1.png"/>
+  <image_file id="32" file_name="attacking_right_2.png"/>
+  <image_file id="33" file_name="attacking_right_3.png"/>
+  <image_file id="34" file_name="attacking_right_4.png"/>
+  <image_file id="35" file_name="attacking_right_5.png"/>
+  <image_file id="36" file_name="attacking_right_6.png"/>
+  <image_file id="37" file_name="attacking_right_7.png"/>
+  <image_file id="38" file_name="attacking_left_1.png"/>
+  <image_file id="39" file_name="attacking_left_2.png"/>
+  <image_file id="40" file_name="attacking_left_3.png"/>
+  <image_file id="41" file_name="attacking_left_4.png"/>
+  <image_file id="42" file_name="attacking_left_5.png"/>
+  <image_file id="43" file_name="attacking_left_6.png"/>
+  <image_file id="44" file_name="attacking_left_7.png"/>
  </images_list>
  <animations_list>
   <animation_state>
@@ -22,13 +64,91 @@
   <animation_state>
    <state>WALKING_RIGHT</state>
    <animation_sequence>
-    <pose image_id="2" duration="10"/>
+    <pose image_id="11" duration="3"/>
+	<pose image_id="12" duration="3"/>
+	<pose image_id="13" duration="3"/>
+	<pose image_id="14" duration="3"/>
+	<pose image_id="15" duration="3"/>
+	<pose image_id="16" duration="3"/>
+	<pose image_id="17" duration="3"/>
+	<pose image_id="18" duration="3"/>
    </animation_sequence>
   </animation_state>
   <animation_state>
    <state>WALKING_LEFT</state>
    <animation_sequence>
-    <pose image_id="1" duration="10"/>
+    <pose image_id="3" duration="3"/>
+	<pose image_id="4" duration="3"/>
+	<pose image_id="5" duration="3"/>
+	<pose image_id="6" duration="3"/>
+	<pose image_id="7" duration="3"/>
+	<pose image_id="8" duration="3"/>
+	<pose image_id="9" duration="3"/>
+	<pose image_id="10" duration="3"/>
+   </animation_sequence>
+  </animation_state>
+  <animation_state>
+   <state>JUMPING_RIGHT</state>
+   <animation_sequence>
+    <pose image_id="19" duration="2"/>
+	<pose image_id="20" duration="2"/>
+	<pose image_id="21" duration="20"/>
+	<pose image_id="22" duration="3"/>
+	<pose image_id="23" duration="20"/>
+	<pose image_id="24" duration="2"/>
+   </animation_sequence>
+  </animation_state>
+  <animation_state>
+   <state>FALLING_RIGHT</state>
+   <animation_sequence>
+	<pose image_id="23" duration="10"/>
+   </animation_sequence>
+  </animation_state>
+  <animation_state>
+   <state>JUMPING_LEFT</state>
+   <animation_sequence>
+    <pose image_id="25" duration="2"/>
+	<pose image_id="26" duration="2"/>
+	<pose image_id="27" duration="20"/>
+	<pose image_id="28" duration="3"/>
+	<pose image_id="29" duration="20"/>
+	<pose image_id="30" duration="2"/>
+   </animation_sequence>
+  </animation_state>
+  <animation_state>
+   <state>FALLING_LEFT</state>
+   <animation_sequence>
+	<pose image_id="29" duration="10"/>
+   </animation_sequence>
+  </animation_state>
+  <animation_state>
+   <state>ATTACKING_RIGHT</state>
+   <animation_sequence>
+    <pose image_id="31" duration="3"/>
+	<pose image_id="32" duration="3"/>
+	<pose image_id="33" duration="3"/>
+	<pose image_id="34" duration="5"/>
+	<pose image_id="35" duration="3"/>
+	<pose image_id="36" duration="3"/>
+	<pose image_id="37" duration="3"/>
+	<pose image_id="37" duration="3"/>
+	<pose image_id="37" duration="3"/>
+	<pose image_id="31" duration="3"/>
+   </animation_sequence>
+  </animation_state>
+  <animation_state>
+   <state>ATTACKING_LEFT</state>
+   <animation_sequence>
+    <pose image_id="38" duration="3"/>
+	<pose image_id="39" duration="3"/>
+	<pose image_id="40" duration="3"/>
+	<pose image_id="41" duration="5"/>
+	<pose image_id="42" duration="3"/>
+	<pose image_id="43" duration="3"/>
+	<pose image_id="44" duration="3"/>
+	<pose image_id="37" duration="3"/>
+	<pose image_id="37" duration="3"/>
+	<pose image_id="31" duration="3"/>
    </animation_sequence>
   </animation_state>
  </animations_list>  
