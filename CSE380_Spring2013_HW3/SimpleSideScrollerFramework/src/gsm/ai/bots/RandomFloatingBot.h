@@ -9,32 +9,33 @@
 class RandomFloatingBot : public Bot
 {
 private:
-	unsigned int cyclesRemainingBeforeThinking;
-	unsigned int minCyclesBeforeThinking;
-	unsigned int maxCyclesBeforeThinking;
-	unsigned int maxVelocity;
+	int cyclesRemainingBeforeThinking;
+	int minCyclesBeforeThinking;
+	int maxCyclesBeforeThinking;
+	int velocity;
+	int dir;
 
 	// THIS PRIVATE CONSTRUCTOR IS ONLY USED FOR CLONING
-	RandomFloatingBot(	unsigned int initMin, 
-						unsigned int initMax, 
-						unsigned int initMaxVelocity);
+	RandomFloatingBot(	int initMin, 
+						int initMax, 
+						int initVelocity);
 
 public:
 	RandomFloatingBot(	Physics *physics,
-						unsigned int initMin, 
-						unsigned int initMax, 
-						unsigned int initMaxVelocity);
+						int initMin, 
+						int initMax, 
+						int initVelocity);
 	~RandomFloatingBot();
 	Bot*	clone();
-	void initBot(	unsigned int initMin,
-					unsigned int initMax,
-					unsigned int initMaxVelocity);
+	void initBot(	int initMin,
+					int initMax,
+					int initVelocity);
 	void	pickRandomCyclesInRange();
 	void	pickRandomVelocity(Physics *physics);
 	void	think(Game *game);
 
 	// INLINED METHODS
-	unsigned int getCyclesRemainingBeforeThinking()	{ return cyclesRemainingBeforeThinking; }
-	unsigned int getMinCyclesBeforeThinking()		{ return minCyclesBeforeThinking;		}
-	unsigned int getMaxCyclesBeforeThinking()		{ return maxCyclesBeforeThinking;		}
+	int getCyclesRemainingBeforeThinking()	{ return cyclesRemainingBeforeThinking; }
+	int getMinCyclesBeforeThinking()		{ return minCyclesBeforeThinking;		}
+	int getMaxCyclesBeforeThinking()		{ return maxCyclesBeforeThinking;		}
 };

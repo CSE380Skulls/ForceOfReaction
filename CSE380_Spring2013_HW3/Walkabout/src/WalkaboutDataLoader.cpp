@@ -10,6 +10,7 @@
 // GAME OBJECT INCLUDES
 #include "src\game\Game.h"
 #include "src\graphics\GameGraphics.h"
+#include "src\gsm\ai\bots\RandomFloatingBot.h"
 #include "src\gsm\ai\bots\RandomJumpingBot.h"
 #include "src\gsm\state\GameState.h"
 #include "src\gsm\world\TiledLayer.h"
@@ -207,6 +208,7 @@ void WalkaboutDataLoader::loadGame(Game *game, wstring gameInitFile)
 	initColors - this helper method loads the color key, used for loading
 	images, and the font color, used for rendering text.
 */
+/*
 void WalkaboutDataLoader::initColors(	GameGraphics *graphics,
 									map<wstring,wstring> *properties)
 {
@@ -234,7 +236,7 @@ void WalkaboutDataLoader::initColors(	GameGraphics *graphics,
 	// CHANNEL DATA, YOU DON'T NEED A COLOR KEY
 	graphics->setColorKey(keyRed, keyGreen, keyBlue);
 }
-
+*/
 /*
 	loadGUI - This method loads all the GUI assets described in the guiInitFile
 	argument. Note that we are loading all GUI art for all GUIs when the application
@@ -321,13 +323,13 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	//AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
 	// AND LET'S ADD A BUNCH OF RANDOM JUMPING BOTS, FIRST ALONG
 	// A LINE NEAR THE TOP
-	RandomJumpingBot *bot = new RandomJumpingBot(physics, 30, 120, 40);
+	RandomFloatingBot *bot = new RandomFloatingBot(physics, 30, 60, 10);
 	bot->setSpriteType(botSpriteType);
 	bot->setAlpha(255);
 	//bot->setCurrentState(IDLE);
 	bot->setCurrentState(IDLE_RIGHT);
 	PhysicalProperties *botProps = bot->getPhysicalProperties();
-	botProps->setX(PLAYER_INIT_X+100);
+	botProps->setX(PLAYER_INIT_X + 100);
 	botProps->setY(PLAYER_INIT_Y);
 	botProps->setVelocity(0.0f, 0.0f);
 	botProps->setAccelerationX(0);
@@ -370,10 +372,10 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 */		
 	game->getGSM()->goToGame();
 }
-
+/*
 void WalkaboutDataLoader::makeRandomJumpingBot(Game *game, AnimatedSpriteType *randomJumpingBotType, float initX, float initY)
 {
-	/*
+	
 	SpriteManager *spriteManager = game->getGSM()->getSpriteManager();
 	Physics *physics = game->getGSM()->getPhysics();
 	RandomJumpingBot *bot = new RandomJumpingBot(physics, 30, 120, 40);
@@ -385,9 +387,9 @@ void WalkaboutDataLoader::makeRandomJumpingBot(Game *game, AnimatedSpriteType *r
 	bot->setAlpha(255);
 	spriteManager->addBot(bot);
 	bot->affixTightAABBBoundingVolume();
-	*/
+	
 }
-
+*/
 /*
 	initWalkaboutGUI - This method builds a GUI for the Walkabout Game application.
 	Note that we load all the GUI components from this method, including
@@ -767,6 +769,7 @@ void WalkaboutDataLoader::initInGameGUI(GameGUI *gui, DirectXTextureManager *gui
 /*
 	initViewport - initializes the game's viewport.
 */
+/*
 void WalkaboutDataLoader::initViewport(GameGUI *gui, map<wstring,wstring> *properties)
 {
 	// AND NOW SPECIFY THE VIEWPORT SIZE AND LOCATION. NOTE THAT IN THIS EXAMPLE,
@@ -790,4 +793,4 @@ void WalkaboutDataLoader::initViewport(GameGUI *gui, map<wstring,wstring> *prope
 	viewport->setViewportHeight(viewportHeight);
 	viewport->setViewportOffsetX(viewportOffsetX);
 	viewport->setViewportOffsetY(viewportOffsetY);
-}
+}*/

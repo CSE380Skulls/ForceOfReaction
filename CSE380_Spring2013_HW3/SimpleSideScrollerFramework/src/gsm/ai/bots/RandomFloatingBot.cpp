@@ -8,12 +8,12 @@
 	This private constructor is only to be used for cloning bots, note
 	that this does not setup the velocity for this bot.
 */
-RandomFloatingBot::RandomFloatingBot(	unsigned int initMin, 
-										unsigned int initMax, 
-										unsigned int initMaxVelocity)
+RandomFloatingBot::RandomFloatingBot(	int initMin, 
+										int initMax, 
+										int initVelocity)
 {
 	// INIT THE BASIC STUFF
-	initBot(initMin, initMax, initMaxVelocity);
+	initBot(initMin, initMax, initVelocity);
 }
 
 /*
@@ -21,16 +21,16 @@ RandomFloatingBot::RandomFloatingBot(	unsigned int initMin,
 	creating these types of bots.
 */
 RandomFloatingBot::RandomFloatingBot(	Physics *physics,
-										unsigned int initMin, 
-										unsigned int initMax, 
-										unsigned int initMaxVelocity)
+										int initMin, 
+										int initMax, 
+										int initVelocity)
 {
 	// INIT THE BASIC STUFF
-	initBot(initMin, initMax, initMaxVelocity);
+	initBot(initMin, initMax, initVelocity);
 
 	// AND START THE BOT OFF IN A RANDOM DIRECTION AND VELOCITY
 	// AND WITH RANDOM INTERVAL UNTIL IT THINKS AGAIN
-	pickRandomVelocity(physics);
+	//pickRandomVelocity(physics);
 	pickRandomCyclesInRange();
 }
 
@@ -43,7 +43,7 @@ Bot* RandomFloatingBot::clone()
 {
 	RandomFloatingBot *botClone = new RandomFloatingBot(	minCyclesBeforeThinking, 
 															maxCyclesBeforeThinking, 
-															maxVelocity);
+															velocity);
 	return botClone;
 }
 
@@ -51,14 +51,14 @@ Bot* RandomFloatingBot::clone()
 	initBot - this initialization method sets up the basic bot
 	properties, but does not setup its velocity.
 */
-void RandomFloatingBot::initBot(	unsigned int initMin,
-									unsigned int initMax,
-									unsigned int initMaxVelocity)
+void RandomFloatingBot::initBot(	int initMin,
+									int initMax,
+									int initVelocity)
 {
 	// IF THE MAX IS SMALLER THAN THE MIN, SWITCH THEM
 	if (initMax < initMin)
 	{
-		unsigned int temp = initMax;
+		int temp = initMax;
 		initMax = initMin;
 		initMin = temp;
 	}
@@ -71,7 +71,8 @@ void RandomFloatingBot::initBot(	unsigned int initMin,
 	maxCyclesBeforeThinking = initMax;
 
 	// AND OUR VELOCITY CAPPER
-	maxVelocity = initMaxVelocity;
+	velocity = initVelocity;
+	dir = -1;
 }
 
 /*
@@ -80,26 +81,40 @@ void RandomFloatingBot::initBot(	unsigned int initMin,
 */
 void RandomFloatingBot::pickRandomCyclesInRange()
 {
+	
 	cyclesRemainingBeforeThinking = maxCyclesBeforeThinking - minCyclesBeforeThinking + 1;
 	cyclesRemainingBeforeThinking = rand() % cyclesRemainingBeforeThinking;
 	cyclesRemainingBeforeThinking += minCyclesBeforeThinking;
+	
+	//cyclesRemainingBeforeThinking = 120;
 }
 
 /*
-	pickRandomVelocity - calculates a random velocity vector for this
-	bot and initializes the appropriate instance variables.
+	Calculates a random velocity for this bot, either left, right, nowhere
 */
+
 void RandomFloatingBot::pickRandomVelocity(Physics *physics)
 {
-	// FIRST GET A RANDOM float FROM 0.0 TO 1.0
-	float randomAngleInRadians = ((float)rand())/((float)RAND_MAX);
+	// Get a random number
+	int r = rand() % 30; 
 
-	// NOW SCALE IT FROM 0 TO 2 PI
-	randomAngleInRadians *= 2.0f;
-	randomAngleInRadians *= PI;
-
-	// NOW WE CAN SCALE OUR X AND Y VELOCITIES
-	this->pp.setVelocity(maxVelocity * sin(randomAngleInRadians), maxVelocity * cos(randomAngleInRadians));
+	if(r >= 20){
+		// Don't move
+		dir = 0;
+		//getPhysicsBody()->SetLinearVelocity(b2Vec2(0, getPhysicsBody()->GetLinearVelocity().y));
+	}
+	else if(r >= 10){
+		// Move Right
+		dir = 1;
+		setCurrentState(L"IDLE_RIGHT");
+		//getPhysicsBody()->SetLinearVelocity(b2Vec2(velocity, getPhysicsBody()->GetLinearVelocity().y));
+	}
+	else {
+		// Move left
+		//getPhysicsBody()->SetLinearVelocity(b2Vec2(-velocity, getPhysicsBody()->GetLinearVelocity().y));
+		dir = 2;
+		this->setCurrentState(L"IDLE_LEFT");
+	}
 }
 
 /*
@@ -111,6 +126,21 @@ void RandomFloatingBot::think(Game *game)
 {
 	// EACH FRAME WE'LL TEST THIS BOT TO SEE IF WE NEED
 	// TO PICK A DIFFERENT DIRECTION TO FLOAT IN
+
+	// If player is next to this bot, do something different
+	if(dir == 0) {
+		// Idle
+		getPhysicsBody()->SetLinearVelocity(b2Vec2(0, getPhysicsBody()->GetLinearVelocity().y));
+	}
+	else if(dir == 1){
+		// Move Right
+		getPhysicsBody()->SetLinearVelocity(b2Vec2(velocity, getPhysicsBody()->GetLinearVelocity().y));
+	}
+	else if(dir == 2) {
+		// Move Left
+		getPhysicsBody()->SetLinearVelocity(b2Vec2(-velocity, getPhysicsBody()->GetLinearVelocity().y));
+	}
+
 
 	if (cyclesRemainingBeforeThinking == 0)
 	{
