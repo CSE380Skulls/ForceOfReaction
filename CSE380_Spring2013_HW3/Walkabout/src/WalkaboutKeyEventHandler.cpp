@@ -72,13 +72,23 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		else
 		{
 			player->getPhysicsBody()->SetLinearVelocity(b2Vec2(0, player->getPhysicsBody()->GetLinearVelocity().y));
-			if(player->getCurrentState() == WALKING_RIGHT)
+			if(player->getCurrentState() == WALKING_RIGHT){
+				if(player->getPhysicsBody()->GetLinearVelocity().y < 0.0f)
+					player->setCurrentState(FALLING_RIGHT);
+				else
+					player->setCurrentState(IDLE_RIGHT);
+			}
+			if(player->getCurrentState() == WALKING_LEFT){
+				if(player->getPhysicsBody()->GetLinearVelocity().y < 0.0f)
+					player->setCurrentState(FALLING_LEFT);
+				else
+					player->setCurrentState(IDLE_LEFT);
+			}
+			if((player->getCurrentState() == JUMPING_RIGHT || player->getCurrentState() == FALLING_RIGHT) 
+				&& player->getPhysicsBody()->GetLinearVelocity().y == 0.0f)
 				player->setCurrentState(IDLE_RIGHT);
-			if(player->getCurrentState() == WALKING_LEFT)
-				player->setCurrentState(IDLE_LEFT);
-			if(player->getCurrentState() == JUMPING_RIGHT && player->getPhysicsBody()->GetLinearVelocity().y == 0.0f)
-				player->setCurrentState(IDLE_RIGHT);
-			if(player->getCurrentState() == JUMPING_LEFT && player->getPhysicsBody()->GetLinearVelocity().y == 0.0f)
+			if((player->getCurrentState() == JUMPING_LEFT || player->getCurrentState() == FALLING_LEFT)
+				&& player->getPhysicsBody()->GetLinearVelocity().y == 0.0f)
 				player->setCurrentState(IDLE_LEFT);
 			if(player->getCurrentState() == ATTACKING_RIGHT && player->getFrameIndex()==12)
 				player->setCurrentState(IDLE_RIGHT);
@@ -224,7 +234,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 			id = 0;		
 		cursor->setActiveCursorID(id);
 	}
-
+	*/
 	// LET'S MESS WITH THE TARGET FRAME RATE IF THE USER PRESSES THE HOME OR END KEYS
 	WindowsTimer *timer = (WindowsTimer*)game->getTimer();
 	int fps = timer->getTargetFPS();
@@ -237,5 +247,5 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 
 	// THIS SLOWS DOWN OUR GAME LOOP, BUT WILL NOT GO BELOW 5 FRAMES PER SECOND
 	else if (input->isKeyDown(VK_END) && (fps > MIN_FPS))
-		timer->setTargetFPS(fps - FPS_INC);*/
+		timer->setTargetFPS(fps - FPS_INC);
 }

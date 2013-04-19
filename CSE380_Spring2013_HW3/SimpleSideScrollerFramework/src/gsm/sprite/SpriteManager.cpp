@@ -33,8 +33,8 @@ void SpriteManager::addSpriteToRenderList(Game *game, AnimatedSprite *sprite,
 
 	//IMPORTANT STEP
 	/******* Update the sprite's screen coordinates from physics world ******/
-	pp->setX(game->getGSM()->physicsToScreenX(sprite->getCurrentBodyX()) - spriteType->getTextureWidth());
-	pp->setY(game->getGSM()->physicsToScreenY(sprite->getCurrentBodyY()) - spriteType->getTextureHeight());
+	pp->setX(game->getGSM()->physicsToScreenX(sprite->getCurrentBodyX()) - spriteType->getTextureWidth()/2);
+	pp->setY(game->getGSM()->physicsToScreenY(sprite->getCurrentBodyY()) - spriteType->getTextureHeight()/2);
 
 	// IS THE SPRITE VIEWABLE?
 	if (viewport->areWorldCoordinatesInViewport(	

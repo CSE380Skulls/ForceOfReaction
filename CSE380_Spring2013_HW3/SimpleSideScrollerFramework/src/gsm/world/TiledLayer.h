@@ -20,6 +20,15 @@
 #include "src\gsm\physics\Physics.h"
 #include "src\gsm\physics\BoxPhysics.h"
 
+/* Tile type determines what edges are collidable and on what sides 
+	of the tile they are collidable. This will be used here for now
+	later on when a new level loader is created I will use these there,
+	and everything will be loaded in binary*/
+
+enum TileType{ NO_SIDES = 0, TOP, BOTTOM, LEFT, RIGHT, 
+	TOP_LEFT, TOP_RIGHT, TOP_BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT, LEFT_RIGHT, 
+	TOP_LEFT_RIGHT, TOP_RIGHT_BOTTOM, TOP_LEFT_BOTTOM, ALL_SIDES};
+
 // THIS CLASS IS-A WorldLayer
 
 class TiledLayer: public WorldLayer

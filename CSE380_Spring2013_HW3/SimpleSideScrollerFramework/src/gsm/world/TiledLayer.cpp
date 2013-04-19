@@ -136,6 +136,9 @@ void TiledLayer::addRenderItemsToRenderList(RenderList *renderList,
 	}
 }
 
+/*
+	Creates physics objects associated with tiles in the world
+*/
 void TiledLayer::addItemsToPhysicsSystem(Game *game){
 	BoxPhysics *boxPhysics = game->getGSM()->getBoxPhysics();
 	if(collidableTiles){
@@ -148,9 +151,8 @@ void TiledLayer::addItemsToPhysicsSystem(Game *game){
 				Tile *tile = getTile(i,j);
 				//if the tile is collidable, add to physics system
 				if(tile->collidable == true){
-				//(tileWidth * j) + tileWidth ???
 					boxPhysics->createStaticBox(game,tile,
-						(tileWidth * j) + tileWidth, (tileHeight * i) + tileHeight,
+						(tileWidth * j) + extent_x, (tileHeight * i) + extent_y,
 						extent_x, extent_y);
 				}
 			}

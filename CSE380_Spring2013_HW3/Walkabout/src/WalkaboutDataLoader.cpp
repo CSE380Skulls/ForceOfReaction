@@ -289,8 +289,8 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	player->setOnTileLastFrame(false);
 	player->affixTightAABBBoundingVolume();
 
-	float extent_x = player->getSpriteType()->getTextureWidth()/2;
-	float extent_y = player->getSpriteType()->getTextureHeight()/2;
+	float extent_x = player->getSpriteType()->getTextureWidth()/2.0f;
+	float extent_y = player->getSpriteType()->getTextureHeight()/2.0f;
 	game->getGSM()->getBoxPhysics()->createDynamicBox(game,player,player,
 					PLAYER_INIT_X + extent_x,PLAYER_INIT_Y + extent_y, extent_x, extent_y);
 
@@ -336,8 +336,8 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	bot->setOnTileLastFrame(false);
 	bot->affixTightAABBBoundingVolume();
 
-	extent_x = bot->getSpriteType()->getTextureWidth()/2;
-	extent_y = bot->getSpriteType()->getTextureHeight()/2; 
+	extent_x = bot->getSpriteType()->getTextureWidth()/2.0f;
+	extent_y = bot->getSpriteType()->getTextureHeight()/2.0f; 
 	game->getGSM()->getBoxPhysics()->createDynamicBox(game,bot,bot,
 					PLAYER_INIT_X + 100 + extent_x,PLAYER_INIT_Y + extent_y, extent_x, extent_y);
 	physics->addCollidableObject(bot);
