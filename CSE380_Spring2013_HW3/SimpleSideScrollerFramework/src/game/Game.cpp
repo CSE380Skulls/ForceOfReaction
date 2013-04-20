@@ -179,6 +179,8 @@ void Game::quitGame()
 {
 	// CLEAN UP ALL THE WORLD TEXTURES
 	graphics->clearWorldTextures();
+	// Free up the world and sprites and return them to box2d
+	getGSM()->unloadCurrentLevel();
 
 	// WE'RE GOING BACK TO THE MAIN MENU
 	gsm->goToMainMenu();

@@ -119,7 +119,6 @@ void SpriteManager::clearSprites()
 	spriteTypes.clear();
 	bots.clear();
 }
-
 /*
 	getSpriteType - This gets the sprite type object that corresponds
 	to the index argument.
@@ -138,13 +137,48 @@ AnimatedSpriteType* SpriteManager::getSpriteType(unsigned int typeIndex)
 */
 void SpriteManager::unloadSprites()
 {
-	// @TODO - WE'LL DO THIS LATER WHEN WE LEARN MORE ABOUT MEMORY MANAGEMENT
+	/*
+	vector<AnimatedSpriteType*>::iterator spriteIterator;
+	spriteIterator = spriteTypes.begin();
+	// Iterate over all sprites and delete them all.
+	while(spriteIterator != spriteTypes.end()){
+		AnimatedSpriteType *temp = (*spriteIterator);
+		spriteIterator++;
+		delete temp;
+	}
+	*/
+}
+
+void SpriteManager::unloadAnimatedSprites()
+{
+	AnimatedSprite *player = getPlayer();
+
+	// Remove the player from the box2d world.
+	player->returnPhysicsBody();
+
+	list<Bot*>::iterator botIterator;
+	botIterator = bots.begin();
+	// Iterate over all sprites and delete them all.
+	while(botIterator != bots.end()){
+		Bot *temp = (*botIterator);
+		// Remove from box2d
+		temp->returnPhysicsBody();
+		// Remove from bots list
+		bots.remove(*(botIterator++));
+		// Free memory
+		delete temp;
+	}
 }
 
 Bot* SpriteManager::removeBot(Bot *botToRemove)
 {
+	// Remove bot from list of bots
+	bots.remove(botToRemove);
+	// Remove bot from box2d
+	botToRemove->getPhysicsBody()->GetWorld()->DestroyBody(botToRemove->getPhysicsBody());
+	// Free the memory
+	delete botToRemove;
 	return NULL;
-	// @TODO - WE'LL DO THIS LATER WHEN WE LEARN MORE ABOUT MEMORY MANAGEMENT
 }
 
 /*

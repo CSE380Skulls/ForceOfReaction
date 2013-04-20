@@ -224,7 +224,8 @@ void GameStateManager::shutdown()
 */
 void GameStateManager::unloadCurrentLevel()
 {
-	spriteManager->unloadSprites();
+	//spriteManager->unloadSprites();
+	spriteManager->unloadAnimatedSprites();
 	world.unloadWorld();
 }
 
@@ -239,10 +240,6 @@ void GameStateManager::update(Game *game)
 {
 	spriteManager->update(game);
 	world.update(game);
-	if (physics.isActivated() || physics.isActivatedForSingleUpdate())
-	{
-		//physics.update(game);
-	}
 
 	//this is for stepping the box 2d bodies in the world
 	/*NOTE: For now there is only one dynamic object, which is our

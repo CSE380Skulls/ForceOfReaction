@@ -6,7 +6,7 @@
 #include "src\gsm\physics\Physics.h"
 #include "src\game\Game.h"
 
-class RandomFloatingBot : public Bot
+class FORFloatingBot : public Bot
 {
 private:
 	int cyclesRemainingBeforeThinking;
@@ -16,16 +16,16 @@ private:
 	int dir;
 
 	// THIS PRIVATE CONSTRUCTOR IS ONLY USED FOR CLONING
-	RandomFloatingBot(	int initMin, 
+	FORFloatingBot(	int initMin, 
 						int initMax, 
 						int initVelocity);
 
 public:
-	RandomFloatingBot(	Physics *physics,
+	FORFloatingBot(	Physics *physics,
 						int initMin, 
 						int initMax, 
 						int initVelocity);
-	~RandomFloatingBot();
+	~FORFloatingBot();
 	Bot*	clone();
 	void initBot(	int initMin,
 					int initMax,

@@ -92,7 +92,24 @@ void World::initWorldPhysicsSystem(Game *game){
 */
 void World::unloadWorld()
 {
+	// A list to add things to to then remove them, weird errors removing from vector
+	list<WorldLayer*> myList;
+
+	for(int x = 0; x < layers->size(); x++){
+		myList.push_front(layers->at(x));
+	}
 	layers->clear();
+
+	list<WorldLayer*>::iterator listIterator = myList.begin();
+
+	while(listIterator != myList.end()){
+		TiledLayer *temp = (TiledLayer*)(*listIterator);
+		listIterator++;
+		myList.remove(temp);
+		delete temp;
+	}
+
+	//layers->clear();
 	worldWidth = 0;
 	worldHeight = 0;
 }

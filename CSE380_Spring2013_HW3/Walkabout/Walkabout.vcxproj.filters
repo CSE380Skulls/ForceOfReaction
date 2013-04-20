@@ -25,6 +25,9 @@
     <ClCompile Include="src\WalkaboutCollisionListener.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\FORFloatingBot.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\WalkaboutButtonEventHandler.h">
@@ -43,6 +46,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\WalkaboutCollisionListener.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FORFloatingBot.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
