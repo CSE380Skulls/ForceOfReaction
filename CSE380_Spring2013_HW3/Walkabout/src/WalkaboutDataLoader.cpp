@@ -289,33 +289,8 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	player->setOnTileLastFrame(false);
 	player->affixTightAABBBoundingVolume();
 
-	float extent_x = player->getSpriteType()->getTextureWidth()/2.0f;
-	float extent_y = player->getSpriteType()->getTextureHeight()/2.0f;
-	game->getGSM()->getBoxPhysics()->createDynamicBox(game,player,player,
-					PLAYER_INIT_X + extent_x,PLAYER_INIT_Y + extent_y, extent_x, extent_y);
-
-	//This is the test box2d Sprite
-	//AnimatedSprite *test_sprite = spriteManager->getTestSprite();
-	//AnimatedSpriteType *test_spriteType= spriteManager->getSpriteType(4);
-	//test_sprite->setSpriteType(test_spriteType);
-	//test_sprite->setAlpha(255);
-	////player->setCurrentState(IDLE);
-	//test_sprite->setCurrentState(IDLE_RIGHT);
-	//PhysicalProperties *testProps = test_sprite->getPhysicalProperties();
-	//testProps->setX(PLAYER_INIT_X);
-	//testProps->setY(PLAYER_INIT_Y - 300);
-	//test_sprite->setOnTileThisFrame(false);
-	//test_sprite->setOnTileLastFrame(false);
-	//test_sprite->affixTightAABBBoundingVolume();
-
-	/*	set the box2dBody; note this is seriously a test, make this entire sprite
-		creation business into a factory class or function to do this.
-	*/
-	/*float extent_x = test_sprite->getSpriteType()->getTextureWidth()/2;
-	float extent_y = test_sprite->getSpriteType()->getTextureHeight()/2;*/
-
-	/*game->getGSM()->getBoxPhysics()->createDynamicBox(game,test_sprite,test_sprite,
-					PLAYER_INIT_X + extent_x,(PLAYER_INIT_Y - 300) + extent_y, extent_x/2, extent_y);*/
+	//create the player object in the physics world
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player);
 
 	AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
 	//AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
@@ -336,10 +311,9 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	bot->setOnTileLastFrame(false);
 	bot->affixTightAABBBoundingVolume();
 
-	extent_x = bot->getSpriteType()->getTextureWidth()/2.0f;
-	extent_y = bot->getSpriteType()->getTextureHeight()/2.0f; 
-	game->getGSM()->getBoxPhysics()->createDynamicBox(game,bot,bot,
-					PLAYER_INIT_X + 100 + extent_x,PLAYER_INIT_Y + extent_y, extent_x, extent_y);
+	//create a physics object for the bot
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot);
+
 	physics->addCollidableObject(bot);
 	spriteManager->addBot(bot);
 // UNCOMMENT THE FOLLOWING CODE BLOCK WHEN YOU ARE READY TO ADD SOME BOTS

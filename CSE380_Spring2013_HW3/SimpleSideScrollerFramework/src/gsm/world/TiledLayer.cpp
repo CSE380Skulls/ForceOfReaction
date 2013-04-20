@@ -151,7 +151,7 @@ void TiledLayer::addItemsToPhysicsSystem(Game *game){
 				Tile *tile = getTile(i,j);
 				//if the tile is collidable, add to physics system
 				if(tile->collidable == true){
-					boxPhysics->createStaticBox(game,tile,
+					boxPhysics->getPhysicsFactory()->createTileObject(game,tile,
 						(tileWidth * j) + extent_x, (tileHeight * i) + extent_y,
 						extent_x, extent_y);
 				}

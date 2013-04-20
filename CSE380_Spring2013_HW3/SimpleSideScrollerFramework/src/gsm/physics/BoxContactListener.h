@@ -2,14 +2,23 @@
 #include "stdafx.h"
 #include <Box2D\Box2D.h>
 
-class BoxContactListener : b2ContactListener
+class BoxContactListener : public b2ContactListener
 {
 public:
 	BoxContactListener(){};
 	~BoxContactListener(){};
 	 //b2ContactListener
     // Called when two fixtures begin to touch
-    virtual void BeginContact(b2Contact* contact);
+    void BeginContact(b2Contact* contact);
     // Called when two fixtures cease to touch
-    virtual void EndContact(b2Contact* contact);
+    void EndContact(b2Contact* contact);
+
+	/* The presolve and postsolve functions will be called every time
+	  step while two fixtures are overlapping*/
+
+	//This is called after collision detection, but before collision resolution.
+	void PreSolve(b2Contact *contact, const b2Manifold *oldManifold);
+	//The post solve event is where you can gather collision impulse results.
+	void PostSolve(b2Contact *contact, const b2ContactImpulse *impulse);
+
 };

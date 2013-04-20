@@ -99,6 +99,7 @@
     <ClCompile Include="src\gsm\physics\AABB.cpp" />
     <ClCompile Include="src\gsm\physics\BoxContactListener.cpp" />
     <ClCompile Include="src\gsm\physics\BoxPhysics.cpp" />
+    <ClCompile Include="src\gsm\physics\BoxPhysicsFactory.cpp" />
     <ClCompile Include="src\gsm\physics\CollidableObject.cpp" />
     <ClCompile Include="src\gsm\physics\Physics.cpp" />
     <ClCompile Include="src\gsm\sprite\AnimatedSprite.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="src\gsm\physics\AABB.h" />
     <ClInclude Include="src\gsm\physics\BoxContactListener.h" />
     <ClInclude Include="src\gsm\physics\BoxPhysics.h" />
+    <ClInclude Include="src\gsm\physics\BoxPhysicsFactory.h" />
     <ClInclude Include="src\gsm\physics\BoxPhysicsObject.h" />
     <ClInclude Include="src\gsm\physics\CollidableObject.h" />
     <ClInclude Include="src\gsm\physics\Collision.h" />

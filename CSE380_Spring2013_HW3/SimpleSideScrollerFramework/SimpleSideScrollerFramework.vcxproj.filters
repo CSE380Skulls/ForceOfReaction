@@ -175,6 +175,9 @@
     <ClCompile Include="src\gsm\physics\BoxContactListener.cpp">
       <Filter>src\gsm\physics</Filter>
     </ClCompile>
+    <ClCompile Include="src\gsm\physics\BoxPhysicsFactory.cpp">
+      <Filter>src\gsm\physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -334,6 +337,9 @@
       <Filter>src\gsm\physics</Filter>
     </ClInclude>
     <ClInclude Include="src\gsm\physics\BoxContactListener.h">
+      <Filter>src\gsm\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\physics\BoxPhysicsFactory.h">
       <Filter>src\gsm\physics</Filter>
     </ClInclude>
   </ItemGroup>
