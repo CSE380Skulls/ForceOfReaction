@@ -160,9 +160,6 @@
     <ClCompile Include="src\gsm\ai\bots\RandomJumpingBot.cpp">
       <Filter>src\gsm\ai\bots</Filter>
     </ClCompile>
-    <ClCompile Include="src\gsm\ai\bots\RandomFloatingBot.cpp">
-      <Filter>src\gsm\ai\bots</Filter>
-    </ClCompile>
     <ClCompile Include="src\gsm\physics\CollidableObject.cpp">
       <Filter>src\gsm\physics</Filter>
     </ClCompile>
@@ -311,9 +308,6 @@
     </ClInclude>
     <ClInclude Include="src\timer\GameTimer.h">
       <Filter>src\timer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gsm\ai\bots\RandomFloatingBot.h">
-      <Filter>src\gsm\ai\bots</Filter>
     </ClInclude>
     <ClInclude Include="src\gsm\ai\bots\RandomJumpingBot.h">
       <Filter>src\gsm\ai\bots</Filter>

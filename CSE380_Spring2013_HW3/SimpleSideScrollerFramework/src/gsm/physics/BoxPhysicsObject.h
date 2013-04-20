@@ -26,4 +26,12 @@ public:
 		}
 	}
 
+	// Return this box2d body to box2d
+	void returnPhysicsBody(){
+		if(box2d_body != NULL){
+			box2d_body->GetWorld()->DestroyBody(box2d_body);
+		}
+		box2d_body = NULL;
+	}
+
 };

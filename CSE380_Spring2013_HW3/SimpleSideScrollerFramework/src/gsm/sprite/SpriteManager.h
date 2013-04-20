@@ -55,6 +55,7 @@ public:
 	AnimatedSpriteType* getSpriteType(unsigned int typeIndex);
 	Bot*				removeBot(Bot *botToRemove);
 	void				unloadSprites();
+	void				unloadAnimatedSprites();
 	void				update(Game *game);
 
 	//Box2d test method: this will update all of the sprite locations for rendering

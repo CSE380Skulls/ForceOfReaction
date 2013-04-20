@@ -47,13 +47,11 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		// WASD KEY PRESSES WILL CONTROL THE PLAYER
 		// SO WE'LL UPDATE THE PLAYER VELOCITY WHEN THESE KEYS ARE
 		// PRESSED, THAT WAY PHYSICS CAN CORRECT AS NEEDED
-		//float vX = pp->getVelocityX();
-		//float vY = pp->getVelocityY();
 
 		if (input->isKeyDown(A_KEY))
 		{
 
-			player->getPhysicsBody()->SetLinearVelocity(b2Vec2(-10.0f,
+			player->getPhysicsBody()->SetLinearVelocity(b2Vec2(-PLAYER_VELOCITY,
 				player->getPhysicsBody()->GetLinearVelocity().y));
 
 			if (player->getPhysicsBody()->GetLinearVelocity().y==0)
@@ -63,7 +61,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		else if (input->isKeyDown(D_KEY))
 		{
 
-			player->getPhysicsBody()->SetLinearVelocity(b2Vec2(10.0f,
+			player->getPhysicsBody()->SetLinearVelocity(b2Vec2(PLAYER_VELOCITY,
 				player->getPhysicsBody()->GetLinearVelocity().y));
 
 			if (player->getPhysicsBody()->GetLinearVelocity().y==0)
@@ -104,7 +102,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 			//		not right...
 			if(player->getPhysicsBody()->GetLinearVelocity().y==0)
 			{
-				player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(0.0f, 60.0f),
+				player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(0.0f, JUMP_VELOCITY),
 					player->getPhysicsBody()->GetPosition());
 			
 				if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
@@ -113,31 +111,8 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 				if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
 					player->setCurrentState(JUMPING_LEFT);
 			}
-
-			//if (player->wasOnTileLastFrame())
-			//{
-			//	vY = JUMP_SPEED;
-			//}
-			//else
-			//{
-			//	cout << "WHAT HAPPENED?";
-			//}
-
-			/*if (player->wasOnTileLastFrame())
-			{
-				vY = JUMP_SPEED;
-				if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
-				player->setCurrentState(JUMPING_RIGHT);
-
-				if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
-				player->setCurrentState(JUMPING_LEFT);
-			}
-			else
-			{
-				cout << "WHAT HAPPENED?";
-			}*/
 		}
-		if (input->isKeyDownForFirstTime(ENTER_KEY))
+		if (input->isKeyDownForFirstTime(ESCAPE_KEY))
 		{
 			if (gsm->getPhysics()->isActivated())
 				gsm->getPhysics()->togglePhysics();
@@ -154,48 +129,56 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 			if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
 				player->setCurrentState(ATTACKING_LEFT);
 		}
-		// NOW SET THE ACTUAL PLAYER VELOCITY
- 		//pp->setVelocity(vX, vY);
+		if(input->isKeyDownForFirstTime(MOUSE_RIGHT))
+		{
+		
+		}
 
 		bool viewportMoved = false;
 		float viewportVx = 0.0f;
 		float viewportVy = 0.0f;
 		Viewport *viewport = game->getGUI()->getViewport();
-/*
-		// Player on right half of viewport
-		if((pp->getX() - viewport->getViewportX()) > (viewport->getViewportWidth() / 2.0f)){
-			if(pp->getVelocityX() > 0) {
-				viewportVx = pp->getVelocityX();
-				viewportMoved = true;
-			}
-		}
+		
+		// If player x is less than 3/8 vp width + x viewport, move vp
 
-		// Player on left half of viewport
-		if((pp->getX() - viewport->getViewportX()) < (viewport->getViewportWidth() / 2.0f)){
-			if(pp->getVelocityX() < 0) {
-				viewportVx = pp->getVelocityX();
-				viewportMoved = true;
-			}
-		}
+		// If player x is greater than 5/8 vp width + x viewport, move it
 
-		// Player on bottom half of viewport
-		if((pp->getY() - viewport->getViewportY()) > (viewport->getViewportHeight() / 2.0f)){
-			if(pp->getVelocityY() > 0) {
-				viewportVy = pp->getVelocityY();
-				viewportMoved = true;
-			}
-		}
+		 float x = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX();
+		 float y = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY();
+		 float pX = x * game->getGSM()->getWorld()->getWorldConvFactor();
+		 float pY = y * game->getGSM()->getWorld()->getWorldConvFactor();
+		 pY = game->getGSM()->getWorld()->getWorldHeight() - pY;
 
-		// Player on top half of viewport
-		if((pp->getY() - viewport->getViewportY()) < (viewport->getViewportHeight() / 2.0f)){
-			if(pp->getVelocityY() < 0) {
-				viewportVy = pp->getVelocityY();
-				viewportMoved = true;
-			}
-		}
-	*/
+		 float vpX = viewport->getViewportX();
+		 float vpY = viewport->getViewportY();
+		 float vpWidth = viewport->getViewportWidth();
+		 float vpHeight = viewport->getViewportHeight();
+		 
+		 // If player is on left 3/8 of viewport
+		 if(pX < ((3.0f / 8.0f * vpWidth) + vpX)) {
+			viewportVx = -MAX_VIEWPORT_AXIS_VELOCITY; 
+			viewportMoved = true;
+		 }
 
+		 // If player is on right 5/8 of viewport
+		 if(pX > ((5.0f / 8.0f * vpWidth) + vpX)) {
+			viewportVx = MAX_VIEWPORT_AXIS_VELOCITY; 
+			viewportMoved = true;
+		 }
 
+		 // If player is on top 3/8 of viewport
+		 if(pY < ((3.0f / 8.0f * vpHeight) + vpY)) {
+			viewportVy = -MAX_VIEWPORT_AXIS_VELOCITY; 
+			viewportMoved = true;
+		 }
+
+		 // If player is on bottom 5/8 of viewport
+		 if(pY > ((5.0f / 8.0f * vpHeight) + vpY)) {
+			viewportVy = MAX_VIEWPORT_AXIS_VELOCITY; 
+			viewportMoved = true;
+		 }
+
+		/*
 		if (input->isKeyDown(UP_KEY))
 		{
 			viewportVy -= MAX_VIEWPORT_AXIS_VELOCITY;
@@ -215,7 +198,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		{
 			viewportVx += MAX_VIEWPORT_AXIS_VELOCITY;
 			viewportMoved = true;
-		}
+		}*/
 		
 		if (viewportMoved)
 			viewport->moveViewport((int)viewportVx, (int)viewportVy, game->getGSM()->getWorld()->getWorldWidth(), game->getGSM()->getWorld()->getWorldHeight());

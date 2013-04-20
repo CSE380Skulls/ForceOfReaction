@@ -51,12 +51,21 @@ TiledLayer::~TiledLayer()
 {
 	vector<Tile*>::iterator it = tileLayout->begin();
 	Tile* prevTile = *(it);
-	while (it != tileLayout->end())
+	int x = 0;
+	for(int x = 0; x < tileLayout->size(); x++){
+		tileLayout->at(x)->returnPhysicsBody();
+	}
+	/*while (it != tileLayout->end())
 	{
+		x++;
 		it++;
+		if(x >= (tileLayout->size() - 5))
+			int a = 5;
+		// Return this tiles body to box2d, if it doesn't have a body then this method does nothing
+		prevTile->returnPhysicsBody();
 		delete prevTile;
 		prevTile = *(it);
-	}
+	}*/
 	delete tileLayout;
 }
 

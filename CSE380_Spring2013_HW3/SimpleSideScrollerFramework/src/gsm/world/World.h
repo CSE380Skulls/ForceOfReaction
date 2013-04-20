@@ -71,4 +71,5 @@ public:
 	void	initWorldPhysicsSystem(Game *game);
 	void	unloadWorld();
 	void	update(Game *game);
+	float32 getWorldConvFactor() { return WORLD_CONV_FACTOR; }
 };

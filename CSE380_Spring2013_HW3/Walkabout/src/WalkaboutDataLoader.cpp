@@ -10,6 +10,7 @@
 // GAME OBJECT INCLUDES
 #include "src\game\Game.h"
 #include "src\graphics\GameGraphics.h"
+#include "src\FORFloatingBot.h"
 #include "src\gsm\ai\bots\RandomJumpingBot.h"
 #include "src\gsm\state\GameState.h"
 #include "src\gsm\world\TiledLayer.h"
@@ -50,91 +51,37 @@ void WalkaboutDataLoader::loadGame(Game *game, wstring gameInitFile)
 
 	// Open the Lua Script File
 	int result = luaPState->DoFile(GAME_INIT_FILE);
-	
 	// name
-	LuaObject obj = luaPState->GetGlobal("title");
-	string title = obj.GetString();
-
+	string title = luaPState->GetGlobal("title").GetString();
 	// screen width
-	obj = luaPState->GetGlobal("screen_width");
-	int screen_width = obj.GetInteger();
-
+	int screen_width = luaPState->GetGlobal("screen_width").GetInteger();
 	// screen height
-	obj = luaPState->GetGlobal("screen_height");
-	int screen_height = obj.GetInteger();
-
-	//full screen 
-	obj = luaPState->GetGlobal("fullscreen_mode");
-	bool fullscreen = obj.GetBoolean();
-
+	int screen_height = luaPState->GetGlobal("screen_height").GetInteger();
+	//full screen
+	bool fullscreen = luaPState->GetGlobal("fullscreen_mode").GetBoolean();
 	// Font size
-	obj = luaPState->GetGlobal("font_size");
-	int font_size = obj.GetInteger();
-
+	int font_size = luaPState->GetGlobal("font_size").GetInteger();
 	// x offset
-	obj = luaPState->GetGlobal("viewport_offset_x");
-	int viewport_offset_x = obj.GetInteger();
-
+	int viewport_offset_x = luaPState->GetGlobal("viewport_offset_x").GetInteger();
 	// y offset
-	obj = luaPState->GetGlobal("viewport_offset_y");
-	int viewport_offset_y = obj.GetInteger();
-
+	int viewport_offset_y = luaPState->GetGlobal("viewport_offset_y").GetInteger();
 	// font red
-	obj = luaPState->GetGlobal("font_color_red");
-	int font_color_red = obj.GetInteger();
-
+	int font_color_red =luaPState->GetGlobal("font_color_red").GetInteger();
 	// font green
-	obj = luaPState->GetGlobal("font_color_green");
-	int font_color_green = obj.GetInteger();
-
+	int font_color_green = luaPState->GetGlobal("font_color_green").GetInteger();
 	// font blue
-	obj = luaPState->GetGlobal("font_color_blue");
-	int font_color_blue = obj.GetInteger();
-	
+	int font_color_blue = luaPState->GetGlobal("font_color_blue").GetInteger();
 	// key red
-	obj = luaPState->GetGlobal("color_key_red");
-	int color_key_red = obj.GetInteger();
-
+	int color_key_red = luaPState->GetGlobal("color_key_red").GetInteger();
 	// key green
-	obj = luaPState->GetGlobal("color_key_green");
-	int color_key_green = obj.GetInteger();
-
+	int color_key_green = luaPState->GetGlobal("color_key_green").GetInteger();
 	// key blue
-	obj = luaPState->GetGlobal("color_key_blue");
-	int color_key_blue = obj.GetInteger();
-
-
-	// AND LET'S READ IN THE GAME SETUP INFO
-	// FIRST LOAD ALL THE PROPERTIES
-	//map<wstring,wstring> *properties = new map<wstring,wstring>();
-	//loadGameProperties(game, properties, gameInitFile);
-
-	// WE NEED THE TITLE AND USE_FULLSCREEN_MODE TO INITIALIZE OUR WINDOW
-	//wstring titleProp = (*properties)[W_TITLE];
-	//wstring useFullscreenProp = (*properties)[W_USE_FULLSCREEN_MODE];
-	//bool useFullscreen = false;
-	//if (useFullscreenProp.compare(L"true") == 0)
-	//	useFullscreen = true;
-
-	// GET THE SCREEN WIDTH AND HEIGHT
-	//int screenWidth, screenHeight;
-	//wstring screenWidthProp = (*properties)[W_SCREEN_WIDTH];
-	//wstring screenHeightProp = (*properties)[W_SCREEN_HEIGHT];
-	//wstringstream(screenWidthProp) >> screenWidth;
-	//wstringstream(screenHeightProp) >> screenHeight;
-
-	// MAKE A CUSTOM GameOS OBJECT (WindowsOS) FOR SOME WINDOWS
-	// PLATFORM STUFF, INCLUDING A Window OF COURSE
-	/*WindowsOS *walkaboutOS = new WindowsOS(	hInstance, 
-										nCmdShow,
-										useFullscreen,
-										titleProp,
-										screenWidth, screenHeight,
-										game);
-	*/
+	int color_key_blue = luaPState->GetGlobal("color_key_blue").GetInteger();
 	
+	// Convert title to wstring
 	std::wstring wsTmp(title.begin(), title.end());
 
+	// Initialize windowsOS
 	WindowsOS *walkaboutOS = new WindowsOS(	hInstance, 
 										nCmdShow,
 										fullscreen,
@@ -142,23 +89,14 @@ void WalkaboutDataLoader::loadGame(Game *game, wstring gameInitFile)
 										screen_width, screen_height,
 										game);
 
-	//int textFontSize;
-	//wstring textFontSizeProp = (*properties)[W_TEXT_FONT_SIZE];
-	//wstringstream(textFontSizeProp) >> textFontSize;
-
 	// RENDERING WILL BE DONE USING DirectX
 	DirectXGraphics *walkaboutGraphics = new DirectXGraphics(game);
-	/*walkaboutGraphics->init(screenWidth, screenHeight);
-	walkaboutGraphics->initGraphics(walkaboutOS, useFullscreen);
-	walkaboutGraphics->initTextFont(textFontSize);
-	*/
 	walkaboutGraphics->init(screen_width, screen_height);
 	walkaboutGraphics->initGraphics(walkaboutOS, fullscreen);
 	walkaboutGraphics->initTextFont(font_size);
 
 	// AND NOW LOAD THE COLORS THE GRAPHICS WILL USE
 	// AS A COLOR KEY AND FOR RENDERING TEXT
-	//initColors(walkaboutGraphics, properties);
 
 	// COLOR USED FOR RENDERING TEXT
 	walkaboutGraphics->setFontColor(font_color_red, font_color_green, font_color_blue);
@@ -198,41 +136,6 @@ void WalkaboutDataLoader::loadGame(Game *game, wstring gameInitFile)
 	viewport->setViewportHeight(viewportHeight);
 	viewport->setViewportOffsetX(viewport_offset_x);
 	viewport->setViewportOffsetY(viewport_offset_y);
-
-	// WE DON'T NEED THE PROPERTIES MAP ANYMORE, THE GAME IS ALL LOADED
-	//delete properties;
-}
-
-/*
-	initColors - this helper method loads the color key, used for loading
-	images, and the font color, used for rendering text.
-*/
-void WalkaboutDataLoader::initColors(	GameGraphics *graphics,
-									map<wstring,wstring> *properties)
-{
-	int fontRed, fontGreen, fontBlue;
-	wstring fontRedProp = (*properties)[W_FONT_COLOR_RED];
-	wstring fontGreenProp = (*properties)[W_FONT_COLOR_GREEN];
-	wstring fontBlueProp = (*properties)[W_FONT_COLOR_BLUE];
-	wstringstream(fontRedProp) >> fontRed;
-	wstringstream(fontGreenProp) >> fontGreen;
-	wstringstream(fontBlueProp) >> fontBlue;
-
-	// COLOR USED FOR RENDERING TEXT
-	graphics->setFontColor(fontRed, fontGreen, fontBlue);
-
-	int keyRed, keyGreen, keyBlue;
-	wstring keyRedProp = (*properties)[W_COLOR_KEY_RED];
-	wstring keyGreenProp = (*properties)[W_COLOR_KEY_GREEN];
-	wstring keyBlueProp = (*properties)[W_COLOR_KEY_BLUE];
-	wstringstream(keyRedProp) >> keyRed;
-	wstringstream(keyGreenProp) >> keyGreen;
-	wstringstream(keyBlueProp) >> keyBlue;
-
-	// COLOR KEY - COLOR TO BE IGNORED WHEN LOADING AN IMAGE
-	// NOTE, IF YOU WISH TO USE PNG IMAGES THAT CONTAIN ALPHA
-	// CHANNEL DATA, YOU DON'T NEED A COLOR KEY
-	graphics->setColorKey(keyRed, keyGreen, keyBlue);
 }
 
 /*
@@ -277,7 +180,6 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	AnimatedSpriteType *playerSpriteType = spriteManager->getSpriteType(0);
 	player->setSpriteType(playerSpriteType);
 	player->setAlpha(255);
-	//player->setCurrentState(IDLE);
 	player->setCurrentState(IDLE_RIGHT);
 	PhysicalProperties *playerProps = player->getPhysicalProperties();
 	playerProps->setX(PLAYER_INIT_X);
@@ -289,20 +191,25 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	player->setOnTileLastFrame(false);
 	player->affixTightAABBBoundingVolume();
 
+<<<<<<< HEAD
 	//create the player object in the physics world
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player);
 
+=======
+	float extent_x = player->getSpriteType()->getTextureWidth() / 2.0f;
+	float extent_y = player->getSpriteType()->getTextureHeight() / 2.0f;
+	game->getGSM()->getBoxPhysics()->createDynamicBox(game,player,player,
+					PLAYER_INIT_X + extent_x,PLAYER_INIT_Y + extent_y, extent_x, extent_y);
+
+	// Bot
+>>>>>>> bd24ffd89a9129f7f50b36112b0048181cfab161
 	AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
-	//AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
-	// AND LET'S ADD A BUNCH OF RANDOM JUMPING BOTS, FIRST ALONG
-	// A LINE NEAR THE TOP
-	RandomJumpingBot *bot = new RandomJumpingBot(physics, 30, 120, 40);
+	FORFloatingBot *bot = new FORFloatingBot(physics, BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY);
 	bot->setSpriteType(botSpriteType);
 	bot->setAlpha(255);
-	//bot->setCurrentState(IDLE);
 	bot->setCurrentState(IDLE_RIGHT);
 	PhysicalProperties *botProps = bot->getPhysicalProperties();
-	botProps->setX(PLAYER_INIT_X+100);
+	botProps->setX(PLAYER_INIT_X + 100);
 	botProps->setY(PLAYER_INIT_Y);
 	botProps->setVelocity(0.0f, 0.0f);
 	botProps->setAccelerationX(0);
@@ -316,6 +223,8 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	physics->addCollidableObject(bot);
 	spriteManager->addBot(bot);
+
+
 // UNCOMMENT THE FOLLOWING CODE BLOCK WHEN YOU ARE READY TO ADD SOME BOTS
 /*	for (int i = 2; i <= 26; i++)
 	{
@@ -342,12 +251,17 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	for (int i = 0; i < 14; i++)
 		makeRandomJumpingBot(game, botSpriteType, 1700.0f + (i*100.0f), 1300.0f);
 */		
+
+	// Reset viewport
+	game->getGUI()->getViewport()->setViewportX(0);
+	game->getGUI()->getViewport()->setViewportY(0);
+
 	game->getGSM()->goToGame();
 }
-
+/*
 void WalkaboutDataLoader::makeRandomJumpingBot(Game *game, AnimatedSpriteType *randomJumpingBotType, float initX, float initY)
 {
-	/*
+	
 	SpriteManager *spriteManager = game->getGSM()->getSpriteManager();
 	Physics *physics = game->getGSM()->getPhysics();
 	RandomJumpingBot *bot = new RandomJumpingBot(physics, 30, 120, 40);
@@ -359,9 +273,9 @@ void WalkaboutDataLoader::makeRandomJumpingBot(Game *game, AnimatedSpriteType *r
 	bot->setAlpha(255);
 	spriteManager->addBot(bot);
 	bot->affixTightAABBBoundingVolume();
-	*/
+	
 }
-
+*/
 /*
 	initWalkaboutGUI - This method builds a GUI for the Walkabout Game application.
 	Note that we load all the GUI components from this method, including
@@ -392,14 +306,6 @@ void WalkaboutDataLoader::initCursor(GameGUI *gui, DirectXTextureManager *guiTex
 	// SETUP THE CURSOR
 	vector<unsigned int> *imageIDs = new vector<unsigned int>();
 	int imageID;
-
-	// - FIRST LOAD THE GREEN CURSOR IMAGE
-	//imageID = guiTextureManager->loadTexture(W_GREEN_CURSOR_PATH);
-	//imageIDs->push_back(imageID);
-
-	// - AND NOW THE RED ONE
-	//imageID = guiTextureManager->loadTexture(W_RED_CURSOR_PATH);
-	//imageIDs->push_back(imageID);
 
 	imageID = guiTextureManager->loadTexture(W_CURSOR_PATH);
 	imageIDs->push_back(imageID);
@@ -567,7 +473,7 @@ void WalkaboutDataLoader::initMainMenu(GameGUI *gui,	DirectXTextureManager *guiT
 	normalTextureID = guiTextureManager->loadTexture(W_CREDITS_IMAGE_PATH);
 	mouseOverTextureID = guiTextureManager->loadTexture(W_CREDITS_IMAGE_MO_PATH);
 
-	// - INIT THE EXIT BUTTON
+	// - INIT THE CREDITS BUTTON
 	buttonToAdd->initButton(normalTextureID, 
 							mouseOverTextureID,
 							325,
@@ -736,32 +642,4 @@ void WalkaboutDataLoader::initInGameGUI(GameGUI *gui, DirectXTextureManager *gui
 
 	// AND LET'S ADD OUR SCREENS
 	gui->addScreenGUI(GS_GAME_IN_PROGRESS,	inGameGUI);
-}
-
-/*
-	initViewport - initializes the game's viewport.
-*/
-void WalkaboutDataLoader::initViewport(GameGUI *gui, map<wstring,wstring> *properties)
-{
-	// AND NOW SPECIFY THE VIEWPORT SIZE AND LOCATION. NOTE THAT IN THIS EXAMPLE,
-	// WE ARE PUTTING A TOOLBAR WITH A BUTTON ACCROSS THE NORTH OF THE APPLICATION.
-	// THAT TOOLBAR HAS A HEIGHT OF 64 PIXELS, SO WE'LL MAKE THAT THE OFFSET FOR
-	// THE VIEWPORT IN THE Y AXIS
-	Viewport *viewport = gui->getViewport();
-
-	int viewportOffsetX, viewportOffsetY, screenWidth, screenHeight;
-	wstring viewportOffsetXProp = (*properties)[W_VIEWPORT_OFFSET_X];
-	wstring viewportOffsetYProp = (*properties)[W_VIEWPORT_OFFSET_Y];
-	wstring screenWidthProp = (*properties)[W_SCREEN_WIDTH];
-	wstring screenHeightProp = (*properties)[W_SCREEN_HEIGHT];
-	wstringstream(viewportOffsetXProp) >> viewportOffsetX;
-	wstringstream(viewportOffsetYProp) >> viewportOffsetY;
-	wstringstream(screenWidthProp) >> screenWidth;
-	wstringstream(screenHeightProp) >> screenHeight;
-	int viewportWidth = screenWidth - viewportOffsetX;
-	int viewportHeight = screenHeight - viewportOffsetY;
-	viewport->setViewportWidth(viewportWidth);
-	viewport->setViewportHeight(viewportHeight);
-	viewport->setViewportOffsetX(viewportOffsetX);
-	viewport->setViewportOffsetY(viewportOffsetY);
 }

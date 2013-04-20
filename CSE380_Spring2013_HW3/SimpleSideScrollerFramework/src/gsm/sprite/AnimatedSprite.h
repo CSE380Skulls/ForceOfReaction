@@ -39,6 +39,8 @@ protected:
 
 	// USED TO ITERATE THROUGH THE CURRENT ANIMATION SEQUENCE
 	unsigned int animationCounter;
+	// All animated sprites have hitpoints
+	int hitPoints;
 
 public:
 	// INLINED ACCESSOR METHODS
@@ -51,7 +53,10 @@ public:
 	void setAlpha(int initAlpha)
 	{	alpha = initAlpha;						}
 	void setSpriteType(AnimatedSpriteType *initSpriteType)
-	{	spriteType = initSpriteType;			}
+	{	spriteType = initSpriteType;}
+	void setHitPoints(int hp)
+	{   hitPoints = hp; }
+
 
 	// METHODS DEFINED IN AnimatedSprite.cpp
 	AnimatedSprite();
