@@ -191,18 +191,10 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	player->setOnTileLastFrame(false);
 	player->affixTightAABBBoundingVolume();
 
-<<<<<<< HEAD
 	//create the player object in the physics world
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player);
 
-=======
-	float extent_x = player->getSpriteType()->getTextureWidth() / 2.0f;
-	float extent_y = player->getSpriteType()->getTextureHeight() / 2.0f;
-	game->getGSM()->getBoxPhysics()->createDynamicBox(game,player,player,
-					PLAYER_INIT_X + extent_x,PLAYER_INIT_Y + extent_y, extent_x, extent_y);
-
 	// Bot
->>>>>>> bd24ffd89a9129f7f50b36112b0048181cfab161
 	AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
 	FORFloatingBot *bot = new FORFloatingBot(physics, BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY);
 	bot->setSpriteType(botSpriteType);
@@ -296,6 +288,8 @@ void WalkaboutDataLoader::hardCodedLoadGUIExample(Game *game)
 	initInGameGUI(gui, guiTextureManager);
 	initLoading(gui, guiTextureManager);
 	initPaused(gui, guiTextureManager);
+	initLevelWon(gui, guiTextureManager);
+	initGameOver(gui, guiTextureManager);
 }
 
 /*
@@ -406,6 +400,119 @@ void WalkaboutDataLoader::initPaused(GameGUI *gui,	DirectXTextureManager *guiTex
 
 	// AND REGISTER IT WITH THE GUI
 	gui->addScreenGUI(GS_PAUSED, pausedGUI);
+}
+
+
+void WalkaboutDataLoader::initLevelWon(GameGUI *gui,	DirectXTextureManager *guiTextureManager)
+{
+	// NOW, FIRST LET'S ADD A SPLASH SCREEN GUI
+	ScreenGUI *levelWonGUI = new ScreenGUI();
+
+	unsigned int imageID = guiTextureManager->loadTexture(W_LEVEL_WON_SCREEN_PATH);
+	OverlayImage *imageToAdd = new OverlayImage();
+	imageToAdd->x = 0;
+	imageToAdd->y = 0;
+	imageToAdd->z = 0;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 1024;
+	imageToAdd->height = 768;
+	imageToAdd->imageID = imageID;
+	levelWonGUI->addOverlayImage(imageToAdd);
+	/*
+	// WE'LL ONLY HAVE ONE IMAGE FOR OUR GIANT BUTTON
+	unsigned int normalTextureID = guiTextureManager->loadTexture(W_EXIT_IMAGE_PATH);
+	unsigned int mouseOverTextureID = guiTextureManager->loadTexture(W_EXIT_IMAGE_MO_PATH);
+
+	// INIT THE QUIT BUTTON
+	Button *buttonToAdd = new Button();
+	buttonToAdd->initButton(normalTextureID, 
+							mouseOverTextureID,
+							310,
+							500,
+							0,
+							255,
+							378,
+							80,
+							false,
+							W_QUIT_COMMAND);
+	levelWonGUI->addButton(buttonToAdd);
+	*/
+	unsigned int normalTextureID = guiTextureManager->loadTexture(W_NEXT_LEVEL_IMAGE_PATH);
+	unsigned int mouseOverTextureID = guiTextureManager->loadTexture(W_NEXT_LEVEL_IMAGE_MO_PATH);
+
+	// INIT THE QUIT BUTTON
+	Button *buttonToAdd = new Button();
+	buttonToAdd->initButton(normalTextureID, 
+							mouseOverTextureID,
+							310,
+							350,
+							0,
+							255,
+							378,
+							80,
+							false,
+							W_QUIT_COMMAND);
+	levelWonGUI->addButton(buttonToAdd);
+
+	// AND REGISTER IT WITH THE GUI
+	gui->addScreenGUI(GS_LEVEL_WON, levelWonGUI);
+	//gui->addScreenGUI(GS_PAUSED, levelWonGUI);
+}
+
+void WalkaboutDataLoader::initGameOver(GameGUI *gui,	DirectXTextureManager *guiTextureManager)
+{
+	// NOW, FIRST LET'S ADD A SPLASH SCREEN GUI
+	ScreenGUI *gameOverGUI = new ScreenGUI();
+
+	unsigned int imageID = guiTextureManager->loadTexture(W_GAME_OVER_SCREEN_PATH);
+	OverlayImage *imageToAdd = new OverlayImage();
+	imageToAdd->x = 0;
+	imageToAdd->y = 0;
+	imageToAdd->z = 0;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 1024;
+	imageToAdd->height = 768;
+	imageToAdd->imageID = imageID;
+	gameOverGUI->addOverlayImage(imageToAdd);
+
+	// WE'LL ONLY HAVE ONE IMAGE FOR OUR GIANT BUTTON
+	unsigned int normalTextureID = guiTextureManager->loadTexture(W_EXIT_IMAGE_PATH);
+	unsigned int mouseOverTextureID = guiTextureManager->loadTexture(W_EXIT_IMAGE_MO_PATH);
+
+	// INIT THE QUIT BUTTON
+	Button *buttonToAdd = new Button();
+	buttonToAdd->initButton(normalTextureID, 
+							mouseOverTextureID,
+							310,
+							500,
+							0,
+							255,
+							378,
+							80,
+							false,
+							W_QUIT_COMMAND);
+	gameOverGUI->addButton(buttonToAdd);
+/*
+	normalTextureID = guiTextureManager->loadTexture(W_RETURN_IMAGE_PATH);
+	mouseOverTextureID = guiTextureManager->loadTexture(W_RETURN_IMAGE_MO_PATH);
+
+	// INIT THE QUIT BUTTON
+	buttonToAdd = new Button();
+	buttonToAdd->initButton(normalTextureID, 
+							mouseOverTextureID,
+							310,
+							350,
+							0,
+							255,
+							378,
+							80,
+							false,
+							W_RETURN_COMMAND);
+	pausedGUI->addButton(buttonToAdd);
+	*/
+	// AND REGISTER IT WITH THE GUI
+	gui->addScreenGUI(GS_GAME_OVER, gameOverGUI);
+	//gui->addScreenGUI(GS_PAUSED, gameOverGUI);
 }
 
 /*

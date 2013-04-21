@@ -76,6 +76,14 @@ void GameStateManager::goToPaused()
 	currentGameState = GS_PAUSED;
 }
 
+void GameStateManager::goToGameOver(){
+	currentGameState = GS_GAME_OVER;
+}
+
+void GameStateManager::goToLevelWon(){
+	currentGameState = GS_LEVEL_WON;
+}
+
 /*
 	goToLoadLevel - This method transitions the game application from main menu
 	to the level loading.

@@ -133,15 +133,23 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		{
 		
 		}
+		// CTRL + 1 = auto win level
+		if(input->isKeyDown(CTRL_KEY) && input->isKeyDownForFirstTime(ONE_KEY)){
+			if (gsm->getPhysics()->isActivated())
+				gsm->getPhysics()->togglePhysics();
+			gsm->goToLevelWon();
+		}
+		// CTRL + 2 = auto lose level (temporary until actuall impemented)
+		if(input->isKeyDown(CTRL_KEY) && input->isKeyDownForFirstTime(TWO_KEY)){
+			if (gsm->getPhysics()->isActivated())
+				gsm->getPhysics()->togglePhysics();
+			gsm->goToGameOver();
+		}
 
 		bool viewportMoved = false;
 		float viewportVx = 0.0f;
 		float viewportVy = 0.0f;
 		Viewport *viewport = game->getGUI()->getViewport();
-		
-		// If player x is less than 3/8 vp width + x viewport, move vp
-
-		// If player x is greater than 5/8 vp width + x viewport, move it
 
 		 float x = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX();
 		 float y = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY();
@@ -177,47 +185,12 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 			viewportVy = MAX_VIEWPORT_AXIS_VELOCITY; 
 			viewportMoved = true;
 		 }
-
-		/*
-		if (input->isKeyDown(UP_KEY))
-		{
-			viewportVy -= MAX_VIEWPORT_AXIS_VELOCITY;
-			viewportMoved = true;
-		}
-		if (input->isKeyDown(DOWN_KEY))
-		{
-			viewportVy += MAX_VIEWPORT_AXIS_VELOCITY;
-			viewportMoved = true;
-		}
-		if (input->isKeyDown(LEFT_KEY))
-		{
-			viewportVx -= MAX_VIEWPORT_AXIS_VELOCITY;
-			viewportMoved = true;
-		}
-		if (input->isKeyDown(RIGHT_KEY))
-		{
-			viewportVx += MAX_VIEWPORT_AXIS_VELOCITY;
-			viewportMoved = true;
-		}*/
 		
 		if (viewportMoved)
 			viewport->moveViewport((int)viewportVx, (int)viewportVy, game->getGSM()->getWorld()->getWorldWidth(), game->getGSM()->getWorld()->getWorldHeight());
 		
 	}
-	/*
-	// 0X43 is HEX FOR THE 'C' VIRTUAL KEY
-	// THIS CHANGES THE CURSOR IMAGE
-	if ((input->isKeyDownForFirstTime(C_KEY))
-		&& input->isKeyDown(VK_SHIFT))
-	{
-		Cursor *cursor = game->getGUI()->getCursor();
-		unsigned int id = cursor->getActiveCursorID();
-		id++;
-		if (id == cursor->getNumCursorIDs())
-			id = 0;		
-		cursor->setActiveCursorID(id);
-	}
-	*/
+
 	// LET'S MESS WITH THE TARGET FRAME RATE IF THE USER PRESSES THE HOME OR END KEYS
 	WindowsTimer *timer = (WindowsTimer*)game->getTimer();
 	int fps = timer->getTargetFPS();

@@ -92,6 +92,8 @@ public:
 	void			goToCredits();
 	void			goToLoading();
 	void			goToPaused();
+	void            goToGameOver();
+	void            goToLevelWon();
 
 	// METHODS DEFINED in GameStateManager.cpp
 	GameStateManager();

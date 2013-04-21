@@ -55,4 +55,6 @@ public:
 	void initCredits(GameGUI *gui, DirectXTextureManager *guiTextureManager);
 	void initOptions(GameGUI *gui, DirectXTextureManager *guiTextureManager);
 	void initLoading(GameGUI *gui, DirectXTextureManager *guiTextureManager);
+	void initLevelWon(GameGUI *gui, DirectXTextureManager *guiTextureManager);
+	void initGameOver(GameGUI *gui, DirectXTextureManager *guiTextureManager);
 };
