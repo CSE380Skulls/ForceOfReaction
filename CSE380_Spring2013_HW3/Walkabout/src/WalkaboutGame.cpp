@@ -61,6 +61,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 {
 	// CREATE THE GAME
 	Game *walkaboutGame = new Game();
+	walkaboutGame->getGSM()->getWorld()->setWorldConvFactor(BOX2D_CONVERSION_FACTOR);
 
 	// FIRST WE'LL SETUP THE DATA LOADER, SINCE IT MAY NEED TO READ
 	// IN DATA TO SETUP OTHER STUFF

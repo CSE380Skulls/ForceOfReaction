@@ -65,6 +65,8 @@ void BoxPhysicsFactory::createStaticBox(Game *game, BoxPhysicsObject *phyobj,
 	//convert to physics coordinates using the conversion factor
 	//position in meters
 
+	float32 WORLD_CONV_FACTOR = game->getGSM()->getWorld()->getWorldConvFactor();
+
 	float center_x = screen_center_x/WORLD_CONV_FACTOR;
 	float center_y = (game->getGSM()->getWorld()->getWorldHeight() - screen_center_y) / WORLD_CONV_FACTOR;
 	staticBodyDef.position.Set(center_x, center_y);
@@ -95,6 +97,8 @@ void BoxPhysicsFactory::createDynamicBox(Game *game, BoxPhysicsObject *phyobj, A
 
 	//convert to physics coordinates using the conversion factor
 	//position in meters
+
+	float32 WORLD_CONV_FACTOR = game->getGSM()->getWorld()->getWorldConvFactor();
 
 	float center_x = screen_center_x/WORLD_CONV_FACTOR;
 	float center_y = (game->getGSM()->getWorld()->getWorldHeight() - screen_center_y) / WORLD_CONV_FACTOR;

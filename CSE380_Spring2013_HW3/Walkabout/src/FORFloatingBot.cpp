@@ -10,18 +10,28 @@
 	that this does not setup the velocity for this bot.
 */
 FORFloatingBot::FORFloatingBot(	int initMin, 
-										int initMax, 
-										int initVelocity)
+								int initMax, 
+								int initVelocity,
+								int spawnX,
+								int travelDistance)
 {
+	// Init player targeting variables
+	this->spawnX = spawnX;
+	this->travelDistance = travelDistance;
+	removed = false;
+
 	// INIT THE BASIC STUFF
 	initBot(initMin, initMax, initVelocity);
+
+	// AND START THE BOT OFF WITH RANDOM INTERVAL UNTIL IT THINKS AGAIN
+	pickRandomCyclesInRange();
 }
 
 /*
 	This is the public constructor used by other classes for 
 	creating these types of bots.
 */
-FORFloatingBot::FORFloatingBot(	Physics *physics,
+/*FORFloatingBot::FORFloatingBot(	Physics *physics,
 										int initMin, 
 										int initMax, 
 										int initVelocity)
@@ -29,10 +39,10 @@ FORFloatingBot::FORFloatingBot(	Physics *physics,
 	// INIT THE BASIC STUFF
 	initBot(initMin, initMax, initVelocity);
 
-	// AND START THE BOT OFF IN A RANDOM DIRECTION AND VELOCITY
-	// AND WITH RANDOM INTERVAL UNTIL IT THINKS AGAIN
+	// AND START THE BOT OFF WITH RANDOM INTERVAL UNTIL IT THINKS AGAIN
 	pickRandomCyclesInRange();
 }
+*/
 
 /*
 	clone - this method makes another RandomFloatingBot object, but does
@@ -43,7 +53,9 @@ Bot* FORFloatingBot::clone()
 {
 	FORFloatingBot *botClone = new FORFloatingBot(	minCyclesBeforeThinking, 
 															maxCyclesBeforeThinking, 
-															velocity);
+															velocity,
+															spawnX,
+															travelDistance);
 	return botClone;
 }
 
@@ -111,6 +123,14 @@ void FORFloatingBot::pickRandomVelocity(Physics *physics)
 	}
 }
 
+bool FORFloatingBot::isInBounds(int x){
+	if(x > (spawnX + travelDistance))
+		return false;
+	if(x < (spawnX - travelDistance))
+		return false;
+	return true;
+}
+
 /*
 	think - called once per frame, this is where the bot performs its
 	decision-making. Note that we might not actually do any thinking each
@@ -119,6 +139,40 @@ void FORFloatingBot::pickRandomVelocity(Physics *physics)
 void FORFloatingBot::think(Game *game)
 {
 	// If player is next to this bot, do something different
+	int botX = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
+	int pX = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
+
+	// If the player is within the bots targeting area, go after the player
+	if(isInBounds(pX)) {
+		if(!removed) {
+			game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 60);
+			removed = true;
+		}
+		if(pX > botX){
+			//getPhysicsBody()->SetLinearVelocity(b2Vec2(velocity, getPhysicsBody()->GetLinearVelocity().y));
+			dir = 1;
+			setCurrentState(IDLE_RIGHT);
+		}
+		if(pX < botX){
+			dir = 2;
+			setCurrentState(IDLE_LEFT);
+			//getPhysicsBody()->SetLinearVelocity(b2Vec2(-velocity, getPhysicsBody()->GetLinearVelocity().y));
+		}
+	}
+
+	// If the bot isn't in the bounds, change its direction
+	if(!isInBounds(botX)){
+		if(botX > (spawnX + travelDistance)) {
+			dir = 2;
+			setCurrentState(IDLE_LEFT);
+		}
+		if(botX < (spawnX - travelDistance)) {
+			dir = 1;
+			setCurrentState(IDLE_RIGHT);
+		}
+	}
+
+	// Based the the direction the bot is currently going, change its velocity.
 	if(dir == 0) {
 		// Idle
 		getPhysicsBody()->SetLinearVelocity(b2Vec2(0, getPhysicsBody()->GetLinearVelocity().y));

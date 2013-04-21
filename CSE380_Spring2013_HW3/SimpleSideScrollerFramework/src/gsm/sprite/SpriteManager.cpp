@@ -170,7 +170,7 @@ void SpriteManager::unloadAnimatedSprites()
 	}
 }
 
-Bot* SpriteManager::removeBot(Bot *botToRemove)
+void SpriteManager::removeBot(Bot *botToRemove)
 {
 	// Remove bot from list of bots
 	bots.remove(botToRemove);
@@ -178,7 +178,7 @@ Bot* SpriteManager::removeBot(Bot *botToRemove)
 	botToRemove->getPhysicsBody()->GetWorld()->DestroyBody(botToRemove->getPhysicsBody());
 	// Free the memory
 	delete botToRemove;
-	return NULL;
+	//return NULL;
 }
 
 /*
@@ -188,6 +188,9 @@ Bot* SpriteManager::removeBot(Bot *botToRemove)
 */
 void SpriteManager::update(Game *game)
 {
+	// Update the bot removal List
+	updateBotRemovalList();
+
 	// UPDATE THE PLAYER SPRITE
 	player.updateSprite();
 
@@ -200,6 +203,55 @@ void SpriteManager::update(Game *game)
 		bot->think(game);
 		bot->updateSprite();
 		botIterator++;
+	}
+}
+
+// This adds a bot to the removal list, it decrements its frames untilRemoval value by the values of all of those
+// in front of it, therefore you only need to decrement the value of the first node in the list when
+// updating this removal list.
+// NOTE:: THIS WILL BREAK IF THERE IS A SPRITE WITH A FRAMES UNTIL REMOVAL LESSER THEN THE FRAMES UNTIL REMOVAL
+// OF A BOT CURRENTLY IN THE LIST.  AS OF RIGHT NOW I DON'T THINK THIS IS A PROBLEM BECAUSE EVERYTHING WILL
+// PROBABLY HAVE THE SAME AMMOUNT OF FRAMES UNTIL REMOVAL BUT THIS METHOD MUST BE CHANGED IF DIFFERENT BOTS
+// ARE REMOVED AFTER DIFFERENT INTERVALS OF TIME.
+void SpriteManager::addBotToRemovalList(Bot* bot, int framesUntilRemoval){
+	if(botRemovalList.head == NULL){
+		Node *n = new Node();
+		n->framesUntilRemoval = framesUntilRemoval;
+		n->next = NULL;
+		n->spriteToRemove = bot;
+		botRemovalList.head = n;
+	}
+	else {
+		int framesTillRemove = framesUntilRemoval;
+		Node *previous;
+		Node *current = botRemovalList.head;
+		while(current != NULL){
+			framesTillRemove -= current->framesUntilRemoval;
+			previous = current;
+			current = current->next;
+		}
+		Node *nodeToAdd = new Node();
+		previous->next = nodeToAdd;
+		nodeToAdd->framesUntilRemoval = framesTillRemove;
+		nodeToAdd->next = NULL;
+		nodeToAdd->spriteToRemove = bot;
+	}
+}
+
+// Decrement the frames until removal of the first bot in the list and removal all bots that need to be
+// removed this frame. This method removes the bots from box2d as well as the render list.
+void SpriteManager::updateBotRemovalList(){
+	Node *n = botRemovalList.head;
+	if(n != NULL){
+		n->framesUntilRemoval--;
+		while(n != NULL && n->framesUntilRemoval <= 0){
+			Node *temp = n;
+			Bot* s = n->spriteToRemove;
+			n = n->next;
+			delete temp;
+			removeBot(s);
+		}
+		botRemovalList.head = n;
 	}
 }
 

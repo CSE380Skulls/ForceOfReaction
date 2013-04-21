@@ -196,12 +196,12 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	// Bot
 	AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
-	FORFloatingBot *bot = new FORFloatingBot(physics, BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY);
+	FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, PLAYER_INIT_X + 500, BOT_TRAVEL_DISTANCE);
 	bot->setSpriteType(botSpriteType);
 	bot->setAlpha(255);
 	bot->setCurrentState(IDLE_RIGHT);
 	PhysicalProperties *botProps = bot->getPhysicalProperties();
-	botProps->setX(PLAYER_INIT_X + 100);
+	botProps->setX(PLAYER_INIT_X + 500);
 	botProps->setY(PLAYER_INIT_Y);
 	botProps->setVelocity(0.0f, 0.0f);
 	botProps->setAccelerationX(0);

@@ -113,14 +113,14 @@ public:
 		(The World class) and the dynamic world (Physics class)*/
 
 	/* Return the center X coordinate (not screen top left)*/
-	float32 physicsToScreenX	(float32 physicsX){ return physicsX * WORLD_CONV_FACTOR;}
+	float32 physicsToScreenX	(float32 physicsX){ return physicsX * world.getWorldConvFactor(); }
 	/* Return the center Y coordinate (not screen top left)*/
 	float32 physicsToScreenY	(float32 physicsY)
-		{ return (-physicsY + world.getWorldHeightMeters()) * WORLD_CONV_FACTOR;}
+	{ return (-physicsY + world.getWorldHeightMeters()) * world.getWorldConvFactor(); }
 	/* Return the center screen X coordinate*/
-	float32 screenToPhysicsX	(float32 screenX) { return screenX/WORLD_CONV_FACTOR;}
+	float32 screenToPhysicsX	(float32 screenX) { return screenX / world.getWorldConvFactor(); }
 	/* Return the center Y screen coordinate*/
 	//check this function for correctness later, could be wrong
 	float32 screenToPhysicsY	(float32 screenY) 
-		{ return (screenY - world.getWorldHeightMeters())/WORLD_CONV_FACTOR;}
+	{ return (screenY - world.getWorldHeightMeters()) / world.getWorldConvFactor(); }
 };

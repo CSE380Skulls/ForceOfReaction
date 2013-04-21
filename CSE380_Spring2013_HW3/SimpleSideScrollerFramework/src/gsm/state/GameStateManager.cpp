@@ -150,7 +150,8 @@ bool GameStateManager::isWorldRenderable()
 {
 	return (	(currentGameState == GS_GAME_IN_PROGRESS)
 		||		(currentGameState == GS_PAUSED)
-		||		(currentGameState == GS_GAME_OVER));
+		||		(currentGameState == GS_GAME_OVER)
+		||      (currentGameState == GS_LEVEL_WON));
 }
 
 /*

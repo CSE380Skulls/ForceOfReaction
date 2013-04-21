@@ -33,7 +33,7 @@ class SpriteManager;
 		now to conduct some tests on Box2D
 */
 
-static const float32 WORLD_CONV_FACTOR = 32.0f;
+//static const float32 WORLD_CONV_FACTOR = 32.0f;
 
 class World
 {
@@ -44,6 +44,7 @@ private:
 	// REQUIRE SCROLLING TO SEE IT.
 	int worldWidth;
 	int worldHeight;
+	float32 WORLD_CONV_FACTOR;
 
 	// THESE ARE THE BACKGROUND LAYERS
 	vector<WorldLayer*> *layers;
@@ -71,5 +72,6 @@ public:
 	void	initWorldPhysicsSystem(Game *game);
 	void	unloadWorld();
 	void	update(Game *game);
+	void    setWorldConvFactor(float32 convFactor) { WORLD_CONV_FACTOR = convFactor; }
 	float32 getWorldConvFactor() { return WORLD_CONV_FACTOR; }
 };

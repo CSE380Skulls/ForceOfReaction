@@ -17,6 +17,16 @@
 #include "src\gsm\sprite\AnimatedSprite.h"
 #include "src\gsm\sprite\AnimatedSpriteType.h"
 
+// Together these two structs will form the bot removal list
+struct Node {
+	Node* next;
+	Bot* spriteToRemove;
+	int framesUntilRemoval;
+};
+struct LinkedList {
+	Node *head;
+};
+
 class SpriteManager
 {
 private:
@@ -35,9 +45,15 @@ private:
 	// WE NEED TO SPAWN THEM, INSTEAD IT WILL RECYCLE THEM FOR US
 	BotRecycler recyclableBots;
 
+	// Remove bots from the game
+	LinkedList botRemovalList;
+
+	// Update the bot removal list, decrement counters and remove bots if necessarry
+	void                updateBotRemovalList();
+
 public:
 	// NOTHING TO INIT OR DESTROY
-	SpriteManager()		{}
+	SpriteManager()		{ botRemovalList.head = NULL; }
 	~SpriteManager()	{}
 
 	// INLINED ACCESSOR METHODS
@@ -53,10 +69,11 @@ public:
 	void				addSpriteToRenderList(Game *game, AnimatedSprite *sprite, RenderList *renderList, Viewport *viewport);
 	void				clearSprites();
 	AnimatedSpriteType* getSpriteType(unsigned int typeIndex);
-	Bot*				removeBot(Bot *botToRemove);
+	void				removeBot(Bot *botToRemove);
 	void				unloadSprites();
 	void				unloadAnimatedSprites();
 	void				update(Game *game);
+	void                addBotToRemovalList(Bot* sprite, int framesUntilRemoval);
 
 	//Box2d test method: this will update all of the sprite locations for rendering
 	void				updateSpriteLocations(int conversion_factor);
