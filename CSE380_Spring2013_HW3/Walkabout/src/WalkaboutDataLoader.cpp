@@ -189,6 +189,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	// NOTE THAT RED BOX MAN IS SPRITE ID 2
 	AnimatedSpriteType *playerSpriteType = spriteManager->getSpriteType(0);
+	player->setHitPoints(10);
 	player->setSpriteType(playerSpriteType);
 	player->setAlpha(255);
 	player->setCurrentState(IDLE_RIGHT);
@@ -208,6 +209,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	// Bot
 	AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
 	FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, PLAYER_INIT_X + 500, BOT_TRAVEL_DISTANCE);
+	bot->setHitPoints(10);
 	bot->setSpriteType(botSpriteType);
 	bot->setAlpha(255);
 	bot->setCurrentState(IDLE_RIGHT);

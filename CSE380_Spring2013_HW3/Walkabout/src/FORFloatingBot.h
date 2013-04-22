@@ -14,7 +14,6 @@ private:
 	int maxCyclesBeforeThinking;
 	int velocity;
 	int dir;
-	bool removed;
 
 	// Note: For right now, bots can only move left and right. Unless adding another type of bot, don't need spawnX.
 	int spawnX; // The location this robot is spawned at

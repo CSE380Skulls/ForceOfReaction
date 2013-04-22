@@ -214,44 +214,70 @@ void SpriteManager::update(Game *game)
 // PROBABLY HAVE THE SAME AMMOUNT OF FRAMES UNTIL REMOVAL BUT THIS METHOD MUST BE CHANGED IF DIFFERENT BOTS
 // ARE REMOVED AFTER DIFFERENT INTERVALS OF TIME.
 void SpriteManager::addBotToRemovalList(Bot* bot, int framesUntilRemoval){
+	// Create the new node to be added to list.
+	Node *n = new Node();
+	n->framesUntilRemoval = framesUntilRemoval;
+	n->spriteToRemove = bot;
+	n->next = NULL;
+
+	// If nothing is in the list, make this the first element in the list
 	if(botRemovalList.head == NULL){
-		Node *n = new Node();
-		n->framesUntilRemoval = framesUntilRemoval;
-		n->next = NULL;
-		n->spriteToRemove = bot;
 		botRemovalList.head = n;
 	}
 	else {
-		int framesTillRemove = framesUntilRemoval;
-		Node *previous;
-		Node *current = botRemovalList.head;
-		while(current != NULL){
-			framesTillRemove -= current->framesUntilRemoval;
-			previous = current;
-			current = current->next;
-		}
-		Node *nodeToAdd = new Node();
-		previous->next = nodeToAdd;
-		nodeToAdd->framesUntilRemoval = framesTillRemove;
-		nodeToAdd->next = NULL;
-		nodeToAdd->spriteToRemove = bot;
+		// Make the head element the next of this element and insert this element at the head.
+		n->next = botRemovalList.head;
+		botRemovalList.head = n;
 	}
 }
 
 // Decrement the frames until removal of the first bot in the list and removal all bots that need to be
 // removed this frame. This method removes the bots from box2d as well as the render list.
 void SpriteManager::updateBotRemovalList(){
-	Node *n = botRemovalList.head;
-	if(n != NULL){
-		n->framesUntilRemoval--;
-		while(n != NULL && n->framesUntilRemoval <= 0){
-			Node *temp = n;
-			Bot* s = n->spriteToRemove;
-			n = n->next;
-			delete temp;
-			removeBot(s);
+	// Special Case for head of list
+	if(botRemovalList.head != NULL){
+		botRemovalList.head->framesUntilRemoval--;
+	}
+
+	// Special Case for head of list
+	while(botRemovalList.head != NULL && botRemovalList.head->framesUntilRemoval <= 0){
+		Node* temp = botRemovalList.head;
+		botRemovalList.head = temp->next;
+		if(botRemovalList.head != NULL)
+			botRemovalList.head->framesUntilRemoval--;
+		
+		Bot *b = temp->spriteToRemove;
+		delete temp;
+		removeBot(b);
+	}
+	// At this point I'm guarenteed that the head of the list has been decremented and is either null 
+	//or doesn't need to be removed.
+
+	// If the head is null then don't need to remove anything else
+	if(botRemovalList.head != NULL){
+		Node *previous = botRemovalList.head;
+		Node *current = botRemovalList.head->next;
+		// Iterate through the list and update all of the times until removals.
+		while(current != NULL){
+			current->framesUntilRemoval--;
+
+			// If this node has to be removed, remove it
+			if(current->framesUntilRemoval <= 0){
+				Node *temp = current;
+				current = current->next;
+				previous->next = current;
+
+				Bot *b = temp->spriteToRemove;
+
+				delete temp;
+				removeBot(b);
+			}
+			else {
+				// Continue iterating through linked list
+				previous = current;
+				current = current->next;
+			}
 		}
-		botRemovalList.head = n;
 	}
 }
 

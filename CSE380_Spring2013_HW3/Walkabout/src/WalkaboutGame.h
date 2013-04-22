@@ -69,7 +69,7 @@ static const wstring	W_STATUS_EARTH_PATH		= L"data/gui/ingame/earth_health.png";
 static const wstring	SPRITE_TYPES_DIR = L"data/sprite_types/";
 static const wstring	SPRITE_TYPES_LIST = SPRITE_TYPES_DIR + L"sprite_type_list.xml";
 
-// FOR THE GAME WORLD
+// CONSTANTS FOR THE GAME WORLD
 static const float		MAX_VIEWPORT_AXIS_VELOCITY = 5.0f;
 static const float		W_GRAVITY = 0.95f;
 static const float		BOT_MIN_CYCLES = 30;
@@ -84,6 +84,7 @@ static const int		MAX_FPS = 100;
 static const int		FPS_INC = 1;
 static const float      BOX2D_CONVERSION_FACTOR = 32;
 static const int        BOT_TRAVEL_DISTANCE = 500;
+static const int 		PROJECTILE_VELOCITY = 50;
 
 // Animated Sprite States
 static const wstring	IDLE_RIGHT(L"IDLE_RIGHT");

@@ -11,6 +11,7 @@
 #include "stdafx.h"
 #include "src\WalkaboutGame.h"
 #include "src\WalkaboutKeyEventHandler.h"
+#include "src\Seed.h"
 #include "src\game\Game.h"
 #include "src\game\WStringTable.h"
 #include "src\graphics\GameGraphics.h"
@@ -131,6 +132,60 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		}
 		if(input->isKeyDownForFirstTime(MOUSE_RIGHT))
 		{
+			// Get mouse and player locations
+			float mX = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
+			float mY = game->getGUI()->getCursor()->getY() + game->getGUI()->getViewport()->getViewportY();
+			float pX = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
+			float pY = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
+			pY = game->getGSM()->getWorld()->getWorldHeight() - pY;
+
+			// Get the difference bewteen these loactions
+			float difX = mX - pX;
+			float difY = mY - pY;
+
+			if(difX > 0){
+				player->setCurrentState(ATTACKING_RIGHT);
+			}
+			else {
+				player->setCurrentState(ATTACKING_LEFT);
+			}
+
+			// Get the length of the vector from player to mouse
+			float length = std::sqrt( (difX * difX) + (difY * difY) );
+
+			// Normalize the distances
+			difX /= length;
+			difY /= length;
+
+			// Scale distances to be x and y velocity
+			difX *= PROJECTILE_VELOCITY;
+			difY *= PROJECTILE_VELOCITY;
+
+			// Seed
+			AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
+			Seed *seed = new Seed();
+			seed->setSpriteType(seedSpriteType);
+			seed->setAlpha(255);
+			seed->setCurrentState(IDLE_LEFT);
+			PhysicalProperties *seedProps = seed->getPhysicalProperties();
+			seedProps->setX(pX);
+			seedProps->setY(pY);
+			seedProps->setVelocity(0.0f, 0.0f);
+			seedProps->setAccelerationX(0);
+			seedProps->setAccelerationY(0);
+			seed->setOnTileThisFrame(false);
+			seed->setOnTileLastFrame(false);
+			seed->affixTightAABBBoundingVolume();
+
+			//create a physics object for the seed
+			game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,seed);
+
+			// Set the velocity of the seed
+			seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
+			seed->setHitPoints(10);
+
+			game->getGSM()->getPhysics()->addCollidableObject(seed);
+			game->getGSM()->getSpriteManager()->addBot(seed);
 		
 		}
 		// CTRL + 1 = auto win level

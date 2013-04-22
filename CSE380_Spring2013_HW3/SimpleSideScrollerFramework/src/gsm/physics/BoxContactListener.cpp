@@ -16,17 +16,32 @@ void BoxContactListener::BeginContact(b2Contact *contact){
 		like health, etc.
 	*/
  	void * bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
- 	void * bodyUserDataB = contact->GetFixtureA()->GetBody()->GetUserData();
+ 	void * bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
 
 	if(bodyUserDataA && bodyUserDataB){
 		AnimatedSprite *spriteA = (AnimatedSprite *) bodyUserDataA;
 		AnimatedSprite *spriteB = (AnimatedSprite *) bodyUserDataB;
+		// Just testing that this works, will need to differentiate between projectiles, bots, and player
+		spriteA->decrementHitPoints(10);
+		spriteB->decrementHitPoints(10);
 
-		//Now change the state of the sprites
 
+
+		/*
+			If player is colliding with something, hurt the player
+		*/
+
+		/*
+			If something is colliding with bot, hurt the bot and add whatever hit it to the 
+			bot removal list
+		*/
 	}
 	else{
 		// colliding with a tile? Right now tiles never have userData.
+
+				/*
+			If something that isn't an enemy or player hits a tile, add it to bot removal list
+		*/
 	}
 
 }
@@ -34,7 +49,7 @@ void BoxContactListener::BeginContact(b2Contact *contact){
 void BoxContactListener::EndContact(b2Contact *contact){
 	/*Get the sprites that are colliding */
 	void * bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
-	void * bodyUserDataB = contact->GetFixtureA()->GetBody()->GetUserData();
+	void * bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
 
 	if(bodyUserDataA && bodyUserDataB){
 		AnimatedSprite *spriteA = (AnimatedSprite *) bodyUserDataA;

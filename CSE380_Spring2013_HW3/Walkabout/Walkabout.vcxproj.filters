@@ -5,6 +5,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="src\Bots">
+      <UniqueIdentifier>{8b5cb4f4-19c4-484b-83e7-eecf30df7c4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\WalkaboutButtonEventHandler.cpp">
@@ -26,7 +29,10 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\FORFloatingBot.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Bots</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Seed.cpp">
+      <Filter>src\Bots</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,7 +55,10 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\FORFloatingBot.h">
-      <Filter>src</Filter>
+      <Filter>src\Bots</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Seed.h">
+      <Filter>src\Bots</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

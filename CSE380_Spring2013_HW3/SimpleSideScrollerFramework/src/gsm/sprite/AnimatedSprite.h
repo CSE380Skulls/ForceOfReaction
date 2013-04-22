@@ -41,6 +41,8 @@ protected:
 	unsigned int animationCounter;
 	// All animated sprites have hitpoints
 	int hitPoints;
+	// Is this animated sprite dead?
+	bool dead;
 
 public:
 	// INLINED ACCESSOR METHODS
@@ -67,4 +69,5 @@ public:
 	void updateSprite();
 	void affixTightAABBBoundingVolume();
 	void correctToTightBoundingVolume();
+	void decrementHitPoints(int damage) { hitPoints -= damage; }
 };

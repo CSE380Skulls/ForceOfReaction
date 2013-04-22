@@ -19,7 +19,6 @@ FORFloatingBot::FORFloatingBot(	int initMin,
 	// Init player targeting variables
 	this->spawnX = spawnX;
 	this->travelDistance = travelDistance;
-	removed = false;
 
 	// INIT THE BASIC STUFF
 	initBot(initMin, initMax, initVelocity);
@@ -139,26 +138,31 @@ bool FORFloatingBot::isInBounds(int x){
 */
 void FORFloatingBot::think(Game *game)
 {
+	if(dead)
+		return;
+	if(this->hitPoints <= 0){
+		game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 30);
+		dead = true;
+		return;
+	}
 	// If player is next to this bot, do something different
 	int botX = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
 	int pX = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
 
 	// If the player is within the bots targeting area, go after the player
 	if(isInBounds(pX)) {
-		if(!removed) {
-			game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 60);
-			game->getGAM()->playSound(C_EXPLOSION);
-			removed = true;
-		}
-		if(pX > botX){
-			//getPhysicsBody()->SetLinearVelocity(b2Vec2(velocity, getPhysicsBody()->GetLinearVelocity().y));
-			dir = 1;
-			setCurrentState(IDLE_RIGHT);
-		}
-		if(pX < botX){
-			dir = 2;
-			setCurrentState(IDLE_LEFT);
-			//getPhysicsBody()->SetLinearVelocity(b2Vec2(-velocity, getPhysicsBody()->GetLinearVelocity().y));
+		int botY = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
+		int pY = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
+		// Make sure the player is in the same y area
+		if(std::abs(botY - pY) < 200){
+			if(pX > botX){
+				dir = 1;
+				setCurrentState(ATTACKING_RIGHT);
+			}
+			if(pX < botX){
+				dir = 2;
+				setCurrentState(ATTACKING_LEFT);
+			}
 		}
 	}
 

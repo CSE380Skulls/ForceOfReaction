@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\FORFloatingBot.cpp" />
+    <ClCompile Include="src\Seed.cpp" />
     <ClCompile Include="src\WalkaboutButtonEventHandler.cpp" />
     <ClCompile Include="src\WalkaboutCollisionListener.cpp" />
     <ClCompile Include="src\WalkaboutDataLoader.cpp" />
@@ -89,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\FORFloatingBot.h" />
+    <ClInclude Include="src\Seed.h" />
     <ClInclude Include="src\WalkaboutButtonEventHandler.h" />
     <ClInclude Include="src\WalkaboutCollisionListener.h" />
     <ClInclude Include="src\WalkaboutDataLoader.h" />
