@@ -10,6 +10,7 @@
 // GAME OBJECT INCLUDES
 #include "src\game\Game.h"
 #include "src\graphics\GameGraphics.h"
+#include "src\audio\GameAudioManager.h"
 #include "src\FORFloatingBot.h"
 #include "src\gsm\ai\bots\RandomJumpingBot.h"
 #include "src\gsm\state\GameState.h"
@@ -137,7 +138,17 @@ void WalkaboutDataLoader::loadGame(Game *game, wstring gameInitFile)
 	viewport->setViewportOffsetX(viewport_offset_x);
 	viewport->setViewportOffsetY(viewport_offset_y);
 }
-
+/*
+	loadSounds - This method loads all the GUI assets described in the guiInitFile
+	argument. Note that we are loading all GUI art for all GUIs when the application
+	first starts. We'll learn a better technique later in the semester.
+*/
+void WalkaboutDataLoader::loadAudio(Game *game, wstring audioInitFile)
+{
+	// WE'RE JUST GOING TO IGNORE THE GUI FILE FOR NOW.
+	// FOR THE MOMENT WE ARE CALLING THIS HARD-CODED GUI LOADER
+	hardCodedLoadAudioExample(game);
+}
 /*
 	loadGUI - This method loads all the GUI assets described in the guiInitFile
 	argument. Note that we are loading all GUI art for all GUIs when the application
@@ -291,7 +302,18 @@ void WalkaboutDataLoader::hardCodedLoadGUIExample(Game *game)
 	initLevelWon(gui, guiTextureManager);
 	initGameOver(gui, guiTextureManager);
 }
-
+/*
+	loadSounds - This method loads all the GUI assets described in the guiInitFile
+	argument. Note that we are loading all GUI art for all GUIs when the application
+	first starts. We'll learn a better technique later in the semester.
+*/
+void WalkaboutDataLoader::hardCodedLoadAudioExample(Game* game)
+{
+	GameAudioManager *gam = game->getGAM();
+	gam->addMusic(C_SAMPLE_PATH,SAMPLE);
+	gam->addSound(C_EXPLOSION_PATH,EXPLOSION);
+	gam->initMusic(SAMPLE);
+}
 /*
 	initCursor - initializes a simple little cursor for the gui.
 */

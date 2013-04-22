@@ -2,6 +2,7 @@
 #include "src\game\Game.h"
 #include "src\FORFloatingBot.h"
 #include "src\gsm\state\GameStateManager.h"
+#include "src\audio\GameAudioManager.h"
 #include "src\gsm\physics\Physics.h"
 #include "src\WalkaboutGame.h"
 
@@ -146,6 +147,7 @@ void FORFloatingBot::think(Game *game)
 	if(isInBounds(pX)) {
 		if(!removed) {
 			game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 60);
+			game->getGAM()->playSound(EXPLOSION);
 			removed = true;
 		}
 		if(pX > botX){

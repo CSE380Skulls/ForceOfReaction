@@ -58,7 +58,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Box2D.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Common\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -87,6 +87,7 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\audio\GameAudioManager.cpp" />
     <ClCompile Include="src\dataLoader\GameDataLoader.cpp" />
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\game\WStringTable.cpp" />
@@ -125,6 +126,7 @@
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\audio\GameAudioManager.h" />
     <ClInclude Include="src\dataLoader\GameDataLoader.h" />
     <ClInclude Include="src\game\Game.h" />
     <ClInclude Include="src\game\IllegalArgumentException.h" />

@@ -62,6 +62,9 @@
     <Filter Include="src\gsm\ai\bots">
       <UniqueIdentifier>{a87d81ee-be61-4b4e-a0bf-3f147cae57ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\audio">
+      <UniqueIdentifier>{86eeb93b-ea35-4278-84f1-6c80d527a904}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -174,6 +177,9 @@
     </ClCompile>
     <ClCompile Include="src\gsm\physics\BoxPhysicsFactory.cpp">
       <Filter>src\gsm\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\GameAudioManager.cpp">
+      <Filter>src\audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,6 +341,9 @@
     </ClInclude>
     <ClInclude Include="src\gsm\physics\BoxPhysicsFactory.h">
       <Filter>src\gsm\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\audio\GameAudioManager.h">
+      <Filter>src\audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -53,6 +53,11 @@ static const wstring	W_CREDITS_IMAGE_MO_PATH	= L"data/gui/buttons/credits_mo.png
 static const wstring	W_RETURN_IMAGE_PATH		= L"data/gui/buttons/return.png";
 static const wstring	W_RETURN_IMAGE_MO_PATH	= L"data/gui/buttons/return_mo.png";
 
+// Sounds
+static char				*C_SAMPLE_PATH			= "data/audio/music/Hunting.mp3";
+static char				*SAMPLE					= "ffff";
+static char				*C_EXPLOSION_PATH		= "data/audio/sounds/explosion.wav";
+static char				*EXPLOSION				= "explode";
 // Element bars
 static const wstring	W_STATUS_HEAD_PATH		= L"data/gui/ingame/mc_head.png";
 static const wstring	W_STATUS_FIRE_PATH		= L"data/gui/ingame/fire_health.png";

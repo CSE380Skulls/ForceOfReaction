@@ -41,6 +41,7 @@ class GameTimer;
 class GameStateManager;
 class GameGUI;
 class GameText;
+class GameAudioManager;
 
 static const float PI = 3.1415926535897932384626433f;
 
@@ -58,6 +59,9 @@ private:
 
 	// MANAGES TEXT FOR RENDERING AND FILE I/O
 	GameText			*text;
+
+	// MANAGERS SOUNDS
+	GameAudioManager	*gam;
 
 	// THESE GAME OBJECTS ALL REQUIRE CUSTOM DEFINITIONS, EITHER
 	// BECAUSE THEY DEAL WITH PLATFORM-SPECIFIC THINGS, OR GAME-
@@ -77,6 +81,7 @@ public:
 	GameStateManager*	getGSM()				{ return gsm;								}
 	GameGUI*			getGUI()				{ return gui;								}
 	GameText*			getText()				{ return text;								}
+	GameAudioManager*	getGAM()				{ return gam;								}
 
 	// INLINED ACCESSOR METHODS - ACTUALLY SUB-CLASSES
 	GameDataLoader*		getDataLoader()			{ return dataLoader;						}

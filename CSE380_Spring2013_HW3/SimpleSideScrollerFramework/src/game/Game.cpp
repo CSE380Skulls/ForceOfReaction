@@ -22,6 +22,7 @@
 #include "src\text\TextFileWriter.h"
 #include "src\text\TextGenerator.h"
 #include "src\timer\GameTimer.h"
+#include "src\audio\GameAudioManager.h"
 
 /*
 	Game  - Constructor, this method begins the 
@@ -44,6 +45,7 @@ Game::Game()
 	gsm = new GameStateManager();
 	gui = new GameGUI();
 	text = new GameText();
+	gam = new GameAudioManager();
 }
 
 /*
@@ -59,6 +61,7 @@ Game::~Game()
 	delete gsm;
 	delete gui;
 	delete text;
+	delete gam;
 
 	// THE GAME AND PLATFORM STUFF SHOULD BE DELETED
 	// BY WHOEVER CREATED THEM
@@ -92,7 +95,7 @@ void Game::initPlatformPlugins(		GameGraphics *initGraphics,
 void Game::reloadAllDevices()
 {
 	graphics->reloadGraphics();
-
+	gam->reloadAudio();
 	// WE MIGHT ADD MORE LATER
 }
 	
@@ -202,6 +205,9 @@ void Game::shutdown()
 
 	// RELEASE GAME CONTROLLERS IF NECESSARY
 	input->shutdown();
+
+	// RELEASE AUDIO CONTROLLER
+	gam->shutdown();
 
 	// WE MAY SHUTDOWN OTHER THINGS HERE LIKE SOUND & MUSIC
 	// RESOURCES IN THE FUTURE

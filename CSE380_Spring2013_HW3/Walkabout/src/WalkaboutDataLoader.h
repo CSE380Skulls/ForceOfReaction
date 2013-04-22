@@ -39,9 +39,11 @@ public:
 	void loadGame(Game *game, wstring gameInitFile);
 	void loadGUI(Game *game, wstring guiInitFile);
 	void loadWorld(Game *game, wstring levelInitFile);
+	void loadAudio(Game* game, wstring audioInitFile);
 
 	// THESE ARE HARD-CODED EXAMPLES OF GUI DATA LOADING
 	void hardCodedLoadGUIExample(Game *game);
+	void hardCodedLoadAudioExample(Game* game);
 
 	// SOME HELPER METHODS FOR SETTING UP THE GAME
 	void makeRandomJumpingBot(Game *game, AnimatedSpriteType *randomJumpingBotType, float initX, float initY);

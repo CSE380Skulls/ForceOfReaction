@@ -77,6 +77,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	// LOAD THE GUI STUFF, AGAIN, NOTE THAT THIS SHOULD REALLY
 	// BE DONE FROM A FILE, NOT HARD CODED
 	walkaboutDataLoader->loadGUI(walkaboutGame, W_GUI_INIT_FILE);
+	walkaboutDataLoader->loadAudio(walkaboutGame, W_GUI_INIT_FILE);
 
 	// SPECIFY WHO WILL HANDLE BUTTON EVENTS
 	WalkaboutButtonEventHandler *walkaboutButtonHandler = new WalkaboutButtonEventHandler();
