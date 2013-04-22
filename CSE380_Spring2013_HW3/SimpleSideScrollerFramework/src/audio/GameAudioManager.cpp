@@ -13,16 +13,12 @@ GameAudioManager::GameAudioManager()
 GameAudioManager::~GameAudioManager()
 { 
 }
-void GameAudioManager::addSound(char *path, char *alias)
+void GameAudioManager::addSound(char *path)
 {
 	ISoundSource *iss = engine->addSoundSourceFromFile(path);
-	soundBank[alias]=iss;
+	soundBank[path]=iss;
 }
-void GameAudioManager::addMusic(char *path, char *alias)
-{
-	ISoundSource *iss = engine->addSoundSourceFromFile(path);
-	musicBank[alias]=iss;
-}
+
 void GameAudioManager::playSound(char *alias)
 {
 	ISound *is = engine->play2D(soundBank[alias],false,false,true);
@@ -33,15 +29,15 @@ void GameAudioManager::playSound(char *alias)
 
 void GameAudioManager::initMusic(char *alias)
 {
-	ISoundSource* is = musicBank[alias];
-	currentMusic = engine->play2D(musicBank[alias],false,false,true);
+	currentMusic = engine->play2D(soundBank[alias],false,false,true);
 	currentMusic->setVolume(musicVolume);
 	currentMusic->setIsLooped(true);
 }
 void GameAudioManager::setMusic(char *alias)
 {
 	currentMusic->stop();
-	currentMusic = engine->play2D(musicBank[alias],false,false,true);
+	currentMusic->drop();
+	currentMusic = engine->play2D(soundBank[alias],false,false,true);
 	currentMusic->setVolume(musicVolume);
 	currentMusic->setIsLooped(true);
 }

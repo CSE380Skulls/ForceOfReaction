@@ -310,9 +310,11 @@ void WalkaboutDataLoader::hardCodedLoadGUIExample(Game *game)
 void WalkaboutDataLoader::hardCodedLoadAudioExample(Game* game)
 {
 	GameAudioManager *gam = game->getGAM();
-	gam->addMusic(C_SAMPLE_PATH,SAMPLE);
-	gam->addSound(C_EXPLOSION_PATH,EXPLOSION);
-	gam->initMusic(SAMPLE);
+	gam->addSound(C_INTRO);
+	gam->addSound(C_LEVEL1);
+	gam->addSound(C_EXPLOSION);
+
+	gam->initMusic(C_INTRO);
 }
 /*
 	initCursor - initializes a simple little cursor for the gui.

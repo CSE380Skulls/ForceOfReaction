@@ -147,7 +147,7 @@ void FORFloatingBot::think(Game *game)
 	if(isInBounds(pX)) {
 		if(!removed) {
 			game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 60);
-			game->getGAM()->playSound(EXPLOSION);
+			game->getGAM()->playSound(C_EXPLOSION);
 			removed = true;
 		}
 		if(pX > botX){

@@ -13,15 +13,14 @@ protected:
 	list<irrklang::ISound*> currentSounds;
 
 	map<string, irrklang::ISoundSource*> soundBank;
-	map<string, irrklang::ISoundSource*> musicBank;
 
 	float musicVolume;
 	float soundVolume;
 	float gameVolume;
 public:
 
-	void addSound(char *path, char *alias);
-	void addMusic(char *path, char *alias);
+	void addSound(char *path);
+	void addMusic(char *path);
 	void playSound(char *alias);
 	void initMusic(char *alias);
 	void setMusic(char *alias);

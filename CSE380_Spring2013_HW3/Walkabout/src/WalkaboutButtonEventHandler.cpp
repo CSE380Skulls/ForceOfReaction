@@ -13,6 +13,7 @@
 #include "src\WalkaboutButtonEventHandler.h"
 #include "src\game\Game.h"
 #include "src\gsm\state\GameStateManager.h"
+#include "src\audio\GameAudioManager.h"
 
 void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game, 
 													wstring command)
@@ -34,6 +35,7 @@ void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game,
 	// SO LET'S START THE GAME FROM THE FIRST LEVEL
 	else if (command.compare(W_START_COMMAND) == 0)
 	{
+		game->getGAM()->setMusic(C_LEVEL1);
 		game->setCurrentLevelFileName(W_LEVEL_1_NAME);
 		game->startGame();
 	}
@@ -56,6 +58,7 @@ void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game,
 	// SO LET'S UNLOAD THE LEVEL AND RETURN TO THE MAIN MENU
 	else if (command.compare(W_QUIT_COMMAND) == 0)
 	{
+		game->getGAM()->setMusic(C_INTRO);
 		game->quitGame();
 	}
 }
