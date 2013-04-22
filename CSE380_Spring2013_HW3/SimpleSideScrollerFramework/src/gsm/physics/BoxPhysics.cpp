@@ -18,6 +18,7 @@
 BoxPhysics::BoxPhysics()
 {
 	//initialize the game world
+	contacts.head = NULL;
 	b2Vec2 gravity;
 	gravity.Set(0.0f, -9.8f);
 	physics_world = new b2World(gravity);
@@ -27,7 +28,7 @@ BoxPhysics::BoxPhysics()
 	velocityIterations = 6;
 	positionIterations = 2;
 
-	BoxContactListener *listener = new BoxContactListener();
+	BoxContactListener *listener = new BoxContactListener(this);
 	physics_world->SetContactListener(listener);
 
 	//Now create a factory for this physics system
@@ -39,6 +40,11 @@ BoxPhysics::BoxPhysics()
 */
 BoxPhysics::~BoxPhysics()
 {
+	while(contacts.head != NULL){
+		C_Node* temp = contacts.head;
+		contacts.head = temp->next;
+		delete temp;
+	}
 	//destruct the b2world object
 	
 	//perhaps tell all classes that hold references to box2d objects to remove
@@ -57,4 +63,71 @@ void BoxPhysics::update(Game *game)
 {
 	//Only call the box2d step for now
 	physics_world->Step( 1.0f / b2StepHertz , velocityIterations, positionIterations);
+
+	updateContacts(game);
+}
+
+void BoxPhysics::updateContacts(Game *game){
+
+	C_Node *n = contacts.head;
+
+	while(n != NULL){
+		AnimatedSprite *a = (AnimatedSprite*)n->contact->GetFixtureA()->GetBody()->GetUserData();
+		AnimatedSprite *b = (AnimatedSprite*)n->contact->GetFixtureB()->GetBody()->GetUserData();
+
+		if(a == game->getGSM()->getSpriteManager()->getPlayer()){
+			a->decrementHitPoints(b->getDamage());
+		}
+		else if(b == game->getGSM()->getSpriteManager()->getPlayer()){
+			b->decrementHitPoints(b->getDamage());
+		}
+		else {
+			int aD = a->getDamage();
+			int bD = b->getDamage();
+			a->decrementHitPoints(b->getDamage());
+			b->decrementHitPoints(a->getDamage());
+		}
+
+		// Update these contacts
+		n = n->next;
+	}
+}
+
+/*
+	WARNING, CAN END UP WITH MULTIPLE CONTACTS IN THE SAME LIST
+*/
+void BoxPhysics::addContact(b2Contact *contact){
+	C_Node *n = new C_Node();
+	n->next = contacts.head;
+	n->contact = contact;
+
+	contacts.head = n;
+}
+
+void BoxPhysics::removeContact(b2Contact *contact){
+
+	if(contacts.head == NULL)
+		return;
+
+	C_Node *previous = contacts.head;
+
+	if(previous->contact == contact){
+		C_Node *temp = previous;
+		contacts.head = temp->next;
+		delete temp;
+	}
+	else {
+		C_Node *next = previous->next;
+
+		while(next != NULL){
+			if(next->contact == contact){
+				C_Node *temp = next;
+				previous->next = next->next;
+				delete temp;
+				return;
+			}
+			previous = next;
+			next = next->next;
+		}
+	}
 }

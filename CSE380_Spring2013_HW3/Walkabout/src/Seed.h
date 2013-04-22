@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "src\gsm\ai\Bot.h"
 #include "src\game\Game.h"
+#include "src\WalkaboutGame.h"
 
 class Seed : public Bot
 {

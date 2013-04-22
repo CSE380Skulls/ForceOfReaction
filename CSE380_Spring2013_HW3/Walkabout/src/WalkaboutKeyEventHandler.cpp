@@ -129,6 +129,50 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 				player->setCurrentState(ATTACKING_RIGHT);
 			if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
 				player->setCurrentState(ATTACKING_LEFT);
+
+			float mx = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
+			float px = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
+			float py = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
+			py = game->getGSM()->getWorld()->getWorldHeight() - py;
+
+
+			AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
+			float vineX;
+			if(mx > px){
+				// Right side click
+				player->setCurrentState(ATTACKING_RIGHT);
+				vineX = px + vineSpriteType->getTextureWidth() / 2;
+			}
+			else {
+				// Left side click
+				player->setCurrentState(ATTACKING_LEFT);
+				vineX = px - vineSpriteType->getTextureWidth() / 2;
+			}
+
+			Seed *vine = new Seed();
+			vine->setHitPoints(1);
+			vine->setDamage(VINE_DAMAGE);
+			vine->setSpriteType(vineSpriteType);
+			vine->setAlpha(255);
+			vine->setCurrentState(IDLE_LEFT);
+			PhysicalProperties *vineProps = vine->getPhysicalProperties();
+			vineProps->setX(vineX);
+			vineProps->setY(py);
+			vineProps->setVelocity(0.0f, 0.0f);
+			vineProps->setAccelerationX(0);
+			vineProps->setAccelerationY(0);
+			vine->setOnTileThisFrame(false);
+			vine->setOnTileLastFrame(false);
+			vine->affixTightAABBBoundingVolume();
+
+			//create a physics object for the seed
+			game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,vine);
+
+			// Set the velocity of the seed
+			vine->getPhysicsBody()->SetLinearVelocity(b2Vec2(0.1f, 0.1f));
+
+			game->getGSM()->getPhysics()->addCollidableObject(vine);
+			game->getGSM()->getSpriteManager()->addBot(vine);
 		}
 		if(input->isKeyDownForFirstTime(MOUSE_RIGHT))
 		{
@@ -159,11 +203,14 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 
 			// Scale distances to be x and y velocity
 			difX *= PROJECTILE_VELOCITY;
+
 			difY *= PROJECTILE_VELOCITY;
 
 			// Seed
 			AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
 			Seed *seed = new Seed();
+			seed->setHitPoints(1);
+			seed->setDamage(SEED_DAMAGE);
 			seed->setSpriteType(seedSpriteType);
 			seed->setAlpha(255);
 			seed->setCurrentState(IDLE_LEFT);
@@ -182,7 +229,6 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 
 			// Set the velocity of the seed
 			seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
-			seed->setHitPoints(10);
 
 			game->getGSM()->getPhysics()->addCollidableObject(seed);
 			game->getGSM()->getSpriteManager()->addBot(seed);

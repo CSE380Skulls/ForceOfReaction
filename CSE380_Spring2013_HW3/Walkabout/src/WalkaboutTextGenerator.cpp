@@ -46,14 +46,14 @@ void WalkaboutTextGenerator::appendTargetFPS(Game *game)
 */
 void WalkaboutTextGenerator::initText(Game *game)
 {
-	/*
+	
 	// FIRST UPDATE THE TEXT THIS GENERATOR IS USING
 	appendTargetFPS(game);
 
 	// AND THEN HAND IT TO THE TEXT MANAGER, SPECIFYING WHERE IT SHOULD BE RENDERED
 	GameText *text = game->getText();
 	text->addText(&textToGenerate, W_TARGET_FPS_X, W_TARGET_FPS_Y, game->getGraphics()->getScreenWidth(), game->getGraphics()->getScreenHeight());
-	*/
+	
 }
 
 /*
@@ -66,17 +66,14 @@ void WalkaboutTextGenerator::updateText(Game *game)
 	// THE TEXT MANAGER (GameText) HAS A POINTER TO OUR TEXT, SO WE CAN
 	// SIMPLY CLEAR IT OUT OF OLD CHARACTER DATA AND FILL IT IN WITH
 	// WHAT WE WANT.
-	/*
+	
 	textToGenerate.clear();
 	appendTargetFPS(game);
 
 	if(game->getGSM()->isGameInProgress()){
 		wstringstream wss;
-		wss << L"Player X: ";
-		wss << game->getGSM()->getSpriteManager()->getPlayer()->getPhysicalProperties()->getX();
-		wss << L"\nPlayer Y: ";
-		wss << game->getGSM()->getSpriteManager()->getPlayer()->getPhysicalProperties()->getY();
+		wss << L"Player HealtH: ";
+		wss << game->getGSM()->getSpriteManager()->getPlayer()->getHitPoints();
 		textToGenerate.append(wss.str());
 	}
-	*/
 }

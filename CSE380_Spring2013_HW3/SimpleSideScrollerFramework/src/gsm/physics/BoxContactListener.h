@@ -1,11 +1,12 @@
 #pragma once
 #include "stdafx.h"
 #include <Box2D\Box2D.h>
+#include "src\gsm\physics\BoxPhysics.h"
 
 class BoxContactListener : public b2ContactListener
 {
 public:
-	BoxContactListener(){};
+	BoxContactListener(BoxPhysics *physics){ box_physics = physics; }
 	~BoxContactListener(){};
 	 //b2ContactListener
     // Called when two fixtures begin to touch
@@ -20,5 +21,8 @@ public:
 	void PreSolve(b2Contact *contact, const b2Manifold *oldManifold);
 	//The post solve event is where you can gather collision impulse results.
 	void PostSolve(b2Contact *contact, const b2ContactImpulse *impulse);
+
+private:
+	BoxPhysics * box_physics;
 
 };

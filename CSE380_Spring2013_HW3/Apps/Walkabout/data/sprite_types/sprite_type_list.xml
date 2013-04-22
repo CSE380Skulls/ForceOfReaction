@@ -4,4 +4,5 @@
   <sprite_type>enemy_shubbuth</sprite_type>
   <sprite_type>breakable_wall</sprite_type>
   <sprite_type>seed</sprite_type>
+  <sprite_type>vine</sprite_type>
 </sprite_type_list>

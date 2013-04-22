@@ -142,6 +142,7 @@ void FORFloatingBot::think(Game *game)
 		return;
 	if(this->hitPoints <= 0){
 		game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 30);
+		setCurrentState(DEAD);
 		dead = true;
 		return;
 	}

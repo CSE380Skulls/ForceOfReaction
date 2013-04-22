@@ -16,22 +16,33 @@
 #include "BoxPhysicsFactory.h"
 #include <Box2D\Box2D.h>
 
+struct C_Node{
+	C_Node *next;
+	b2Contact *contact;
+};
+
+struct contact_list{
+	C_Node *head;
+};
+
 class BoxPhysics
 {
 public:
-	
 	BoxPhysics();
 	~BoxPhysics();
 	void update(Game *game);
 
 	//Accessor methods
 	BoxPhysicsFactory*		getPhysicsFactory(){ return box_factory;}
+	void addContact(b2Contact *contact);
+	void removeContact(b2Contact *contact);
 
 private:
+	contact_list contacts;
 	b2World* physics_world;
 	BoxPhysicsFactory *box_factory;
 	float32 b2StepHertz; // should be 60;
 	int32 velocityIterations; //recommended value = 6;
 	int32 positionIterations; //recommended value = 2;
-	
+	void updateContacts(Game *game);
 };

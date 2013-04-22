@@ -85,6 +85,11 @@ static const int		FPS_INC = 1;
 static const float      BOX2D_CONVERSION_FACTOR = 32;
 static const int        BOT_TRAVEL_DISTANCE = 500;
 static const int 		PROJECTILE_VELOCITY = 50;
+static const int		PLAYER_HITPOINTS = 30;
+static const int		BOT_HITPOINTS = 10;
+static const int		BOT_DAMAGE = 1;
+static const int		SEED_DAMAGE = 5;
+static const int		VINE_DAMAGE = 10;
 
 // Animated Sprite States
 static const wstring	IDLE_RIGHT(L"IDLE_RIGHT");
@@ -97,6 +102,7 @@ static const wstring	FALLING_RIGHT(L"FALLING_RIGHT");
 static const wstring	FALLING_LEFT(L"FALLING_LEFT");
 static const wstring	ATTACKING_RIGHT(L"ATTACKING_RIGHT");
 static const wstring	ATTACKING_LEFT(L"ATTACKING_LEFT");
+static const wstring	DEAD(L"DEAD");
 
 // Keys
 const unsigned int W_KEY = (unsigned int)'W';

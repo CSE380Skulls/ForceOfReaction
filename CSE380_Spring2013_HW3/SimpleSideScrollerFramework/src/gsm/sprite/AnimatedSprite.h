@@ -43,6 +43,8 @@ protected:
 	int hitPoints;
 	// Is this animated sprite dead?
 	bool dead;
+	// How much damage does this sprite do if it hits something?
+	int damage;
 
 public:
 	// INLINED ACCESSOR METHODS
@@ -58,7 +60,9 @@ public:
 	{	spriteType = initSpriteType;}
 	void setHitPoints(int hp)
 	{   hitPoints = hp; }
-
+	void setDamage(int dmg){
+		damage = dmg;
+	}
 
 	// METHODS DEFINED IN AnimatedSprite.cpp
 	AnimatedSprite();
@@ -70,4 +74,6 @@ public:
 	void affixTightAABBBoundingVolume();
 	void correctToTightBoundingVolume();
 	void decrementHitPoints(int damage) { hitPoints -= damage; }
+	int getHitPoints() { return hitPoints; }
+	int getDamage() { return damage; }
 };
