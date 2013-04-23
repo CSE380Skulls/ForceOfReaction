@@ -20,6 +20,7 @@
 #include "src\gsm\sprite\AnimatedSprite.h"
 #include "src\gsm\state\GameState.h"
 #include "src\gsm\state\GameStateManager.h"
+#include "src\audio\GameAudioManager.h"
 #include "src\gui\Cursor.h"
 #include "src\gui\GameGUI.h"
 #include "src\input\GameInput.h"
@@ -103,6 +104,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 			//		not right...
 			if(player->getPhysicsBody()->GetLinearVelocity().y==0)
 			{
+				game->getGAM()->playSound(C_JUMP);
 				player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(0.0f, JUMP_VELOCITY),
 					player->getPhysicsBody()->GetPosition());
 			
@@ -125,6 +127,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		}
 		if (input->isKeyDownForFirstTime(MOUSE_LEFT))
 		{
+			game->getGAM()->playSound(C_SWING);
 			if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
 				player->setCurrentState(ATTACKING_RIGHT);
 			if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
@@ -176,6 +179,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		}
 		if(input->isKeyDownForFirstTime(MOUSE_RIGHT))
 		{
+			game->getGAM()->playSound(C_SWING);
 			// Get mouse and player locations
 			float mX = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
 			float mY = game->getGUI()->getCursor()->getY() + game->getGUI()->getViewport()->getViewportY();

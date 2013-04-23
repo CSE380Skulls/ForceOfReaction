@@ -314,9 +314,17 @@ void WalkaboutDataLoader::hardCodedLoadGUIExample(Game *game)
 void WalkaboutDataLoader::hardCodedLoadAudioExample(Game* game)
 {
 	GameAudioManager *gam = game->getGAM();
+	gam->setSoundVolume(0.5f);
 	gam->addSound(C_INTRO);
 	gam->addSound(C_LEVEL1);
 	gam->addSound(C_EXPLOSION);
+	gam->addSound(C_EXPLOSION2);
+	gam->addSound(C_DEATH);
+	gam->addSound(C_HIT);
+	gam->addSound(C_JUMP);
+	gam->addSound(C_MENUBUTTON);
+	gam->addSound(C_PLAYERHIT);
+	gam->addSound(C_SWING);
 
 	gam->initMusic(C_INTRO);
 }

@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <sprite_type>
- <width>48</width>
- <height>48</height>
+ <width>96</width>
+ <height>72</height>
  <images_list>
   <image_file id="1" file_name="idle_left.png"/>
   <image_file id="2" file_name="idle_right.png"/>
+  <image_file id="3" file_name="attack_left_1.png"/>
+  <image_file id="4" file_name="attack_left_2.png"/>
+  <image_file id="5" file_name="attack_right_1.png"/>
+  <image_file id="6" file_name="attack_right_2.png"/>
+  <image_file id="7" file_name="death_left_1.png"/>
+  <image_file id="8" file_name="death_left_2.png"/>
+  <image_file id="9" file_name="death_left_3.png"/>
+  <image_file id="10" file_name="death_left_4.png"/>
+  <image_file id="11" file_name="death_left_5.png"/>
  </images_list>
  <animations_list>
   <animation_state>
@@ -22,19 +31,29 @@
   <animation_state>
    <state>ATTACKING_LEFT</state>
    <animation_sequence>
-    <pose image_id="1" duration="10"/>
+    <pose image_id="3" duration="3"/>
+	<pose image_id="4" duration="3"/>
    </animation_sequence>
   </animation_state>
   <animation_state>
    <state>ATTACKING_RIGHT</state>
    <animation_sequence>
-    <pose image_id="2" duration="10"/>
+    <pose image_id="5" duration="3"/>
+	<pose image_id="6" duration="3"/>
    </animation_sequence>
   </animation_state>
   <animation_state>
    <state>DEAD</state>
    <animation_sequence>
-   <pose image_id="1" duration="10"/>
+   <pose image_id="7" duration="5"/>
+   <pose image_id="8" duration="5"/>
+   <pose image_id="9" duration="5"/>
+   <pose image_id="9" duration="5"/>
+   <pose image_id="10" duration="5"/>
+   <pose image_id="11" duration="5"/>
+   <pose image_id="10" duration="5"/>
+   <pose image_id="11" duration="5"/>
+   <pose image_id="10" duration="5"/>
    </animation_sequence>
   </animation_state>
  </animations_list>  

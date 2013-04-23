@@ -10,6 +10,8 @@
 #include "src\gsm\physics\BoxPhysics.h"
 #include "BoxContactListener.h"
 #include "src\gsm\state\GameStateManager.h"
+#include "src\audio\GameAudioManager.h"
+#include "..\Walkabout\src\WalkaboutGame.h"
 
 /*
 	The constructor initializes the data structures and loads
@@ -77,15 +79,22 @@ void BoxPhysics::updateContacts(Game *game){
 
 		if(a == game->getGSM()->getSpriteManager()->getPlayer()){
 			a->decrementHitPoints(b->getDamage());
+			game->getGAM()->playConditional(C_PLAYERHIT);
+			if (a->getHitPoints()==0)
+				game->getGAM()->playSound(C_DEATH);
 		}
 		else if(b == game->getGSM()->getSpriteManager()->getPlayer()){
 			b->decrementHitPoints(b->getDamage());
+			game->getGAM()->playConditional(C_PLAYERHIT);
+			if (b->getHitPoints()==0)
+				game->getGAM()->playSound(C_DEATH);
 		}
 		else {
 			int aD = a->getDamage();
 			int bD = b->getDamage();
 			a->decrementHitPoints(b->getDamage());
 			b->decrementHitPoints(a->getDamage());
+			game->getGAM()->playConditional(C_HIT);
 		}
 
 		// Update these contacts

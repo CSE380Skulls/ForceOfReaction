@@ -58,6 +58,13 @@ static char				*C_INTRO				= "data/audio/music/Lullaby.mp3";
 static char				*C_LEVEL1				= "data/audio/music/Hunting.mp3";
 // Sounds
 static char				*C_EXPLOSION			= "data/audio/sounds/explosion.wav";
+static char				*C_DEATH				= "data/audio/sounds/death.wav";
+static char				*C_EXPLOSION2			= "data/audio/sounds/explosion2.wav";
+static char				*C_HIT					= "data/audio/sounds/hit.wav";
+static char				*C_JUMP					= "data/audio/sounds/jump.wav";
+static char				*C_MENUBUTTON			= "data/audio/sounds/menubutton.wav";
+static char				*C_PLAYERHIT			= "data/audio/sounds/playerhit.wav";
+static char				*C_SWING				= "data/audio/sounds/swing.wav";
 
 // Element bars
 static const wstring	W_STATUS_HEAD_PATH		= L"data/gui/ingame/mc_head.png";

@@ -27,6 +27,12 @@ void GameAudioManager::playSound(char *alias)
 	currentSounds.push_front(is);
 }
 
+void GameAudioManager::playConditional(char *alias)
+{
+	if (!playingSound(alias))
+		playSound(alias);
+}
+
 void GameAudioManager::initMusic(char *alias)
 {
 	currentMusic = engine->play2D(soundBank[alias],false,false,true);
@@ -57,6 +63,32 @@ void GameAudioManager::update()
 		else
 			soundIterator++;
 	}
+}
+
+bool GameAudioManager::playingSound(char* i_sound)
+{
+	list<irrklang::ISound*>::iterator soundIterator;
+	soundIterator = currentSounds.begin();
+	bool found = false;
+	int looper = 0;
+	while (soundIterator != currentSounds.end())
+	{			
+		looper++;
+		ISound* sound = (*soundIterator);
+		if (sound->isFinished())
+		{
+			soundIterator++;
+			currentSounds.remove(sound);
+			sound->drop();
+		}
+		else
+		{
+			if (strcmp(i_sound,(char*)sound->getSoundSource()->getName())==0)
+				found=true;
+			soundIterator++;
+		}
+	}
+	return found;
 }
 
 void GameAudioManager::shutdown()

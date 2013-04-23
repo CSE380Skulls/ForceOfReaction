@@ -18,6 +18,7 @@
 void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game, 
 													wstring command)
 {
+	game->getGAM()->playSound(C_MENUBUTTON);
 	// THE USER PRESSED THE Exit BUTTON ON THE MAIN MENU,
 	// SO LET'S SHUTDOWN THE ENTIRE APPLICATION
 	if (command.compare(W_EXIT_COMMAND) == 0)

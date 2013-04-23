@@ -22,12 +22,15 @@ public:
 	void addSound(char *path);
 	void addMusic(char *path);
 	void playSound(char *alias);
+	void playConditional(char *alias);
 	void initMusic(char *alias);
 	void setMusic(char *alias);
 
 	void update();
 	//in-line maintenence methods
-
+	bool playingSound(char* i_sound);
+	void setMusicVolume(float f) { musicVolume = f; }
+	void setSoundVolume(float f) { soundVolume = f; }
 	void reloadAudio(){ engine->removeAllSoundSources(); }
 	void shutdown();
 	GameAudioManager();
