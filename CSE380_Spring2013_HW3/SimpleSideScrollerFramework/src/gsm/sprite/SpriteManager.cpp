@@ -168,6 +168,8 @@ void SpriteManager::unloadAnimatedSprites()
 		// Free memory
 		delete temp;
 	}
+	// Clear out the bot removal list
+	clearBotRemovalList();
 }
 
 void SpriteManager::removeBot(Bot *botToRemove)
@@ -175,7 +177,7 @@ void SpriteManager::removeBot(Bot *botToRemove)
 	// Remove bot from list of bots
 	bots.remove(botToRemove);
 	// Remove bot from box2d
-	botToRemove->getPhysicsBody()->GetWorld()->DestroyBody(botToRemove->getPhysicsBody());
+	botToRemove->returnPhysicsBody();
 	// Free the memory
 	delete botToRemove;
 	//return NULL;
@@ -214,6 +216,7 @@ void SpriteManager::update(Game *game)
 // PROBABLY HAVE THE SAME AMMOUNT OF FRAMES UNTIL REMOVAL BUT THIS METHOD MUST BE CHANGED IF DIFFERENT BOTS
 // ARE REMOVED AFTER DIFFERENT INTERVALS OF TIME.
 void SpriteManager::addBotToRemovalList(Bot* bot, int framesUntilRemoval){
+
 	// Create the new node to be added to list.
 	Node *n = new Node();
 	n->framesUntilRemoval = framesUntilRemoval;
@@ -278,6 +281,19 @@ void SpriteManager::updateBotRemovalList(){
 				current = current->next;
 			}
 		}
+	}
+}
+
+// Free all the nodes in the bot Removal list
+void SpriteManager::clearBotRemovalList() {
+	Node *n = botRemovalList.head;
+	botRemovalList.head = NULL;
+
+	// Free all of the nodes in the bot Removal List
+	while(n != NULL){
+		Node *temp = n;
+		n = n->next;
+		delete temp;
 	}
 }
 

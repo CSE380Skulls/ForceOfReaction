@@ -12,6 +12,7 @@
 #include "src\WalkaboutGame.h"
 #include "src\WalkaboutKeyEventHandler.h"
 #include "src\Seed.h"
+#include "src\Vine.h"
 #include "src\game\Game.h"
 #include "src\game\WStringTable.h"
 #include "src\graphics\GameGraphics.h"
@@ -144,7 +145,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 			if(mx > px){
 				// Right side click
 				player->setCurrentState(ATTACKING_RIGHT);
-				vineX = px + vineSpriteType->getTextureWidth() / 2;
+				vineX = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0 + vineSpriteType->getTextureWidth() / 2;
 			}
 			else {
 				// Left side click
@@ -152,7 +153,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 				vineX = px - vineSpriteType->getTextureWidth() / 2;
 			}
 
-			Seed *vine = new Seed();
+			Vine *vine = new Vine();
 			vine->setHitPoints(1);
 			vine->setDamage(VINE_DAMAGE);
 			vine->setSpriteType(vineSpriteType);
@@ -169,10 +170,10 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 			vine->affixTightAABBBoundingVolume();
 
 			//create a physics object for the seed
-			game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,vine);
+			game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticPlayerObject(game,vine);
 
-			// Set the velocity of the seed
-			vine->getPhysicsBody()->SetLinearVelocity(b2Vec2(0.1f, 0.1f));
+			// Remove this vine after 30 frames
+			game->getGSM()->getSpriteManager()->addBotToRemovalList(vine, 30);
 
 			game->getGSM()->getPhysics()->addCollidableObject(vine);
 			game->getGSM()->getSpriteManager()->addBot(vine);

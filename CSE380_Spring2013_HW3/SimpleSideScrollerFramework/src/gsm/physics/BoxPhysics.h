@@ -36,6 +36,8 @@ public:
 	BoxPhysicsFactory*		getPhysicsFactory(){ return box_factory;}
 	void addContact(b2Contact *contact);
 	void removeContact(b2Contact *contact);
+	// To be called when level ends
+	void clearContacts();
 
 private:
 	contact_list contacts;

@@ -236,6 +236,8 @@ void GameStateManager::unloadCurrentLevel()
 	//spriteManager->unloadSprites();
 	spriteManager->unloadAnimatedSprites();
 	world.unloadWorld();
+	// Clear the contacts list out
+	getBoxPhysics()->clearContacts();
 }
 
 /*

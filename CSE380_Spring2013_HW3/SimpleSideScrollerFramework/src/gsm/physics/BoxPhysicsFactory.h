@@ -19,6 +19,7 @@
 /* For temporary testing */
 static const int FRIENDLY_OBJECT_INDEX = -1;
 static const int ENEMY_OBJECT_INDEX = -2;
+static const int OTHER = -3;
 
 class BoxPhysicsFactory
 {
@@ -29,13 +30,19 @@ public:
 	void createEnemyObject(Game *game, AnimatedSprite *sprite);
 	void createTileObject(Game *game, BoxPhysicsObject *phyobj, 
 		float screen_center_x, float screen_center_y, float extent_x, float extent_y);
+	void createStaticPlayerObject(Game *game, AnimatedSprite *sprite);
 
 private:
 	b2World *physicsWorldRef;
 
+	// Used for tiles
 	void createStaticBox(Game *game, BoxPhysicsObject *phyobj, 
 		float screen_center_x, float screen_center_y, float extent_x, float extent_y);
+	// Used for animated sprites that can move
 	void createDynamicBox(Game *game, BoxPhysicsObject *phyobj, AnimatedSprite *obj, int groupIndex,
+		float screen_center_x, float screen_center_y, float extent_x, float extent_y);
+	// Used for animated sprites that cannot move
+	void createStaticBox(Game *game, BoxPhysicsObject *phyobj, AnimatedSprite *obj, int groupIndex, 
 		float screen_center_x, float screen_center_y, float extent_x, float extent_y);
 	
 };

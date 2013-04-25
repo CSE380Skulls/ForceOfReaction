@@ -79,9 +79,9 @@ static const wstring	SPRITE_TYPES_LIST = SPRITE_TYPES_DIR + L"sprite_type_list.x
 // CONSTANTS FOR THE GAME WORLD
 static const float		MAX_VIEWPORT_AXIS_VELOCITY = 5.0f;
 static const float		W_GRAVITY = 0.95f;
-static const float		BOT_MIN_CYCLES = 30;
-static const float		BOT_MAX_CYCLES = 60;
-static const float		BOT_VELOCITY = 15;
+static const float		BOT_MIN_CYCLES = 45;
+static const float		BOT_MAX_CYCLES = 75;
+static const float		BOT_VELOCITY = 12;
 static const float		PLAYER_INIT_X = 250.0f;
 static const float		PLAYER_INIT_Y = 250.0f;
 static const float		JUMP_VELOCITY = 60.0f;

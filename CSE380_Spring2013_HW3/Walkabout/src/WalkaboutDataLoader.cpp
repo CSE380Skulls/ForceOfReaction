@@ -209,7 +209,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	// Bot
 	AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
-	FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, PLAYER_INIT_X + 500, BOT_TRAVEL_DISTANCE);
+	FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, PLAYER_INIT_X + 750, BOT_TRAVEL_DISTANCE);
 	bot->setHitPoints(BOT_HITPOINTS);
 	bot->setDamage(BOT_DAMAGE);
 	bot->setSpriteType(botSpriteType);

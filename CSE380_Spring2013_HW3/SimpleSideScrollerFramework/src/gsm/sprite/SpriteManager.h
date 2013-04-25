@@ -51,6 +51,9 @@ private:
 	// Update the bot removal list, decrement counters and remove bots if necessarry
 	void                updateBotRemovalList();
 
+	// Clear out the bot removal list, note that the animated sprites are cleared, so this just needs to free the nodes.
+	void				clearBotRemovalList();
+
 public:
 	// NOTHING TO INIT OR DESTROY
 	SpriteManager()		{ botRemovalList.head = NULL; }

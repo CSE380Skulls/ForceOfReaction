@@ -49,12 +49,32 @@ TiledLayer::TiledLayer(	int initColumns,
 */
 TiledLayer::~TiledLayer() 
 {
+	// A list to add things to to then remove them, weird errors removing from vector
+	list<Tile*> myList;
+
+	// Add all of the tiles to the list and then clear the list
+	for(int x = 0; x < tileLayout->size(); x++){
+		myList.push_front(tileLayout->at(x));
+	}
+	tileLayout->clear();
+
+	list<Tile*>::iterator listIterator = myList.begin();
+
+	while(listIterator != myList.end()){
+		Tile *temp = (Tile*)(*listIterator);
+		listIterator++;
+		myList.remove(temp);
+		temp->returnPhysicsBody();
+		delete temp;
+	}
+	/*
 	vector<Tile*>::iterator it = tileLayout->begin();
 	Tile* prevTile = *(it);
 	int x = 0;
 	for(int x = 0; x < tileLayout->size(); x++){
 		tileLayout->at(x)->returnPhysicsBody();
 	}
+	*/
 	/*while (it != tileLayout->end())
 	{
 		x++;

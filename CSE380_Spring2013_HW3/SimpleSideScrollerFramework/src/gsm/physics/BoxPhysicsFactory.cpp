@@ -21,6 +21,15 @@ void BoxPhysicsFactory::createPlayerObject(Game *game, AnimatedSprite *sprite){
 		(sprite_y + extent_y),extent_x,extent_y);
 }
 
+void BoxPhysicsFactory::createStaticPlayerObject(Game *game, AnimatedSprite *sprite){
+	float extent_x = sprite->getSpriteType()->getTextureWidth()/2.0f;
+	float extent_y = sprite->getSpriteType()->getTextureHeight()/2.0f;
+	float sprite_x = sprite->getPhysicalProperties()->getX();
+	float sprite_y = sprite->getPhysicalProperties()->getY();
+	createStaticBox(game,sprite,sprite,FRIENDLY_OBJECT_INDEX,(sprite_x + extent_x),
+		(sprite_y + extent_y),extent_x,extent_y);
+}
+
 /* Create an enemy physics object*/
 void BoxPhysicsFactory::createEnemyObject(Game *game, AnimatedSprite *sprite){
 	float extent_x = sprite->getSpriteType()->getTextureWidth()/2.0f;
@@ -125,6 +134,51 @@ void BoxPhysicsFactory::createDynamicBox(Game *game, BoxPhysicsObject *phyobj, A
 	//need to investigate why the object is floaty without
 	//this value
 	body->SetGravityScale(9.0f);
+
+	phyobj->initPhysicsBody(body);
+}
+
+void BoxPhysicsFactory::createStaticBox(Game *game, BoxPhysicsObject *phyobj, AnimatedSprite *obj, int groupIndex, 
+	float screen_center_x, float screen_center_y, float screen_extent_x, float screen_extent_y) {
+
+			//perhaps I need to send the centered x and y coordinates of the body as an argument
+	
+	//WARNING: I NEED FLIP THE COORDINATE FOR THE Y UPSIDE DOWN SINCE THE SCREEN SPACE
+		//COORDINATES USE +Y AS THE DOWN POSITION. (the start of the screen coordinate
+		//space is the top left corner
+		
+		/** This must be tested further to confirm that this actually true about
+			the coordinate spaces**/
+	
+
+	//This will create a body and associate a fixture ( I think since its needed ), and add this to the world
+
+	b2BodyDef staticBodyDef;
+	b2PolygonShape staticBox;
+	b2FixtureDef fixtureDef;
+
+	// Give userData
+	staticBodyDef.userData = obj;
+
+	//convert to physics coordinates using the conversion factor
+	//position in meters
+
+	float32 WORLD_CONV_FACTOR = game->getGSM()->getWorld()->getWorldConvFactor();
+
+	float center_x = screen_center_x/WORLD_CONV_FACTOR;
+	float center_y = (game->getGSM()->getWorld()->getWorldHeight() - screen_center_y) / WORLD_CONV_FACTOR;
+	staticBodyDef.position.Set(center_x, center_y);
+	//extents in meters
+	float extent_x = screen_extent_x/WORLD_CONV_FACTOR;
+	float extent_y = screen_extent_y/WORLD_CONV_FACTOR;
+
+	staticBox.SetAsBox(extent_x, extent_y);
+	fixtureDef.shape = &staticBox;
+
+	fixtureDef.filter.groupIndex = groupIndex;
+
+	b2Body* body = physicsWorldRef->CreateBody(&staticBodyDef);
+	body->CreateFixture(&fixtureDef);
 
 	phyobj->initPhysicsBody(body);
 }

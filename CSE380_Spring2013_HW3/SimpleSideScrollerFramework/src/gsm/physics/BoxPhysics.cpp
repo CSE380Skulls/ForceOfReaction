@@ -90,10 +90,11 @@ void BoxPhysics::updateContacts(Game *game){
 				game->getGAM()->playSound(C_DEATH);
 		}
 		else {
-			int aD = a->getDamage();
-			int bD = b->getDamage();
-			a->decrementHitPoints(b->getDamage());
-			b->decrementHitPoints(a->getDamage());
+			// Small problem where when adding an object with 0 frames until removal, ends up being 1 frame b/c of ordering.
+			if(b->getHitPoints() > 0)
+				a->decrementHitPoints(b->getDamage());
+			if(a->getHitPoints() > 0)
+				b->decrementHitPoints(a->getDamage());
 			game->getGAM()->playConditional(C_HIT);
 		}
 
@@ -103,7 +104,7 @@ void BoxPhysics::updateContacts(Game *game){
 }
 
 /*
-	WARNING, CAN END UP WITH MULTIPLE CONTACTS IN THE SAME LIST
+	Add a contact to contact list.
 */
 void BoxPhysics::addContact(b2Contact *contact){
 	C_Node *n = new C_Node();
@@ -113,6 +114,7 @@ void BoxPhysics::addContact(b2Contact *contact){
 	contacts.head = n;
 }
 
+// Remove a contact from contact list
 void BoxPhysics::removeContact(b2Contact *contact){
 
 	if(contacts.head == NULL)
@@ -138,5 +140,17 @@ void BoxPhysics::removeContact(b2Contact *contact){
 			previous = next;
 			next = next->next;
 		}
+	}
+}
+
+// Free all of the memory assoiated with this contact list.
+void BoxPhysics::clearContacts(){
+	C_Node *n = contacts.head;
+	contacts.head = NULL;
+
+	while(n!= NULL){
+		C_Node *temp = n;
+		n = n->next;
+		delete temp;
 	}
 }

@@ -60,5 +60,8 @@
     <ClInclude Include="src\Seed.h">
       <Filter>src\Bots</Filter>
     </ClInclude>
+    <ClInclude Include="src\Vine.h">
+      <Filter>src\Bots</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -91,6 +91,7 @@
   <ItemGroup>
     <ClInclude Include="src\FORFloatingBot.h" />
     <ClInclude Include="src\Seed.h" />
+    <ClInclude Include="src\Vine.h" />
     <ClInclude Include="src\WalkaboutButtonEventHandler.h" />
     <ClInclude Include="src\WalkaboutCollisionListener.h" />
     <ClInclude Include="src\WalkaboutDataLoader.h" />
