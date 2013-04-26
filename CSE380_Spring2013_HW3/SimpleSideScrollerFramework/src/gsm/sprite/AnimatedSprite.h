@@ -12,6 +12,7 @@
 #pragma once
 #include "stdafx.h"
 #include "src\gsm\physics\CollidableObject.h"
+#include "src\game\Game.h"
 #include "src\gsm\physics\BoxPhysicsObject.h"
 #include "src\gsm\physics\PhysicalProperties.h"
 #include "src\gsm\sprite\AnimatedSpriteType.h"
@@ -76,4 +77,5 @@ public:
 	void decrementHitPoints(int damage) { hitPoints -= damage; }
 	int getHitPoints() { return hitPoints; }
 	int getDamage() { return damage; }
+	virtual void update(Game *game)=0;
 };

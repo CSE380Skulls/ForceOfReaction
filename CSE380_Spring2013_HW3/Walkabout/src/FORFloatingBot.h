@@ -22,6 +22,12 @@ private:
 	// Is this bot in bounds (only aloud to move travelDistance away from spawn distance)
 	bool	isInBounds(int x);
 
+	void	pickRandomCyclesInRange();
+	void	pickRandomVelocity(Physics *physics);
+	void	initBot(	int initMin,
+						int initMax,
+						int initVelocity);
+
 public:
 
 	FORFloatingBot(	    int initMin, 
@@ -30,16 +36,6 @@ public:
 						int spawnX,
 						int travelDistance);
 	~FORFloatingBot();
-	Bot*	clone();
-	void initBot(	int initMin,
-					int initMax,
-					int initVelocity);
-	void	pickRandomCyclesInRange();
-	void	pickRandomVelocity(Physics *physics);
+	Bot*	clone() { return NULL; }
 	void	think(Game *game);
-
-	// INLINED METHODS
-	int getCyclesRemainingBeforeThinking()	{ return cyclesRemainingBeforeThinking; }
-	int getMinCyclesBeforeThinking()		{ return minCyclesBeforeThinking;		}
-	int getMaxCyclesBeforeThinking()		{ return maxCyclesBeforeThinking;		}
 };

@@ -39,7 +39,7 @@ private:
 	list<Bot*> bots;
 
 	// AND THIS IS THE PLAYER. AS-IS, WE ONLY ALLOW FOR ONE PLAYER AT A TIME
-	AnimatedSprite player;
+	AnimatedSprite *player;
 
 	// THE BotRecycler MAKES SURE WE DON'T HAVE TO CONSTRUCT BOTS WHENEVER
 	// WE NEED TO SPAWN THEM, INSTEAD IT WILL RECYCLE THEM FOR US
@@ -56,12 +56,12 @@ private:
 
 public:
 	// NOTHING TO INIT OR DESTROY
-	SpriteManager()		{ botRemovalList.head = NULL; }
+	SpriteManager()		{ botRemovalList.head = NULL; player = NULL; }
 	~SpriteManager()	{}
 
 	// INLINED ACCESSOR METHODS
 	int						getNumberOfSprites()	{ return bots.size();		}
-	AnimatedSprite*			getPlayer()				{ return &player;			}
+	AnimatedSprite*			getPlayer()				{ return player;			}
 	list<Bot*>::iterator	getBotsIterator()		{ return bots.begin();		}
 	list<Bot*>::iterator	getEndOfBotsIterator()	{ return bots.end();		}
 
@@ -80,4 +80,7 @@ public:
 
 	//Box2d test method: this will update all of the sprite locations for rendering
 	void				updateSpriteLocations(int conversion_factor);
+	void				setPlayer(AnimatedSprite *p) { player = p; }
+	// Temporarily here as a way to win a level, will be removed
+	bool				areEnemiesDead() { return bots.size() == 0; }
 };

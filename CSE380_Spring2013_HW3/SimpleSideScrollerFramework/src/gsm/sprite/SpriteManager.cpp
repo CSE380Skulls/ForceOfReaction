@@ -72,7 +72,7 @@ void SpriteManager::addSpriteItemsToRenderList(	Game *game)
 		Viewport *viewport = gui->getViewport();
 
 		// ADD THE PLAYER SPRITE
-		addSpriteToRenderList(game, &player, renderList, viewport);
+		addSpriteToRenderList(game, player, renderList, viewport);
 
 		// NOW ADD THE REST OF THE SPRITES
 		list<Bot*>::iterator botIterator;
@@ -194,7 +194,8 @@ void SpriteManager::update(Game *game)
 	updateBotRemovalList();
 
 	// UPDATE THE PLAYER SPRITE
-	player.updateSprite();
+	player->updateSprite();
+	player->update(game);
 
 	// NOW UPDATE THE REST OF THE SPRITES
 	list<Bot*>::iterator botIterator;

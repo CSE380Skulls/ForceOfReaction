@@ -12,5 +12,29 @@
     <pose image_id="1" duration="100"/>
    </animation_sequence>
   </animation_state>
+  <animation_state>
+   <state>IDLE_LEFT</state>
+   <animation_sequence>
+    <pose image_id="1" duration="100"/>
+   </animation_sequence>
+  </animation_state>
+  <animation_state>
+   <state>ATTACKING_RIGHT</state>
+   <animation_sequence>
+    <pose image_id="1" duration="100"/>
+   </animation_sequence>
+  </animation_state>
+  <animation_state>
+   <state>ATTACKING_LEFT</state>
+   <animation_sequence>
+    <pose image_id="1" duration="100"/>
+   </animation_sequence>
+  </animation_state>
+  <animation_state>
+   <state>DEAD</state>
+   <animation_sequence>
+    <pose image_id="1" duration="100"/>
+   </animation_sequence>
+  </animation_state>
  </animations_list>  
 </sprite_type>

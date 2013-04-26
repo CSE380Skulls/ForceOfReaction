@@ -6,13 +6,17 @@
 #include "src\WalkaboutGame.h"
 #include "src\WalkaboutKeyEventHandler.h"
 #include "src\WalkaboutTextGenerator.h"
+#include "src\FORFloatingBot.h"
+#include "src\Breakable_Wall.h"
+#include "Boss_Bot.h"
+#include "FOR_Player.h"
 
 // GAME OBJECT INCLUDES
 #include "src\game\Game.h"
 #include "src\graphics\GameGraphics.h"
 #include "src\audio\GameAudioManager.h"
-#include "src\FORFloatingBot.h"
 #include "src\gsm\ai\bots\RandomJumpingBot.h"
+#include "src\gsm\sprite\AnimatedSprite.h"
 #include "src\gsm\state\GameState.h"
 #include "src\gsm\world\TiledLayer.h"
 #include "src\gui\Cursor.h"
@@ -184,7 +188,9 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	Physics *physics = gsm->getPhysics();
 	physics->setGravity(W_GRAVITY);
 	SpriteManager *spriteManager = gsm->getSpriteManager();
-	AnimatedSprite *player = spriteManager->getPlayer();
+	FOR_Player *player = new FOR_Player(PLAYER_ATTACK_COOLDOWN, PLAYER_DEATH_COOLDOWN);
+	spriteManager->setPlayer(player);
+	//AnimatedSprite *player = spriteManager->getPlayer();
 	physics->addCollidableObject(player);
 
 	// NOTE THAT RED BOX MAN IS SPRITE ID 2
@@ -207,57 +213,191 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	//create the player object in the physics world
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player);
 
-	// Bot
+	/////////////////////////////////////////////////////////////////////////////
+
+	// Wall1
+	AnimatedSpriteType *breakable_wall = spriteManager->getSpriteType(2);
+	Breakable_Wall *wall1 = new Breakable_Wall();
+	wall1->setHitPoints(WALL_HITPOINTS);
+	wall1->setDamage(0);
+	wall1->setSpriteType(breakable_wall);
+	wall1->setAlpha(255);
+	wall1->setCurrentState(FIVE);
+	PhysicalProperties *wall1Props = wall1->getPhysicalProperties();
+	wall1Props->setX(WALL1_X);
+	wall1Props->setY(WALL_Y);
+	wall1Props->setVelocity(0.0f, 0.0f);
+	wall1Props->setAccelerationX(0);
+	wall1Props->setAccelerationY(0);
+	wall1->setOnTileThisFrame(false);
+	wall1->setOnTileLastFrame(false);
+	wall1->affixTightAABBBoundingVolume();
+
+	//create a physics object for the wall
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldObject(game,wall1);
+
+	physics->addCollidableObject(wall1);
+	spriteManager->addBot(wall1);
+
+	// Wall2
+	Breakable_Wall *wall2 = new Breakable_Wall();
+	wall2->setHitPoints(WALL_HITPOINTS);
+	wall2->setDamage(0);
+	wall2->setSpriteType(breakable_wall);
+	wall2->setAlpha(255);
+	wall2->setCurrentState(FIVE);
+	PhysicalProperties *wall2Props = wall2->getPhysicalProperties();
+	wall2Props->setX(WALL2_X);
+	wall2Props->setY(WALL_Y);
+	wall2Props->setVelocity(0.0f, 0.0f);
+	wall2Props->setAccelerationX(0);
+	wall2Props->setAccelerationY(0);
+	wall2->setOnTileThisFrame(false);
+	wall2->setOnTileLastFrame(false);
+	wall2->affixTightAABBBoundingVolume();
+
+	//create a physics object for the wall
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldObject(game,wall2);
+
+	physics->addCollidableObject(wall2);
+	spriteManager->addBot(wall2);
+
+	/////////////////////////////////////////////////////////////////
+
+	// Boss
+	AnimatedSpriteType *bossSpriteType = spriteManager->getSpriteType(6);
+	//FORFloatingBot *boss = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, BOSS_X, BOT_ATTACK_RANGE);
+	Boss_Bot *boss = new Boss_Bot(BULLET_SPEED, BOT_ATTACK_RANGE, BULLET_SPEED, BOT_ATTACK_COOLDOWN);
+	boss->setHitPoints(BOSS_HITPOINTS);
+	boss->setDamage(1);
+	boss->setSpriteType(bossSpriteType);
+	boss->setAlpha(255);
+	boss->setCurrentState(IDLE_RIGHT);
+	PhysicalProperties *bossProps = boss->getPhysicalProperties();
+	bossProps->setX(BOSS_X);
+	bossProps->setY(BOSS_Y);
+	bossProps->setVelocity(0.0f, 0.0f);
+	bossProps->setAccelerationX(0);
+	bossProps->setAccelerationY(0);
+	boss->setOnTileThisFrame(false);
+	boss->setOnTileLastFrame(false);
+	boss->affixTightAABBBoundingVolume();
+
+	//create a physics object for the boss
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,boss);
+
+	physics->addCollidableObject(boss);
+	spriteManager->addBot(boss);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	int worldWidth = game->getGSM()->getWorld()->getWorldWidth();
+	// Bots
 	AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
-	FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, PLAYER_INIT_X + 750, BOT_TRAVEL_DISTANCE);
-	bot->setHitPoints(BOT_HITPOINTS);
-	bot->setDamage(BOT_DAMAGE);
-	bot->setSpriteType(botSpriteType);
-	bot->setAlpha(255);
-	bot->setCurrentState(IDLE_RIGHT);
-	PhysicalProperties *botProps = bot->getPhysicalProperties();
-	botProps->setX(PLAYER_INIT_X + 500);
-	botProps->setY(PLAYER_INIT_Y);
-	botProps->setVelocity(0.0f, 0.0f);
-	botProps->setAccelerationX(0);
-	botProps->setAccelerationY(0);
-	bot->setOnTileThisFrame(false);
-	bot->setOnTileLastFrame(false);
-	bot->affixTightAABBBoundingVolume();
 
-	//create a physics object for the bot
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot);
+	int ySpawn = BOT_INIT_Y;
+	//int xSpawn = BOT_INIT_X;
 
-	physics->addCollidableObject(bot);
-	spriteManager->addBot(bot);
-
-
-// UNCOMMENT THE FOLLOWING CODE BLOCK WHEN YOU ARE READY TO ADD SOME BOTS
-/*	for (int i = 2; i <= 26; i++)
-	{
-		float botX = 400.0f + (i * 100.0f);
-		float botY = 100.0f;
-		makeRandomJumpingBot(game, botSpriteType, botX, botY);
+	for(int x = 2; x < 4; x ++){
+		int xSpawn = x * worldWidth / 4.0f;
+		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE);
+		bot->setHitPoints(BOT_HITPOINTS);
+		bot->setDamage(BOT_DAMAGE);
+		bot->setSpriteType(botSpriteType);
+		bot->setAlpha(255);
+		bot->setCurrentState(IDLE_RIGHT);
+		PhysicalProperties *botProps = bot->getPhysicalProperties();
+		botProps->setX(xSpawn);
+		botProps->setY(ySpawn);
+		botProps->setVelocity(0.0f, 0.0f);
+		botProps->setAccelerationX(0);
+		botProps->setAccelerationY(0);
+		bot->setOnTileThisFrame(false);
+		bot->setOnTileLastFrame(false);
+		bot->affixTightAABBBoundingVolume();
+			
+		//create a physics object for the bot
+		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot);
+		physics->addCollidableObject(bot);
+		spriteManager->addBot(bot);
 	}
 
-	// AND THEN STRATEGICALLY PLACED AROUND THE LEVEL
-	makeRandomJumpingBot(game, botSpriteType, 400, 100);
-	makeRandomJumpingBot(game, botSpriteType, 200, 400);
-	makeRandomJumpingBot(game, botSpriteType, 400, 400);
-	makeRandomJumpingBot(game, botSpriteType, 800, 700);
-	makeRandomJumpingBot(game, botSpriteType, 900, 700);
-	makeRandomJumpingBot(game, botSpriteType, 1000, 700);
-	makeRandomJumpingBot(game, botSpriteType, 100, 1000);
-	makeRandomJumpingBot(game, botSpriteType, 300, 1000);	
-	makeRandomJumpingBot(game, botSpriteType, 500, 1000);
-	makeRandomJumpingBot(game, botSpriteType, 100, 1400);
-	makeRandomJumpingBot(game, botSpriteType, 400, 1400);	
-	makeRandomJumpingBot(game, botSpriteType, 700, 1400);
+	ySpawn = 2100;
+	for(int x = 1; x < 4; x ++){
+		int xSpawn = x * worldWidth / 4.0f;
+		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE);
+		bot->setHitPoints(BOT_HITPOINTS);
+		bot->setDamage(BOT_DAMAGE);
+		bot->setSpriteType(botSpriteType);
+		bot->setAlpha(255);
+		bot->setCurrentState(IDLE_RIGHT);
+		PhysicalProperties *botProps = bot->getPhysicalProperties();
+		botProps->setX(xSpawn);
+		botProps->setY(ySpawn);
+		botProps->setVelocity(0.0f, 0.0f);
+		botProps->setAccelerationX(0);
+		botProps->setAccelerationY(0);
+		bot->setOnTileThisFrame(false);
+		bot->setOnTileLastFrame(false);
+		bot->affixTightAABBBoundingVolume();
+			
+		//create a physics object for the bot
+		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot);
+		physics->addCollidableObject(bot);
+		spriteManager->addBot(bot);
+	}
 
-	// AND THEN A BUNCH LINED UP NEAR THE LEVEL EXIT
-	for (int i = 0; i < 14; i++)
-		makeRandomJumpingBot(game, botSpriteType, 1700.0f + (i*100.0f), 1300.0f);
-*/		
+	ySpawn = 1700;
+	for(int x = 3; x < 4; x ++){
+		int xSpawn = x * worldWidth / 4.0f;
+		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE);
+		bot->setHitPoints(BOT_HITPOINTS);
+		bot->setDamage(BOT_DAMAGE);
+		bot->setSpriteType(botSpriteType);
+		bot->setAlpha(255);
+		bot->setCurrentState(IDLE_RIGHT);
+		PhysicalProperties *botProps = bot->getPhysicalProperties();
+		botProps->setX(xSpawn);
+		botProps->setY(ySpawn);
+		botProps->setVelocity(0.0f, 0.0f);
+		botProps->setAccelerationX(0);
+		botProps->setAccelerationY(0);
+		bot->setOnTileThisFrame(false);
+		bot->setOnTileLastFrame(false);
+		bot->affixTightAABBBoundingVolume();
+			
+		//create a physics object for the bot
+		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot);
+		physics->addCollidableObject(bot);
+		spriteManager->addBot(bot);
+	}
+
+	ySpawn = 1200;
+	for(int x = 3; x < 4; x ++){
+		int xSpawn = x * worldWidth / 4.0f;
+		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE);
+		bot->setHitPoints(BOT_HITPOINTS);
+		bot->setDamage(BOT_DAMAGE);
+		bot->setSpriteType(botSpriteType);
+		bot->setAlpha(255);
+		bot->setCurrentState(IDLE_RIGHT);
+		PhysicalProperties *botProps = bot->getPhysicalProperties();
+		botProps->setX(xSpawn);
+		botProps->setY(ySpawn);
+		botProps->setVelocity(0.0f, 0.0f);
+		botProps->setAccelerationX(0);
+		botProps->setAccelerationY(0);
+		bot->setOnTileThisFrame(false);
+		bot->setOnTileLastFrame(false);
+		bot->affixTightAABBBoundingVolume();
+			
+		//create a physics object for the bot
+		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot);
+		physics->addCollidableObject(bot);
+		spriteManager->addBot(bot);
+	}
+
 
 	// Reset viewport
 	game->getGUI()->getViewport()->setViewportX(0);

@@ -82,6 +82,8 @@ static const float		W_GRAVITY = 0.95f;
 static const float		BOT_MIN_CYCLES = 45;
 static const float		BOT_MAX_CYCLES = 75;
 static const float		BOT_VELOCITY = 12;
+static const float		BOT_INIT_X = 750;
+static const float		BOT_INIT_Y = 250;
 static const float		PLAYER_INIT_X = 250.0f;
 static const float		PLAYER_INIT_Y = 250.0f;
 static const float		JUMP_VELOCITY = 60.0f;
@@ -90,13 +92,26 @@ static const int		MIN_FPS = 5;
 static const int		MAX_FPS = 100;
 static const int		FPS_INC = 1;
 static const float      BOX2D_CONVERSION_FACTOR = 32;
-static const int        BOT_TRAVEL_DISTANCE = 500;
+static const int        BOT_ATTACK_RANGE = 500;
 static const int 		PROJECTILE_VELOCITY = 50;
 static const int		PLAYER_HITPOINTS = 30;
 static const int		BOT_HITPOINTS = 10;
 static const int		BOT_DAMAGE = 1;
 static const int		SEED_DAMAGE = 5;
 static const int		VINE_DAMAGE = 10;
+static const int		WALL_HITPOINTS = 50;
+static const int		WALL1_X = 1152;
+static const int		WALL_Y = 1792;
+static const int		WALL2_X = 1984;
+static const int		BULLET_SPEED = 100;
+static const int		BULLET_DAMAGE = 50;
+static const int		BOSS_HITPOINTS = 100;
+static const int		BOSS_X = 500;
+static const int		BOSS_Y = 2000;
+static const int		BOT_ATTACK_COOLDOWN = 30;
+static const int		PLAYER_ATTACK_COOLDOWN = 30;
+static const int		PLAYER_DEATH_COOLDOWN = 60;
+
 
 // Animated Sprite States
 static const wstring	IDLE_RIGHT(L"IDLE_RIGHT");
@@ -110,6 +125,11 @@ static const wstring	FALLING_LEFT(L"FALLING_LEFT");
 static const wstring	ATTACKING_RIGHT(L"ATTACKING_RIGHT");
 static const wstring	ATTACKING_LEFT(L"ATTACKING_LEFT");
 static const wstring	DEAD(L"DEAD");
+static const wstring	ONE(L"ONE");
+static const wstring	TWO(L"TWO");
+static const wstring	THREE(L"THREE");
+static const wstring	FOUR(L"FOUR");
+static const wstring	FIVE(L"FIVE");
 
 // Keys
 const unsigned int W_KEY = (unsigned int)'W';

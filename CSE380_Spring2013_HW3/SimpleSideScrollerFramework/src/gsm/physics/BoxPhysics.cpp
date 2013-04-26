@@ -84,18 +84,18 @@ void BoxPhysics::updateContacts(Game *game){
 				game->getGAM()->playSound(C_DEATH);
 		}
 		else if(b == game->getGSM()->getSpriteManager()->getPlayer()){
-			b->decrementHitPoints(b->getDamage());
+			b->decrementHitPoints(a->getDamage());
 			game->getGAM()->playConditional(C_PLAYERHIT);
 			if (b->getHitPoints()==0)
 				game->getGAM()->playSound(C_DEATH);
 		}
 		else {
 			// Small problem where when adding an object with 0 frames until removal, ends up being 1 frame b/c of ordering.
-			if(b->getHitPoints() > 0)
+			if(b->getHitPoints() > 0 && a->getHitPoints() > 0){
 				a->decrementHitPoints(b->getDamage());
-			if(a->getHitPoints() > 0)
 				b->decrementHitPoints(a->getDamage());
-			game->getGAM()->playConditional(C_HIT);
+				game->getGAM()->playConditional(C_HIT);
+			}
 		}
 
 		// Update these contacts

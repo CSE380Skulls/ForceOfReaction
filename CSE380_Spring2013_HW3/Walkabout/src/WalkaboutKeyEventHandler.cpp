@@ -13,6 +13,7 @@
 #include "src\WalkaboutKeyEventHandler.h"
 #include "src\Seed.h"
 #include "src\Vine.h"
+#include "src\FOR_Player.h"
 #include "src\game\Game.h"
 #include "src\game\WStringTable.h"
 #include "src\graphics\GameGraphics.h"
@@ -41,8 +42,10 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 
 	// LET'S GET THE PLAYER'S PHYSICAL PROPERTIES, IN CASE WE WANT TO CHANGE THEM
 	GameStateManager *gsm = game->getGSM();
-	AnimatedSprite *player = gsm->getSpriteManager()->getPlayer();
-	PhysicalProperties *pp = player->getPhysicalProperties();	
+	FOR_Player *player = (FOR_Player*)gsm->getSpriteManager()->getPlayer();
+	PhysicalProperties *pp = player->getPhysicalProperties();
+
+	//((FOR_Player*)player)->update();
 
 	// IF THE GAME IS IN PROGRESS
 	if (gsm->isGameInProgress())
@@ -53,67 +56,67 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 
 		if (input->isKeyDown(A_KEY))
 		{
+			if(player->can_Move()) {
+				player->getPhysicsBody()->SetLinearVelocity(b2Vec2(-PLAYER_VELOCITY,
+					player->getPhysicsBody()->GetLinearVelocity().y));
 
-			player->getPhysicsBody()->SetLinearVelocity(b2Vec2(-PLAYER_VELOCITY,
-				player->getPhysicsBody()->GetLinearVelocity().y));
-
-			if (player->getPhysicsBody()->GetLinearVelocity().y==0)
-				player->setCurrentState(WALKING_LEFT);
-
+				if (player->getPhysicsBody()->GetLinearVelocity().y==0)
+					player->setCurrentState(WALKING_LEFT);
+			}
 		}
 		else if (input->isKeyDown(D_KEY))
 		{
+			if(player->can_Move()) {
+				player->getPhysicsBody()->SetLinearVelocity(b2Vec2(PLAYER_VELOCITY,
+					player->getPhysicsBody()->GetLinearVelocity().y));
 
-			player->getPhysicsBody()->SetLinearVelocity(b2Vec2(PLAYER_VELOCITY,
-				player->getPhysicsBody()->GetLinearVelocity().y));
-
-			if (player->getPhysicsBody()->GetLinearVelocity().y==0)
-				player->setCurrentState(WALKING_RIGHT);
+				if (player->getPhysicsBody()->GetLinearVelocity().y==0)
+					player->setCurrentState(WALKING_RIGHT);
+			}
 		}
 		else
 		{
 			player->getPhysicsBody()->SetLinearVelocity(b2Vec2(0, player->getPhysicsBody()->GetLinearVelocity().y));
-			if(player->getCurrentState() == WALKING_RIGHT){
-				if(player->getPhysicsBody()->GetLinearVelocity().y < 0.0f)
-					player->setCurrentState(FALLING_RIGHT);
-				else
+			if(player->can_Move()) {
+				if(player->getCurrentState() == WALKING_RIGHT){
+					if(player->getPhysicsBody()->GetLinearVelocity().y < 0.0f)
+						player->setCurrentState(FALLING_RIGHT);
+					else
+						player->setCurrentState(IDLE_RIGHT);
+				}
+				if(player->getCurrentState() == WALKING_LEFT){
+					if(player->getPhysicsBody()->GetLinearVelocity().y < 0.0f)
+						player->setCurrentState(FALLING_LEFT);
+					else
+						player->setCurrentState(IDLE_LEFT);
+				}
+				if((player->getCurrentState() == JUMPING_RIGHT || player->getCurrentState() == FALLING_RIGHT) 
+					&& player->getPhysicsBody()->GetLinearVelocity().y == 0.0f)
 					player->setCurrentState(IDLE_RIGHT);
-			}
-			if(player->getCurrentState() == WALKING_LEFT){
-				if(player->getPhysicsBody()->GetLinearVelocity().y < 0.0f)
-					player->setCurrentState(FALLING_LEFT);
-				else
+				if((player->getCurrentState() == JUMPING_LEFT || player->getCurrentState() == FALLING_LEFT)
+					&& player->getPhysicsBody()->GetLinearVelocity().y == 0.0f)
+					player->setCurrentState(IDLE_LEFT);
+				if(player->getCurrentState() == ATTACKING_RIGHT && player->getFrameIndex()==12)
+					player->setCurrentState(IDLE_RIGHT);
+				if(player->getCurrentState() == ATTACKING_LEFT && player->getFrameIndex()==12)
 					player->setCurrentState(IDLE_LEFT);
 			}
-			if((player->getCurrentState() == JUMPING_RIGHT || player->getCurrentState() == FALLING_RIGHT) 
-				&& player->getPhysicsBody()->GetLinearVelocity().y == 0.0f)
-				player->setCurrentState(IDLE_RIGHT);
-			if((player->getCurrentState() == JUMPING_LEFT || player->getCurrentState() == FALLING_LEFT)
-				&& player->getPhysicsBody()->GetLinearVelocity().y == 0.0f)
-				player->setCurrentState(IDLE_LEFT);
-			if(player->getCurrentState() == ATTACKING_RIGHT && player->getFrameIndex()==12)
-				player->setCurrentState(IDLE_RIGHT);
-			if(player->getCurrentState() == ATTACKING_LEFT && player->getFrameIndex()==12)
-				player->setCurrentState(IDLE_LEFT);
 		}
-		if (input->isKeyDownForFirstTime(SPACE_KEY))
+		if (input->isKeyDownForFirstTime(W_KEY))
 		{
-			//Need to create a box2d listener to set a similiar "wasOnTileLastFrame"
-			//condition, otherwise he will continually jump even in midair :)
-			//TODO: get a better understanding of mass in this world
-			//		and how the velocity affects it, this high vel is
-			//		not right...
-			if(player->getPhysicsBody()->GetLinearVelocity().y==0)
-			{
-				game->getGAM()->playSound(C_JUMP);
-				player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(0.0f, JUMP_VELOCITY),
-					player->getPhysicsBody()->GetPosition());
+			if(player->can_Move()) {
+				if(player->getPhysicsBody()->GetLinearVelocity().y==0)
+				{
+					game->getGAM()->playSound(C_JUMP);
+					player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(0.0f, JUMP_VELOCITY),
+						player->getPhysicsBody()->GetPosition());
 			
-				if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
-					player->setCurrentState(JUMPING_RIGHT);
+					if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
+						player->setCurrentState(JUMPING_RIGHT);
 
-				if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
-					player->setCurrentState(JUMPING_LEFT);
+					if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
+						player->setCurrentState(JUMPING_LEFT);
+				}
 			}
 		}
 		if (input->isKeyDownForFirstTime(ESCAPE_KEY))
@@ -128,115 +131,119 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		}
 		if (input->isKeyDownForFirstTime(MOUSE_LEFT))
 		{
-			game->getGAM()->playSound(C_SWING);
-			if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
-				player->setCurrentState(ATTACKING_RIGHT);
-			if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
-				player->setCurrentState(ATTACKING_LEFT);
+			if(player->can_Attack()){
+				game->getGAM()->playSound(C_SWING);
+				if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
+					player->setCurrentState(ATTACKING_RIGHT);
+				if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
+					player->setCurrentState(ATTACKING_LEFT);
 
-			float mx = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
-			float px = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
-			float py = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
-			py = game->getGSM()->getWorld()->getWorldHeight() - py;
+				float mx = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
+				float px = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
+				float py = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
+				py = game->getGSM()->getWorld()->getWorldHeight() - py;
 
 
-			AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
-			float vineX;
-			if(mx > px){
-				// Right side click
-				player->setCurrentState(ATTACKING_RIGHT);
-				vineX = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0 + vineSpriteType->getTextureWidth() / 2;
+				AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
+				float vineX;
+				if(mx > px){
+					// Right side click
+					player->setCurrentState(ATTACKING_RIGHT);
+					vineX = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0 + vineSpriteType->getTextureWidth() / 2;
+				}
+				else {
+					// Left side click
+					player->setCurrentState(ATTACKING_LEFT);
+					vineX = px - vineSpriteType->getTextureWidth() / 2;
+				}
+
+				Vine *vine = new Vine();
+				vine->setHitPoints(1);
+				vine->setDamage(VINE_DAMAGE);
+				vine->setSpriteType(vineSpriteType);
+				vine->setAlpha(255);
+				vine->setCurrentState(IDLE_LEFT);
+				PhysicalProperties *vineProps = vine->getPhysicalProperties();
+				vineProps->setX(vineX);
+				vineProps->setY(py);
+				vineProps->setVelocity(0.0f, 0.0f);
+				vineProps->setAccelerationX(0);
+				vineProps->setAccelerationY(0);
+				vine->setOnTileThisFrame(false);
+				vine->setOnTileLastFrame(false);
+				vine->affixTightAABBBoundingVolume();
+
+				//create a physics object for the seed
+				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticPlayerObject(game,vine);
+
+				// Remove this vine after 30 frames
+				game->getGSM()->getSpriteManager()->addBotToRemovalList(vine, 30);
+
+				game->getGSM()->getPhysics()->addCollidableObject(vine);
+				game->getGSM()->getSpriteManager()->addBot(vine);
 			}
-			else {
-				// Left side click
-				player->setCurrentState(ATTACKING_LEFT);
-				vineX = px - vineSpriteType->getTextureWidth() / 2;
-			}
-
-			Vine *vine = new Vine();
-			vine->setHitPoints(1);
-			vine->setDamage(VINE_DAMAGE);
-			vine->setSpriteType(vineSpriteType);
-			vine->setAlpha(255);
-			vine->setCurrentState(IDLE_LEFT);
-			PhysicalProperties *vineProps = vine->getPhysicalProperties();
-			vineProps->setX(vineX);
-			vineProps->setY(py);
-			vineProps->setVelocity(0.0f, 0.0f);
-			vineProps->setAccelerationX(0);
-			vineProps->setAccelerationY(0);
-			vine->setOnTileThisFrame(false);
-			vine->setOnTileLastFrame(false);
-			vine->affixTightAABBBoundingVolume();
-
-			//create a physics object for the seed
-			game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticPlayerObject(game,vine);
-
-			// Remove this vine after 30 frames
-			game->getGSM()->getSpriteManager()->addBotToRemovalList(vine, 30);
-
-			game->getGSM()->getPhysics()->addCollidableObject(vine);
-			game->getGSM()->getSpriteManager()->addBot(vine);
 		}
 		if(input->isKeyDownForFirstTime(MOUSE_RIGHT))
 		{
-			game->getGAM()->playSound(C_SWING);
-			// Get mouse and player locations
-			float mX = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
-			float mY = game->getGUI()->getCursor()->getY() + game->getGUI()->getViewport()->getViewportY();
-			float pX = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
-			float pY = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
-			pY = game->getGSM()->getWorld()->getWorldHeight() - pY;
+			if(player->can_Attack()) {
+				game->getGAM()->playSound(C_SWING);
+				// Get mouse and player locations
+				float mX = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
+				float mY = game->getGUI()->getCursor()->getY() + game->getGUI()->getViewport()->getViewportY();
+				float pX = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
+				float pY = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
+				pY = game->getGSM()->getWorld()->getWorldHeight() - pY;
 
-			// Get the difference bewteen these loactions
-			float difX = mX - pX;
-			float difY = mY - pY;
+				// Get the difference bewteen these loactions
+				float difX = mX - pX;
+				float difY = mY - pY;
 
-			if(difX > 0){
-				player->setCurrentState(ATTACKING_RIGHT);
+				if(difX > 0){
+					player->setCurrentState(ATTACKING_RIGHT);
+				}
+				else {
+					player->setCurrentState(ATTACKING_LEFT);
+				}
+
+				// Get the length of the vector from player to mouse
+				float length = std::sqrt( (difX * difX) + (difY * difY) );
+
+				// Normalize the distances
+				difX /= length;
+				difY /= length;
+
+				// Scale distances to be x and y velocity
+				difX *= PROJECTILE_VELOCITY;
+
+				difY *= PROJECTILE_VELOCITY;
+
+				// Seed
+				AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
+				Seed *seed = new Seed();
+				seed->setHitPoints(1);
+				seed->setDamage(SEED_DAMAGE);
+				seed->setSpriteType(seedSpriteType);
+				seed->setAlpha(255);
+				seed->setCurrentState(IDLE_LEFT);
+				PhysicalProperties *seedProps = seed->getPhysicalProperties();
+				seedProps->setX(pX);
+				seedProps->setY(pY);
+				seedProps->setVelocity(0.0f, 0.0f);
+				seedProps->setAccelerationX(0);
+				seedProps->setAccelerationY(0);
+				seed->setOnTileThisFrame(false);
+				seed->setOnTileLastFrame(false);
+				seed->affixTightAABBBoundingVolume();
+
+				//create a physics object for the seed
+				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,seed);
+
+				// Set the velocity of the seed
+				seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
+
+				game->getGSM()->getPhysics()->addCollidableObject(seed);
+				game->getGSM()->getSpriteManager()->addBot(seed);
 			}
-			else {
-				player->setCurrentState(ATTACKING_LEFT);
-			}
-
-			// Get the length of the vector from player to mouse
-			float length = std::sqrt( (difX * difX) + (difY * difY) );
-
-			// Normalize the distances
-			difX /= length;
-			difY /= length;
-
-			// Scale distances to be x and y velocity
-			difX *= PROJECTILE_VELOCITY;
-
-			difY *= PROJECTILE_VELOCITY;
-
-			// Seed
-			AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
-			Seed *seed = new Seed();
-			seed->setHitPoints(1);
-			seed->setDamage(SEED_DAMAGE);
-			seed->setSpriteType(seedSpriteType);
-			seed->setAlpha(255);
-			seed->setCurrentState(IDLE_LEFT);
-			PhysicalProperties *seedProps = seed->getPhysicalProperties();
-			seedProps->setX(pX);
-			seedProps->setY(pY);
-			seedProps->setVelocity(0.0f, 0.0f);
-			seedProps->setAccelerationX(0);
-			seedProps->setAccelerationY(0);
-			seed->setOnTileThisFrame(false);
-			seed->setOnTileLastFrame(false);
-			seed->affixTightAABBBoundingVolume();
-
-			//create a physics object for the seed
-			game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,seed);
-
-			// Set the velocity of the seed
-			seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
-
-			game->getGSM()->getPhysics()->addCollidableObject(seed);
-			game->getGSM()->getSpriteManager()->addBot(seed);
 		
 		}
 		// CTRL + 1 = auto win level

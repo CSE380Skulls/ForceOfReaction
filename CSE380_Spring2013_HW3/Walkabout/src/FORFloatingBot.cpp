@@ -28,27 +28,11 @@ FORFloatingBot::FORFloatingBot(	int initMin,
 }
 
 /*
-	This is the public constructor used by other classes for 
-	creating these types of bots.
-*/
-/*FORFloatingBot::FORFloatingBot(	Physics *physics,
-										int initMin, 
-										int initMax, 
-										int initVelocity)
-{
-	// INIT THE BASIC STUFF
-	initBot(initMin, initMax, initVelocity);
-
-	// AND START THE BOT OFF WITH RANDOM INTERVAL UNTIL IT THINKS AGAIN
-	pickRandomCyclesInRange();
-}
-*/
-
-/*
 	clone - this method makes another RandomFloatingBot object, but does
 	not completely initialize it with similar data to this. Most of the 
 	object, like velocity and position, are left uninitialized.
 */
+/*
 Bot* FORFloatingBot::clone()
 {
 	FORFloatingBot *botClone = new FORFloatingBot(	minCyclesBeforeThinking, 
@@ -58,6 +42,7 @@ Bot* FORFloatingBot::clone()
 															travelDistance);
 	return botClone;
 }
+*/
 
 /*
 	initBot - this initialization method sets up the basic bot
@@ -140,7 +125,7 @@ void FORFloatingBot::think(Game *game)
 {
 	if(dead)
 		return;
-	if(this->hitPoints <= 0){
+	if(hitPoints <= 0){
 		game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 30);
 		setCurrentState(DEAD);
 		dead = true;

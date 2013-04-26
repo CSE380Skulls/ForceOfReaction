@@ -30,6 +30,15 @@ void BoxPhysicsFactory::createStaticPlayerObject(Game *game, AnimatedSprite *spr
 		(sprite_y + extent_y),extent_x,extent_y);
 }
 
+void BoxPhysicsFactory::createStaticWorldObject(Game *game, AnimatedSprite *sprite){
+	float extent_x = sprite->getSpriteType()->getTextureWidth()/2.0f;
+	float extent_y = sprite->getSpriteType()->getTextureHeight()/2.0f;
+	float sprite_x = sprite->getPhysicalProperties()->getX();
+	float sprite_y = sprite->getPhysicalProperties()->getY();
+	createStaticBox(game,sprite,sprite,OTHER,(sprite_x + extent_x),
+		(sprite_y + extent_y),extent_x,extent_y);
+}
+
 /* Create an enemy physics object*/
 void BoxPhysicsFactory::createEnemyObject(Game *game, AnimatedSprite *sprite){
 	float extent_x = sprite->getSpriteType()->getTextureWidth()/2.0f;

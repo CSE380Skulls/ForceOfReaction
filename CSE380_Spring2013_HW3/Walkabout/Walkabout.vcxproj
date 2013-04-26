@@ -79,7 +79,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Boss_Bot.cpp" />
+    <ClCompile Include="src\Breakable_Wall.cpp" />
     <ClCompile Include="src\FORFloatingBot.cpp" />
+    <ClCompile Include="src\FOR_Player.cpp" />
     <ClCompile Include="src\Seed.cpp" />
     <ClCompile Include="src\WalkaboutButtonEventHandler.cpp" />
     <ClCompile Include="src\WalkaboutCollisionListener.cpp" />
@@ -89,7 +92,10 @@
     <ClCompile Include="src\WalkaboutTextGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Boss_Bot.h" />
+    <ClInclude Include="src\Breakable_Wall.h" />
     <ClInclude Include="src\FORFloatingBot.h" />
+    <ClInclude Include="src\FOR_Player.h" />
     <ClInclude Include="src\Seed.h" />
     <ClInclude Include="src\Vine.h" />
     <ClInclude Include="src\WalkaboutButtonEventHandler.h" />

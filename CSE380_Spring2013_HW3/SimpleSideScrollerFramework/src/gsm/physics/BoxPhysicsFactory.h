@@ -31,6 +31,7 @@ public:
 	void createTileObject(Game *game, BoxPhysicsObject *phyobj, 
 		float screen_center_x, float screen_center_y, float extent_x, float extent_y);
 	void createStaticPlayerObject(Game *game, AnimatedSprite *sprite);
+	void createStaticWorldObject(Game *game, AnimatedSprite *sprite);
 
 private:
 	b2World *physicsWorldRef;

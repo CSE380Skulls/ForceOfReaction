@@ -47,6 +47,7 @@
   <image_file id="42" file_name="attacking_left_5.png"/>
   <image_file id="43" file_name="attacking_left_6.png"/>
   <image_file id="44" file_name="attacking_left_7.png"/>
+  <image_file id="45" file_name="transparent.png"/>
  </images_list>
  <animations_list>
   <animation_state>
@@ -149,6 +150,13 @@
 	<pose image_id="37" duration="3"/>
 	<pose image_id="37" duration="3"/>
 	<pose image_id="31" duration="3"/>
+   </animation_sequence>
+  </animation_state>
+  <animation_state>
+   <state>DEAD</state>
+   <animation_sequence>
+    <pose image_id="2" duration="5"/>
+	<pose image_id="45" duration="5"/>
    </animation_sequence>
   </animation_state>
  </animations_list>  

@@ -34,6 +34,15 @@
     <ClCompile Include="src\Seed.cpp">
       <Filter>src\Bots</Filter>
     </ClCompile>
+    <ClCompile Include="src\Breakable_Wall.cpp">
+      <Filter>src\Bots</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boss_Bot.cpp">
+      <Filter>src\Bots</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FOR_Player.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\WalkaboutButtonEventHandler.h">
@@ -62,6 +71,15 @@
     </ClInclude>
     <ClInclude Include="src\Vine.h">
       <Filter>src\Bots</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Breakable_Wall.h">
+      <Filter>src\Bots</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boss_Bot.h">
+      <Filter>src\Bots</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FOR_Player.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

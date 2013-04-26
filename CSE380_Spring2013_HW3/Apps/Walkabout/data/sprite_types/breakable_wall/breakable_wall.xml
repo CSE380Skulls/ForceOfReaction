@@ -7,18 +7,19 @@
   <image_file id="2" file_name="wall_2.png"/>
   <image_file id="3" file_name="wall_3.png"/>
   <image_file id="4" file_name="wall_4.png"/>
+  <image_file id="5" file_name="wall_5.png"/>
  </images_list>
  <animations_list>
   <animation_state>
-   <state>FULL</state>
+   <state>FIVE</state>
    <animation_sequence>
-    <pose image_id="1" duration="10000"/>
+    <pose image_id="5" duration="10000"/>
    </animation_sequence>
   </animation_state>
   <animation_state>
-   <state>TWO</state>
+   <state>FOUR</state>
    <animation_sequence>
-    <pose image_id="2" duration="10000"/>
+    <pose image_id="4" duration="10000"/>
    </animation_sequence>
   </animation_state>
   <animation_state>
@@ -28,9 +29,15 @@
    </animation_sequence>
   </animation_state>
   <animation_state>
-   <state>FOUR</state>
+   <state>TWO</state>
    <animation_sequence>
-    <pose image_id="4" duration="10000"/>
+    <pose image_id="2" duration="10000"/>
+   </animation_sequence>
+  </animation_state>
+  <animation_state>
+   <state>ONE</state>
+   <animation_sequence>
+    <pose image_id="1" duration="10000"/>
    </animation_sequence>
   </animation_state>
  </animations_list>  
