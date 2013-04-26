@@ -57,6 +57,7 @@ public:
 	// SPECIFIC CLASSES
 	virtual void			clear()=0;
 	virtual unsigned int	loadTexture(wstring key)=0;
+	virtual unsigned int	retrieveTexture(wstring key)=0;
 	virtual void			reloadAllTextures()=0;
 	virtual bool loadTileSetFromTexture(Game *game,	wstring dir, wstring sourceImage, int tileWidth, int tileHeight)=0;
 

@@ -68,6 +68,11 @@ unsigned int DirectXTextureManager::loadTexture(wstring key)
 	}
 	return -1;
 }
+unsigned int DirectXTextureManager::retrieveTexture(wstring key)
+{
+	return wstringTable.getIndexOfWString(key.c_str());
+}
+
 
 unsigned int DirectXTextureManager::fillTexture(wstring key, LPDIRECT3DTEXTURE9 *textureToFill)
 {

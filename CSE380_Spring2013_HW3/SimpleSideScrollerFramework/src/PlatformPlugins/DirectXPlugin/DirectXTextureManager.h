@@ -35,6 +35,7 @@ public:
 	~DirectXTextureManager();
 	void				clear();
 	unsigned int		loadTexture(wstring key);
+	unsigned int		retrieveTexture(wstring key);
 	void				reloadAllTextures();
 
 	// PLATFORM-SPECIFIC

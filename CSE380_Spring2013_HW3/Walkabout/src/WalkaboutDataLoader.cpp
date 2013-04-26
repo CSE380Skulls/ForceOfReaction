@@ -189,6 +189,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	physics->setGravity(W_GRAVITY);
 	SpriteManager *spriteManager = gsm->getSpriteManager();
 	FOR_Player *player = new FOR_Player(PLAYER_ATTACK_COOLDOWN, PLAYER_DEATH_COOLDOWN);
+	
 	spriteManager->setPlayer(player);
 	//AnimatedSprite *player = spriteManager->getPlayer();
 	physics->addCollidableObject(player);
@@ -879,6 +880,19 @@ void WalkaboutDataLoader::initInGameGUI(GameGUI *gui, DirectXTextureManager *gui
 	// NOW ADD THE IN-GAME GUI
 	ScreenGUI *inGameGUI = new ScreenGUI();
 
+	guiTextureManager->loadTexture(W_STATUS_HP_9_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_8_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_7_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_6_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_5_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_4_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_3_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_2_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_1_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_0_PATH);
+	guiTextureManager->loadTexture(W_STATUS_EARTH_SELECTED_PATH);
+	guiTextureManager->loadTexture(W_STATUS_WATER_SELECTED_PATH);
+
 	unsigned int imageID = guiTextureManager->loadTexture(W_STATUS_HEAD_PATH);
 	OverlayImage *imageToAdd = new OverlayImage();
 	imageToAdd->x = 20;
@@ -890,36 +904,36 @@ void WalkaboutDataLoader::initInGameGUI(GameGUI *gui, DirectXTextureManager *gui
 	imageToAdd->imageID = imageID;
 	inGameGUI->addOverlayImage(imageToAdd);
 
-	imageID = guiTextureManager->loadTexture(W_STATUS_FIRE_PATH);
+	imageID = guiTextureManager->loadTexture(W_STATUS_HP_10_PATH);
 	imageToAdd = new OverlayImage();
 	imageToAdd->x = 84;
 	imageToAdd->y = 15;
 	imageToAdd->z = 0;
 	imageToAdd->alpha = 255;
-	imageToAdd->width = 340;
+	imageToAdd->width = 320;
 	imageToAdd->height = 22;
 	imageToAdd->imageID = imageID;
 	inGameGUI->addOverlayImage(imageToAdd);
 
-	imageID = guiTextureManager->loadTexture(W_STATUS_WATER_PATH);
+	imageID = guiTextureManager->loadTexture(W_STATUS_EARTH_UNSELECTED_PATH);
 	imageToAdd = new OverlayImage();
-	imageToAdd->x = 84;
-	imageToAdd->y = 40;
+	imageToAdd->x = 110;
+	imageToAdd->y = 50;
 	imageToAdd->z = 0;
 	imageToAdd->alpha = 255;
-	imageToAdd->width = 340;
-	imageToAdd->height = 22;
+	imageToAdd->width = 48;
+	imageToAdd->height = 48;
 	imageToAdd->imageID = imageID;
 	inGameGUI->addOverlayImage(imageToAdd);
 
-	imageID = guiTextureManager->loadTexture(W_STATUS_EARTH_PATH);
+	imageID = guiTextureManager->loadTexture(W_STATUS_WATER_UNSELECTED_PATH);
 	imageToAdd = new OverlayImage();
-	imageToAdd->x = 84;
-	imageToAdd->y = 67;
+	imageToAdd->x = 200;
+	imageToAdd->y = 50;
 	imageToAdd->z = 0;
 	imageToAdd->alpha = 255;
-	imageToAdd->width = 340;
-	imageToAdd->height = 22;
+	imageToAdd->width = 48;
+	imageToAdd->height = 48;
 	imageToAdd->imageID = imageID;
 	inGameGUI->addOverlayImage(imageToAdd);
 

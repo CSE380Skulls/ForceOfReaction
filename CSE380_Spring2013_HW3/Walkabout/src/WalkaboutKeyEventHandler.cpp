@@ -259,6 +259,12 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 			gsm->goToGameOver();
 		}
 
+		if(input->isKeyDownForFirstTime(Z_KEY)){
+			int whatever = player->getSelectedElement()+1;
+			if (whatever > 1) {whatever = 0;}
+			player->setSelectedElement(whatever);
+		}
+
 		bool viewportMoved = false;
 		float viewportVx = 0.0f;
 		float viewportVy = 0.0f;
