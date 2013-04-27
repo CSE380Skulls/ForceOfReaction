@@ -15,7 +15,6 @@
 #include "src\game\Game.h"
 #include "src\graphics\GameGraphics.h"
 #include "src\audio\GameAudioManager.h"
-#include "src\gsm\ai\bots\RandomJumpingBot.h"
 #include "src\gsm\sprite\AnimatedSprite.h"
 #include "src\gsm\state\GameState.h"
 #include "src\gsm\world\TiledLayer.h"
@@ -188,8 +187,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	Physics *physics = gsm->getPhysics();
 	physics->setGravity(W_GRAVITY);
 	SpriteManager *spriteManager = gsm->getSpriteManager();
-	FOR_Player *player = new FOR_Player(PLAYER_ATTACK_COOLDOWN, PLAYER_DEATH_COOLDOWN);
-	
+	FOR_Player *player = new FOR_Player(PLAYER_ATTACK_COOLDOWN, PLAYER_DEATH_COOLDOWN, PLAYER_DESIGNATION);
 	spriteManager->setPlayer(player);
 	//AnimatedSprite *player = spriteManager->getPlayer();
 	physics->addCollidableObject(player);
@@ -218,7 +216,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	// Wall1
 	AnimatedSpriteType *breakable_wall = spriteManager->getSpriteType(2);
-	Breakable_Wall *wall1 = new Breakable_Wall();
+	Breakable_Wall *wall1 = new Breakable_Wall(WALL_DESIGNATION);
 	wall1->setHitPoints(WALL_HITPOINTS);
 	wall1->setDamage(0);
 	wall1->setSpriteType(breakable_wall);
@@ -241,7 +239,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	spriteManager->addBot(wall1);
 
 	// Wall2
-	Breakable_Wall *wall2 = new Breakable_Wall();
+	Breakable_Wall *wall2 = new Breakable_Wall(WALL_DESIGNATION);
 	wall2->setHitPoints(WALL_HITPOINTS);
 	wall2->setDamage(0);
 	wall2->setSpriteType(breakable_wall);
@@ -268,7 +266,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	// Boss
 	AnimatedSpriteType *bossSpriteType = spriteManager->getSpriteType(6);
 	//FORFloatingBot *boss = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, BOSS_X, BOT_ATTACK_RANGE);
-	Boss_Bot *boss = new Boss_Bot(BULLET_SPEED, BOT_ATTACK_RANGE, BULLET_SPEED, BOT_ATTACK_COOLDOWN);
+	Boss_Bot *boss = new Boss_Bot(BULLET_SPEED, BOT_ATTACK_RANGE, BULLET_SPEED, BOT_ATTACK_COOLDOWN, BOT_DESIGNATION);
 	boss->setHitPoints(BOSS_HITPOINTS);
 	boss->setDamage(1);
 	boss->setSpriteType(bossSpriteType);
@@ -302,7 +300,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	for(int x = 2; x < 4; x ++){
 		int xSpawn = x * worldWidth / 4.0f;
-		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE);
+		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
 		bot->setHitPoints(BOT_HITPOINTS);
 		bot->setDamage(BOT_DAMAGE);
 		bot->setSpriteType(botSpriteType);
@@ -327,7 +325,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	ySpawn = 2100;
 	for(int x = 1; x < 4; x ++){
 		int xSpawn = x * worldWidth / 4.0f;
-		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE);
+		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
 		bot->setHitPoints(BOT_HITPOINTS);
 		bot->setDamage(BOT_DAMAGE);
 		bot->setSpriteType(botSpriteType);
@@ -352,7 +350,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	ySpawn = 1700;
 	for(int x = 3; x < 4; x ++){
 		int xSpawn = x * worldWidth / 4.0f;
-		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE);
+		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
 		bot->setHitPoints(BOT_HITPOINTS);
 		bot->setDamage(BOT_DAMAGE);
 		bot->setSpriteType(botSpriteType);
@@ -377,7 +375,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	ySpawn = 1200;
 	for(int x = 3; x < 4; x ++){
 		int xSpawn = x * worldWidth / 4.0f;
-		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE);
+		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
 		bot->setHitPoints(BOT_HITPOINTS);
 		bot->setDamage(BOT_DAMAGE);
 		bot->setSpriteType(botSpriteType);

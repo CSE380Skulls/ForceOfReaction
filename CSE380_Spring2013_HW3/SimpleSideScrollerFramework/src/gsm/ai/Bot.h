@@ -7,12 +7,9 @@
 class Bot : public AnimatedSprite
 {
 public:
-	Bot()	{}
-	~Bot()	{}
 
 	// Only player uses update method
-	void update(Game *game) {};
-	// TO BE DEFINED BY BOT AI CLASSES
-	virtual void think(Game *game)=0;
+	virtual void update(Game *game)=0;
+	// Clone used for bot recycler
 	virtual Bot* clone()=0;
 };

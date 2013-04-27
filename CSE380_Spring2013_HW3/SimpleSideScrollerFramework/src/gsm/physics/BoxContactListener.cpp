@@ -21,22 +21,9 @@ void BoxContactListener::BeginContact(b2Contact *contact){
 	if(bodyUserDataA && bodyUserDataB){
 		//AnimatedSprite *spriteA = (AnimatedSprite *) bodyUserDataA;
 		//AnimatedSprite *spriteB = (AnimatedSprite *) bodyUserDataB;
+		if(contact->IsEnabled())
+			box_physics->addContact(contact);
 
-		box_physics->addContact(contact);
-		// Just testing that this works, will need to differentiate between projectiles, bots, and player
-		//spriteA->decrementHitPoints(10);
-		//spriteB->decrementHitPoints(10);
-
-
-
-		/*
-			If player is colliding with something, hurt the player
-		*/
-
-		/*
-			If something is colliding with bot, hurt the bot and add whatever hit it to the 
-			bot removal list
-		*/
 	}
 	else{
 		// colliding with a tile? Right now tiles never have userData.
@@ -73,6 +60,17 @@ void BoxContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManif
 		Also this could be useful for ONE WAY PLATFORMS, so we could
 		check the players y value against the platform accordingly.
 	*/
+	
+	void * bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
+	void * bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
+
+	if(bodyUserDataA && bodyUserDataB){
+		AnimatedSprite *a = (AnimatedSprite *) bodyUserDataA;
+		AnimatedSprite *b = (AnimatedSprite *) bodyUserDataB;
+
+		if(b->getHitPoints() <= 0 || a->getHitPoints() <= 0)
+			contact->SetEnabled(false);
+	}
 }
 
 void BoxContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *impulse){

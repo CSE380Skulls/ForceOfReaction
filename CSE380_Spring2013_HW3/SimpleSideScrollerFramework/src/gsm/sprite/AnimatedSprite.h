@@ -17,6 +17,7 @@
 #include "src\gsm\physics\PhysicalProperties.h"
 #include "src\gsm\sprite\AnimatedSpriteType.h"
 #include "src\gui\Viewport.h"
+#include "src\gsm\sprite\SpriteDesignations.h"
 
 class AnimatedSprite : public CollidableObject , public BoxPhysicsObject
 {
@@ -46,6 +47,10 @@ protected:
 	bool dead;
 	// How much damage does this sprite do if it hits something?
 	int damage;
+	// What type of sprite is this
+	int designation;
+	// Can this sprite move/attack?
+	bool stunned;
 
 public:
 	// INLINED ACCESSOR METHODS
@@ -77,5 +82,8 @@ public:
 	void decrementHitPoints(int damage) { hitPoints -= damage; }
 	int getHitPoints() { return hitPoints; }
 	int getDamage() { return damage; }
+	int getDesignation() { return designation; }
 	virtual void update(Game *game)=0;
+	virtual void playSound(Game *game, SpriteDesignations soundType)=0;
+	virtual void stun()=0;
 };

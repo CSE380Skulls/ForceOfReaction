@@ -203,7 +203,7 @@ void SpriteManager::update(Game *game)
 	while (botIterator != bots.end())
 	{
 		Bot *bot = (*botIterator);
-		bot->think(game);
+		bot->update(game);
 		bot->updateSprite();
 		botIterator++;
 	}
@@ -212,10 +212,6 @@ void SpriteManager::update(Game *game)
 // This adds a bot to the removal list, it decrements its frames untilRemoval value by the values of all of those
 // in front of it, therefore you only need to decrement the value of the first node in the list when
 // updating this removal list.
-// NOTE:: THIS WILL BREAK IF THERE IS A SPRITE WITH A FRAMES UNTIL REMOVAL LESSER THEN THE FRAMES UNTIL REMOVAL
-// OF A BOT CURRENTLY IN THE LIST.  AS OF RIGHT NOW I DON'T THINK THIS IS A PROBLEM BECAUSE EVERYTHING WILL
-// PROBABLY HAVE THE SAME AMMOUNT OF FRAMES UNTIL REMOVAL BUT THIS METHOD MUST BE CHANGED IF DIFFERENT BOTS
-// ARE REMOVED AFTER DIFFERENT INTERVALS OF TIME.
 void SpriteManager::addBotToRemovalList(Bot* bot, int framesUntilRemoval){
 
 	// Create the new node to be added to list.
@@ -235,7 +231,7 @@ void SpriteManager::addBotToRemovalList(Bot* bot, int framesUntilRemoval){
 	}
 }
 
-// Decrement the frames until removal of the first bot in the list and removal all bots that need to be
+// Decrement the frames of each bot in the list and removal all bots that need to be
 // removed this frame. This method removes the bots from box2d as well as the render list.
 void SpriteManager::updateBotRemovalList(){
 	// Special Case for head of list
@@ -297,13 +293,3 @@ void SpriteManager::clearBotRemovalList() {
 		delete temp;
 	}
 }
-
-///* This will update all of the sprite rendering information after the box2d
-//	physics step has happened. This function may be irelevant for where it is
-//	being used now (in the boxphysics update function). I would perfer that this
-//	conversion happens right before the renderlist item is placed in the render
-//	list. (seems appropriate)*/
-//
-//void SpriteManager::updateSpriteLocations(int conversion_factor){
-//	
-//}

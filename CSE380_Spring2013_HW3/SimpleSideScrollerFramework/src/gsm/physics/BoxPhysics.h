@@ -19,6 +19,7 @@
 struct C_Node{
 	C_Node *next;
 	b2Contact *contact;
+	bool firstContact;
 };
 
 struct contact_list{

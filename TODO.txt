@@ -13,3 +13,9 @@ ART:
 4) Update robot sprite
 5) Add player death animations
 6) Tiles
+
+JAMIE:
+
+1) Implement impulses when player and bot hit into eachother
+2) Set up levels using purely lua
+3) Implement system for transitioning between levels

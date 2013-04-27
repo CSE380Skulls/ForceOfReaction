@@ -5,6 +5,7 @@
 #include "src\gsm\ai\Bot.h"
 #include "src\gsm\physics\Physics.h"
 #include "src\game\Game.h"
+#include "src\gsm\sprite\SpriteDesignations.h"
 
 class FORFloatingBot : public Bot
 {
@@ -34,8 +35,11 @@ public:
 						int initMax, 
 						int initVelocity,
 						int spawnX,
-						int travelDistance);
+						int travelDistance,
+						int designation);
 	~FORFloatingBot();
 	Bot*	clone() { return NULL; }
-	void	think(Game *game);
+	void	update(Game *game);
+	void	playSound(Game *game, SpriteDesignations soundType);
+	void	stun();
 };

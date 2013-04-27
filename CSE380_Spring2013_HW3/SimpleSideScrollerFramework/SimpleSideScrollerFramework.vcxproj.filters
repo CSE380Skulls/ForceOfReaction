@@ -59,9 +59,6 @@
     <Filter Include="src\timer">
       <UniqueIdentifier>{98746d59-f030-47ee-b584-9ff6bb09939e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\gsm\ai\bots">
-      <UniqueIdentifier>{a87d81ee-be61-4b4e-a0bf-3f147cae57ce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\audio">
       <UniqueIdentifier>{86eeb93b-ea35-4278-84f1-6c80d527a904}</UniqueIdentifier>
     </Filter>
@@ -159,9 +156,6 @@
     </ClCompile>
     <ClCompile Include="src\text\TextFileWriter.cpp">
       <Filter>src\text</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gsm\ai\bots\RandomJumpingBot.cpp">
-      <Filter>src\gsm\ai\bots</Filter>
     </ClCompile>
     <ClCompile Include="src\gsm\physics\CollidableObject.cpp">
       <Filter>src\gsm\physics</Filter>
@@ -315,9 +309,6 @@
     <ClInclude Include="src\timer\GameTimer.h">
       <Filter>src\timer</Filter>
     </ClInclude>
-    <ClInclude Include="src\gsm\ai\bots\RandomJumpingBot.h">
-      <Filter>src\gsm\ai\bots</Filter>
-    </ClInclude>
     <ClInclude Include="src\gsm\physics\Collision.h">
       <Filter>src\gsm\physics</Filter>
     </ClInclude>
@@ -344,6 +335,9 @@
     </ClInclude>
     <ClInclude Include="src\audio\GameAudioManager.h">
       <Filter>src\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gsm\sprite\SpriteDesignations.h">
+      <Filter>src\gsm\sprite</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

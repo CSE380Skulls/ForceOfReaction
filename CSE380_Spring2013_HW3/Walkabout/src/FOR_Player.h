@@ -6,6 +6,7 @@
 #include "src\gsm\sprite\AnimatedSprite.h"
 #include "src\game\Game.h"
 #include "src\WalkaboutGame.h"
+#include "src\gsm\sprite\SpriteDesignations.h"
 
 class FOR_Player : public AnimatedSprite
 {
@@ -24,12 +25,13 @@ private:
 	static const int NOTHING =  3;
 
 public:
-	FOR_Player(int att_Cooldown, int d_Cooldown);
+	FOR_Player(int att_Cooldown, int d_Cooldown, int designation);
 	void update(Game *game);
 	bool can_Attack();
 	void updateStatusGUI(Game* game);
-
-	bool can_Move() { return !dead; }
+	bool can_Move() { return !dead && !stunned; }
 	void setSelectedElement(int i) { selected_element = i; }
 	int getSelectedElement() {return selected_element; }
+	void playSound(Game* game, SpriteDesignations soundType);
+	void stun();
 };

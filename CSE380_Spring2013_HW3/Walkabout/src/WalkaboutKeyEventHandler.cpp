@@ -54,7 +54,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		// SO WE'LL UPDATE THE PLAYER VELOCITY WHEN THESE KEYS ARE
 		// PRESSED, THAT WAY PHYSICS CAN CORRECT AS NEEDED
 
-		if (input->isKeyDown(A_KEY))
+		if (input->isKeyDown(A_KEY) || input->isKeyDown(LEFT_KEY))
 		{
 			if(player->can_Move()) {
 				player->getPhysicsBody()->SetLinearVelocity(b2Vec2(-PLAYER_VELOCITY,
@@ -64,7 +64,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 					player->setCurrentState(WALKING_LEFT);
 			}
 		}
-		else if (input->isKeyDown(D_KEY))
+		else if (input->isKeyDown(D_KEY) || input->isKeyDown(RIGHT_KEY))
 		{
 			if(player->can_Move()) {
 				player->getPhysicsBody()->SetLinearVelocity(b2Vec2(PLAYER_VELOCITY,
@@ -102,7 +102,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 					player->setCurrentState(IDLE_LEFT);
 			}
 		}
-		if (input->isKeyDownForFirstTime(W_KEY))
+		if (input->isKeyDownForFirstTime(W_KEY) || input->isKeyDownForFirstTime(UP_KEY) || input->isKeyDownForFirstTime(SPACE_KEY))
 		{
 			if(player->can_Move()) {
 				if(player->getPhysicsBody()->GetLinearVelocity().y==0)
@@ -157,7 +157,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 					vineX = px - vineSpriteType->getTextureWidth() / 2;
 				}
 
-				Vine *vine = new Vine();
+				Vine *vine = new Vine(PROJECTILE_DESIGNATION);
 				vine->setHitPoints(1);
 				vine->setDamage(VINE_DAMAGE);
 				vine->setSpriteType(vineSpriteType);
@@ -174,10 +174,10 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 				vine->affixTightAABBBoundingVolume();
 
 				//create a physics object for the seed
-				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticPlayerObject(game,vine);
+				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,vine);
 
 				// Remove this vine after 30 frames
-				game->getGSM()->getSpriteManager()->addBotToRemovalList(vine, 30);
+				game->getGSM()->getSpriteManager()->addBotToRemovalList(vine, 15);
 
 				game->getGSM()->getPhysics()->addCollidableObject(vine);
 				game->getGSM()->getSpriteManager()->addBot(vine);
@@ -219,7 +219,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 
 				// Seed
 				AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
-				Seed *seed = new Seed();
+				Seed *seed = new Seed(PROJECTILE_DESIGNATION);
 				seed->setHitPoints(1);
 				seed->setDamage(SEED_DAMAGE);
 				seed->setSpriteType(seedSpriteType);

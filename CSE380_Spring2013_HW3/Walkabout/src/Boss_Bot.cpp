@@ -8,11 +8,21 @@
 #include "src\game\Game.h"
 #include "src\gsm\sprite\SpriteManager.h"
 #include "src\WalkaboutGame.h"
+#include "src\audio\GameAudioManager.h"
 
-void Boss_Bot::think(Game *game){
-	// If this seed is no longer moving, remove it from the game
-	//float vX = getPhysicsBody()->GetLinearVelocity().x * BOX2D_CONVERSION_FACTOR;
-	//float vY = getPhysicsBody()->GetLinearVelocity().y * BOX2D_CONVERSION_FACTOR;
+
+Boss_Bot::Boss_Bot(int att_speed, int att_range, int att_dmg, int cool_down, int designation) { 
+	attack_Speed = att_speed; 
+	attack_Range = att_range; 
+	attack_Damage = att_dmg; 
+	attack_Cool_Down = cool_down; 
+	cd_Counter = 0; 
+	this->designation = designation; 
+	stunned = false;
+}
+
+
+void Boss_Bot::update(Game *game){
 	if(dead)
 		return;
 	// If hitpoints are 0, remove it
@@ -40,7 +50,7 @@ void Boss_Bot::think(Game *game){
 
 				// Seed
 				AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
-				Seed *seed = new Seed();
+				Seed *seed = new Seed(PROJECTILE_DESIGNATION);
 				seed->setHitPoints(1);
 				seed->setDamage(SEED_DAMAGE);
 				seed->setSpriteType(seedSpriteType);
@@ -78,4 +88,14 @@ bool Boss_Bot::isInBounds(int x){
 	if(x < (bX - attack_Range))
 		return false;
 	return true;
+}
+
+void Boss_Bot::playSound(Game *game, SpriteDesignations soundType) {
+	if(soundType == SPRITE_DEAD && !dead){
+		game->getGAM()->playSound(C_EXPLOSION2);
+	}
+
+	if(soundType == SPRITE_HIT){
+		game->getGAM()->playSound(C_HIT);
+	}
 }
