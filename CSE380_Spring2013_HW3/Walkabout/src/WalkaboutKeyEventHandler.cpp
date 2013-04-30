@@ -236,7 +236,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 				seed->affixTightAABBBoundingVolume();
 
 				//create a physics object for the seed
-				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,seed);
+				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,seed,true);
 
 				// Set the velocity of the seed
 				seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));

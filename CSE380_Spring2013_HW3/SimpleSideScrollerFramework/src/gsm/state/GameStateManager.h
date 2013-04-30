@@ -122,5 +122,5 @@ public:
 	/* Return the center Y screen coordinate*/
 	//check this function for correctness later, could be wrong
 	float32 screenToPhysicsY	(float32 screenY) 
-	{ return (screenY - world.getWorldHeightMeters()) / world.getWorldConvFactor(); }
+	{ return (world.getWorldHeight() - screenY) / world.getWorldConvFactor(); }
 };

@@ -44,6 +44,8 @@ struct TileSetInfo
 	string sourceImage;
 	int sourceImageWidth;
 	int sourceImageHeight;
+	//maps gid to a tile property
+	vector<TileProps> * tilePropertyTable;
 };
 
 struct TiledLayerInfo

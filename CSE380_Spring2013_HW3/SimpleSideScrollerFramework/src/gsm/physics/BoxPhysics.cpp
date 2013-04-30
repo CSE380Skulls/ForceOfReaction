@@ -154,3 +154,113 @@ void BoxPhysics::clearContacts(){
 		delete temp;
 	}
 }
+
+void BoxPhysics::addEdgeToAdjacency(int id1, int id2, float x1, float y1, float x2, float y2){
+	//TODO: I feel 
+	BoxVertexStart * start1 =  boxMapAdjacencyList[id1];
+	BoxVertexStart * start2 =  boxMapAdjacencyList[id2];
+	if(start1 == NULL){
+		start1 = new BoxVertexStart();
+		start1->x = x1;
+		start1->y = y1;
+		start1->id = id1;
+		start1->head = NULL;
+		start1->waschecked = false;
+		boxMapAdjacencyList[id1] = start1;
+	}
+	if(start2 == NULL){
+		start2 = new BoxVertexStart();
+		start2->x = x2;
+		start2->y = y2;
+		start2->id = id2;
+		start2->head = NULL;
+		start2->waschecked = false;
+		boxMapAdjacencyList[id2] = start2;
+	}
+	//add the edge Node to the first indexed node
+	if(start1->head == NULL){
+		start1->head = new BoxEdgeNode();
+		start1->head->id = id2;
+		start1->head->nextNode = NULL;
+	}
+	else{
+		BoxEdgeNode * newNode = new BoxEdgeNode();
+		newNode->id = id2;
+		BoxEdgeNode * formerHead = start1->head;
+		start1->head = newNode;
+		newNode->nextNode = formerHead;
+	}
+
+	//add the edgeNode to the second indexed Node
+	if(start2->head == NULL){
+		start2->head = new BoxEdgeNode();
+		start2->head->id = id1;
+		start2->head->nextNode = NULL;
+	}
+	else{
+		BoxEdgeNode * newNode = new BoxEdgeNode();
+		newNode->id = id1;
+		BoxEdgeNode * formerHead = start2->head;
+		start2->head = newNode;
+		newNode->nextNode = formerHead;
+	}
+
+}
+
+void BoxPhysics::deleteAdjacencyList(){
+
+}
+
+void BoxPhysics::createWorldChains(){
+	map<int,BoxVertexStart*>::iterator aListIt = boxMapAdjacencyList.begin();
+	int count = 0; 
+	int currentSize = boxMapAdjacencyList.size();
+	while(aListIt != boxMapAdjacencyList.end()){
+		BoxVertexStart* vertex = aListIt->second;
+		if(vertex->waschecked == false){
+			b2ChainShape chain;
+			b2Vec2 * vertexList = new b2Vec2[currentSize];
+			//Here's the trick here: since this is a graph whose vertices are
+			//interconnected in a line fashion we could simply follow the trail
+			//throughout the map to connect all of the components. We don't have
+			//to worry about graph search recursion, since we are garunteed this
+			//type of graph each time.
+			bool finished = false;
+			int lastCheckedId = vertex->id;
+			BoxVertexStart* currentVertex = vertex;
+			BoxEdgeNode * edgeNode;
+			while(!finished && !currentVertex->waschecked){
+				vertexList[count] = b2Vec2(currentVertex->x,currentVertex->y);
+				currentVertex->waschecked = true;
+				count++;
+				edgeNode = currentVertex->head;
+				while((edgeNode !=NULL) && (edgeNode->id == lastCheckedId)){
+					edgeNode = edgeNode->nextNode;
+				}
+				if(edgeNode){
+					lastCheckedId = currentVertex->id;
+					currentVertex = boxMapAdjacencyList[edgeNode->id];
+				}
+				else
+					finished = true;
+			}
+			if(finished){
+				chain.CreateChain(vertexList,count);
+			}
+			else if(vertex == currentVertex){
+				chain.CreateLoop(vertexList,count);
+			}
+			b2BodyDef bd;
+			b2Body* body = physics_world->CreateBody(&bd);
+			body->CreateFixture(&chain,1.0f);
+			chainList.push_back(body);
+			currentSize = boxMapAdjacencyList.size() - count;
+			count = 0;
+		}
+		aListIt++;
+	}
+}
+
+void BoxPhysics::iterativeDFS(BoxVertexStart * startNode){
+
+}

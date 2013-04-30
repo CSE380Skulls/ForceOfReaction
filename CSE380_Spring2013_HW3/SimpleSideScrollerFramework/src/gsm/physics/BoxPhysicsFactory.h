@@ -26,8 +26,8 @@ class BoxPhysicsFactory
 public:
 	BoxPhysicsFactory(b2World * worldRef){ physicsWorldRef = worldRef;}
 	~BoxPhysicsFactory(){}
-	void createPlayerObject(Game *game, AnimatedSprite *sprite);
-	void createEnemyObject(Game *game, AnimatedSprite *sprite);
+	void createPlayerObject(Game *game, AnimatedSprite *sprite, bool rotate);
+	void createEnemyObject(Game *game, AnimatedSprite *sprite, bool rotate);
 	void createTileObject(Game *game, BoxPhysicsObject *phyobj, 
 		float screen_center_x, float screen_center_y, float extent_x, float extent_y);
 	void createStaticPlayerObject(Game *game, AnimatedSprite *sprite);
@@ -41,7 +41,7 @@ private:
 		float screen_center_x, float screen_center_y, float extent_x, float extent_y);
 	// Used for animated sprites that can move
 	void createDynamicBox(Game *game, BoxPhysicsObject *phyobj, AnimatedSprite *obj, int groupIndex,
-		float screen_center_x, float screen_center_y, float extent_x, float extent_y);
+		float screen_center_x, float screen_center_y, float extent_x, float extent_y, bool rotate);
 	// Used for animated sprites that cannot move
 	void createStaticBox(Game *game, BoxPhysicsObject *phyobj, AnimatedSprite *obj, int groupIndex, 
 		float screen_center_x, float screen_center_y, float extent_x, float extent_y);

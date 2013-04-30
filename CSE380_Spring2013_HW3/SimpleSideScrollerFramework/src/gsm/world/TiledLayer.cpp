@@ -30,7 +30,8 @@ TiledLayer::TiledLayer(	int initColumns,
 						int initZ,
 						bool initCollidableTiles,
 						int initWorldWidth,
-						int initWorldHeight)
+						int initWorldHeight,
+						vector<TileProps> * propVector)
 {
 	init(	initColumns,
 			initRows,
@@ -39,7 +40,8 @@ TiledLayer::TiledLayer(	int initColumns,
 			initZ,
 			initCollidableTiles,
 			initWorldWidth,
-			initWorldHeight);
+			initWorldHeight,
+			propVector);
 }
 
 /*
@@ -160,7 +162,8 @@ void TiledLayer::addRenderItemsToRenderList(RenderList *renderList,
 										z,
 										255,
 										tileWidth,
-										tileHeight);
+										tileHeight,
+										0.0f);
 		}
 	}
 }
@@ -170,23 +173,85 @@ void TiledLayer::addRenderItemsToRenderList(RenderList *renderList,
 */
 void TiledLayer::addItemsToPhysicsSystem(Game *game){
 	BoxPhysics *boxPhysics = game->getGSM()->getBoxPhysics();
+	int count = 0;
+	//if(collidableTiles){
+	//	float extent_x = tileWidth/2.0f;
+	//	float extent_y = tileHeight/2.0f;
+	//	for (int i = 0; i < rows; i++)
+	//	{
+	//		for (int j = 0; j < columns; j++)
+	//		{
+	//			Tile *tile = getTile(i,j);
+	//			//if the tile is collidable, add to physics system
+	//			if(tile->collidable == true){
+	//				boxPhysics->getPhysicsFactory()->createTileObject(game,tile,
+	//					(tileWidth * j) + extent_x, (tileHeight * i) + extent_y,
+	//					extent_x, extent_y);
+	//			}
+	//		}
+	//	}
+	//}
+
+	/*The j + (i * columns) hashing scheme is alright if we have buffer tiles 
+		around the entire level. This is because the top right of the tile at the
+		end of a row is the same as the top left of the tile at the start of the
+		next row. This is tolerable for now.*/
+
 	if(collidableTiles){
-		float extent_x = tileWidth/2.0f;
-		float extent_y = tileHeight/2.0f;
+		TileProps tileProperties;
+		float physics_x1, physics_y1, physics_x2, physics_y2;
+		int id1, id2;
 		for (int i = 0; i < rows; i++)
 		{
 			for (int j = 0; j < columns; j++)
-			{
+			{ 
 				Tile *tile = getTile(i,j);
-				//if the tile is collidable, add to physics system
 				if(tile->collidable == true){
-					boxPhysics->getPhysicsFactory()->createTileObject(game,tile,
-						(tileWidth * j) + extent_x, (tileHeight * i) + extent_y,
-						extent_x, extent_y);
+					count++;
+					tileProperties = tilePropertyVector->at(tile->textureID - 1);
+					//check to see if the tile is left collidable
+					if(tileProperties.left_collidable){
+						physics_x1 = game->getGSM()->screenToPhysicsX(j * tileWidth);
+						physics_y1 = game->getGSM()->screenToPhysicsY(i * tileHeight);
+						physics_x2 = game->getGSM()->screenToPhysicsX(j * tileWidth);
+						physics_y2 = game->getGSM()->screenToPhysicsY((i+1) * tileHeight);
+						boxPhysics->addEdgeToAdjacency(j + (i * columns), j + ((i+1) * columns),
+							physics_x1,physics_y1,physics_x2,physics_y2);
+					}
+					//check to see if the tile is right collidable
+					if(tileProperties.right_collidable){
+						physics_x1 = game->getGSM()->screenToPhysicsX((j+1) * tileWidth);
+						physics_y1 = game->getGSM()->screenToPhysicsY(i * tileHeight);
+						physics_x2 = game->getGSM()->screenToPhysicsX((j+1) * tileWidth);
+						physics_y2 = game->getGSM()->screenToPhysicsY((i+1) * tileHeight);
+						boxPhysics->addEdgeToAdjacency((j+1) + (i * columns), (j+1) + ((i+1) * columns),
+							physics_x1,physics_y1,physics_x2,physics_y2);
+					}
+					//check to see if the tile is top collidable
+					if(tileProperties.top_collidable){
+						physics_x1 = game->getGSM()->screenToPhysicsX(j * tileWidth);
+						physics_y1 = game->getGSM()->screenToPhysicsY(i * tileHeight);
+						physics_x2 = game->getGSM()->screenToPhysicsX((j+1) * tileWidth);
+						physics_y2 = game->getGSM()->screenToPhysicsY(i * tileHeight);
+						boxPhysics->addEdgeToAdjacency(j + (i * columns), (j+1) + (i * columns),
+							physics_x1,physics_y1,physics_x2,physics_y2);
+					}
+					//check to see if the tile is top collidable
+					if(tileProperties.bottom_collidable){
+						physics_x1 = game->getGSM()->screenToPhysicsX(j * tileWidth);
+						physics_y1 = game->getGSM()->screenToPhysicsY((i+1) * tileHeight);
+						physics_x2 = game->getGSM()->screenToPhysicsX((j+1) * tileWidth);
+						physics_y2 = game->getGSM()->screenToPhysicsY((i+1) * tileHeight);
+						boxPhysics->addEdgeToAdjacency(j + ((i+1) * columns), (j+1) + ((i+1) * columns),
+							physics_x1,physics_y1,physics_x2,physics_y2);
+					}
 				}
 			}
 		}
+
+		boxPhysics->createWorldChains();
 	}
+
 }
 
 /*
@@ -324,7 +389,8 @@ void TiledLayer::init(int initColumns,
 						int initZ,
 						bool initCollidableTiles,
 						int initWorldWidth,
-						int initWorldHeight)
+						int initWorldHeight,
+						vector<TileProps> * tileProps)
 {
 	columns = initColumns;
 	rows = initRows;
@@ -337,6 +403,8 @@ void TiledLayer::init(int initColumns,
 	tileLayout = new vector<Tile*>();
 	calculateAndSetLayerWidth();
 	calculateAndSetLayerHeight();
+
+	tilePropertyVector = tileProps;
 }
 
 /*

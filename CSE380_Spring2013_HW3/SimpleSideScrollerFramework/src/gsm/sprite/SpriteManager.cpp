@@ -52,7 +52,8 @@ void SpriteManager::addSpriteToRenderList(Game *game, AnimatedSprite *sprite,
 									pp->round(pp->getZ()),
 									sprite->getAlpha(),
 									spriteType->getTextureWidth(),
-									spriteType->getTextureHeight());
+									spriteType->getTextureHeight(),
+									sprite->getCurrentBodyAngle());
 	}
 }
 

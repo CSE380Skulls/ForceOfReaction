@@ -56,7 +56,7 @@ public:
 	int						getWorldHeight()		{ return worldHeight;		}
 	int						getWorldWidth()			{ return worldWidth;		}
 	float32					getWorldHeightMeters()	{ return worldHeight/WORLD_CONV_FACTOR; }
-	float32					getWorldWidthMeters()	{ return worldHeight/WORLD_CONV_FACTOR; }
+	float32					getWorldWidthMeters()	{ return worldWidth/WORLD_CONV_FACTOR; }
 
 	// INLINED MUTATOR METHODS
 	void setWorldHeight(int initWorldHeight)

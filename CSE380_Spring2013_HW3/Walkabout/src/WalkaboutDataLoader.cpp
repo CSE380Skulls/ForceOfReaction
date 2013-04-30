@@ -211,7 +211,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	player->affixTightAABBBoundingVolume();
 
 	//create the player object in the physics world
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player);
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player,false);
 
 	/////////////////////////////////////////////////////////////////////////////
 
@@ -284,7 +284,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	boss->affixTightAABBBoundingVolume();
 
 	//create a physics object for the boss
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,boss);
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,boss,false);
 
 	physics->addCollidableObject(boss);
 	spriteManager->addBot(boss);
@@ -318,7 +318,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 		bot->affixTightAABBBoundingVolume();
 			
 		//create a physics object for the bot
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot);
+		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot,false);
 		physics->addCollidableObject(bot);
 		spriteManager->addBot(bot);
 	}
@@ -343,7 +343,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 		bot->affixTightAABBBoundingVolume();
 			
 		//create a physics object for the bot
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot);
+		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot,false);
 		physics->addCollidableObject(bot);
 		spriteManager->addBot(bot);
 	}
@@ -368,7 +368,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 		bot->affixTightAABBBoundingVolume();
 			
 		//create a physics object for the bot
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot);
+		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot,false);
 		physics->addCollidableObject(bot);
 		spriteManager->addBot(bot);
 	}
@@ -393,7 +393,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 		bot->affixTightAABBBoundingVolume();
 			
 		//create a physics object for the bot
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot);
+		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot,false);
 		physics->addCollidableObject(bot);
 		spriteManager->addBot(bot);
 	}

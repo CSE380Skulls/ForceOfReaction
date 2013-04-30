@@ -198,6 +198,40 @@ void TMXMapImporter::loadTileSetInfo(const TiXmlNode *node)
 	tileSetInfo.sourceImageWidth = extractIntAtt(element, WIDTH_ATT);
 	tileSetInfo.sourceImageHeight = extractIntAtt(element, HEIGHT_ATT);
 
+	//~Extract the tile collidable properties for each tile. This is slightly
+	//	harcoded, but it is following the methods used by the importer in general
+	//First get the first Tile element
+	const TiXmlNode *propNode = NULL;
+	TileProps props;
+	bool tempPropArray[4];
+	int counter = 0;
+
+	tileSetInfo.tilePropertyTable = new vector<TileProps>();
+	//The imageinfo is a sibling to all of the tile properties children
+	node = node->NextSibling();
+	while(node != NULL){
+		//this is within the <properties> child element
+		propNode = node->FirstChild()->FirstChild();
+		while(propNode != NULL){
+			element = propNode->ToElement();
+			tempPropArray[counter] = extractBoolAtt(element,VALUE_ATT);
+			counter++;
+			propNode = propNode->NextSibling();
+		}
+
+		props.bottom_collidable = tempPropArray[0];
+		props.left_collidable = tempPropArray[1];
+		props.right_collidable = tempPropArray[2];
+		props.top_collidable = tempPropArray[3];
+		//finally add the props to the vector
+		tileSetInfo.tilePropertyTable->push_back(props);
+
+		counter = 0;
+		node = node->NextSibling();
+	}
+
+
+
 	tileSetInfos[tileSetInfo.name] = tileSetInfo;
 }
 
@@ -272,7 +306,7 @@ bool TMXMapImporter::buildWorldFromInfo(Game *game)
 				0,
 				ili.collidable,
 				largestLayerWidth,
-				largestLayerHeight);
+				largestLayerHeight, NULL);
 			world->addLayer(imageLayerToAdd);
 
 			Tile *imageTile = new Tile();
@@ -299,7 +333,8 @@ bool TMXMapImporter::buildWorldFromInfo(Game *game)
 															0,
 															tli.collidable,
 															largestLayerWidth,
-															largestLayerHeight);
+															largestLayerHeight,
+															tli.tileSetInfo->tilePropertyTable);
 			world->addLayer(tiledLayerToAdd);
 
 			// WE HAVE TO ADD ALL THE TILES

@@ -395,6 +395,14 @@ void DirectXGraphics::renderGUIRenderList()
 	LPDIRECT3DTEXTURE9 texture;
 	RECT *rect = NULL;
 
+	//2d Matrix for poisition and rotation, use 16 byte aligned matrix for optimization
+	//(don't copy this matrix for safety, just use as temp)
+	D3DXMATRIXA16 textureMatrix;
+	//default scaling
+	float scaling = 1.0f;
+	D3DXVECTOR2 scale(scaling,scaling);
+
+
 	// GO THROUGH EACH ITEM IN THE LIST
 	while (guiRenderList->hasNext())
 	{
@@ -406,9 +414,19 @@ void DirectXGraphics::renderGUIRenderList()
 		// LET'S GET THE TEXTURE WE WANT TO RENDER
 		int id = itemToRender.id;
 		texture = ((DirectXTextureManager*)guiTextureManager)->getTexture(id);
-		D3DXVECTOR3 position = D3DXVECTOR3(	(FLOAT)(itemToRender.x),
-											(FLOAT)(itemToRender.y),
-											0);
+		//D3DXVECTOR3 position = D3DXVECTOR3(	(FLOAT)(itemToRender.x),
+		//									(FLOAT)(itemToRender.y),
+		//									0);
+
+		//center position
+		D3DXVECTOR2 translation = D3DXVECTOR2((FLOAT)(itemToRender.x), (FLOAT)(itemToRender.y));
+
+		//Now create the matrix using the rotation and translation information
+		D3DXMatrixTransformation2D(&textureMatrix,NULL,0,&scale,NULL,itemToRender.angle,&translation);
+		//Finally set the transform, the texture will be drawn with this transform
+		spriteHandler->SetTransform(&textureMatrix);
+
+
 
 		// RENDER THE OPAQUE ITEMS
 		if (itemToRender.a == 255)
@@ -417,7 +435,7 @@ void DirectXGraphics::renderGUIRenderList()
 					texture, 
 					rect,
 			        NULL,
-					&position,
+					NULL,
 					DEFAULT_ALPHA_COLOR)))
 			{
 				game->getText()->writeDebugOutput("\nspriteHandler->Draw: FAILED");
@@ -436,7 +454,7 @@ void DirectXGraphics::renderGUIRenderList()
 					texture,
 					rect,
 					NULL,
-					&position,
+					NULL,
 					D3DCOLOR_ARGB(itemToRender.a, 255, 255, 255))))
 			{
 				game->getText()->writeDebugOutput("\nspriteHandler->Draw: FAILED");
@@ -459,6 +477,13 @@ void DirectXGraphics::renderWorldRenderList()
 	GameGUI *gui = game->getGUI();
 	Viewport *viewport = gui->getViewport();
 
+	//2d Matrix for poisition and rotation, use 16 byte aligned matrix for optimization
+	//(don't copy this matrix for safety, just use as temp)
+	D3DXMATRIXA16 textureMatrix;
+	//default scaling
+	float scaling = 1.0f;
+	D3DXVECTOR2 scale(scaling,scaling);
+
 	// GO THROUGH EACH ITEM IN THE LIST
 	while (worldRenderList->hasNext())
 	{
@@ -472,16 +497,21 @@ void DirectXGraphics::renderWorldRenderList()
 		if (id >= 0)
 		{
 			texture = ((DirectXTextureManager*)worldTextureManager)->getTexture(id);
-			D3DXVECTOR3 position = D3DXVECTOR3(	(FLOAT)(itemToRender.x),
-											(FLOAT)(itemToRender.y),
-												0);
+			//D3DXVECTOR3 position = D3DXVECTOR3(	(FLOAT)(itemToRender.x),
+			//								(FLOAT)(itemToRender.y),
+			//									0);
 
-			position.x += viewport->getViewportOffsetX();
-			position.y += viewport->getViewportOffsetY();
+			//center position
+			D3DXVECTOR2 translation = D3DXVECTOR2((FLOAT)(itemToRender.x), (FLOAT)(itemToRender.y));
+			//rotation axis position
+			D3DXVECTOR2 rotateCenter((float)(itemToRender.width*scaling)/2, (float)(itemToRender.height*scaling)/2);
+
+			translation.x += viewport->getViewportOffsetX();
+			translation.y += viewport->getViewportOffsetY();
 
 			// ADJUST FOR THE GUI OFFSET
-			if ((position.x < viewport->getViewportOffsetX())
-				||  (position.y < viewport->getViewportOffsetY()))
+			if ((translation.x < viewport->getViewportOffsetX())
+				||  (translation.y < viewport->getViewportOffsetY()))
 			{
 				IDirect3DSurface9 *surface;
 				UINT level = 0;
@@ -493,20 +523,24 @@ void DirectXGraphics::renderWorldRenderList()
 				rect->top = 0;
 				rect->right = surfaceDescription.Width;
 				rect->bottom = surfaceDescription.Height;
-				if (position.x < viewport->getViewportOffsetX())
+				if (translation.x < viewport->getViewportOffsetX())
 				{
-					int xDiff = viewport->getViewportOffsetX() - (int)position.x;
+					int xDiff = viewport->getViewportOffsetX() - (int)translation.x;
 					rect->left = xDiff;
-					position.x += xDiff;
+					translation.x += xDiff;
 				}
-				if (position.y < viewport->getViewportOffsetY())
+				if (translation.y < viewport->getViewportOffsetY())
 				{
-					int yDiff = viewport->getViewportOffsetY() - (int)position.y;
+					int yDiff = viewport->getViewportOffsetY() - (int)translation.y;
 					rect->top = yDiff;
-					position.y += yDiff;
+					translation.y += yDiff;
 				}	
 			}
 
+			//Now create the matrix using the rotation and translation information
+			D3DXMatrixTransformation2D(&textureMatrix,NULL,0,&scale,&rotateCenter,itemToRender.angle,&translation);
+			//Finally set the transform, the texture will be drawn with this transform
+			spriteHandler->SetTransform(&textureMatrix);
 
 			// RENDER THE OPAQUE ITEMS
 			if (itemToRender.a == 255)
@@ -515,7 +549,7 @@ void DirectXGraphics::renderWorldRenderList()
 					texture, 
 					rect,
 			        NULL,
-					&position,
+					NULL,
 					DEFAULT_ALPHA_COLOR)))
 				{
 					game->getText()->writeDebugOutput("\nspriteHandler->Draw: FAILED");
@@ -533,7 +567,7 @@ void DirectXGraphics::renderWorldRenderList()
 						texture,
 						rect,
 						NULL,
-						&position,
+						NULL,
 						D3DCOLOR_ARGB(itemToRender.a, 255, 255, 255))))
 					{
 						game->getText()->writeDebugOutput("\nspriteHandler->Draw: FAILED");
@@ -623,6 +657,12 @@ void DirectXGraphics::renderTextToDraw(TextToDraw *textToDraw)
 	textRect.top = textToDraw->y;
 	textRect.bottom = textToDraw->y + textToDraw->height;
 	LPCWSTR lpcwstrText = (*textToDraw->getText()).c_str();
+
+	D3DXMATRIXA16 identityMatrix;
+	D3DXMatrixIdentity(&identityMatrix);
+	//reset the matrix from last render
+	spriteHandler->SetTransform(&identityMatrix);
+
 	if (FAILED(textFont->DrawText (
 				spriteHandler, 
 				lpcwstrText, 

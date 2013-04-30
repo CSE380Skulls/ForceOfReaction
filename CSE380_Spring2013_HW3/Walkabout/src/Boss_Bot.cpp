@@ -57,7 +57,7 @@ void Boss_Bot::think(Game *game){
 				seed->affixTightAABBBoundingVolume();
 
 				//create a physics object for the seed
-				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,seed);
+				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,seed,false);
 
 				// Set the velocity of the seed
 				seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(attack_Speed, 0.5));

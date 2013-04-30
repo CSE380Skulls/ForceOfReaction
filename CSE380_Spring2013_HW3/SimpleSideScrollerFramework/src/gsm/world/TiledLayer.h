@@ -25,9 +25,12 @@
 	later on when a new level loader is created I will use these there,
 	and everything will be loaded in binary*/
 
-enum TileType{ NO_SIDES = 0, TOP, BOTTOM, LEFT, RIGHT, 
-	TOP_LEFT, TOP_RIGHT, TOP_BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT, LEFT_RIGHT, 
-	TOP_LEFT_RIGHT, TOP_RIGHT_BOTTOM, TOP_LEFT_BOTTOM, ALL_SIDES};
+struct TileProps{
+	bool left_collidable;
+	bool right_collidable;
+	bool top_collidable;
+	bool bottom_collidable;
+};
 
 // THIS CLASS IS-A WorldLayer
 
@@ -46,6 +49,9 @@ protected:
 	int layerWidth;
 	int layerHeight;
 	int z;
+
+	vector<TileProps> * tilePropertyVector;
+
 	// NOTE: z IS HERE IN CASE WE WANT TO LAYER SPRITES
 	// IN FRONT OF OR BEHIND LAYERS IN A GAME WORLD
 
@@ -70,7 +76,7 @@ public:
 				int initTileWidth,	int initTileHeight, 
 				int initZ, 
 				bool initCollidableTiles, 
-				int initWorldWidth, int initWorldHeight);
+				int initWorldWidth, int initWorldHeight,vector<TileProps> * tileProps);
 	~TiledLayer();
 	void	addRenderItemsToRenderList(RenderList *renderList, Viewport *viewport);
 	void	addItemsToPhysicsSystem(Game *game);
@@ -88,7 +94,7 @@ public:
 					int initTileWidth,	int initTileHeight, 
 					int initZ, 
 					bool collidableTiles, 
-					int worldWidth, int worldHeight);
+					int worldWidth, int worldHeight, vector<TileProps> * tileProps);
 	void	setTile(Tile *initTile, int row, int column);
 	void	findTileCollisionsForSprite(	Physics *physics,
 											CollidableObject *dynamicObject);

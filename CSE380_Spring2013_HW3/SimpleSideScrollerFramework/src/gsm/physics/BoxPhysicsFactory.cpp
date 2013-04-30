@@ -12,13 +12,13 @@
 #include "src\gsm\state\GameStateManager.h"
 
 /*Create an friendly physics object*/
-void BoxPhysicsFactory::createPlayerObject(Game *game, AnimatedSprite *sprite){
+void BoxPhysicsFactory::createPlayerObject(Game *game, AnimatedSprite *sprite, bool rotate){
 	float extent_x = sprite->getSpriteType()->getTextureWidth()/2.0f;
 	float extent_y = sprite->getSpriteType()->getTextureHeight()/2.0f;
 	float sprite_x = sprite->getPhysicalProperties()->getX();
 	float sprite_y = sprite->getPhysicalProperties()->getY();
 	createDynamicBox(game,sprite,sprite,FRIENDLY_OBJECT_INDEX,(sprite_x + extent_x),
-		(sprite_y + extent_y),extent_x,extent_y);
+		(sprite_y + extent_y),extent_x,extent_y,!rotate);
 }
 
 void BoxPhysicsFactory::createStaticPlayerObject(Game *game, AnimatedSprite *sprite){
@@ -40,13 +40,13 @@ void BoxPhysicsFactory::createStaticWorldObject(Game *game, AnimatedSprite *spri
 }
 
 /* Create an enemy physics object*/
-void BoxPhysicsFactory::createEnemyObject(Game *game, AnimatedSprite *sprite){
+void BoxPhysicsFactory::createEnemyObject(Game *game, AnimatedSprite *sprite, bool rotate){
 	float extent_x = sprite->getSpriteType()->getTextureWidth()/2.0f;
 	float extent_y = sprite->getSpriteType()->getTextureHeight()/2.0f;
 	float sprite_x = sprite->getPhysicalProperties()->getX();
 	float sprite_y = sprite->getPhysicalProperties()->getY();
 	createDynamicBox(game,sprite,sprite,ENEMY_OBJECT_INDEX,(sprite_x + extent_x),
-		(sprite_y + extent_y),extent_x,extent_y);
+		(sprite_y + extent_y),extent_x,extent_y,!rotate);
 }
 
 /* This function will eventually be removed or replaced when we start using chain
@@ -103,14 +103,14 @@ void BoxPhysicsFactory::createStaticBox(Game *game, BoxPhysicsObject *phyobj,
 
 //this will eventually return something to the user, a reference to a box2d body
 void BoxPhysicsFactory::createDynamicBox(Game *game, BoxPhysicsObject *phyobj, AnimatedSprite * obj, int groupIndex,
-	float screen_center_x, float screen_center_y, float screen_extent_x, float screen_extent_y)
+	float screen_center_x, float screen_center_y, float screen_extent_x, float screen_extent_y, bool rotate)
 {
 	b2BodyDef dynamicBodyDef;
 	b2PolygonShape dynamicBox;
 	b2FixtureDef fixtureDef;
 
 	dynamicBodyDef.type = b2_dynamicBody;
-	dynamicBodyDef.fixedRotation = true;
+	dynamicBodyDef.fixedRotation = rotate;
 	dynamicBodyDef.userData = obj;
 
 	//convert to physics coordinates using the conversion factor

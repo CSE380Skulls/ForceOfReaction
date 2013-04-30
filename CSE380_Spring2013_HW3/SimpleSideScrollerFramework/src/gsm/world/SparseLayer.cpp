@@ -78,7 +78,8 @@ void SparseLayer::addRenderItemsToRenderList(RenderList *renderList,
 										tile->z,
 										tile->alpha,
 										tile->width,
-										tile->height);
+										tile->height,
+										0.0f);
 		}
 
 		// ONTO THE NEXT ONE
