@@ -199,6 +199,8 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	player->setSpriteType(playerSpriteType);
 	player->setAlpha(255);
 	player->setCurrentState(IDLE_RIGHT);
+	player->setDirection(1);
+
 	PhysicalProperties *playerProps = player->getPhysicalProperties();
 	playerProps->setX(PLAYER_INIT_X);
 	playerProps->setY(PLAYER_INIT_Y);
