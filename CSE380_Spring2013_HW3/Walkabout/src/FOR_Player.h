@@ -31,6 +31,7 @@ public:
 	void updateStatusGUI(Game* game);
 	bool can_Move() { return !dead && !stunned; }
 	void setSelectedElement(int i) { selected_element = i; }
+	void nextElement();
 	int getSelectedElement() {return selected_element; }
 	void playSound(Game* game, SpriteDesignations soundType);
 	void stun();

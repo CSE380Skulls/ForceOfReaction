@@ -154,7 +154,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 				else {
 					// Left side click
 					player->setCurrentState(ATTACKING_LEFT);
-					vineX = px - vineSpriteType->getTextureWidth() / 2;
+					vineX = px - vineSpriteType->getTextureWidth();
 				}
 
 				Vine *vine = new Vine(PROJECTILE_DESIGNATION);
@@ -260,9 +260,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		}
 
 		if(input->isKeyDownForFirstTime(Z_KEY)){
-			int whatever = player->getSelectedElement()+1;
-			if (whatever > 1) {whatever = 0;}
-			player->setSelectedElement(whatever);
+			player->nextElement();
 		}
 
 		bool viewportMoved = false;

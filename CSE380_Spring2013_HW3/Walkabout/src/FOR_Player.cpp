@@ -63,9 +63,7 @@ void FOR_Player::updateStatusGUI(Game* game){
 	int hp = this->getHitPoints()/(MAX_HP/10);
 	if (this->getHitPoints()<0)
 		hp = 0;
-	gui->popOverlayImage();
-	gui->popOverlayImage();
-	gui->popOverlayImage();
+	gui->popOverlayImage(4);
 
 	unsigned int imageID;
 	OverlayImage *imageToAdd = new OverlayImage();
@@ -141,6 +139,20 @@ void FOR_Player::updateStatusGUI(Game* game){
 	imageToAdd->height = 48;
 	imageToAdd->imageID = imageID;
 	gui->addOverlayImage(imageToAdd);
+
+	imageToAdd = new OverlayImage();
+	if (selected_element == FIRE)
+		imageID = tm->retrieveTexture(W_STATUS_FIRE_SELECTED_PATH);
+	else 
+		imageID = tm->retrieveTexture(W_STATUS_FIRE_UNSELECTED_PATH);
+	imageToAdd->x = 290;
+	imageToAdd->y = 50;
+	imageToAdd->z = 0;
+	imageToAdd->alpha = 255;
+	imageToAdd->width = 48;
+	imageToAdd->height = 48;
+	imageToAdd->imageID = imageID;
+	gui->addOverlayImage(imageToAdd);
 }
 
 void FOR_Player::playSound(Game* game, SpriteDesignations soundType){
@@ -160,4 +172,10 @@ void FOR_Player::stun() {
 		stunned = true;
 		cd_Counter = attack_Cooldown;
 	}
+}
+
+void FOR_Player::nextElement() {
+	int whatever = getSelectedElement()+1;
+	if (whatever > 2) {whatever = 0;}
+	setSelectedElement(whatever);
 }
