@@ -172,6 +172,9 @@ void Game::processGameData()
 
 	// KEEP THE FRAME RATE CONSISTENT
 	timer->timeGameLoop();
+
+	// REMOVE ALL FINISHED SOUNDS
+	gam->update();
 }
 
 /*

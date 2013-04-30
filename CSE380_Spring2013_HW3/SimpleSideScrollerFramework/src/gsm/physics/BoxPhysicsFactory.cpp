@@ -18,7 +18,8 @@ void BoxPhysicsFactory::createPlayerObject(Game *game, AnimatedSprite *sprite, b
 	float sprite_x = sprite->getPhysicalProperties()->getX();
 	float sprite_y = sprite->getPhysicalProperties()->getY();
 	createDynamicBox(game,sprite,sprite,FRIENDLY_OBJECT_INDEX,(sprite_x + extent_x),
-		(sprite_y + extent_y),extent_x,extent_y,!rotate);
+	//(sprite_y + extent_y),extent_x,extent_y,!rotate);
+	(sprite_y + extent_y),16,extent_y,!rotate);
 }
 
 void BoxPhysicsFactory::createStaticPlayerObject(Game *game, AnimatedSprite *sprite){
@@ -27,7 +28,7 @@ void BoxPhysicsFactory::createStaticPlayerObject(Game *game, AnimatedSprite *spr
 	float sprite_x = sprite->getPhysicalProperties()->getX();
 	float sprite_y = sprite->getPhysicalProperties()->getY();
 	createStaticBox(game,sprite,sprite,FRIENDLY_OBJECT_INDEX,(sprite_x + extent_x),
-		(sprite_y + extent_y),extent_x,extent_y);
+		(sprite_y + extent_y),16,extent_y);
 }
 
 void BoxPhysicsFactory::createStaticWorldObject(Game *game, AnimatedSprite *sprite){
@@ -45,6 +46,10 @@ void BoxPhysicsFactory::createEnemyObject(Game *game, AnimatedSprite *sprite, bo
 	float extent_y = sprite->getSpriteType()->getTextureHeight()/2.0f;
 	float sprite_x = sprite->getPhysicalProperties()->getX();
 	float sprite_y = sprite->getPhysicalProperties()->getY();
+	if (sprite->getHitPoints()==10)
+		createDynamicBox(game,sprite,sprite,ENEMY_OBJECT_INDEX,(sprite_x + extent_x),
+		(sprite_y + extent_y+10),26,extent_y,!rotate);
+	else
 	createDynamicBox(game,sprite,sprite,ENEMY_OBJECT_INDEX,(sprite_x + extent_x),
 		(sprite_y + extent_y),extent_x,extent_y,!rotate);
 }

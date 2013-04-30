@@ -5,6 +5,7 @@
 #include "src\audio\GameAudioManager.h"
 #include "src\gsm\physics\Physics.h"
 #include "src\WalkaboutGame.h"
+#include "src\audio\GameAudioManager.h"
 
 /*
 	This private constructor is only to be used for cloning bots, note
@@ -14,11 +15,13 @@ FORFloatingBot::FORFloatingBot(	int initMin,
 								int initMax, 
 								int initVelocity,
 								int spawnX,
-								int travelDistance)
+								int travelDistance,
+								int designation)
 {
 	// Init player targeting variables
 	this->spawnX = spawnX;
 	this->travelDistance = travelDistance;
+	this->designation = designation;
 
 	// INIT THE BASIC STUFF
 	initBot(initMin, initMax, initVelocity);
@@ -70,6 +73,7 @@ void FORFloatingBot::initBot(	int initMin,
 	// AND OUR VELOCITY CAPPER
 	velocity = initVelocity;
 	dir = -1;
+	stunned = false;
 }
 
 /*
@@ -121,7 +125,7 @@ bool FORFloatingBot::isInBounds(int x){
 	decision-making. Note that we might not actually do any thinking each
 	frame, depending on the value of cyclesRemainingBeforeThinking.
 */
-void FORFloatingBot::think(Game *game)
+void FORFloatingBot::update(Game *game)
 {
 	if(dead)
 		return;
@@ -178,12 +182,35 @@ void FORFloatingBot::think(Game *game)
 		getPhysicsBody()->SetLinearVelocity(b2Vec2(-velocity, getPhysicsBody()->GetLinearVelocity().y));
 	}
 
-	if (cyclesRemainingBeforeThinking == 0)
+	// If stunned, don't let move
+	if(stunned)
+		getPhysicsBody()->SetLinearVelocity(b2Vec2(0, getPhysicsBody()->GetLinearVelocity().y));
+
+	if (cyclesRemainingBeforeThinking <= 0)
 	{
+		if(stunned)
+			stunned = false;
 		GameStateManager *gsm = game->getGSM();
 		pickRandomVelocity(gsm->getPhysics());
 		pickRandomCyclesInRange();
 	}
 	else
 		cyclesRemainingBeforeThinking--;
+}
+
+void FORFloatingBot::playSound(Game *game, SpriteDesignations soundType) {
+	if(soundType == SPRITE_DEAD && !dead){
+		game->getGAM()->playSound(C_EXPLOSION2);
+	}
+
+	if(soundType == SPRITE_HIT){
+		game->getGAM()->playSound(C_HIT);
+	}
+}
+
+void FORFloatingBot::stun() {
+	if(!dead && !stunned) {
+		pickRandomCyclesInRange();
+		stunned = true;
+	}
 }

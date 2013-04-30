@@ -1,0 +1,21 @@
+ANDRIY:
+
+1#) Fix Sprite Sizes
+ ?) Update way sprites are rendered to eliminate checking left/right
+2) Fix Sound Memory Leak
+3) Bubbles
+
+ART:
+
+1) Little rotating sprites
+2) Fire GUI element
+3?) Make health look better
+4) Update robot sprite
+5) Add player death animations
+6) Tiles
+
+JAMIE:
+
+1) Implement impulses when player and bot hit into eachother
+2) Set up levels using purely lua
+3) Implement system for transitioning between levels

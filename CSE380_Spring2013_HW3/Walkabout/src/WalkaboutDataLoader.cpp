@@ -15,7 +15,6 @@
 #include "src\game\Game.h"
 #include "src\graphics\GameGraphics.h"
 #include "src\audio\GameAudioManager.h"
-#include "src\gsm\ai\bots\RandomJumpingBot.h"
 #include "src\gsm\sprite\AnimatedSprite.h"
 #include "src\gsm\state\GameState.h"
 #include "src\gsm\world\TiledLayer.h"
@@ -188,7 +187,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	Physics *physics = gsm->getPhysics();
 	physics->setGravity(W_GRAVITY);
 	SpriteManager *spriteManager = gsm->getSpriteManager();
-	FOR_Player *player = new FOR_Player(PLAYER_ATTACK_COOLDOWN, PLAYER_DEATH_COOLDOWN);
+	FOR_Player *player = new FOR_Player(PLAYER_ATTACK_COOLDOWN, PLAYER_DEATH_COOLDOWN, PLAYER_DESIGNATION);
 	spriteManager->setPlayer(player);
 	//AnimatedSprite *player = spriteManager->getPlayer();
 	physics->addCollidableObject(player);
@@ -217,7 +216,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	// Wall1
 	AnimatedSpriteType *breakable_wall = spriteManager->getSpriteType(2);
-	Breakable_Wall *wall1 = new Breakable_Wall();
+	Breakable_Wall *wall1 = new Breakable_Wall(WALL_DESIGNATION);
 	wall1->setHitPoints(WALL_HITPOINTS);
 	wall1->setDamage(0);
 	wall1->setSpriteType(breakable_wall);
@@ -240,7 +239,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	spriteManager->addBot(wall1);
 
 	// Wall2
-	Breakable_Wall *wall2 = new Breakable_Wall();
+	Breakable_Wall *wall2 = new Breakable_Wall(WALL_DESIGNATION);
 	wall2->setHitPoints(WALL_HITPOINTS);
 	wall2->setDamage(0);
 	wall2->setSpriteType(breakable_wall);
@@ -267,7 +266,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	// Boss
 	AnimatedSpriteType *bossSpriteType = spriteManager->getSpriteType(6);
 	//FORFloatingBot *boss = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, BOSS_X, BOT_ATTACK_RANGE);
-	Boss_Bot *boss = new Boss_Bot(BULLET_SPEED, BOT_ATTACK_RANGE, BULLET_SPEED, BOT_ATTACK_COOLDOWN);
+	Boss_Bot *boss = new Boss_Bot(BULLET_SPEED, BOT_ATTACK_RANGE, BULLET_SPEED, BOT_ATTACK_COOLDOWN, BOT_DESIGNATION);
 	boss->setHitPoints(BOSS_HITPOINTS);
 	boss->setDamage(1);
 	boss->setSpriteType(bossSpriteType);
@@ -301,7 +300,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	for(int x = 2; x < 4; x ++){
 		int xSpawn = x * worldWidth / 4.0f;
-		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE);
+		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
 		bot->setHitPoints(BOT_HITPOINTS);
 		bot->setDamage(BOT_DAMAGE);
 		bot->setSpriteType(botSpriteType);
@@ -326,7 +325,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	ySpawn = 2100;
 	for(int x = 1; x < 4; x ++){
 		int xSpawn = x * worldWidth / 4.0f;
-		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE);
+		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
 		bot->setHitPoints(BOT_HITPOINTS);
 		bot->setDamage(BOT_DAMAGE);
 		bot->setSpriteType(botSpriteType);
@@ -351,7 +350,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	ySpawn = 1700;
 	for(int x = 3; x < 4; x ++){
 		int xSpawn = x * worldWidth / 4.0f;
-		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE);
+		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
 		bot->setHitPoints(BOT_HITPOINTS);
 		bot->setDamage(BOT_DAMAGE);
 		bot->setSpriteType(botSpriteType);
@@ -376,7 +375,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	ySpawn = 1200;
 	for(int x = 3; x < 4; x ++){
 		int xSpawn = x * worldWidth / 4.0f;
-		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE);
+		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
 		bot->setHitPoints(BOT_HITPOINTS);
 		bot->setDamage(BOT_DAMAGE);
 		bot->setSpriteType(botSpriteType);
@@ -879,6 +878,19 @@ void WalkaboutDataLoader::initInGameGUI(GameGUI *gui, DirectXTextureManager *gui
 	// NOW ADD THE IN-GAME GUI
 	ScreenGUI *inGameGUI = new ScreenGUI();
 
+	guiTextureManager->loadTexture(W_STATUS_HP_9_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_8_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_7_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_6_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_5_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_4_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_3_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_2_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_1_PATH);
+	guiTextureManager->loadTexture(W_STATUS_HP_0_PATH);
+	guiTextureManager->loadTexture(W_STATUS_EARTH_SELECTED_PATH);
+	guiTextureManager->loadTexture(W_STATUS_WATER_SELECTED_PATH);
+
 	unsigned int imageID = guiTextureManager->loadTexture(W_STATUS_HEAD_PATH);
 	OverlayImage *imageToAdd = new OverlayImage();
 	imageToAdd->x = 20;
@@ -890,36 +902,36 @@ void WalkaboutDataLoader::initInGameGUI(GameGUI *gui, DirectXTextureManager *gui
 	imageToAdd->imageID = imageID;
 	inGameGUI->addOverlayImage(imageToAdd);
 
-	imageID = guiTextureManager->loadTexture(W_STATUS_FIRE_PATH);
+	imageID = guiTextureManager->loadTexture(W_STATUS_HP_10_PATH);
 	imageToAdd = new OverlayImage();
 	imageToAdd->x = 84;
 	imageToAdd->y = 15;
 	imageToAdd->z = 0;
 	imageToAdd->alpha = 255;
-	imageToAdd->width = 340;
+	imageToAdd->width = 320;
 	imageToAdd->height = 22;
 	imageToAdd->imageID = imageID;
 	inGameGUI->addOverlayImage(imageToAdd);
 
-	imageID = guiTextureManager->loadTexture(W_STATUS_WATER_PATH);
+	imageID = guiTextureManager->loadTexture(W_STATUS_EARTH_UNSELECTED_PATH);
 	imageToAdd = new OverlayImage();
-	imageToAdd->x = 84;
-	imageToAdd->y = 40;
+	imageToAdd->x = 110;
+	imageToAdd->y = 50;
 	imageToAdd->z = 0;
 	imageToAdd->alpha = 255;
-	imageToAdd->width = 340;
-	imageToAdd->height = 22;
+	imageToAdd->width = 48;
+	imageToAdd->height = 48;
 	imageToAdd->imageID = imageID;
 	inGameGUI->addOverlayImage(imageToAdd);
 
-	imageID = guiTextureManager->loadTexture(W_STATUS_EARTH_PATH);
+	imageID = guiTextureManager->loadTexture(W_STATUS_WATER_UNSELECTED_PATH);
 	imageToAdd = new OverlayImage();
-	imageToAdd->x = 84;
-	imageToAdd->y = 67;
+	imageToAdd->x = 200;
+	imageToAdd->y = 50;
 	imageToAdd->z = 0;
 	imageToAdd->alpha = 255;
-	imageToAdd->width = 340;
-	imageToAdd->height = 22;
+	imageToAdd->width = 48;
+	imageToAdd->height = 48;
 	imageToAdd->imageID = imageID;
 	inGameGUI->addOverlayImage(imageToAdd);
 

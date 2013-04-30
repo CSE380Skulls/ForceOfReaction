@@ -26,6 +26,7 @@ AnimatedSprite::AnimatedSprite()
 	pp.setAccelerationY(0.0f);
 	pp.setPosition(0.0f, 0.0f);
 	dead = false;
+	designation = -1;
 }
 
 /*

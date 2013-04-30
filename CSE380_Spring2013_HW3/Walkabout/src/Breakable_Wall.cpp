@@ -7,8 +7,9 @@
 #include "src\game\Game.h"
 #include "src\gsm\sprite\SpriteManager.h"
 #include "src\WalkaboutGame.h"
+#include "src\audio\GameAudioManager.h"
 
-void Breakable_Wall::think(Game *game){
+void Breakable_Wall::update(Game *game){
 	if(dead)
 		return;
 
@@ -24,5 +25,11 @@ void Breakable_Wall::think(Game *game){
 	if(hitPoints <= 0){
 		game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 0);
 		dead = true;
+	}
+}
+
+void Breakable_Wall::playSound(Game *game, SpriteDesignations soundType) {
+	if(soundType == SPRITE_DEAD && !dead){
+		game->getGAM()->playSound(C_EXPLOSION);
 	}
 }

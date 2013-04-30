@@ -55,13 +55,12 @@ void GameAudioManager::update()
 	while (soundIterator != currentSounds.end())
 	{			
 		ISound* sound = (*soundIterator);
+		soundIterator++;
 		if (sound->isFinished())
 		{
 			currentSounds.remove(sound);
 			sound->drop();
 		}
-		else
-			soundIterator++;
 	}
 }
 
@@ -70,22 +69,22 @@ bool GameAudioManager::playingSound(char* i_sound)
 	list<irrklang::ISound*>::iterator soundIterator;
 	soundIterator = currentSounds.begin();
 	bool found = false;
-	int looper = 0;
 	while (soundIterator != currentSounds.end())
 	{			
-		looper++;
 		ISound* sound = (*soundIterator);
+		soundIterator++;
 		if (sound->isFinished())
 		{
-			soundIterator++;
 			currentSounds.remove(sound);
 			sound->drop();
 		}
 		else
 		{
 			if (strcmp(i_sound,(char*)sound->getSoundSource()->getName())==0)
-				found=true;
-			soundIterator++;
+			{
+				found=true; 
+				break;
+			}
 		}
 	}
 	return found;

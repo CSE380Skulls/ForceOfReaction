@@ -56,6 +56,11 @@ void ScreenGUI::addOverlayImage(OverlayImage *imageToAdd)
 	overlayImages->push_back(imageToAdd);
 }
 
+void ScreenGUI::popOverlayImage()
+{
+	overlayImages->pop_back();
+}
+
 /*
 	addRenderItemsToRenderList - This method should be called once
 	per frame on this screen if it is currently active. It goes

@@ -8,7 +8,7 @@
 #include "src\gsm\sprite\SpriteManager.h"
 #include "src\WalkaboutGame.h"
 
-void Seed::think(Game *game){
+void Seed::update(Game *game){
 	// If this seed is no longer moving, remove it from the game
 	float vX = getPhysicsBody()->GetLinearVelocity().x * BOX2D_CONVERSION_FACTOR;
 	float vY = getPhysicsBody()->GetLinearVelocity().y * BOX2D_CONVERSION_FACTOR;

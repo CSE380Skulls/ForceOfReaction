@@ -68,9 +68,22 @@ static char				*C_SWING				= "data/audio/sounds/swing.wav";
 
 // Element bars
 static const wstring	W_STATUS_HEAD_PATH		= L"data/gui/ingame/mc_head.png";
-static const wstring	W_STATUS_FIRE_PATH		= L"data/gui/ingame/fire_health.png";
-static const wstring	W_STATUS_WATER_PATH		= L"data/gui/ingame/water_health.png";
-static const wstring	W_STATUS_EARTH_PATH		= L"data/gui/ingame/earth_health.png";
+static const wstring	W_STATUS_HP_10_PATH		= L"data/gui/ingame/hp_10.png";
+static const wstring	W_STATUS_HP_9_PATH		= L"data/gui/ingame/hp_9.png";
+static const wstring	W_STATUS_HP_8_PATH		= L"data/gui/ingame/hp_8.png";
+static const wstring	W_STATUS_HP_7_PATH		= L"data/gui/ingame/hp_7.png";
+static const wstring	W_STATUS_HP_6_PATH		= L"data/gui/ingame/hp_6.png";
+static const wstring	W_STATUS_HP_5_PATH		= L"data/gui/ingame/hp_5.png";
+static const wstring	W_STATUS_HP_4_PATH		= L"data/gui/ingame/hp_4.png";
+static const wstring	W_STATUS_HP_3_PATH		= L"data/gui/ingame/hp_3.png";
+static const wstring	W_STATUS_HP_2_PATH		= L"data/gui/ingame/hp_2.png";
+static const wstring	W_STATUS_HP_1_PATH		= L"data/gui/ingame/hp_1.png";
+static const wstring	W_STATUS_HP_0_PATH		= L"data/gui/ingame/hp_0.png";
+
+static const wstring	W_STATUS_EARTH_SELECTED_PATH = L"data/gui/ingame/rock_selected.png";
+static const wstring	W_STATUS_EARTH_UNSELECTED_PATH = L"data/gui/ingame/rock_unselected.png";
+static const wstring	W_STATUS_WATER_SELECTED_PATH = L"data/gui/ingame/water_selected.png";
+static const wstring	W_STATUS_WATER_UNSELECTED_PATH = L"data/gui/ingame/water_unselected.png";
 
 // FOR OUR SPRITE
 static const wstring	SPRITE_TYPES_DIR = L"data/sprite_types/";
@@ -138,6 +151,7 @@ const unsigned int S_KEY = (unsigned int)'S';
 const unsigned int D_KEY = (unsigned int)'D';
 const unsigned int P_KEY = (unsigned int)'P';
 const unsigned int T_KEY = (unsigned int)'T';
+const unsigned int Z_KEY = (unsigned int)'Z';
 const unsigned int ONE_KEY = (unsigned int)'1';
 const unsigned int TWO_KEY = (unsigned int)'2';
 const unsigned int CTRL_KEY = VK_CONTROL;

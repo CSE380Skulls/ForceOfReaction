@@ -11,7 +11,7 @@
 #include "BoxContactListener.h"
 #include "src\gsm\state\GameStateManager.h"
 #include "src\audio\GameAudioManager.h"
-#include "..\Walkabout\src\WalkaboutGame.h"
+#include "src\gsm\sprite\SpriteDesignations.h"
 
 /*
 	The constructor initializes the data structures and loads
@@ -77,28 +77,107 @@ void BoxPhysics::updateContacts(Game *game){
 		AnimatedSprite *a = (AnimatedSprite*)n->contact->GetFixtureA()->GetBody()->GetUserData();
 		AnimatedSprite *b = (AnimatedSprite*)n->contact->GetFixtureB()->GetBody()->GetUserData();
 
+		if(!n->contact->IsEnabled()) {
+			C_Node *temp = n;
+			n = n->next;
+			removeContact(temp->contact);
+			continue;	
+		}
+
+		if(a->getHitPoints() <=0 || b->getHitPoints() <= 0){
+			n->contact->SetEnabled(false);
+		}
+		
+
+		// Player is a
 		if(a == game->getGSM()->getSpriteManager()->getPlayer()){
-			a->decrementHitPoints(b->getDamage());
-			game->getGAM()->playConditional(C_PLAYERHIT);
-			if (a->getHitPoints()==0)
-				game->getGAM()->playSound(C_DEATH);
+			// Not hitting into a wall
+			if(!(b->getDesignation() == WALL_DESIGNATION)) {
+				// What its hitting isn't dead
+				if(b->getHitPoints() > 0) {
+					// Hurt me
+					a->decrementHitPoints(b->getDamage());
+					// If I died, play that I'm dead
+					if (a->getHitPoints() <= 0)
+						a->playSound(game, SPRITE_DEAD);
+					else if(n->firstContact) {
+						// apply impulse
+							float px = a->getCurrentBodyX();
+							float bx = b->getCurrentBodyX();
+							// Apply an impulse
+							a->stun();
+							b->stun();
+							if(px > bx){
+								//n->contact->SetEnabled(false);
+								a->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(60.0f, 15.0f), a->getPhysicsBody()->GetPosition());
+								//b->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-120.0f, 120.0f), b->getPhysicsBody()->GetPosition());
+							}
+							else {
+								//n->contact->SetEnabled(false);
+								a->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-60.0f, 15.0f), a->getPhysicsBody()->GetPosition());
+								//b->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(120.0f, 120.0f), b->getPhysicsBody()->GetPosition());
+							
+							}
+							a->playSound(game, SPRITE_HIT);
+					}
+				}
+			}
 		}
 		else if(b == game->getGSM()->getSpriteManager()->getPlayer()){
-			b->decrementHitPoints(a->getDamage());
-			game->getGAM()->playConditional(C_PLAYERHIT);
-			if (b->getHitPoints()==0)
-				game->getGAM()->playSound(C_DEATH);
+			// If not wall
+			if(!(a->getDesignation() == WALL_DESIGNATION)) {
+				// Other isn't dead
+				if(a->getHitPoints() > 0) {
+					// Hurt me
+					b->decrementHitPoints(a->getDamage());
+					// If I died, play sound
+					if (b->getHitPoints() <= 0)
+						b->playSound(game, SPRITE_DEAD);
+					else if(n->firstContact) {
+						// apply impulse
+							float px = b->getCurrentBodyX();
+							float bx = a->getCurrentBodyX();
+							a->stun();
+							b->stun();
+							// Apply an impulse
+							if(px > bx){
+								//n->contact->SetEnabled(false);
+								//a->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-60.0f, 15.0f), a->getPhysicsBody()->GetPosition());
+								b->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(60.0f, 15.0f), b->getPhysicsBody()->GetPosition());
+							}
+							else {
+								//n->contact->SetEnabled(false);
+								//a->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(60.0f, 15.0f), a->getPhysicsBody()->GetPosition());
+								b->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-60.0f, 15.0f), b->getPhysicsBody()->GetPosition());
+							}
+
+
+							b->playSound(game, SPRITE_HIT);
+					}
+				}
+			}
 		}
 		else {
-			// Small problem where when adding an object with 0 frames until removal, ends up being 1 frame b/c of ordering.
-			if(b->getHitPoints() > 0 && a->getHitPoints() > 0){
-				a->decrementHitPoints(b->getDamage());
-				b->decrementHitPoints(a->getDamage());
-				game->getGAM()->playConditional(C_HIT);
+			if(a->getDesignation() == PROJECTILE_DESIGNATION || b->getDesignation() == PROJECTILE_DESIGNATION){
+				// Small problem where when adding an object with 0 frames until removal, ends up being 1 frame b/c of ordering.
+				if(b->getHitPoints() > 0 && a->getHitPoints() > 0){
+					a->decrementHitPoints(b->getDamage());
+					b->decrementHitPoints(a->getDamage());
+					a->playSound(game, SPRITE_HIT);
+					b->playSound(game, SPRITE_HIT);
+					if(b->getHitPoints() <= 0 || a->getHitPoints() <= 0){
+						if(a->getHitPoints() <= 0)
+							a->playSound(game, SPRITE_DEAD);
+						if(b->getHitPoints() <= 0)
+							b->playSound(game, SPRITE_DEAD);
+					}
+				}
+
 			}
 		}
 
-		// Update these contacts
+		n->firstContact = false;
+
 		n = n->next;
 	}
 }
@@ -110,6 +189,7 @@ void BoxPhysics::addContact(b2Contact *contact){
 	C_Node *n = new C_Node();
 	n->next = contacts.head;
 	n->contact = contact;
+	n->firstContact = true;
 
 	contacts.head = n;
 }
