@@ -28,7 +28,7 @@ BoxPhysics::BoxPhysics()
 
 	b2StepHertz = 60.0f;
 	velocityIterations = 6;
-	positionIterations = 2;
+	positionIterations = 4;
 
 	BoxContactListener *listener = new BoxContactListener(this);
 	physics_world->SetContactListener(listener);

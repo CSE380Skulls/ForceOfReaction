@@ -54,6 +54,11 @@ void BoxPhysicsFactory::createEnemyObject(Game *game, AnimatedSprite *sprite, bo
 		(sprite_y + extent_y),extent_x,extent_y,!rotate);
 }
 
+void BoxPhysicsFactory::createFriendlyProjectile(Game *game, AnimatedSprite *sprite, bool rotate){
+	createPlayerObject(game,sprite,rotate);
+	sprite->getPhysicsBody()->SetBullet(true);
+}
+
 /* This function will eventually be removed or replaced when we start using chain
 	edges instead of static box objects for the tiles.*/
 
@@ -202,13 +207,10 @@ void BoxPhysicsFactory::createTestRope(Game *game, vector<AnimatedSprite *>sprit
 	//to each rectangle joint
 	BoxPhysicsObject *tempObj = new BoxPhysicsObject();
 	//create an invisible box for testing
-	createStaticBox(game,tempObj, NULL, FRIENDLY_OBJECT_INDEX,800,200,64,64);
+	createStaticBox(game,tempObj, NULL, FRIENDLY_OBJECT_INDEX,800,200,4,25);
 
-	b2RevoluteJointDef jd;
-	jd.collideConnected = false;
-
-	float physics_width = game->getGSM()->screenToPhysicsX(spritesArray.at(0)->getSpriteType()->getTextureWidth()/2);
-	float physics_height = game->getGSM()->screenToPhysicsX(spritesArray.at(0)->getSpriteType()->getTextureHeight()/2);
+	float physics_width = game->getGSM()->screenToPhysicsX(((float)spritesArray.at(0)->getSpriteType()->getTextureWidth())/2.0f);
+	float physics_height = game->getGSM()->screenToPhysicsX(((float)spritesArray.at(0)->getSpriteType()->getTextureHeight())/2.0f);
 
 	b2PolygonShape shape;
 	shape.SetAsBox(physics_width, physics_height);
@@ -219,15 +221,28 @@ void BoxPhysicsFactory::createTestRope(Game *game, vector<AnimatedSprite *>sprit
 	b2Body* prevBody = tempObj->getPhysicsBody();
 
 	for(int i = 0; i < spritesArray.size(); i++){
-		b2BodyDef bd;
-		bd.type = b2_dynamicBody;
-		bd.position.Set(prevBody->GetPosition().x,prevBody->GetPosition().y - physics_height);
-		b2Body* body = physicsWorldRef->CreateBody(&bd);
+		b2BodyDef bdef;
+		bdef.type = b2_dynamicBody;
+		bdef.position.Set(20,68);
+		shape.SetAsBox(physics_width, physics_height);
+		fd.shape = &shape;
+		b2Body* body = physicsWorldRef->CreateBody(&bdef);
 		body->CreateFixture(&fd);
 
-		b2Vec2 anchor(prevBody->GetPosition().x, prevBody->GetPosition().y - physics_height/2);
-		jd.Initialize(prevBody, body, anchor);
-		physicsWorldRef->CreateJoint(&jd);
+		//b2Vec2 anchor(prevBody->GetPosition().x, prevBody->GetPosition().y - physics_height/2);
+		//jd.Initialize(prevBody, body, anchor);
+		//physicsWorldRef->CreateJoint(&jd);
+
+		b2RevoluteJointDef revoluteJointDef;
+		revoluteJointDef.collideConnected = false;
+		revoluteJointDef.bodyA = prevBody;
+		revoluteJointDef.bodyB = body;
+		//these are static values now for testing, scaling the width and height
+		//of the sprite's width and height
+		revoluteJointDef.localAnchorA.Set(0,-0.32);
+		revoluteJointDef.localAnchorB.Set(0,0.32);
+		revoluteJointDef.referenceAngle = body->GetAngle() - prevBody->GetAngle();
+		physicsWorldRef->CreateJoint(&revoluteJointDef);
 		
 		spritesArray[i]->initPhysicsBody(body);
 

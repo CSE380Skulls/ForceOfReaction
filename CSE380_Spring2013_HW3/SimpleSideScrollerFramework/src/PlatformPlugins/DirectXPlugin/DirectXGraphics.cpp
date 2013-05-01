@@ -538,7 +538,7 @@ void DirectXGraphics::renderWorldRenderList()
 			}
 
 			//Now create the matrix using the rotation and translation information
-			D3DXMatrixTransformation2D(&textureMatrix,NULL,0,&scale,&rotateCenter,itemToRender.angle,&translation);
+			D3DXMatrixTransformation2D(&textureMatrix,NULL,0,&scale,&rotateCenter,-itemToRender.angle,&translation);
 			//Finally set the transform, the texture will be drawn with this transform
 			spriteHandler->SetTransform(&textureMatrix);
 

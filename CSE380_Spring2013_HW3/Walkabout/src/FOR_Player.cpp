@@ -323,7 +323,7 @@ void FOR_Player::rightAttack(Game *game, float mx, float my){
 		seed->affixTightAABBBoundingVolume();
 
 		//create a physics object for the seed
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,seed,false);
+		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createFriendlyProjectile(game,seed,true);
 
 		// Set the velocity of the seed
 		seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));

@@ -31,6 +31,7 @@ public:
 	void createTileObject(Game *game, BoxPhysicsObject *phyobj, 
 		float screen_center_x, float screen_center_y, float extent_x, float extent_y);
 	void createStaticPlayerObject(Game *game, AnimatedSprite *sprite);
+	void createFriendlyProjectile(Game *game, AnimatedSprite *sprite, bool rotate);
 	void createStaticWorldObject(Game *game, AnimatedSprite *sprite);
 	// Used for rope objects
 	void createTestRope(Game *game, vector<AnimatedSprite *>spritesArray);
