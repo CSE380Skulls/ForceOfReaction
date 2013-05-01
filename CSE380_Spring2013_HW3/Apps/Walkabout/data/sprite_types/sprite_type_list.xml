@@ -7,4 +7,5 @@
   <sprite_type>vine</sprite_type>
   <sprite_type>key</sprite_type>
   <sprite_type>enemy_birdie</sprite_type>
+  <sprite_type>fire_ball</sprite_type>
 </sprite_type_list>

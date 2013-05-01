@@ -85,5 +85,5 @@ public:
 	int getDesignation() { return designation; }
 	virtual void update(Game *game)=0;
 	virtual void playSound(Game *game, SpriteDesignations soundType)=0;
-	virtual void stun()=0;
+	virtual void stun(int framesStunned)=0;
 };

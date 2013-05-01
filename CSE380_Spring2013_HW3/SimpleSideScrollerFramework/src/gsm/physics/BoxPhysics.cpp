@@ -87,6 +87,13 @@ void BoxPhysics::updateContacts(Game *game){
 		if(a->getHitPoints() <=0 || b->getHitPoints() <= 0){
 			n->contact->SetEnabled(false);
 		}
+
+		// I want a to always be the player in a collision, this cuts out a lot of redundant code
+		if(b == game->getGSM()->getSpriteManager()->getPlayer()) {
+			AnimatedSprite *temp = a;
+			a=  b;
+			b = temp;
+		}
 		
 
 		// Player is a
@@ -101,8 +108,11 @@ void BoxPhysics::updateContacts(Game *game){
 					if (a->getHitPoints() <= 0)
 						a->playSound(game, SPRITE_DEAD);
 					else if(n->firstContact) {
+						// Handle player collision (this bumps the player back)
+						handlePlayerCollision(game, a, b);
+						/*
 						// apply impulse
-							float px = a->getCurrentBodyX();
+						float px = a->getCurrentBodyX();
 							float bx = b->getCurrentBodyX();
 							// Apply an impulse
 							a->stun();
@@ -119,11 +129,12 @@ void BoxPhysics::updateContacts(Game *game){
 							
 							}
 							a->playSound(game, SPRITE_HIT);
+							*/
 					}
 				}
 			}
 		}
-		else if(b == game->getGSM()->getSpriteManager()->getPlayer()){
+		/*else if(b == game->getGSM()->getSpriteManager()->getPlayer()){
 			// If not wall
 			if(!(a->getDesignation() == WALL_DESIGNATION)) {
 				// Other isn't dead
@@ -134,6 +145,8 @@ void BoxPhysics::updateContacts(Game *game){
 					if (b->getHitPoints() <= 0)
 						b->playSound(game, SPRITE_DEAD);
 					else if(n->firstContact) {
+						handlePlayerCollision(game, b, a);
+						/*
 						// apply impulse
 							float px = b->getCurrentBodyX();
 							float bx = a->getCurrentBodyX();
@@ -150,13 +163,12 @@ void BoxPhysics::updateContacts(Game *game){
 								//a->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(60.0f, 15.0f), a->getPhysicsBody()->GetPosition());
 								b->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-60.0f, 15.0f), b->getPhysicsBody()->GetPosition());
 							}
-
-
 							b->playSound(game, SPRITE_HIT);
+							
 					}
 				}
 			}
-		}
+		}*/
 		else {
 			if(a->getDesignation() == PROJECTILE_DESIGNATION || b->getDesignation() == PROJECTILE_DESIGNATION){
 				// Small problem where when adding an object with 0 frames until removal, ends up being 1 frame b/c of ordering.
@@ -175,9 +187,8 @@ void BoxPhysics::updateContacts(Game *game){
 
 			}
 		}
-
+		// This is no longer the first contact between the two things
 		n->firstContact = false;
-
 		n = n->next;
 	}
 }
@@ -339,6 +350,37 @@ void BoxPhysics::createWorldChains(){
 		}
 		aListIt++;
 	}
+}
+
+void BoxPhysics::handlePlayerCollision(Game *game, AnimatedSprite *player, AnimatedSprite *other){
+		// apply impulse
+		float px = game->getGSM()->physicsToScreenX(player->getCurrentBodyX());
+		float bx = game->getGSM()->physicsToScreenX(other->getCurrentBodyX());
+		float py = game->getGSM()->physicsToScreenY(player->getCurrentBodyY());
+		float by = game->getGSM()->physicsToScreenY(other->getCurrentBodyY());
+		// Apply an impulse
+		//a->stun();
+		//b->stun();
+
+		// Find the bottom of player and top of bot, with a little buffer inbetween
+		float playerBottom = py - (player->getSpriteType()->getTextureHeight() / 1.9f);
+		float botTop = by + (other->getSpriteType()->getTextureHeight() / 1.9f);
+	
+		// If the player isn't on top of the bot, don't stun and push the player away
+		if(playerBottom <= botTop) {
+			// Stun player for a single frame and bot for 15 frames;
+			//player->stun(15);
+			//other->stun(45);
+			if(px > bx){
+				player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(60.0f, 15.0f), player->getPhysicsBody()->GetPosition());
+				//b->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-120.0f, 120.0f), b->getPhysicsBody()->GetPosition());
+			}
+			else {
+				player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-60.0f, 15.0f), player->getPhysicsBody()->GetPosition());
+				//b->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(120.0f, 120.0f), b->getPhysicsBody()->GetPosition());			
+			}
+		}
+		player->playSound(game, SPRITE_HIT);
 }
 
 void BoxPhysics::iterativeDFS(BoxVertexStart * startNode){

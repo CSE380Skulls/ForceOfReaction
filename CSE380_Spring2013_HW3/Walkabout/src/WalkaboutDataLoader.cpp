@@ -57,31 +57,31 @@ void WalkaboutDataLoader::loadGame(Game *game, wstring gameInitFile)
 	// Open the Lua Script File
 	int result = luaPState->DoFile(GAME_INIT_FILE);
 	// name
-	string title = luaPState->GetGlobal("title").GetString();
+	string title = luaPState->GetGlobal(LUA_TITLE).GetString();
 	// screen width
-	int screen_width = luaPState->GetGlobal("screen_width").GetInteger();
+	int screen_width = luaPState->GetGlobal(LUA_SCREEN_WIDTH).GetInteger();
 	// screen height
-	int screen_height = luaPState->GetGlobal("screen_height").GetInteger();
+	int screen_height = luaPState->GetGlobal(LUA_SCREEN_HEIGHT).GetInteger();
 	//full screen
-	bool fullscreen = luaPState->GetGlobal("fullscreen_mode").GetBoolean();
+	bool fullscreen = luaPState->GetGlobal(LUA_FULLSCREEN_MODE).GetBoolean();
 	// Font size
-	int font_size = luaPState->GetGlobal("font_size").GetInteger();
+	int font_size = luaPState->GetGlobal(LUA_FONT_SIZE).GetInteger();
 	// x offset
-	int viewport_offset_x = luaPState->GetGlobal("viewport_offset_x").GetInteger();
+	int viewport_offset_x = luaPState->GetGlobal(LUA_VIEWPORT_OFFSET_X).GetInteger();
 	// y offset
-	int viewport_offset_y = luaPState->GetGlobal("viewport_offset_y").GetInteger();
+	int viewport_offset_y = luaPState->GetGlobal(LUA_VIEWPORT_OFFSET_Y).GetInteger();
 	// font red
-	int font_color_red =luaPState->GetGlobal("font_color_red").GetInteger();
+	int font_color_red =luaPState->GetGlobal(LUA_FONT_COLOR_RED).GetInteger();
 	// font green
-	int font_color_green = luaPState->GetGlobal("font_color_green").GetInteger();
+	int font_color_green = luaPState->GetGlobal(LUA_FONT_COLOR_GREEN).GetInteger();
 	// font blue
-	int font_color_blue = luaPState->GetGlobal("font_color_blue").GetInteger();
+	int font_color_blue = luaPState->GetGlobal(LUA_FONT_COLOR_BLUE).GetInteger();
 	// key red
-	int color_key_red = luaPState->GetGlobal("color_key_red").GetInteger();
+	int color_key_red = luaPState->GetGlobal(LUA_COLOR_KEY_RED).GetInteger();
 	// key green
-	int color_key_green = luaPState->GetGlobal("color_key_green").GetInteger();
+	int color_key_green = luaPState->GetGlobal(LUA_COLOR_KEY_GREEN).GetInteger();
 	// key blue
-	int color_key_blue = luaPState->GetGlobal("color_key_blue").GetInteger();
+	int color_key_blue = luaPState->GetGlobal(LUA_COLOR_KEY_BLUE).GetInteger();
 	
 	// Convert title to wstring
 	std::wstring wsTmp(title.begin(), title.end());
@@ -149,10 +149,10 @@ void WalkaboutDataLoader::loadGame(Game *game, wstring gameInitFile)
 */
 void WalkaboutDataLoader::loadAudio(Game *game, wstring audioInitFile)
 {
-	// WE'RE JUST GOING TO IGNORE THE GUI FILE FOR NOW.
-	// FOR THE MOMENT WE ARE CALLING THIS HARD-CODED GUI LOADER
+	// FOR THE MOMENT WE ARE CALLING THIS HARD-CODED AUDIO LOADER
 	hardCodedLoadAudioExample(game);
 }
+
 /*
 	loadGUI - This method loads all the GUI assets described in the guiInitFile
 	argument. Note that we are loading all GUI art for all GUIs when the application
@@ -216,8 +216,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player,false);
 
 	/*
-		Create TEST ROPE!
-	*/
+	//Create TEST ROPE!
 	vector<AnimatedSprite *> spritesList;
 	AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
 	for(int i = 0; i < 10; i++){
@@ -241,7 +240,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	}
 	//now create the test rope
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createTestRope(game,spritesList);
-
+	*/
 
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -266,9 +265,9 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	//create a physics object for the wall
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldObject(game,wall1);
-
 	physics->addCollidableObject(wall1);
 	spriteManager->addBot(wall1);
+
 
 	// Wall2
 	Breakable_Wall *wall2 = new Breakable_Wall(WALL_DESIGNATION);
@@ -289,7 +288,6 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	//create a physics object for the wall
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldObject(game,wall2);
-
 	physics->addCollidableObject(wall2);
 	spriteManager->addBot(wall2);
 
@@ -316,7 +314,6 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	//create a physics object for the boss
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,boss,false);
-
 	physics->addCollidableObject(boss);
 	spriteManager->addBot(boss);
 

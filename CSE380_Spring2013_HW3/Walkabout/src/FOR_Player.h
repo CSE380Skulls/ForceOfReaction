@@ -17,6 +17,13 @@ private:
 	int selected_element;
 	int num_elements;
 	int direction;
+	bool available_Elements[3];
+	void earth_Attack_L(Game *game, float mx, float my);
+	void earth_Attack_R(Game *game, float mx, float my);
+	void water_Attack_L() {}
+	void water_Attack_R() {}
+	void fire_Attack_L() {}
+	void fire_Attack_R(Game *game, float mx, float my);
 
 	static const int MAX_HP = 30;
 
@@ -34,7 +41,7 @@ public:
 	bool canAttack();
 	bool canMove() { return !dead && !stunned; }
 
-	void stun();
+	void stun(int framesStunned);
 	void run();
 	void hover();
 	void leftAttack(Game* game, float mX, float mY);

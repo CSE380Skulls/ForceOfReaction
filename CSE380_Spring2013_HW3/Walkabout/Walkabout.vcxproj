@@ -81,6 +81,7 @@
   <ItemGroup>
     <ClCompile Include="src\Boss_Bot.cpp" />
     <ClCompile Include="src\Breakable_Wall.cpp" />
+    <ClCompile Include="src\FireBall.cpp" />
     <ClCompile Include="src\FORFloatingBot.cpp" />
     <ClCompile Include="src\FOR_Player.cpp" />
     <ClCompile Include="src\Seed.cpp" />
@@ -94,6 +95,7 @@
   <ItemGroup>
     <ClInclude Include="src\Boss_Bot.h" />
     <ClInclude Include="src\Breakable_Wall.h" />
+    <ClInclude Include="src\FireBall.h" />
     <ClInclude Include="src\FORFloatingBot.h" />
     <ClInclude Include="src\FOR_Player.h" />
     <ClInclude Include="src\Seed.h" />

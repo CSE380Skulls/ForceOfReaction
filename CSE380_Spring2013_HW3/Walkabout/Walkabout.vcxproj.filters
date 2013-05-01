@@ -8,6 +8,12 @@
     <Filter Include="src\Bots">
       <UniqueIdentifier>{8b5cb4f4-19c4-484b-83e7-eecf30df7c4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Projectiles">
+      <UniqueIdentifier>{f66df01f-7876-4cf0-9f0c-123e8214d02f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Static Objects">
+      <UniqueIdentifier>{3a3c1295-246b-4a8e-9288-3f260676411a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\WalkaboutButtonEventHandler.cpp">
@@ -31,17 +37,20 @@
     <ClCompile Include="src\FORFloatingBot.cpp">
       <Filter>src\Bots</Filter>
     </ClCompile>
-    <ClCompile Include="src\Seed.cpp">
-      <Filter>src\Bots</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Breakable_Wall.cpp">
-      <Filter>src\Bots</Filter>
-    </ClCompile>
     <ClCompile Include="src\Boss_Bot.cpp">
       <Filter>src\Bots</Filter>
     </ClCompile>
     <ClCompile Include="src\FOR_Player.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Seed.cpp">
+      <Filter>src\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Breakable_Wall.cpp">
+      <Filter>src\Static Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FireBall.cpp">
+      <Filter>src\Projectiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -66,20 +75,23 @@
     <ClInclude Include="src\FORFloatingBot.h">
       <Filter>src\Bots</Filter>
     </ClInclude>
-    <ClInclude Include="src\Seed.h">
-      <Filter>src\Bots</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vine.h">
-      <Filter>src\Bots</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Breakable_Wall.h">
-      <Filter>src\Bots</Filter>
-    </ClInclude>
     <ClInclude Include="src\Boss_Bot.h">
       <Filter>src\Bots</Filter>
     </ClInclude>
     <ClInclude Include="src\FOR_Player.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vine.h">
+      <Filter>src\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Seed.h">
+      <Filter>src\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Breakable_Wall.h">
+      <Filter>src\Static Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FireBall.h">
+      <Filter>src\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

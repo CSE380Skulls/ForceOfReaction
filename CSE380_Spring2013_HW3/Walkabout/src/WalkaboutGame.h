@@ -26,6 +26,21 @@ static const wstring	W_HELP_COMMAND			= L"Help";
 static const wstring	W_CREDITS_COMMAND		= L"Credits";
 static const wstring	W_RETURN_COMMAND		= L"Return";
 
+// Lua stuff
+static const char*		LUA_TITLE				= "title";
+static const char*		LUA_SCREEN_WIDTH		= "screen_width";
+static const char*		LUA_SCREEN_HEIGHT		= "screen_height";
+static const char*		LUA_FULLSCREEN_MODE		= "fullscreen_mode";
+static const char*		LUA_FONT_SIZE			= "font_size";
+static const char*		LUA_VIEWPORT_OFFSET_X	= "viewport_offset_x";
+static const char*		LUA_VIEWPORT_OFFSET_Y   = "viewport_offset_y";
+static const char*		LUA_FONT_COLOR_RED		= "font_color_red";
+static const char*		LUA_FONT_COLOR_GREEN	= "font_color_green";
+static const char*		LUA_FONT_COLOR_BLUE		= "font_color_blue";
+static const char*		LUA_COLOR_KEY_RED       = "color_key_red";
+static const char*		LUA_COLOR_KEY_GREEN		= "color_key_green";
+static const char*		LUA_COLOR_KEY_BLUE		= "color_key_blue";
+
 // Menu screen paths
 static const wstring    W_CURSOR_PATH           = L"data/gui/cursor/cursor.png";
 static const wstring	W_SPLASH_SCREEN_PATH	= L"data/gui/overlays/for_splash_screen_overlay.png";
@@ -126,6 +141,7 @@ static const int		BOSS_Y = 2000;
 static const int		BOT_ATTACK_COOLDOWN = 30;
 static const int		PLAYER_ATTACK_COOLDOWN = 30;
 static const int		PLAYER_DEATH_COOLDOWN = 60;
+static const int		FIRE_BALL_DAMAGE = 25;
 
 
 // Animated Sprite States

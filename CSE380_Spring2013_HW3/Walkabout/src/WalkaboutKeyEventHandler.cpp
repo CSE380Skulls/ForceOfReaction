@@ -116,19 +116,19 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		float viewportVy = 0.0f;
 		Viewport *viewport = game->getGUI()->getViewport();
 
-		 float x = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX();
-		 float y = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY();
-		 float pX = x * game->getGSM()->getWorld()->getWorldConvFactor();
-		 float pY = y * game->getGSM()->getWorld()->getWorldConvFactor();
-		 pY = game->getGSM()->getWorld()->getWorldHeight() - pY;
+		float x = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX();
+		float y = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY();
+		float pX = x * game->getGSM()->getWorld()->getWorldConvFactor();
+		float pY = y * game->getGSM()->getWorld()->getWorldConvFactor();
+		pY = game->getGSM()->getWorld()->getWorldHeight() - pY;
 
-		 float vpX = viewport->getViewportX();
-		 float vpY = viewport->getViewportY();
-		 float vpWidth = viewport->getViewportWidth();
-		 float vpHeight = viewport->getViewportHeight();
+		float vpX = viewport->getViewportX();
+		float vpY = viewport->getViewportY();
+		float vpWidth = viewport->getViewportWidth();
+		float vpHeight = viewport->getViewportHeight();
 		 
-		 // If player is on left 3/8 of viewport
-		 if(pX < ((3.0f / 8.0f * vpWidth) + vpX)) {
+		// If player is on left 3/8 of viewport
+		if(pX < ((3.0f / 8.0f * vpWidth) + vpX)) {
 			viewportVx = -MAX_VIEWPORT_AXIS_VELOCITY; 
 			viewportMoved = true;
 		 }
@@ -153,7 +153,6 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		
 		if (viewportMoved)
 			viewport->moveViewport((int)viewportVx, (int)viewportVy, game->getGSM()->getWorld()->getWorldWidth(), game->getGSM()->getWorld()->getWorldHeight());
-		
 	}
 
 	// LET'S MESS WITH THE TARGET FRAME RATE IF THE USER PRESSES THE HOME OR END KEYS

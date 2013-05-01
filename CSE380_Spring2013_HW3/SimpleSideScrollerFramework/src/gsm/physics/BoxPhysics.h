@@ -65,6 +65,7 @@ private:
 	int32 velocityIterations; //recommended value = 6;
 	int32 positionIterations; //recommended value = 2;
 	void updateContacts(Game *game);
-	void iterativeDFS(BoxVertexStart * startNode);
+	void iterativeDFS(BoxVertexStart *startNode);
 	void deleteAdjacencyList();
+	void handlePlayerCollision(Game *game, AnimatedSprite *player, AnimatedSprite *other);
 };

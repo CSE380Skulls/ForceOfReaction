@@ -138,9 +138,10 @@ void FORFloatingBot::update(Game *game)
 	// If player is next to this bot, do something different
 	int botX = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
 	int pX = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
+	int playerHealth  = game->getGSM()->getSpriteManager()->getPlayer()->getHitPoints();
 
-	// If the player is within the bots targeting area, go after the player
-	if(isInBounds(pX)) {
+	// If the player is within the bots targeting area and player isn't dead, go after the player
+	if(isInBounds(pX) && playerHealth > 0) {
 		int botY = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
 		int pY = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
 		// Make sure the player is in the same y area
@@ -208,9 +209,10 @@ void FORFloatingBot::playSound(Game *game, SpriteDesignations soundType) {
 	}
 }
 
-void FORFloatingBot::stun() {
+void FORFloatingBot::stun(int framesStunned) {
 	if(!dead && !stunned) {
-		pickRandomCyclesInRange();
+		cyclesRemainingBeforeThinking = framesStunned;
+		//pickRandomCyclesInRange();
 		stunned = true;
 	}
 }

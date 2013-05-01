@@ -21,5 +21,5 @@ public:
 	void	update(Game *game);
 	Bot*    clone() { return NULL; }
 	void	playSound(Game *game, SpriteDesignations soundType);
-	void	stun() {}
+	void	stun(int framesStunned) {}
 };
