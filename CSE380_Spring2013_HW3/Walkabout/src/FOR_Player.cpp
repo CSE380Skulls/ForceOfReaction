@@ -261,7 +261,7 @@ void FOR_Player::leftAttack(Game* game, float mx, float my){
 		vine->affixTightAABBBoundingVolume();
 
 		//create a physics object for the seed
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,vine);
+		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,vine,false);
 
 		// Remove this vine after 30 frames
 		game->getGSM()->getSpriteManager()->addBotToRemovalList(vine, 15);
@@ -323,7 +323,7 @@ void FOR_Player::rightAttack(Game *game, float mx, float my){
 		seed->affixTightAABBBoundingVolume();
 
 		//create a physics object for the seed
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,seed);
+		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,seed,false);
 
 		// Set the velocity of the seed
 		seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
