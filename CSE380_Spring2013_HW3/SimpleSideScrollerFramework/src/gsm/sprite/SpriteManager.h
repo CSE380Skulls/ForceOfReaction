@@ -41,6 +41,9 @@ private:
 	// AND THIS IS THE PLAYER. AS-IS, WE ONLY ALLOW FOR ONE PLAYER AT A TIME
 	AnimatedSprite *player;
 
+	//projectile sprites,objects, etc.
+	list<AnimatedSprite *> auxiliarySprites;
+
 	// THE BotRecycler MAKES SURE WE DON'T HAVE TO CONSTRUCT BOTS WHENEVER
 	// WE NEED TO SPAWN THEM, INSTEAD IT WILL RECYCLE THEM FOR US
 	BotRecycler recyclableBots;
@@ -64,9 +67,12 @@ public:
 	AnimatedSprite*			getPlayer()				{ return player;			}
 	list<Bot*>::iterator	getBotsIterator()		{ return bots.begin();		}
 	list<Bot*>::iterator	getEndOfBotsIterator()	{ return bots.end();		}
+	list<AnimatedSprite*>::iterator	getBeginAuxilaryIterator()	{ return auxiliarySprites.begin();		}
+	list<AnimatedSprite*>::iterator	getEndAuxilaryIterator()	{ return auxiliarySprites.end();		}
 
 	// METHODS DEFINED IN SpriteManager.cpp
 	void				addBot(Bot *botToAdd);
+	void				addAuxiliarySprite(AnimatedSprite *spriteToAdd);
 	void				addSpriteItemsToRenderList(Game *game);
 	unsigned int		addSpriteType(AnimatedSpriteType *spriteTypeToAdd);
 	void				addSpriteToRenderList(Game *game, AnimatedSprite *sprite, RenderList *renderList, Viewport *viewport);

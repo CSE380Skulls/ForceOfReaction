@@ -196,3 +196,41 @@ void BoxPhysicsFactory::createStaticBox(Game *game, BoxPhysicsObject *phyobj, An
 
 	phyobj->initPhysicsBody(body);
 }
+
+void BoxPhysicsFactory::createTestRope(Game *game, vector<AnimatedSprite *>spritesArray){
+	//At this point the sprites are in the manager, now we attach the physics object
+	//to each rectangle joint
+	BoxPhysicsObject *tempObj = new BoxPhysicsObject();
+	//create an invisible box for testing
+	createStaticBox(game,tempObj, NULL, FRIENDLY_OBJECT_INDEX,800,200,64,64);
+
+	b2RevoluteJointDef jd;
+	jd.collideConnected = false;
+
+	float physics_width = game->getGSM()->screenToPhysicsX(spritesArray.at(0)->getSpriteType()->getTextureWidth()/2);
+	float physics_height = game->getGSM()->screenToPhysicsX(spritesArray.at(0)->getSpriteType()->getTextureHeight()/2);
+
+	b2PolygonShape shape;
+	shape.SetAsBox(physics_width, physics_height);
+
+	b2FixtureDef fd;
+	fd.shape = &shape;
+	fd.density = 10.0f;
+	b2Body* prevBody = tempObj->getPhysicsBody();
+
+	for(int i = 0; i < spritesArray.size(); i++){
+		b2BodyDef bd;
+		bd.type = b2_dynamicBody;
+		bd.position.Set(prevBody->GetPosition().x,prevBody->GetPosition().y - physics_height);
+		b2Body* body = physicsWorldRef->CreateBody(&bd);
+		body->CreateFixture(&fd);
+
+		b2Vec2 anchor(prevBody->GetPosition().x, prevBody->GetPosition().y - physics_height/2);
+		jd.Initialize(prevBody, body, anchor);
+		physicsWorldRef->CreateJoint(&jd);
+		
+		spritesArray[i]->initPhysicsBody(body);
+
+		prevBody = body;
+	}
+}

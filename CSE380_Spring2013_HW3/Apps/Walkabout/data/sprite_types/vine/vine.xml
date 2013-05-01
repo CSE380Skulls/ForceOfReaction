@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <sprite_type>
- <width>32</width>
- <height>16</height>
+ <width>8</width>
+ <height>25</height>
  <images_list>
   <image_file id="1" file_name="vine.png"/>
  </images_list>

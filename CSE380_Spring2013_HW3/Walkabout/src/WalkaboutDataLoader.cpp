@@ -10,6 +10,7 @@
 #include "src\Breakable_Wall.h"
 #include "Boss_Bot.h"
 #include "FOR_Player.h"
+#include "Vine.h"
 
 // GAME OBJECT INCLUDES
 #include "src\game\Game.h"
@@ -211,6 +212,35 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	//create the player object in the physics world
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player,false);
+
+	/*
+		Create TEST ROPE!
+	*/
+	vector<AnimatedSprite *> spritesList;
+	AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
+	for(int i = 0; i < 10; i++){
+		Vine *vine = new Vine(PROJECTILE_DESIGNATION);
+		vine->setHitPoints(1);
+		vine->setDamage(0);
+		vine->setSpriteType(vineSpriteType);
+		vine->setAlpha(255);
+		vine->setCurrentState(IDLE_LEFT);
+		PhysicalProperties *vineProps = vine->getPhysicalProperties();
+		vineProps->setX(800);
+		vineProps->setY(200);
+		vineProps->setVelocity(0.0f, 0.0f);
+		vineProps->setAccelerationX(0);
+		vineProps->setAccelerationY(0);
+		vine->setOnTileThisFrame(false);
+		vine->setOnTileLastFrame(false);
+		vine->affixTightAABBBoundingVolume();
+		spriteManager->addAuxiliarySprite(vine);
+		spritesList.push_back(vine);
+	}
+	//now create the test rope
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createTestRope(game,spritesList);
+
+
 
 	/////////////////////////////////////////////////////////////////////////////
 

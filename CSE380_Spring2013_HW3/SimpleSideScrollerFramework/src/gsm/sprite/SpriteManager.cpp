@@ -75,6 +75,16 @@ void SpriteManager::addSpriteItemsToRenderList(	Game *game)
 		// ADD THE PLAYER SPRITE
 		addSpriteToRenderList(game, player, renderList, viewport);
 
+		//add the auxiliary sprites
+		list<AnimatedSprite*>::iterator auxIterator;
+		auxIterator = auxiliarySprites.begin();
+		while (auxIterator != auxiliarySprites.end())
+		{			
+			AnimatedSprite *auxSprite= (*auxIterator);
+			addSpriteToRenderList(game, auxSprite, renderList, viewport);
+			auxIterator++;
+		}
+
 		// NOW ADD THE REST OF THE SPRITES
 		list<Bot*>::iterator botIterator;
 		botIterator = bots.begin();
@@ -95,6 +105,13 @@ void SpriteManager::addSpriteItemsToRenderList(	Game *game)
 void SpriteManager::addBot(Bot *botToAdd)
 {
 	bots.push_back(botToAdd);
+}
+/*
+	add an auxiliary sprite to the sprite manager, such as a dynamic
+	object, projectile, etc.
+*/
+void SpriteManager::addAuxiliarySprite(AnimatedSprite *spriteToAdd){
+	auxiliarySprites.push_back(spriteToAdd);
 }
 
 /*
