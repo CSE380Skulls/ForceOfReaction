@@ -84,6 +84,8 @@ static const wstring	W_STATUS_EARTH_SELECTED_PATH = L"data/gui/ingame/rock_selec
 static const wstring	W_STATUS_EARTH_UNSELECTED_PATH = L"data/gui/ingame/rock_unselected.png";
 static const wstring	W_STATUS_WATER_SELECTED_PATH = L"data/gui/ingame/water_selected.png";
 static const wstring	W_STATUS_WATER_UNSELECTED_PATH = L"data/gui/ingame/water_unselected.png";
+static const wstring	W_STATUS_FIRE_SELECTED_PATH = L"data/gui/ingame/fire_selected.png";
+static const wstring	W_STATUS_FIRE_UNSELECTED_PATH = L"data/gui/ingame/fire_unselected.png";
 
 // FOR OUR SPRITE
 static const wstring	SPRITE_TYPES_DIR = L"data/sprite_types/";

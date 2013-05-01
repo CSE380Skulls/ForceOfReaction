@@ -56,68 +56,21 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 
 		if (input->isKeyDown(A_KEY) || input->isKeyDown(LEFT_KEY))
 		{
-			if(player->can_Move()) {
-				player->getPhysicsBody()->SetLinearVelocity(b2Vec2(-PLAYER_VELOCITY,
-					player->getPhysicsBody()->GetLinearVelocity().y));
-
-				if (player->getPhysicsBody()->GetLinearVelocity().y==0)
-					player->setCurrentState(WALKING_LEFT);
-			}
+			player->setDirection(-1);
+			player->run();
 		}
 		else if (input->isKeyDown(D_KEY) || input->isKeyDown(RIGHT_KEY))
 		{
-			if(player->can_Move()) {
-				player->getPhysicsBody()->SetLinearVelocity(b2Vec2(PLAYER_VELOCITY,
-					player->getPhysicsBody()->GetLinearVelocity().y));
-
-				if (player->getPhysicsBody()->GetLinearVelocity().y==0)
-					player->setCurrentState(WALKING_RIGHT);
-			}
+			player->setDirection(1);
+			player->run();
 		}
 		else
 		{
-			player->getPhysicsBody()->SetLinearVelocity(b2Vec2(0, player->getPhysicsBody()->GetLinearVelocity().y));
-			if(player->can_Move()) {
-				if(player->getCurrentState() == WALKING_RIGHT){
-					if(player->getPhysicsBody()->GetLinearVelocity().y < 0.0f)
-						player->setCurrentState(FALLING_RIGHT);
-					else
-						player->setCurrentState(IDLE_RIGHT);
-				}
-				if(player->getCurrentState() == WALKING_LEFT){
-					if(player->getPhysicsBody()->GetLinearVelocity().y < 0.0f)
-						player->setCurrentState(FALLING_LEFT);
-					else
-						player->setCurrentState(IDLE_LEFT);
-				}
-				if((player->getCurrentState() == JUMPING_RIGHT || player->getCurrentState() == FALLING_RIGHT) 
-					&& player->getPhysicsBody()->GetLinearVelocity().y == 0.0f)
-					player->setCurrentState(IDLE_RIGHT);
-				if((player->getCurrentState() == JUMPING_LEFT || player->getCurrentState() == FALLING_LEFT)
-					&& player->getPhysicsBody()->GetLinearVelocity().y == 0.0f)
-					player->setCurrentState(IDLE_LEFT);
-				if(player->getCurrentState() == ATTACKING_RIGHT && player->getFrameIndex()==12)
-					player->setCurrentState(IDLE_RIGHT);
-				if(player->getCurrentState() == ATTACKING_LEFT && player->getFrameIndex()==12)
-					player->setCurrentState(IDLE_LEFT);
-			}
+			player->hover();
 		}
 		if (input->isKeyDownForFirstTime(W_KEY) || input->isKeyDownForFirstTime(UP_KEY) || input->isKeyDownForFirstTime(SPACE_KEY))
 		{
-			if(player->can_Move()) {
-				if(player->getPhysicsBody()->GetLinearVelocity().y==0)
-				{
-					game->getGAM()->playSound(C_JUMP);
-					player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(0.0f, JUMP_VELOCITY),
-						player->getPhysicsBody()->GetPosition());
-			
-					if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
-						player->setCurrentState(JUMPING_RIGHT);
-
-					if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
-						player->setCurrentState(JUMPING_LEFT);
-				}
-			}
+			player->jump(game);
 		}
 		if (input->isKeyDownForFirstTime(ESCAPE_KEY))
 		{
@@ -131,120 +84,17 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		}
 		if (input->isKeyDownForFirstTime(MOUSE_LEFT))
 		{
-			if(player->can_Attack()){
-				game->getGAM()->playSound(C_SWING);
-				if(player->getCurrentState() == WALKING_RIGHT || player->getCurrentState()==IDLE_RIGHT)
-					player->setCurrentState(ATTACKING_RIGHT);
-				if(player->getCurrentState() == WALKING_LEFT || player->getCurrentState()==IDLE_LEFT)
-					player->setCurrentState(ATTACKING_LEFT);
-
-				float mx = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
-				float px = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
-				float py = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
-				py = game->getGSM()->getWorld()->getWorldHeight() - py;
-
-
-				AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
-				float vineX;
-				if(mx > px){
-					// Right side click
-					player->setCurrentState(ATTACKING_RIGHT);
-					vineX = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0 + vineSpriteType->getTextureWidth() / 2;
-				}
-				else {
-					// Left side click
-					player->setCurrentState(ATTACKING_LEFT);
-					vineX = px - vineSpriteType->getTextureWidth() / 2;
-				}
-
-				Vine *vine = new Vine(PROJECTILE_DESIGNATION);
-				vine->setHitPoints(1);
-				vine->setDamage(VINE_DAMAGE);
-				vine->setSpriteType(vineSpriteType);
-				vine->setAlpha(255);
-				vine->setCurrentState(IDLE_LEFT);
-				PhysicalProperties *vineProps = vine->getPhysicalProperties();
-				vineProps->setX(vineX);
-				vineProps->setY(py);
-				vineProps->setVelocity(0.0f, 0.0f);
-				vineProps->setAccelerationX(0);
-				vineProps->setAccelerationY(0);
-				vine->setOnTileThisFrame(false);
-				vine->setOnTileLastFrame(false);
-				vine->affixTightAABBBoundingVolume();
-
-				//create a physics object for the seed
-				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,vine,false);
-
-				// Remove this vine after 30 frames
-				game->getGSM()->getSpriteManager()->addBotToRemovalList(vine, 15);
-
-				game->getGSM()->getPhysics()->addCollidableObject(vine);
-				game->getGSM()->getSpriteManager()->addBot(vine);
-			}
+			float mX = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
+			float mY = game->getGUI()->getCursor()->getY() + game->getGUI()->getViewport()->getViewportY();
+			player->leftAttack(game, mX, mY);
+				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,vine);
 		}
 		if(input->isKeyDownForFirstTime(MOUSE_RIGHT))
 		{
-			if(player->can_Attack()) {
-				game->getGAM()->playSound(C_SWING);
-				// Get mouse and player locations
-				float mX = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
-				float mY = game->getGUI()->getCursor()->getY() + game->getGUI()->getViewport()->getViewportY();
-				float pX = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
-				float pY = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
-				pY = game->getGSM()->getWorld()->getWorldHeight() - pY;
-
-				// Get the difference bewteen these loactions
-				float difX = mX - pX;
-				float difY = mY - pY;
-
-				if(difX > 0){
-					player->setCurrentState(ATTACKING_RIGHT);
-				}
-				else {
-					player->setCurrentState(ATTACKING_LEFT);
-				}
-
-				// Get the length of the vector from player to mouse
-				float length = std::sqrt( (difX * difX) + (difY * difY) );
-
-				// Normalize the distances
-				difX /= length;
-				difY /= length;
-
-				// Scale distances to be x and y velocity
-				difX *= PROJECTILE_VELOCITY;
-
-				difY *= PROJECTILE_VELOCITY;
-
-				// Seed
-				AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
-				Seed *seed = new Seed(PROJECTILE_DESIGNATION);
-				seed->setHitPoints(1);
-				seed->setDamage(SEED_DAMAGE);
-				seed->setSpriteType(seedSpriteType);
-				seed->setAlpha(255);
-				seed->setCurrentState(IDLE_LEFT);
-				PhysicalProperties *seedProps = seed->getPhysicalProperties();
-				seedProps->setX(pX);
-				seedProps->setY(pY);
-				seedProps->setVelocity(0.0f, 0.0f);
-				seedProps->setAccelerationX(0);
-				seedProps->setAccelerationY(0);
-				seed->setOnTileThisFrame(false);
-				seed->setOnTileLastFrame(false);
-				seed->affixTightAABBBoundingVolume();
-
-				//create a physics object for the seed
-				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,seed,true);
-
-				// Set the velocity of the seed
-				seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
-
-				game->getGSM()->getPhysics()->addCollidableObject(seed);
-				game->getGSM()->getSpriteManager()->addBot(seed);
-			}
-		
+			float mX = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
+			float mY = game->getGUI()->getCursor()->getY() + game->getGUI()->getViewport()->getViewportY();
+			player->rightAttack(game,mX,mY);
+				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,seed);
 		}
 		// CTRL + 1 = auto win level
 		if(input->isKeyDown(CTRL_KEY) && input->isKeyDownForFirstTime(ONE_KEY)){
@@ -260,9 +110,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		}
 
 		if(input->isKeyDownForFirstTime(Z_KEY)){
-			int whatever = player->getSelectedElement()+1;
-			if (whatever > 1) {whatever = 0;}
-			player->setSelectedElement(whatever);
+			player->nextElement();
 		}
 
 		bool viewportMoved = false;
