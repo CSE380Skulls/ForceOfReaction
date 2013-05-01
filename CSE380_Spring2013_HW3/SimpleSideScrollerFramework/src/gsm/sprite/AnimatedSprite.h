@@ -51,6 +51,8 @@ protected:
 	int designation;
 	// Can this sprite move/attack?
 	bool stunned;
+	// Is this sprite invincible?
+	bool isInvincible;
 
 public:
 	// INLINED ACCESSOR METHODS
@@ -79,11 +81,13 @@ public:
 	void updateSprite();
 	void affixTightAABBBoundingVolume();
 	void correctToTightBoundingVolume();
-	void decrementHitPoints(int damage) { hitPoints -= damage; }
+	void decrementHitPoints(int damage) { if(!isInvincible) hitPoints -= damage; }
 	int getHitPoints() { return hitPoints; }
 	int getDamage() { return damage; }
 	int getDesignation() { return designation; }
 	virtual void update(Game *game)=0;
 	virtual void playSound(Game *game, SpriteDesignations soundType)=0;
 	virtual void stun(int framesStunned)=0;
+	bool isSpriteInvincible() { return isInvincible; }
+	void setInvincible () { isInvincible = true; }
 };

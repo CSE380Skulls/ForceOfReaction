@@ -54,6 +54,7 @@ public:
 	void clearContacts();
 	void addEdgeToAdjacency(int id1, int id2, float x1, float y1, float x2, float y2);
 	void createWorldChains();
+	void deleteChainList();
 
 private:
 	map<int,BoxVertexStart*> boxMapAdjacencyList;

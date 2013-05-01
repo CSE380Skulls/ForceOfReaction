@@ -84,7 +84,7 @@ void BoxPhysics::updateContacts(Game *game){
 			continue;	
 		}
 
-		if(a->getHitPoints() <=0 || b->getHitPoints() <= 0){
+		if(a->getHitPoints() <=0 || b->getHitPoints() <= 0 || a->isSpriteInvincible() || b->isSpriteInvincible()){
 			n->contact->SetEnabled(false);
 		}
 
@@ -95,7 +95,6 @@ void BoxPhysics::updateContacts(Game *game){
 			b = temp;
 		}
 		
-
 		// Player is a
 		if(a == game->getGSM()->getSpriteManager()->getPlayer()){
 			// Not hitting into a wall
@@ -110,65 +109,10 @@ void BoxPhysics::updateContacts(Game *game){
 					else if(n->firstContact) {
 						// Handle player collision (this bumps the player back)
 						handlePlayerCollision(game, a, b);
-						/*
-						// apply impulse
-						float px = a->getCurrentBodyX();
-							float bx = b->getCurrentBodyX();
-							// Apply an impulse
-							a->stun();
-							b->stun();
-							if(px > bx){
-								//n->contact->SetEnabled(false);
-								a->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(60.0f, 15.0f), a->getPhysicsBody()->GetPosition());
-								//b->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-120.0f, 120.0f), b->getPhysicsBody()->GetPosition());
-							}
-							else {
-								//n->contact->SetEnabled(false);
-								a->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-60.0f, 15.0f), a->getPhysicsBody()->GetPosition());
-								//b->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(120.0f, 120.0f), b->getPhysicsBody()->GetPosition());
-							
-							}
-							a->playSound(game, SPRITE_HIT);
-							*/
 					}
 				}
 			}
 		}
-		/*else if(b == game->getGSM()->getSpriteManager()->getPlayer()){
-			// If not wall
-			if(!(a->getDesignation() == WALL_DESIGNATION)) {
-				// Other isn't dead
-				if(a->getHitPoints() > 0) {
-					// Hurt me
-					b->decrementHitPoints(a->getDamage());
-					// If I died, play sound
-					if (b->getHitPoints() <= 0)
-						b->playSound(game, SPRITE_DEAD);
-					else if(n->firstContact) {
-						handlePlayerCollision(game, b, a);
-						/*
-						// apply impulse
-							float px = b->getCurrentBodyX();
-							float bx = a->getCurrentBodyX();
-							a->stun();
-							b->stun();
-							// Apply an impulse
-							if(px > bx){
-								//n->contact->SetEnabled(false);
-								//a->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-60.0f, 15.0f), a->getPhysicsBody()->GetPosition());
-								b->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(60.0f, 15.0f), b->getPhysicsBody()->GetPosition());
-							}
-							else {
-								//n->contact->SetEnabled(false);
-								//a->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(60.0f, 15.0f), a->getPhysicsBody()->GetPosition());
-								b->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-60.0f, 15.0f), b->getPhysicsBody()->GetPosition());
-							}
-							b->playSound(game, SPRITE_HIT);
-							
-					}
-				}
-			}
-		}*/
 		else {
 			if(a->getDesignation() == PROJECTILE_DESIGNATION || b->getDesignation() == PROJECTILE_DESIGNATION){
 				// Small problem where when adding an object with 0 frames until removal, ends up being 1 frame b/c of ordering.
@@ -353,36 +297,50 @@ void BoxPhysics::createWorldChains(){
 }
 
 void BoxPhysics::handlePlayerCollision(Game *game, AnimatedSprite *player, AnimatedSprite *other){
-		// apply impulse
+
 		float px = game->getGSM()->physicsToScreenX(player->getCurrentBodyX());
 		float bx = game->getGSM()->physicsToScreenX(other->getCurrentBodyX());
 		float py = game->getGSM()->physicsToScreenY(player->getCurrentBodyY());
 		float by = game->getGSM()->physicsToScreenY(other->getCurrentBodyY());
-		// Apply an impulse
-		//a->stun();
-		//b->stun();
 
 		// Find the bottom of player and top of bot, with a little buffer inbetween
-		float playerBottom = py - (player->getSpriteType()->getTextureHeight() / 1.9f);
-		float botTop = by + (other->getSpriteType()->getTextureHeight() / 1.9f);
+		//float playerBottom = py + (player->getSpriteType()->getTextureHeight() / 1.9f);
+		//float botTop = by - (other->getSpriteType()->getTextureHeight() / 1.9f);
 	
 		// If the player isn't on top of the bot, don't stun and push the player away
-		if(playerBottom <= botTop) {
+		if(py > by) {
 			// Stun player for a single frame and bot for 15 frames;
-			//player->stun(15);
-			//other->stun(45);
+			player->stun(8);
+			player->setInvincible();
+			other->stun(30);
 			if(px > bx){
-				player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(60.0f, 15.0f), player->getPhysicsBody()->GetPosition());
-				//b->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-120.0f, 120.0f), b->getPhysicsBody()->GetPosition());
+				player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(50.0f, 10.0f), player->getPhysicsBody()->GetPosition());
+				other->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-50.0f, 10.0f), other->getPhysicsBody()->GetPosition());
 			}
 			else {
-				player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-60.0f, 15.0f), player->getPhysicsBody()->GetPosition());
-				//b->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(120.0f, 120.0f), b->getPhysicsBody()->GetPosition());			
+				player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(-50.0f, 10.0f), player->getPhysicsBody()->GetPosition());
+				other->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(50.0f, 10.0f), other->getPhysicsBody()->GetPosition());			
 			}
+		}
+		else {
+			// Make the player bounce up
+			player->setInvincible();
+			other->stun(60);
+			player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(player->getPhysicsBody()->GetLinearVelocity().x, 60.0f), player->getPhysicsBody()->GetPosition());
 		}
 		player->playSound(game, SPRITE_HIT);
 }
 
 void BoxPhysics::iterativeDFS(BoxVertexStart * startNode){
 
+}
+
+/*
+	Return the box2d object to box2d and clear the list.
+*/
+void BoxPhysics::deleteChainList(){
+	for(int x = 0; x < chainList.size(); x++){
+		chainList.at(x)->GetWorld()->DestroyBody(chainList.at(x));
+	}
+	chainList.clear();
 }

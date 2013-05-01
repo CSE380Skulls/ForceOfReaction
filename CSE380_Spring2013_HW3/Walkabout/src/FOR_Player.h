@@ -24,8 +24,9 @@ private:
 	void water_Attack_R() {}
 	void fire_Attack_L() {}
 	void fire_Attack_R(Game *game, float mx, float my);
+	//bool isInvincible;
 
-	static const int MAX_HP = 30;
+	//static const int MAX_HP = 30;
 
 	static const int EARTH   =	0;
 	static const int WATER   =	1;
@@ -58,7 +59,6 @@ public:
 
 	void setDirection(int i) { direction = i; }
 	void setSelectedElement(int i) { selected_element = i; }
-	
 	
 	void playSound(Game* game, SpriteDesignations soundType);
 };

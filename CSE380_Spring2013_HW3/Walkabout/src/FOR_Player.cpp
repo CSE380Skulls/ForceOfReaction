@@ -16,6 +16,7 @@
 FOR_Player::FOR_Player(int att_Cooldown, int d_Cooldown, int designation){
 	dead = false;
 	stunned = false;
+	//isInvincible = false;
 	cd_Counter = 0;
 	death_Cooldown = d_Cooldown;
 	attack_Cooldown = att_Cooldown;
@@ -49,6 +50,9 @@ void FOR_Player::update(Game* game){
 	if(stunned && (cd_Counter <= 0) )
 		stunned = false;
 
+	if(isInvincible && (cd_Counter <= 0))
+		isInvincible = false;
+
 	// If hitpoints are 0, remove it
 	if(hitPoints <= 0){
 		dead = true;
@@ -64,7 +68,7 @@ void FOR_Player::update(Game* game){
 void FOR_Player::updateStatusGUI(Game* game){
 	ScreenGUI *gui = game->getGUI()->getScreen(GS_GAME_IN_PROGRESS);
 	TextureManager *tm = game->getGraphics()->getGUITextureManager();
-	int hp = this->getHitPoints()/(MAX_HP/10);
+	int hp = this->getHitPoints()/(PLAYER_HITPOINTS/10);
 	if (this->getHitPoints()<0)
 		hp = 0;
 	gui->popOverlayImage(4);

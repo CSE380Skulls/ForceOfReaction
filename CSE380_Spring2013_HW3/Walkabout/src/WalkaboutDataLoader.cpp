@@ -215,8 +215,9 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	//create the player object in the physics world
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player,false);
 
-	/*
+	
 	//Create TEST ROPE!
+	/*
 	vector<AnimatedSprite *> spritesList;
 	AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
 	for(int i = 0; i < 10; i++){

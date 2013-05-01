@@ -66,7 +66,7 @@ TiledLayer::~TiledLayer()
 		Tile *temp = (Tile*)(*listIterator);
 		listIterator++;
 		myList.remove(temp);
-		temp->returnPhysicsBody();
+		//temp->returnPhysicsBody();
 		delete temp;
 	}
 	/*

@@ -68,7 +68,7 @@ void BoxContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManif
 		AnimatedSprite *a = (AnimatedSprite *) bodyUserDataA;
 		AnimatedSprite *b = (AnimatedSprite *) bodyUserDataB;
 
-		if(b->getHitPoints() <= 0 || a->getHitPoints() <= 0)
+		if(b->getHitPoints() <= 0 || a->getHitPoints() <= 0 || a->isSpriteInvincible() || b->isSpriteInvincible())
 			contact->SetEnabled(false);
 	}
 }
