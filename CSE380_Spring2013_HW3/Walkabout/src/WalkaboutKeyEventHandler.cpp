@@ -87,14 +87,12 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 			float mX = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
 			float mY = game->getGUI()->getCursor()->getY() + game->getGUI()->getViewport()->getViewportY();
 			player->leftAttack(game, mX, mY);
-				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,vine);
 		}
 		if(input->isKeyDownForFirstTime(MOUSE_RIGHT))
 		{
 			float mX = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
 			float mY = game->getGUI()->getCursor()->getY() + game->getGUI()->getViewport()->getViewportY();
 			player->rightAttack(game,mX,mY);
-				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,seed);
 		}
 		// CTRL + 1 = auto win level
 		if(input->isKeyDown(CTRL_KEY) && input->isKeyDownForFirstTime(ONE_KEY)){
