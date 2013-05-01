@@ -56,9 +56,10 @@ void ScreenGUI::addOverlayImage(OverlayImage *imageToAdd)
 	overlayImages->push_back(imageToAdd);
 }
 
-void ScreenGUI::popOverlayImage()
+void ScreenGUI::popOverlayImage(int many)
 {
-	overlayImages->pop_back();
+	for (int i=0;i<many;i++)
+		overlayImages->pop_back();
 }
 
 /*

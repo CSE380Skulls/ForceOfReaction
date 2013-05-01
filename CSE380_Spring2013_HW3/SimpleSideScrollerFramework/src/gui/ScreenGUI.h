@@ -51,7 +51,7 @@ public:
 	~ScreenGUI();
 	void addButton(Button *buttonToAdd);
 	void addOverlayImage(OverlayImage *imageToAdd);
-	void popOverlayImage();
+	void popOverlayImage(int many);
 	void addRenderItemsToRenderList(RenderList *renderList);
 	bool fireButtonCommand(Game *game);
 	void registerButtonEventHandler(ButtonEventHandler *eventHandler);
