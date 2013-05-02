@@ -217,7 +217,6 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	
 	//Create TEST ROPE!
-	/*
 	vector<AnimatedSprite *> spritesList;
 	AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
 	for(int i = 0; i < 10; i++){
@@ -241,7 +240,6 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	}
 	//now create the test rope
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createTestRope(game,spritesList);
-	*/
 
 
 	/////////////////////////////////////////////////////////////////////////////

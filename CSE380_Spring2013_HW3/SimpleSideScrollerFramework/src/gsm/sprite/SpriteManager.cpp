@@ -186,8 +186,22 @@ void SpriteManager::unloadAnimatedSprites()
 		// Free memory
 		delete temp;
 	}
+
 	// Clear out the bot removal list
 	clearBotRemovalList();
+
+	list<AnimatedSprite*>::iterator spriteIterator;
+	spriteIterator = auxiliarySprites.begin();
+	// Iterate over all sprites and delete them all.
+	while(spriteIterator != auxiliarySprites.end()){
+		AnimatedSprite *temp = (*spriteIterator);
+		// Remove from box2d
+		temp->returnPhysicsBody();
+		// Remove from bots list
+		auxiliarySprites.remove(*(spriteIterator++));
+		// Free memory
+		delete temp;
+	}
 }
 
 void SpriteManager::removeBot(Bot *botToRemove)

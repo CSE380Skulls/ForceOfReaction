@@ -51,10 +51,9 @@ public:
 	void addContact(b2Contact *contact);
 	void removeContact(b2Contact *contact);
 	// To be called when level ends
-	void clearContacts();
 	void addEdgeToAdjacency(int id1, int id2, float x1, float y1, float x2, float y2);
 	void createWorldChains();
-	void deleteChainList();
+	void unloadPhysics();
 
 private:
 	map<int,BoxVertexStart*> boxMapAdjacencyList;
@@ -67,6 +66,8 @@ private:
 	int32 positionIterations; //recommended value = 2;
 	void updateContacts(Game *game);
 	void iterativeDFS(BoxVertexStart *startNode);
-	void deleteAdjacencyList();
 	void handlePlayerCollision(Game *game, AnimatedSprite *player, AnimatedSprite *other);
+	void deleteAdjacencyList();
+	void deleteChainList();
+	void clearContacts();
 };

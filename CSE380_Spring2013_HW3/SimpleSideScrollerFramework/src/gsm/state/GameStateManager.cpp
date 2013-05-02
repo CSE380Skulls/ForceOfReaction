@@ -237,9 +237,7 @@ void GameStateManager::unloadCurrentLevel()
 	spriteManager->unloadAnimatedSprites();
 	world.unloadWorld();
 	// Clear the contacts list out
-	getBoxPhysics()->clearContacts();
-	// Delete the chain list that makes up this world
-	//getBoxPhysics()->deleteChainList();	
+	getBoxPhysics()->unloadPhysics();
 }
 
 /*

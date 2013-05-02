@@ -47,10 +47,19 @@ BoxPhysics::~BoxPhysics()
 		contacts.head = temp->next;
 		delete temp;
 	}
+
+	deleteAdjacencyList();
+
 	//destruct the b2world object
 	
 	//perhaps tell all classes that hold references to box2d objects to remove
 	//the references
+}
+
+void BoxPhysics::unloadPhysics(){
+	deleteAdjacencyList();
+	deleteChainList();
+	clearContacts();
 }
 
 
@@ -243,7 +252,21 @@ void BoxPhysics::addEdgeToAdjacency(int id1, int id2, float x1, float y1, float 
 }
 
 void BoxPhysics::deleteAdjacencyList(){
-
+	map<int,BoxVertexStart*>::iterator aListIt = boxMapAdjacencyList.begin();
+	BoxVertexStart* vertex;
+	BoxEdgeNode *currentEdgeNode, *prevEdgeNode;
+	while(aListIt != boxMapAdjacencyList.end()){
+		vertex = aListIt->second;
+		currentEdgeNode = vertex->head;
+		while(currentEdgeNode != NULL){
+			prevEdgeNode = currentEdgeNode;
+			currentEdgeNode = currentEdgeNode->nextNode;
+			delete prevEdgeNode;
+		}
+		delete vertex;
+		aListIt++;
+	}
+	boxMapAdjacencyList.clear();
 }
 
 void BoxPhysics::createWorldChains(){
@@ -291,6 +314,7 @@ void BoxPhysics::createWorldChains(){
 			chainList.push_back(body);
 			currentSize = boxMapAdjacencyList.size() - count;
 			count = 0;
+			delete vertexList;
 		}
 		aListIt++;
 	}
