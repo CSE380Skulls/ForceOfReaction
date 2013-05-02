@@ -7,29 +7,48 @@
 #include "src\game\Game.h"
 #include "src\gsm\sprite\SpriteManager.h"
 #include "src\WalkaboutGame.h"
+#include "src\FOR_Player.h"
+#include "src\gui\Cursor.h"
 
 void Bubble::update(Game *game){
-	//this->setCurrentBodyAngleVelocity(0);
 	if(dead)
 		return;
 
-	// If this fireball is no longer moving, remove it from the game
-	float vX = getPhysicsBody()->GetLinearVelocity().x * BOX2D_CONVERSION_FACTOR;
-	float vY = getPhysicsBody()->GetLinearVelocity().y * BOX2D_CONVERSION_FACTOR;
+	float mx = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
+	float my = game->getGUI()->getCursor()->getY() + game->getGUI()->getViewport()->getViewportY();
+
+	float bx = game->getGSM()->physicsToScreenX(getCurrentBodyX());
+	float by = game->getGSM()->physicsToScreenY(getCurrentBodyY());
+
+	// Get the difference bewteen these loactions
+	float difX = mx - bx;
+	float difY = my - by;
+
+	// Get the length of the vector from player to mouse
+	float length = std::sqrt((difX * difX) + (difY * difY) );
+
+	// Normalize the distances
+	difX /= length;
+	difY /= length;
+
+	// Scale distances to be x and y velocity
+	difX *= BUBBLE_VELOCITY;
+	difY *= BUBBLE_VELOCITY;
+	
+	// Update velocity
+	getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
 
 	// If hitpoints are 0 or this seed stopped moving, remove it
-	if( (hitPoints <= 0) || (vY == 0) || (vX == 0) ){
+	if(hitPoints <= 0){
 		game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 0);
+		((FOR_Player*)game->getGSM()->getSpriteManager()->getPlayer())->destroyProjectile();
 		dead = true;
 	}
-
-	// This vy and vx is a normalized vector towards the goal location
-	getPhysicsBody()->SetLinearVelocity(b2Vec2(vx, vy));
 }
 
 void Bubble::init(float px, float py, AnimatedSpriteType *sprite){
 	setHitPoints(1);
-	setDamage(0);
+	setDamage(SEED_DAMAGE);
 	setSpriteType(sprite);
 	setAlpha(255);
 	setCurrentState(IDLE_LEFT);

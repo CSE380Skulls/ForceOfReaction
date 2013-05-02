@@ -9,11 +9,8 @@
 
 class Bubble : public Bot
 {
-private:
-	float vx;
-	float vy;
 public:
-	Bubble(int designation, int vX, int vY) { this->designation = designation; vx = vX; vy= vY; }
+	Bubble(int designation) { this->designation = designation; }
 	void	update(Game *game);
 	Bot*    clone() { return NULL; }
 	void	playSound(Game *game, SpriteDesignations soundType) {}

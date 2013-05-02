@@ -156,12 +156,30 @@ void BoxPhysics::updateContacts(Game *game){
 	Add a contact to contact list.
 */
 void BoxPhysics::addContact(b2Contact *contact){
-	C_Node *n = new C_Node();
-	n->next = contacts.head;
-	n->contact = contact;
-	n->firstContact = true;
 
-	contacts.head = n;
+	void * bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
+ 	void * bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
+
+	// This deals with projectiles hitting walls, I want them to be removed
+	if(bodyUserDataA && !bodyUserDataB){
+		AnimatedSprite *a = (AnimatedSprite*)bodyUserDataA;
+		if(a->getDesignation() == PROJECTILE_DESIGNATION)
+			a->setHitPoints(0);
+	}
+	if(bodyUserDataB && !bodyUserDataA){
+		AnimatedSprite *b = (AnimatedSprite*)bodyUserDataB;
+		if(b->getDesignation() == PROJECTILE_DESIGNATION)
+			b->setHitPoints(0);
+	}
+
+	if(bodyUserDataA && bodyUserDataB) {
+		// At this point, both things in collision are animated sprites
+		C_Node *n = new C_Node();
+		n->next = contacts.head;
+		n->contact = contact;
+		n->firstContact = true;
+		contacts.head = n;
+	}
 }
 
 // Remove a contact from contact list

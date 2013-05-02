@@ -190,7 +190,6 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	SpriteManager *spriteManager = gsm->getSpriteManager();
 	FOR_Player *player = new FOR_Player(PLAYER_ATTACK_COOLDOWN, PLAYER_DEATH_COOLDOWN, PLAYER_DESIGNATION);
 	spriteManager->setPlayer(player);
-	//AnimatedSprite *player = spriteManager->getPlayer();
 	physics->addCollidableObject(player);
 
 	// NOTE THAT RED BOX MAN IS SPRITE ID 2
@@ -215,7 +214,6 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	//create the player object in the physics world
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player,false);
 
-	
 	//Create TEST ROPE!
 	vector<AnimatedSprite *> spritesList;
 	AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
@@ -235,14 +233,11 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 		vine->setOnTileThisFrame(false);
 		vine->setOnTileLastFrame(false);
 		vine->affixTightAABBBoundingVolume();
-		spriteManager->addAuxiliarySprite(vine);
+		spriteManager->addBot(vine);
 		spritesList.push_back(vine);
 	}
 	//now create the test rope
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createTestRope(game,spritesList);
-
-
-	/////////////////////////////////////////////////////////////////////////////
 
 	// Wall1
 	AnimatedSpriteType *breakable_wall = spriteManager->getSpriteType(2);
@@ -290,8 +285,6 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	physics->addCollidableObject(wall2);
 	spriteManager->addBot(wall2);
 
-	/////////////////////////////////////////////////////////////////
-
 	// Boss
 	AnimatedSpriteType *bossSpriteType = spriteManager->getSpriteType(6);
 	//FORFloatingBot *boss = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, BOSS_X, BOT_ATTACK_RANGE);
@@ -316,15 +309,11 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	physics->addCollidableObject(boss);
 	spriteManager->addBot(boss);
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 	int worldWidth = game->getGSM()->getWorld()->getWorldWidth();
 	// Bots
 	AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
 
 	int ySpawn = BOT_INIT_Y;
-	//int xSpawn = BOT_INIT_X;
 
 	for(int x = 2; x < 4; x ++){
 		int xSpawn = x * worldWidth / 4.0f;
@@ -432,24 +421,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	game->getGSM()->goToGame();
 }
-/*
-void WalkaboutDataLoader::makeRandomJumpingBot(Game *game, AnimatedSpriteType *randomJumpingBotType, float initX, float initY)
-{
-	
-	SpriteManager *spriteManager = game->getGSM()->getSpriteManager();
-	Physics *physics = game->getGSM()->getPhysics();
-	RandomJumpingBot *bot = new RandomJumpingBot(physics, 30, 120, 40);
-	physics->addCollidableObject(bot);
-	PhysicalProperties *pp = bot->getPhysicalProperties();
-	pp->setPosition(initX, initY);
-	bot->setSpriteType(randomJumpingBotType);
-	bot->setCurrentState(JUMPING);
-	bot->setAlpha(255);
-	spriteManager->addBot(bot);
-	bot->affixTightAABBBoundingVolume();
-	
-}
-*/
+
 /*
 	initWalkaboutGUI - This method builds a GUI for the Walkabout Game application.
 	Note that we load all the GUI components from this method, including
@@ -481,8 +453,8 @@ void WalkaboutDataLoader::hardCodedLoadGUIExample(Game *game)
 void WalkaboutDataLoader::hardCodedLoadAudioExample(Game* game)
 {
 	GameAudioManager *gam = game->getGAM();
-	gam->setSoundVolume(0.1f);
-	gam->setMusicVolume(0.1f);
+	//gam->setSoundVolume(0.1f);
+	//gam->setMusicVolume(0.1f);
 	gam->addSound(C_INTRO);
 	gam->addSound(C_LEVEL1);
 	gam->addSound(C_EXPLOSION);

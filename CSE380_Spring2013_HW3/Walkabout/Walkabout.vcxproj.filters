@@ -55,6 +55,15 @@
     <ClCompile Include="src\Vine.cpp">
       <Filter>src\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="src\Bubble.cpp">
+      <Filter>src\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Fountain.cpp">
+      <Filter>src\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Flamethrower.cpp">
+      <Filter>src\Projectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\WalkaboutButtonEventHandler.h">
@@ -94,6 +103,15 @@
       <Filter>src\Static Objects</Filter>
     </ClInclude>
     <ClInclude Include="src\FireBall.h">
+      <Filter>src\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bubble.h">
+      <Filter>src\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Fountain.h">
+      <Filter>src\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Flamethrower.h">
       <Filter>src\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>

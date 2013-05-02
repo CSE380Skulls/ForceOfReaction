@@ -10,28 +10,27 @@
 #include "src\gsm\sprite\SpriteDesignations.h"
 #include "src\audio\GameAudioManager.h"
 #include "src\FireBall.h"
+#include "src\Bubble.h"
+#include "src\Fountain.h"
+#include "src\Flamethrower.h"
 
 
 // Initialize stuff, att_Cooldown -> The number of frames between player attacks
 FOR_Player::FOR_Player(int att_Cooldown, int d_Cooldown, int designation){
 	dead = false;
 	stunned = false;
-	//isInvincible = false;
 	cd_Counter = 0;
 	death_Cooldown = d_Cooldown;
 	attack_Cooldown = att_Cooldown;
 	selected_element = NOTHING;
 	this->designation = designation;
 	available_Elements = 3;
+	projectile = NULL;
 }
 
 // Can this player attack?  Assumes that the player is going to attack if they can
 bool FOR_Player::canAttack(){
-	if(stunned)
-		return false;
-	if(cd_Counter <= 0)
-		return true;
-	return false;
+	return projectile == NULL;
 }
 
 void FOR_Player::update(Game* game){
@@ -233,9 +232,6 @@ void FOR_Player::leftAttack(Game* game, float mx, float my){
 			waterAttackL(game, mx, my);
 		if(getSelectedElement() ==FIRE)
 			fireAttackL(game, mx, my);
-
-		// Set the attack cooldown, just attacked
-		cd_Counter = attack_Cooldown;
 	}
 }
 
@@ -247,8 +243,6 @@ void FOR_Player::rightAttack(Game *game, float mx, float my){
 			waterAttackR(game, mx, my);
 		if(getSelectedElement() ==FIRE)
 			fireAttackR(game, mx, my);
-		// Set the attack cooldown, just attacked
-		cd_Counter = attack_Cooldown;
 	}
 }
 
@@ -258,7 +252,6 @@ void FOR_Player::earthAttackL(Game *game, float mx, float my) {
 
 	float px = game->getGSM()->physicsToScreenX(getCurrentBodyX());
 	float py = game->getGSM()->physicsToScreenY(getCurrentBodyY());
-	//py = game->getGSM()->getWorld()->getWorldHeight() - py;
 
 	// Get the difference bewteen these loactions
 	float difX = mx - px;
@@ -310,7 +303,7 @@ void FOR_Player::earthAttackL(Game *game, float mx, float my) {
 		vine->setOnTileThisFrame(false);
 		vine->setOnTileLastFrame(false);
 		vine->affixTightAABBBoundingVolume();
-		spriteManager->addAuxiliarySprite(vine);
+		spriteManager->addBot(vine);
 		spritesList.push_back(vine);
 	}
 	//now create the test rope
@@ -320,30 +313,6 @@ void FOR_Player::earthAttackL(Game *game, float mx, float my) {
 	//set the velocity for the first segment of the vine
 	spritesList[0]->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
 
-	//float vineX;
-	//if(mx > px){
-	//	// Right side click
-	//	setDirection(1);
-	//	setCurrentState(ATTACKING_RIGHT);
-	//	vineX = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0;
-	//}
-	//else {
-	//	// Left side click
-	//	setDirection(-1);
-	//	setCurrentState(ATTACKING_LEFT);
-	//	vineX = px - vineSpriteType->getTextureWidth()*2;
-	//}
-
-	//Vine *vine = new Vine(PROJECTILE_DESIGNATION);
-	//vine->init(vineX,py,vineSpriteType);
-
-	////create a physics object for the vine
-	//game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,vine,false);
-	//game->getGSM()->getPhysics()->addCollidableObject(vine);
-	//game->getGSM()->getSpriteManager()->addBot(vine);
-
-	// Remove this vine after 15 frames
-	//game->getGSM()->getSpriteManager()->addBotToRemovalList(vine, 15);
 }
 
 // Throw a seed
@@ -352,7 +321,6 @@ void FOR_Player::earthAttackR(Game *game, float mx, float my){
 	// Get mouse and player locations
 	float px = game->getGSM()->physicsToScreenX(getCurrentBodyX());
 	float py = game->getGSM()->physicsToScreenY(getCurrentBodyY());
-	//py = game->getGSM()->getWorld()->getWorldHeight() - py;
 
 	// Get the difference bewteen these loactions
 	float difX = mx - px;
@@ -390,6 +358,7 @@ void FOR_Player::earthAttackR(Game *game, float mx, float my){
 
 	// Set the velocity of the seed
 	seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
+	projectile = seed;
 }
 
 void FOR_Player::waterAttackL(Game *game, float mx, float my) {
@@ -406,25 +375,42 @@ void FOR_Player::waterAttackL(Game *game, float mx, float my) {
 		// Right side click
 		setDirection(1);
 		setCurrentState(ATTACKING_RIGHT);
-		bubbleX = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0;
 	}
 	else {
 		// Left side click
 		setDirection(-1);
 		setCurrentState(ATTACKING_LEFT);
-		bubbleX = px - bubbleSpriteType->getTextureWidth()*2;
 	}
 
-	Vine *bubble = new Vine(PROJECTILE_DESIGNATION);
-	bubble->init(bubbleX,py,bubbleSpriteType);
+	Bubble *bubble = new Bubble(PROJECTILE_DESIGNATION);
+	bubble->init(px,py - game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureHeight() / 2.0f,bubbleSpriteType);
 
 	//create a physics object for the seed
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,bubble,false);
 	game->getGSM()->getPhysics()->addCollidableObject(bubble);
 	game->getGSM()->getSpriteManager()->addBot(bubble);
+	projectile = bubble;
 
-	// Remove this bubble after 15 frames
-	game->getGSM()->getSpriteManager()->addBotToRemovalList(bubble, 15);
+	float bx = game->getGSM()->physicsToScreenX(bubble->getCurrentBodyX());
+	float by = game->getGSM()->physicsToScreenY(bubble->getCurrentBodyY());
+
+	// Get the difference bewteen these loactions
+	float difX = mx - bx;
+	float difY = my - by;
+
+	// Get the length of the vector from player to mouse
+	float length = std::sqrt((difX * difX) + (difY * difY) );
+
+	// Normalize the distances
+	difX /= length;
+	difY /= length;
+
+	// Scale distances to be x and y velocity
+	difX *= BUBBLE_VELOCITY / 5.0f;
+	difY *= BUBBLE_VELOCITY / 5.0f;
+	
+	// Update velocity
+	getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
 }
 
 void  FOR_Player::waterAttackR(Game* game, float mx, float my) {
@@ -433,7 +419,6 @@ void  FOR_Player::waterAttackR(Game* game, float mx, float my) {
 
 	float px = game->getGSM()->physicsToScreenX(getCurrentBodyX());
 	float py = game->getGSM()->physicsToScreenY(getCurrentBodyY());
-	//py = game->getGSM()->getWorld()->getWorldHeight() - py;
 
 	AnimatedSpriteType *fountainSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(10);
 	float fountainX;
@@ -450,16 +435,14 @@ void  FOR_Player::waterAttackR(Game* game, float mx, float my) {
 		fountainX = px - fountainSpriteType->getTextureWidth()*2;
 	}
 
-	Vine *fountain = new Vine(PROJECTILE_DESIGNATION);
+	Fountain *fountain = new Fountain(PROJECTILE_DESIGNATION);
 	fountain->init(fountainX,py,fountainSpriteType);
 
 	//create a physics object for the fountain
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,fountain,false);
 	game->getGSM()->getPhysics()->addCollidableObject(fountain);
 	game->getGSM()->getSpriteManager()->addBot(fountain);
-
-	// Remove this vine after 15 frames
-	game->getGSM()->getSpriteManager()->addBotToRemovalList(fountain, 15);
+	projectile = fountain;
 }
 
 void FOR_Player::fireAttackL(Game *game, float mx, float my) {
@@ -468,7 +451,6 @@ void FOR_Player::fireAttackL(Game *game, float mx, float my) {
 
 	float px = game->getGSM()->physicsToScreenX(getCurrentBodyX());
 	float py = game->getGSM()->physicsToScreenY(getCurrentBodyY());
-	//py = game->getGSM()->getWorld()->getWorldHeight() - py;
 
 	AnimatedSpriteType *flamethrowerSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(8);
 	float flamethrowerX;
@@ -485,16 +467,14 @@ void FOR_Player::fireAttackL(Game *game, float mx, float my) {
 		flamethrowerX = px - flamethrowerSpriteType->getTextureWidth()*2;
 	}
 
-	Vine *flamethrower = new Vine(PROJECTILE_DESIGNATION);
+	Flamethrower *flamethrower = new Flamethrower(PROJECTILE_DESIGNATION);
 	flamethrower->init(flamethrowerX,py,flamethrowerSpriteType);
 
 	//create a physics object for the flamethrower
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,flamethrower,false);
 	game->getGSM()->getPhysics()->addCollidableObject(flamethrower);
 	game->getGSM()->getSpriteManager()->addBot(flamethrower);
-
-	// Remove this vine after 15 frames
-	game->getGSM()->getSpriteManager()->addBotToRemovalList(flamethrower, 15);
+	projectile = flamethrower;
 }
 
 void  FOR_Player::fireAttackR(Game* game, float mx, float my) {
@@ -538,4 +518,5 @@ void  FOR_Player::fireAttackR(Game* game, float mx, float my) {
 
 	// Set the velocity of the fireball
 	fireball->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
+	projectile = fireball;
 }

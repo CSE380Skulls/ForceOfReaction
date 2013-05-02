@@ -7,17 +7,16 @@
 #include "src\game\Game.h"
 #include "src\gsm\sprite\SpriteManager.h"
 #include "src\WalkaboutGame.h"
+#include "src\FOR_Player.h"
 
 void Seed::update(Game *game){
 	if(dead)
 		return;
-	// If this seed is no longer moving, remove it from the game
-	float vX = getPhysicsBody()->GetLinearVelocity().x * BOX2D_CONVERSION_FACTOR;
-	float vY = getPhysicsBody()->GetLinearVelocity().y * BOX2D_CONVERSION_FACTOR;
 
 	// If hitpoints are 0 or this seed stopped moving, remove it
-	if( (hitPoints <= 0) || (vY == 0) ){
+	if(hitPoints <= 0){
 		game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 0);
+		((FOR_Player*)game->getGSM()->getSpriteManager()->getPlayer())->destroyProjectile();
 		dead = true;
 	}
 }

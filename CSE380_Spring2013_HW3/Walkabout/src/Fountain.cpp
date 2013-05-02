@@ -7,13 +7,23 @@
 #include "src\game\Game.h"
 #include "src\gsm\sprite\SpriteManager.h"
 #include "src\WalkaboutGame.h"
+#include "src\FOR_Player.h"
 
 void Fountain::update(Game *game){
+	if(dead)
+		return;
+
+	// If hitpoints are 0 or this seed stopped moving, remove it
+	if(hitPoints <= 0){
+		game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 0);
+		((FOR_Player*)game->getGSM()->getSpriteManager()->getPlayer())->destroyProjectile();
+		dead = true;
+	}
 }
 
 void Fountain::init(float px, float py, AnimatedSpriteType *sprite){
 	setHitPoints(1);
-	setDamage(0);
+	setDamage(SEED_DAMAGE);
 	setSpriteType(sprite);
 	setAlpha(255);
 	setCurrentState(IDLE_LEFT);

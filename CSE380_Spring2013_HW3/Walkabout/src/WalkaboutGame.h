@@ -143,6 +143,7 @@ static const int		PLAYER_ATTACK_COOLDOWN = 30;
 static const int		PLAYER_DEATH_COOLDOWN = 60;
 static const int		FIRE_BALL_DAMAGE = 25;
 static const int		FLAMETHROWER_DAMAGE = 25;
+static const int		BUBBLE_VELOCITY = 20;
 
 
 // Animated Sprite States

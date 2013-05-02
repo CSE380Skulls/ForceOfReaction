@@ -45,9 +45,6 @@ public:
 	void hardCodedLoadGUIExample(Game *game);
 	void hardCodedLoadAudioExample(Game* game);
 
-	// SOME HELPER METHODS FOR SETTING UP THE GAME
-	void makeRandomJumpingBot(Game *game, AnimatedSpriteType *randomJumpingBotType, float initX, float initY);
-
 	// AND SOME HELPER METHODS FOR LOADING THE GUI
 	void initCursor(GameGUI *gui, DirectXTextureManager *guiTextureManager);
 	void initSplashScreen(Game *game, GameGUI *gui,	DirectXTextureManager *guiTextureManager);
