@@ -85,6 +85,7 @@
     <ClCompile Include="src\FORFloatingBot.cpp" />
     <ClCompile Include="src\FOR_Player.cpp" />
     <ClCompile Include="src\Seed.cpp" />
+    <ClCompile Include="src\Vine.cpp" />
     <ClCompile Include="src\WalkaboutButtonEventHandler.cpp" />
     <ClCompile Include="src\WalkaboutCollisionListener.cpp" />
     <ClCompile Include="src\WalkaboutDataLoader.cpp" />

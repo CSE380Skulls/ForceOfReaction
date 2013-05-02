@@ -9,7 +9,6 @@
 #include "src\WalkaboutGame.h"
 
 void FireBall::update(Game *game){
-	//this->setCurrentBodyAngleVelocity(0);
 	if(dead)
 		return;
 

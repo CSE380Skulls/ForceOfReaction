@@ -256,9 +256,9 @@ void FOR_Player::earthAttackL(Game *game, float mx, float my) {
 	game->getGAM()->playSound(C_SWING);
 		setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 
-		float px = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
-		float py = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
-		py = game->getGSM()->getWorld()->getWorldHeight() - py;
+		float px = game->getGSM()->physicsToScreenX(getCurrentBodyX());
+		float py = game->getGSM()->physicsToScreenY(getCurrentBodyY());
+		//py = game->getGSM()->getWorld()->getWorldHeight() - py;
 
 
 		AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
@@ -279,23 +279,22 @@ void FOR_Player::earthAttackL(Game *game, float mx, float my) {
 		Vine *vine = new Vine(PROJECTILE_DESIGNATION);
 		vine->init(vineX,py,vineSpriteType);
 
-		//create a physics object for the seed
+		//create a physics object for the vine
 		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,vine,false);
-
-		// Remove this vine after 30 frames
-		game->getGSM()->getSpriteManager()->addBotToRemovalList(vine, 15);
-
 		game->getGSM()->getPhysics()->addCollidableObject(vine);
 		game->getGSM()->getSpriteManager()->addBot(vine);
+
+		// Remove this vine after 15 frames
+		game->getGSM()->getSpriteManager()->addBotToRemovalList(vine, 15);
 }
 
 // Throw a seed
 void FOR_Player::earthAttackR(Game *game, float mx, float my){
 	game->getGAM()->playSound(C_SWING);
 	// Get mouse and player locations
-	float px = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
-	float py = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
-	py = game->getGSM()->getWorld()->getWorldHeight() - py;
+	float px = game->getGSM()->physicsToScreenX(getCurrentBodyX());
+	float py = game->getGSM()->physicsToScreenY(getCurrentBodyY());
+	//py = game->getGSM()->getWorld()->getWorldHeight() - py;
 
 	// Get the difference bewteen these loactions
 	float difX = mx - px;
@@ -319,7 +318,6 @@ void FOR_Player::earthAttackR(Game *game, float mx, float my){
 
 	// Scale distances to be x and y velocity
 	difX *= PROJECTILE_VELOCITY;
-
 	difY *= PROJECTILE_VELOCITY;
 
 	// Seed
@@ -329,12 +327,11 @@ void FOR_Player::earthAttackR(Game *game, float mx, float my){
 
 	//create a physics object for the seed
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createFriendlyProjectile(game,seed,true);
+	game->getGSM()->getPhysics()->addCollidableObject(seed);
+	game->getGSM()->getSpriteManager()->addBot(seed);
 
 	// Set the velocity of the seed
 	seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
-
-	game->getGSM()->getPhysics()->addCollidableObject(seed);
-	game->getGSM()->getSpriteManager()->addBot(seed);
 }
 
 void FOR_Player::waterAttackL(Game *game, float mx, float my) {
@@ -365,21 +362,20 @@ void FOR_Player::waterAttackL(Game *game, float mx, float my) {
 
 	//create a physics object for the seed
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,bubble,false);
-
-	// Remove this vine after 30 frames
-	game->getGSM()->getSpriteManager()->addBotToRemovalList(bubble, 15);
-
 	game->getGSM()->getPhysics()->addCollidableObject(bubble);
 	game->getGSM()->getSpriteManager()->addBot(bubble);
+
+	// Remove this bubble after 15 frames
+	game->getGSM()->getSpriteManager()->addBotToRemovalList(bubble, 15);
 }
 
 void  FOR_Player::waterAttackR(Game* game, float mx, float my) {
 	game->getGAM()->playSound(C_SWING);
 	setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 
-	float px = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
-	float py = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
-	py = game->getGSM()->getWorld()->getWorldHeight() - py;
+	float px = game->getGSM()->physicsToScreenX(getCurrentBodyX());
+	float py = game->getGSM()->physicsToScreenY(getCurrentBodyY());
+	//py = game->getGSM()->getWorld()->getWorldHeight() - py;
 
 	AnimatedSpriteType *fountainSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(10);
 	float fountainX;
@@ -399,23 +395,22 @@ void  FOR_Player::waterAttackR(Game* game, float mx, float my) {
 	Vine *fountain = new Vine(PROJECTILE_DESIGNATION);
 	fountain->init(fountainX,py,fountainSpriteType);
 
-	//create a physics object for the seed
+	//create a physics object for the fountain
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,fountain,false);
-
-	// Remove this vine after 30 frames
-	game->getGSM()->getSpriteManager()->addBotToRemovalList(fountain, 15);
-
 	game->getGSM()->getPhysics()->addCollidableObject(fountain);
 	game->getGSM()->getSpriteManager()->addBot(fountain);
+
+	// Remove this vine after 15 frames
+	game->getGSM()->getSpriteManager()->addBotToRemovalList(fountain, 15);
 }
 
 void FOR_Player::fireAttackL(Game *game, float mx, float my) {
 	game->getGAM()->playSound(C_SWING);
 	setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 
-	float px = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
-	float py = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
-	py = game->getGSM()->getWorld()->getWorldHeight() - py;
+	float px = game->getGSM()->physicsToScreenX(getCurrentBodyX());
+	float py = game->getGSM()->physicsToScreenY(getCurrentBodyY());
+	//py = game->getGSM()->getWorld()->getWorldHeight() - py;
 
 	AnimatedSpriteType *flamethrowerSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(8);
 	float flamethrowerX;
@@ -435,22 +430,20 @@ void FOR_Player::fireAttackL(Game *game, float mx, float my) {
 	Vine *flamethrower = new Vine(PROJECTILE_DESIGNATION);
 	flamethrower->init(flamethrowerX,py,flamethrowerSpriteType);
 
-	//create a physics object for the seed
+	//create a physics object for the flamethrower
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,flamethrower,false);
-
-	// Remove this vine after 30 frames
-	game->getGSM()->getSpriteManager()->addBotToRemovalList(flamethrower, 15);
-
 	game->getGSM()->getPhysics()->addCollidableObject(flamethrower);
 	game->getGSM()->getSpriteManager()->addBot(flamethrower);
+
+	// Remove this vine after 15 frames
+	game->getGSM()->getSpriteManager()->addBotToRemovalList(flamethrower, 15);
 }
 
 void  FOR_Player::fireAttackR(Game* game, float mx, float my) {
 	game->getGAM()->playSound(C_SWING);
 	// Get mouse and player locations
-	float px = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
-	float py = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
-	py = game->getGSM()->getWorld()->getWorldHeight() - py;
+	float px = game->getGSM()->physicsToScreenX(getCurrentBodyX());
+	float py = game->getGSM()->physicsToScreenY(getCurrentBodyY());
 
 	// Get the difference bewteen these loactions
 	float difX = mx - px;
@@ -471,9 +464,6 @@ void  FOR_Player::fireAttackR(Game* game, float mx, float my) {
 	difX /= length;
 	difY /= length;
 
-	// Angle to set this to
-	//float angle = std::atanf(difX / difY);
-
 	// Scale distances to be x and y velocity
 	difX *= PROJECTILE_VELOCITY;
 	difY *= PROJECTILE_VELOCITY;
@@ -485,11 +475,9 @@ void  FOR_Player::fireAttackR(Game* game, float mx, float my) {
 
 	//create a physics object for the seed
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createFriendlyProjectile(game,fireball,true);
-
-	// Set the velocity of the seed
-	fireball->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
-
 	game->getGSM()->getPhysics()->addCollidableObject(fireball);
 	game->getGSM()->getSpriteManager()->addBot(fireball);
-	/////////////////////////////////
+
+	// Set the velocity of the fireball
+	fireball->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
 }

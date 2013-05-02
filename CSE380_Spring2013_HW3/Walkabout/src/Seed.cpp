@@ -15,8 +15,6 @@ void Seed::update(Game *game){
 	float vX = getPhysicsBody()->GetLinearVelocity().x * BOX2D_CONVERSION_FACTOR;
 	float vY = getPhysicsBody()->GetLinearVelocity().y * BOX2D_CONVERSION_FACTOR;
 
-	//int x = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
-	//int y = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
 	// If hitpoints are 0 or this seed stopped moving, remove it
 	if( (hitPoints <= 0) || (vY == 0) ){
 		game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 0);
