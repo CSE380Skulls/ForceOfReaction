@@ -35,6 +35,7 @@ public:
 	void createStaticWorldObject(Game *game, AnimatedSprite *sprite);
 	// Used for rope objects
 	void createTestRope(Game *game, vector<AnimatedSprite *>spritesArray);
+	void createAttackRope(Game * game, vector<AnimatedSprite *>spritesArray, float px, float py);
 
 private:
 	b2World *physicsWorldRef;
