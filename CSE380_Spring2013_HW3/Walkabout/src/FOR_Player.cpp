@@ -22,10 +22,7 @@ FOR_Player::FOR_Player(int att_Cooldown, int d_Cooldown, int designation){
 	attack_Cooldown = att_Cooldown;
 	selected_element = NOTHING;
 	this->designation = designation;
-	for(int x = 0; x < 3; x++){
-		available_Elements[x] = true;
-	}
-	//available_Elements[0] = true;
+	available_Elements = 3;
 }
 
 // Can this player attack?  Assumes that the player is going to attack if they can
@@ -182,24 +179,12 @@ void FOR_Player::stun(int framesStunned) {
 	}
 }
 
+//rotate selected element.
+//THIS CURRENTLY causes a problem where the first element you select is water:
+//this is a side effect of starting at element NOTHING when you have 3 available elements.
+//this will not happen if you have element NOTHING and have NO available elements.
 void FOR_Player::nextElement() {
-	int element = getSelectedElement() + 1;
-	// Set to next element
-
-	// If element > 2, wrap around
-	if(element > 2){
-		element = 0;
-	}
-	else {
-		// Cycle through elements until you find one available
-		while(!available_Elements[element]) {
-			element++;
-			if(element > 2) {
-				element = 0;
-				break;
-			}
-		}
-	}
+	int element = available_Elements>0?(getSelectedElement()+1)%available_Elements:NOTHING;
 	setSelectedElement(element);
 }
 
@@ -243,142 +228,31 @@ void FOR_Player::jump(Game *game){
 void FOR_Player::leftAttack(Game* game, float mx, float my){
 	if(canAttack()){
 		if(getSelectedElement() == EARTH)
-			earth_Attack_L(game, mx, my);
+			earthAttackL(game, mx, my);
 		if(getSelectedElement() == WATER)
-			water_Attack_L();
+			waterAttackL(game, mx, my);
 		if(getSelectedElement() ==FIRE)
-			fire_Attack_L();
+			fireAttackL(game, mx, my);
 
 		// Set the attack cooldown, just attacked
 		cd_Counter = attack_Cooldown;
-
-		/*
-		game->getGAM()->playSound(C_SWING);
-		setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
-
-		float px = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
-		float py = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
-		py = game->getGSM()->getWorld()->getWorldHeight() - py;
-
-
-		AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
-		float vineX;
-		if(mx > px){
-			// Right side click
-			setDirection(1);
-			setCurrentState(ATTACKING_RIGHT);
-			vineX = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0;
-		}
-		else {
-			// Left side click
-			setDirection(-1);
-			setCurrentState(ATTACKING_LEFT);
-			vineX = px - vineSpriteType->getTextureWidth()*2;
-		}
-
-		Vine *vine = new Vine(PROJECTILE_DESIGNATION);
-		vine->setHitPoints(1);
-		vine->setDamage(VINE_DAMAGE);
-		vine->setSpriteType(vineSpriteType);
-		vine->setAlpha(255);
-		vine->setCurrentState(IDLE_LEFT);
-		PhysicalProperties *vineProps = vine->getPhysicalProperties();
-		vineProps->setX(vineX);
-		vineProps->setY(py);
-		vineProps->setVelocity(0.0f, 0.0f);
-		vineProps->setAccelerationX(0);
-		vineProps->setAccelerationY(0);
-		vine->setOnTileThisFrame(false);
-		vine->setOnTileLastFrame(false);
-		vine->affixTightAABBBoundingVolume();
-
-		//create a physics object for the seed
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,vine,false);
-
-		// Remove this vine after 30 frames
-		game->getGSM()->getSpriteManager()->addBotToRemovalList(vine, 15);
-
-		game->getGSM()->getPhysics()->addCollidableObject(vine);
-		game->getGSM()->getSpriteManager()->addBot(vine);
-		*/
 	}
 }
 
 void FOR_Player::rightAttack(Game *game, float mx, float my){
 	if(canAttack()) {
 		if(getSelectedElement() == EARTH)
-			earth_Attack_R(game, mx, my);
+			earthAttackR(game, mx, my);
 		if(getSelectedElement() == WATER)
-			water_Attack_R();
+			waterAttackR(game, mx, my);
 		if(getSelectedElement() ==FIRE)
-			fire_Attack_R(game, mx, my);
-
+			fireAttackR(game, mx, my);
 		// Set the attack cooldown, just attacked
 		cd_Counter = attack_Cooldown;
-
-		/*
-		game->getGAM()->playSound(C_SWING);
-		// Get mouse and player locations
-		float px = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
-		float py = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
-		py = game->getGSM()->getWorld()->getWorldHeight() - py;
-
-		// Get the difference bewteen these loactions
-		float difX = mx - px;
-		float difY = my - py;
-
-		if(difX > 0){
-			setDirection(1);
-			setCurrentState(ATTACKING_RIGHT);
-		}
-		else {
-			setDirection(-1);
-			setCurrentState(ATTACKING_LEFT);
-		}
-
-		// Get the length of the vector from player to mouse
-		float length = std::sqrt( (difX * difX) + (difY * difY) );
-
-		// Normalize the distances
-		difX /= length;
-		difY /= length;
-
-		// Scale distances to be x and y velocity
-		difX *= PROJECTILE_VELOCITY;
-
-		difY *= PROJECTILE_VELOCITY;
-
-		// Seed
-		AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
-		Seed *seed = new Seed(PROJECTILE_DESIGNATION);
-		seed->setHitPoints(1);
-		seed->setDamage(SEED_DAMAGE);
-		seed->setSpriteType(seedSpriteType);
-		seed->setAlpha(255);
-		seed->setCurrentState(IDLE_LEFT);
-		PhysicalProperties *seedProps = seed->getPhysicalProperties();
-		seedProps->setX(px);
-		seedProps->setY(py);
-		seedProps->setVelocity(0.0f, 0.0f);
-		seedProps->setAccelerationX(0);
-		seedProps->setAccelerationY(0);
-		seed->setOnTileThisFrame(false);
-		seed->setOnTileLastFrame(false);
-		seed->affixTightAABBBoundingVolume();
-
-		//create a physics object for the seed
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createFriendlyProjectile(game,seed,true);
-
-		// Set the velocity of the seed
-		seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
-
-		game->getGSM()->getPhysics()->addCollidableObject(seed);
-		game->getGSM()->getSpriteManager()->addBot(seed);
-		*/
 	}
 }
 
-void FOR_Player::earth_Attack_L(Game *game, float mx, float my) {
+void FOR_Player::earthAttackL(Game *game, float mx, float my) {
 	game->getGAM()->playSound(C_SWING);
 		setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 
@@ -403,20 +277,7 @@ void FOR_Player::earth_Attack_L(Game *game, float mx, float my) {
 		}
 
 		Vine *vine = new Vine(PROJECTILE_DESIGNATION);
-		vine->setHitPoints(1);
-		vine->setDamage(VINE_DAMAGE);
-		vine->setSpriteType(vineSpriteType);
-		vine->setAlpha(255);
-		vine->setCurrentState(IDLE_LEFT);
-		PhysicalProperties *vineProps = vine->getPhysicalProperties();
-		vineProps->setX(vineX);
-		vineProps->setY(py);
-		vineProps->setVelocity(0.0f, 0.0f);
-		vineProps->setAccelerationX(0);
-		vineProps->setAccelerationY(0);
-		vine->setOnTileThisFrame(false);
-		vine->setOnTileLastFrame(false);
-		vine->affixTightAABBBoundingVolume();
+		vine->init(vineX,py,vineSpriteType);
 
 		//create a physics object for the seed
 		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,vine,false);
@@ -429,128 +290,206 @@ void FOR_Player::earth_Attack_L(Game *game, float mx, float my) {
 }
 
 // Throw a seed
-void FOR_Player::earth_Attack_R(Game *game, float mx, float my){
-		game->getGAM()->playSound(C_SWING);
-		// Get mouse and player locations
-		float px = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
-		float py = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
-		py = game->getGSM()->getWorld()->getWorldHeight() - py;
+void FOR_Player::earthAttackR(Game *game, float mx, float my){
+	game->getGAM()->playSound(C_SWING);
+	// Get mouse and player locations
+	float px = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
+	float py = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
+	py = game->getGSM()->getWorld()->getWorldHeight() - py;
 
-		// Get the difference bewteen these loactions
-		float difX = mx - px;
-		float difY = my - py;
+	// Get the difference bewteen these loactions
+	float difX = mx - px;
+	float difY = my - py;
 
-		if(difX > 0){
-			setDirection(1);
-			setCurrentState(ATTACKING_RIGHT);
-		}
-		else {
-			setDirection(-1);
-			setCurrentState(ATTACKING_LEFT);
-		}
+	if(difX > 0){
+		setDirection(1);
+		setCurrentState(ATTACKING_RIGHT);
+	}
+	else {
+		setDirection(-1);
+		setCurrentState(ATTACKING_LEFT);
+	}
 
-		// Get the length of the vector from player to mouse
-		float length = std::sqrt( (difX * difX) + (difY * difY) );
+	// Get the length of the vector from player to mouse
+	float length = std::sqrt( (difX * difX) + (difY * difY) );
 
-		// Normalize the distances
-		difX /= length;
-		difY /= length;
+	// Normalize the distances
+	difX /= length;
+	difY /= length;
 
-		// Scale distances to be x and y velocity
-		difX *= PROJECTILE_VELOCITY;
+	// Scale distances to be x and y velocity
+	difX *= PROJECTILE_VELOCITY;
 
-		difY *= PROJECTILE_VELOCITY;
+	difY *= PROJECTILE_VELOCITY;
 
-		// Seed
-		AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
-		Seed *seed = new Seed(PROJECTILE_DESIGNATION);
-		seed->setHitPoints(1);
-		seed->setDamage(SEED_DAMAGE);
-		seed->setSpriteType(seedSpriteType);
-		seed->setAlpha(255);
-		seed->setCurrentState(IDLE_LEFT);
-		PhysicalProperties *seedProps = seed->getPhysicalProperties();
-		seedProps->setX(px);
-		seedProps->setY(py);
-		seedProps->setVelocity(0.0f, 0.0f);
-		seedProps->setAccelerationX(0);
-		seedProps->setAccelerationY(0);
-		seed->setOnTileThisFrame(false);
-		seed->setOnTileLastFrame(false);
-		seed->affixTightAABBBoundingVolume();
+	// Seed
+	AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
+	Seed *seed = new Seed(PROJECTILE_DESIGNATION);
+	seed->init(px,py,seedSpriteType);
 
-		//create a physics object for the seed
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createFriendlyProjectile(game,seed,true);
+	//create a physics object for the seed
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createFriendlyProjectile(game,seed,true);
 
-		// Set the velocity of the seed
-		seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
+	// Set the velocity of the seed
+	seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
 
-		game->getGSM()->getPhysics()->addCollidableObject(seed);
-		game->getGSM()->getSpriteManager()->addBot(seed);
+	game->getGSM()->getPhysics()->addCollidableObject(seed);
+	game->getGSM()->getSpriteManager()->addBot(seed);
 }
 
-void  FOR_Player::fire_Attack_R(Game* game, float mx, float my) {
-	//////////////////////////////////
-		game->getGAM()->playSound(C_SWING);
-		// Get mouse and player locations
-		float px = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
-		float py = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
-		py = game->getGSM()->getWorld()->getWorldHeight() - py;
+void FOR_Player::waterAttackL(Game *game, float mx, float my) {
+	game->getGAM()->playSound(C_SWING);
+	setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 
-		// Get the difference bewteen these loactions
-		float difX = mx - px;
-		float difY = my - py;
+	float px = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
+	float py = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
+	py = game->getGSM()->getWorld()->getWorldHeight() - py;
 
-		if(difX > 0){
-			setDirection(1);
-			setCurrentState(ATTACKING_RIGHT);
-		}
-		else {
-			setDirection(-1);
-			setCurrentState(ATTACKING_LEFT);
-		}
+	AnimatedSpriteType *bubbleSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(9);
+	float bubbleX;
+	if(mx > px){
+		// Right side click
+		setDirection(1);
+		setCurrentState(ATTACKING_RIGHT);
+		bubbleX = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0;
+	}
+	else {
+		// Left side click
+		setDirection(-1);
+		setCurrentState(ATTACKING_LEFT);
+		bubbleX = px - bubbleSpriteType->getTextureWidth()*2;
+	}
 
-		// Get the length of the vector from player to mouse
-		float length = std::sqrt( (difX * difX) + (difY * difY) );
+	Vine *bubble = new Vine(PROJECTILE_DESIGNATION);
+	bubble->init(bubbleX,py,bubbleSpriteType);
 
-		// Normalize the distances
-		difX /= length;
-		difY /= length;
+	//create a physics object for the seed
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,bubble,false);
 
-		// Angle to set this to
-		//float angle = std::atanf(difX / difY);
+	// Remove this vine after 30 frames
+	game->getGSM()->getSpriteManager()->addBotToRemovalList(bubble, 15);
 
+	game->getGSM()->getPhysics()->addCollidableObject(bubble);
+	game->getGSM()->getSpriteManager()->addBot(bubble);
+}
 
-		// Scale distances to be x and y velocity
-		difX *= PROJECTILE_VELOCITY;
-		difY *= PROJECTILE_VELOCITY;
+void  FOR_Player::waterAttackR(Game* game, float mx, float my) {
+	game->getGAM()->playSound(C_SWING);
+	setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 
-		// Fire Ball
-		AnimatedSpriteType *fireballSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(7);
-		FireBall *fireball = new FireBall(PROJECTILE_DESIGNATION, difX, -difY);
-		fireball->setHitPoints(1);
-		fireball->setDamage(FIRE_BALL_DAMAGE);
-		fireball->setSpriteType(fireballSpriteType);
-		fireball->setAlpha(255);
-		fireball->setCurrentState(IDLE_LEFT);
-		PhysicalProperties *fireballProps = fireball->getPhysicalProperties();
-		fireballProps->setX(px);
-		fireballProps->setY(py);
-		fireballProps->setVelocity(0.0f, 0.0f);
-		fireballProps->setAccelerationX(0);
-		fireballProps->setAccelerationY(0);
-		fireball->setOnTileThisFrame(false);
-		fireball->setOnTileLastFrame(false);
-		fireball->affixTightAABBBoundingVolume();
-		//fireball->setCurrentBodyAngleVelocity(angle);
+	float px = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
+	float py = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
+	py = game->getGSM()->getWorld()->getWorldHeight() - py;
 
-		//create a physics object for the seed
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createFriendlyProjectile(game,fireball,true);
+	AnimatedSpriteType *fountainSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(10);
+	float fountainX;
+	if(mx > px){
+		// Right side click
+		setDirection(1);
+		setCurrentState(ATTACKING_RIGHT);
+		fountainX = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0;
+	}
+	else {
+		// Left side click
+		setDirection(-1);
+		setCurrentState(ATTACKING_LEFT);
+		fountainX = px - fountainSpriteType->getTextureWidth()*2;
+	}
 
-		// Set the velocity of the seed
-		fireball->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
+	Vine *fountain = new Vine(PROJECTILE_DESIGNATION);
+	fountain->init(fountainX,py,fountainSpriteType);
 
-		game->getGSM()->getPhysics()->addCollidableObject(fireball);
-		game->getGSM()->getSpriteManager()->addBot(fireball);
+	//create a physics object for the seed
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,fountain,false);
+
+	// Remove this vine after 30 frames
+	game->getGSM()->getSpriteManager()->addBotToRemovalList(fountain, 15);
+
+	game->getGSM()->getPhysics()->addCollidableObject(fountain);
+	game->getGSM()->getSpriteManager()->addBot(fountain);
+}
+
+void FOR_Player::fireAttackL(Game *game, float mx, float my) {
+	game->getGAM()->playSound(C_SWING);
+	setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
+
+	float px = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
+	float py = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
+	py = game->getGSM()->getWorld()->getWorldHeight() - py;
+
+	AnimatedSpriteType *flamethrowerSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(8);
+	float flamethrowerX;
+	if(mx > px){
+		// Right side click
+		setDirection(1);
+		setCurrentState(ATTACKING_RIGHT);
+		flamethrowerX = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0;
+	}
+	else {
+		// Left side click
+		setDirection(-1);
+		setCurrentState(ATTACKING_LEFT);
+		flamethrowerX = px - flamethrowerSpriteType->getTextureWidth()*2;
+	}
+
+	Vine *flamethrower = new Vine(PROJECTILE_DESIGNATION);
+	flamethrower->init(flamethrowerX,py,flamethrowerSpriteType);
+
+	//create a physics object for the seed
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,flamethrower,false);
+
+	// Remove this vine after 30 frames
+	game->getGSM()->getSpriteManager()->addBotToRemovalList(flamethrower, 15);
+
+	game->getGSM()->getPhysics()->addCollidableObject(flamethrower);
+	game->getGSM()->getSpriteManager()->addBot(flamethrower);
+}
+
+void  FOR_Player::fireAttackR(Game* game, float mx, float my) {
+	game->getGAM()->playSound(C_SWING);
+	// Get mouse and player locations
+	float px = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
+	float py = getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
+	py = game->getGSM()->getWorld()->getWorldHeight() - py;
+
+	// Get the difference bewteen these loactions
+	float difX = mx - px;
+	float difY = my - py;
+
+	if(difX > 0){
+		setDirection(1);
+		setCurrentState(ATTACKING_RIGHT);
+	} else {
+		setDirection(-1);
+		setCurrentState(ATTACKING_LEFT);
+	}
+
+	// Get the length of the vector from player to mouse
+	float length = std::sqrt( (difX * difX) + (difY * difY) );
+
+	// Normalize the distances
+	difX /= length;
+	difY /= length;
+
+	// Angle to set this to
+	//float angle = std::atanf(difX / difY);
+
+	// Scale distances to be x and y velocity
+	difX *= PROJECTILE_VELOCITY;
+	difY *= PROJECTILE_VELOCITY;
+
+	// Fire Ball
+	AnimatedSpriteType *fireballSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(7);
+	FireBall *fireball = new FireBall(PROJECTILE_DESIGNATION, difX, -difY);
+	fireball->init(px,py,fireballSpriteType);
+
+	//create a physics object for the seed
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createFriendlyProjectile(game,fireball,true);
+
+	// Set the velocity of the seed
+	fireball->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
+
+	game->getGSM()->getPhysics()->addCollidableObject(fireball);
+	game->getGSM()->getSpriteManager()->addBot(fireball);
 	/////////////////////////////////
 }

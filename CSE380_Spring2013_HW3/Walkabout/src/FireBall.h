@@ -16,6 +16,7 @@ public:
 	FireBall(int designation, int vX, int vY) { this->designation = designation; vx = vX; vy= vY; }
 	void	update(Game *game);
 	Bot*    clone() { return NULL; }
+	void	init(float px, float py, AnimatedSpriteType *sprite);
 	void	playSound(Game *game, SpriteDesignations soundType) {}
 	void	stun(int framesStunned) {}
 };

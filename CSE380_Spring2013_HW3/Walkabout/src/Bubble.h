@@ -7,13 +7,16 @@
 #include "src\WalkaboutGame.h"
 #include "src\gsm\sprite\SpriteDesignations.h"
 
-class Vine : public Bot
+class Bubble : public Bot
 {
+private:
+	float vx;
+	float vy;
 public:
-	Vine(int designation) { this->designation = designation;  }
+	Bubble(int designation, int vX, int vY) { this->designation = designation; vx = vX; vy= vY; }
 	void	update(Game *game);
 	Bot*    clone() { return NULL; }
 	void	playSound(Game *game, SpriteDesignations soundType) {}
-	void    stun(int framesStunned) {}
+	void	stun(int framesStunned) {}
 	void	init(float px, float py, AnimatedSpriteType *sprite);
 };

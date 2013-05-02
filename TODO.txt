@@ -1,13 +1,15 @@
 ANDRIY:
-1?) Update way sprites are rendered to eliminate checking left/right
-2) Bubbles
+1) Bubbles
+2) Cutscenes
+3?) Figure out rendering problem
 
 ART:
 
 3?) Make health look better
 4) Update robot sprite
 5) Add player death/hit animations
-6) Tiles
+6) Monkey
+7) Tiles
 
 Finished:
 Fix Sound Memory Leak
