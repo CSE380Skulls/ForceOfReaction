@@ -283,6 +283,15 @@ void FOR_Player::earthAttackL(Game *game, float mx, float my) {
 	difX /= length;
 	difY /= length;
 
+	//the angle needs to be negated because the y axis is flipped for
+	//screen coordinates. The degrees here sweep counter clockwise from
+	//the first quadrant
+	float angle = -(atan2(difY,difX) * 180) / PI; //degrees
+	if(angle<0)
+		angle = -angle + 180;
+
+	angle = (angle * PI) / 180; // radians
+
 	// Scale distances to be x and y velocity
 	difX *= PROJECTILE_VELOCITY *4;
 	difY *= PROJECTILE_VELOCITY *4;
@@ -315,35 +324,10 @@ void FOR_Player::earthAttackL(Game *game, float mx, float my) {
 	}
 	//now create the test rope
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createAttackRope(game,spritesList,
-		box_player_x,box_player_y);
+		box_player_x,box_player_y, angle);
 
 	//set the velocity for the first segment of the vine
 	spritesList[0]->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
-
-	//float vineX;
-	//if(mx > px){
-	//	// Right side click
-	//	setDirection(1);
-	//	setCurrentState(ATTACKING_RIGHT);
-	//	vineX = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0;
-	//}
-	//else {
-	//	// Left side click
-	//	setDirection(-1);
-	//	setCurrentState(ATTACKING_LEFT);
-	//	vineX = px - vineSpriteType->getTextureWidth()*2;
-	//}
-
-	//Vine *vine = new Vine(PROJECTILE_DESIGNATION);
-	//vine->init(vineX,py,vineSpriteType);
-
-	////create a physics object for the vine
-	//game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,vine,false);
-	//game->getGSM()->getPhysics()->addCollidableObject(vine);
-	//game->getGSM()->getSpriteManager()->addBot(vine);
-
-	// Remove this vine after 15 frames
-	//game->getGSM()->getSpriteManager()->addBotToRemovalList(vine, 15);
 }
 
 // Throw a seed

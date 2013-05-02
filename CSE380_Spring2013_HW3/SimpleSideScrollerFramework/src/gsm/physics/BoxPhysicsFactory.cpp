@@ -251,7 +251,7 @@ void BoxPhysicsFactory::createTestRope(Game *game, vector<AnimatedSprite *>sprit
 }
 
 
-void BoxPhysicsFactory::createAttackRope(Game * game, vector<AnimatedSprite *>spritesArray, float px, float py){
+void BoxPhysicsFactory::createAttackRope(Game * game, vector<AnimatedSprite *>spritesArray, float px, float py, float angle){
 	//At this point the sprites are in the manager, now we attach the physics object
 	//to each rectangle joint
 	BoxPhysicsObject *tempObj = new BoxPhysicsObject();
@@ -259,12 +259,16 @@ void BoxPhysicsFactory::createAttackRope(Game * game, vector<AnimatedSprite *>sp
 	float physics_width = game->getGSM()->screenToPhysicsX(((float)spritesArray.at(0)->getSpriteType()->getTextureWidth())/2.0f);
 	float physics_height = game->getGSM()->screenToPhysicsX(((float)spritesArray.at(0)->getSpriteType()->getTextureHeight())/2.0f);
 
+	float joint_buffer = .05; // in units 
+	float joint_position = physics_height - joint_buffer;
+
 	b2BodyDef bdef;
 	b2FixtureDef fd;
 	b2PolygonShape shape;
 	shape.SetAsBox(physics_width, physics_height);
 	bdef.type = b2_dynamicBody;
 	bdef.position.Set(px,py);
+	bdef.angle = -angle; // negative for now, find out why, probably rotation is in a different coordinate system
 	fd.shape = &shape;
 	fd.density = 10.0f;
 
@@ -287,8 +291,8 @@ void BoxPhysicsFactory::createAttackRope(Game * game, vector<AnimatedSprite *>sp
 		revoluteJointDef.bodyB = currentBody;
 		//these are static values now for testing, scaling the width and height
 		//of the sprite's width and height
-		revoluteJointDef.localAnchorA.Set(0,-0.32);
-		revoluteJointDef.localAnchorB.Set(0,0.32);
+		revoluteJointDef.localAnchorA.Set(0,-joint_position);
+		revoluteJointDef.localAnchorB.Set(0,joint_position);
 		revoluteJointDef.referenceAngle = currentBody->GetAngle() - prevBody->GetAngle();
 		physicsWorldRef->CreateJoint(&revoluteJointDef);
 		
