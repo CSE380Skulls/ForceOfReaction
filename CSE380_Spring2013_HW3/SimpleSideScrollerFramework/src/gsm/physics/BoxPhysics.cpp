@@ -83,9 +83,11 @@ void BoxPhysics::updateContacts(Game *game){
 	C_Node *n = contacts.head;
 
 	while(n != NULL){
+		// Currently only adding contacts between animated sprites
 		AnimatedSprite *a = (AnimatedSprite*)n->contact->GetFixtureA()->GetBody()->GetUserData();
 		AnimatedSprite *b = (AnimatedSprite*)n->contact->GetFixtureB()->GetBody()->GetUserData();
 
+		// If this contact isn't enabled, remove it
 		if(!n->contact->IsEnabled()) {
 			C_Node *temp = n;
 			n = n->next;
@@ -93,7 +95,8 @@ void BoxPhysics::updateContacts(Game *game){
 			continue;	
 		}
 
-		if(a->getHitPoints() <=0 || b->getHitPoints() <= 0 || a->isSpriteInvincible() || b->isSpriteInvincible()){
+		// If one of these two are dead, disable the contact
+		if(a->getHitPoints() <=0 || b->getHitPoints() <= 0){
 			n->contact->SetEnabled(false);
 		}
 
@@ -104,19 +107,19 @@ void BoxPhysics::updateContacts(Game *game){
 			b = temp;
 		}
 		
-		// Player is a
+		// Player is sprite A always
 		if(a == game->getGSM()->getSpriteManager()->getPlayer()){
-			// Not hitting into a wall
+			// Not hitting into a wall (this means the breakable wall, not any wall)
 			if(!(b->getDesignation() == WALL_DESIGNATION)) {
 				// What its hitting isn't dead
 				if(b->getHitPoints() > 0) {
 					// Hurt me
 					a->decrementHitPoints(b->getDamage());
-					// If I died, play that I'm dead
+					// If I died, play dead sound
 					if (a->getHitPoints() <= 0)
 						a->playSound(game, SPRITE_DEAD);
 					else if(n->firstContact) {
-						// Handle player collision (this bumps the player back)
+						// handle the contact
 						handlePlayerCollision(game, a, b);
 					}
 				}
@@ -124,12 +127,15 @@ void BoxPhysics::updateContacts(Game *game){
 		}
 		else {
 			if(a->getDesignation() == PROJECTILE_DESIGNATION || b->getDesignation() == PROJECTILE_DESIGNATION){
-				// Small problem where when adding an object with 0 frames until removal, ends up being 1 frame b/c of ordering.
+				// One of the two things involved in this contact is a projectile
 				if(b->getHitPoints() > 0 && a->getHitPoints() > 0){
+					// Deal damage to the projectile to tell it that it was involved in a collision, also do damage to what it hits
 					a->decrementHitPoints(b->getDamage());
 					b->decrementHitPoints(a->getDamage());
+					// Play sound that two things were hit
 					a->playSound(game, SPRITE_HIT);
 					b->playSound(game, SPRITE_HIT);
+					// If either or both are dead, play dead sound
 					if(b->getHitPoints() <= 0 || a->getHitPoints() <= 0){
 						if(a->getHitPoints() <= 0)
 							a->playSound(game, SPRITE_DEAD);
@@ -333,7 +339,6 @@ void BoxPhysics::handlePlayerCollision(Game *game, AnimatedSprite *player, Anima
 	
 		// If the player isn't on top of the bot, don't stun and push the player away
 		if(py > by) {
-			// Stun player for a single frame and bot for 15 frames;
 			player->stun(8);
 			player->setInvincible();
 			other->stun(30);

@@ -52,6 +52,9 @@
     <ClCompile Include="src\FireBall.cpp">
       <Filter>src\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="src\Vine.cpp">
+      <Filter>src\Projectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\WalkaboutButtonEventHandler.h">

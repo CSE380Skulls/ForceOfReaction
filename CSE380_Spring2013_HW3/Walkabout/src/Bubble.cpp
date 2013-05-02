@@ -3,12 +3,13 @@
 */
 
 #include "stdafx.h"
-#include "src\FireBall.h"
+#include "src\Bubble.h"
 #include "src\game\Game.h"
 #include "src\gsm\sprite\SpriteManager.h"
 #include "src\WalkaboutGame.h"
 
-void FireBall::update(Game *game){
+void Bubble::update(Game *game){
+	//this->setCurrentBodyAngleVelocity(0);
 	if(dead)
 		return;
 
@@ -26,9 +27,9 @@ void FireBall::update(Game *game){
 	getPhysicsBody()->SetLinearVelocity(b2Vec2(vx, vy));
 }
 
-void FireBall::init(float px, float py, AnimatedSpriteType *sprite){
+void Bubble::init(float px, float py, AnimatedSpriteType *sprite){
 	setHitPoints(1);
-	setDamage(FIRE_BALL_DAMAGE);
+	setDamage(0);
 	setSpriteType(sprite);
 	setAlpha(255);
 	setCurrentState(IDLE_LEFT);

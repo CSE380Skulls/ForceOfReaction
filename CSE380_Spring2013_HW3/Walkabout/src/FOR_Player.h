@@ -17,13 +17,13 @@ private:
 	int selected_element;
 	int num_elements;
 	int direction;
-	bool available_Elements[3];
-	void earth_Attack_L(Game *game, float mx, float my);
-	void earth_Attack_R(Game *game, float mx, float my);
-	void water_Attack_L() {}
-	void water_Attack_R() {}
-	void fire_Attack_L() {}
-	void fire_Attack_R(Game *game, float mx, float my);
+	int available_Elements;
+	void earthAttackL(Game *game, float mx, float my);
+	void earthAttackR(Game *game, float mx, float my);
+	void waterAttackL(Game *game, float mx, float my);
+	void waterAttackR(Game *game, float mx, float my);
+	void fireAttackL(Game *game, float mx, float my);
+	void fireAttackR(Game *game, float mx, float my);
 	//bool isInvincible;
 
 	//static const int MAX_HP = 30;

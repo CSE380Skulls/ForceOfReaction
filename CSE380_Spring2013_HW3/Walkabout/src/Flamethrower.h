@@ -7,10 +7,10 @@
 #include "src\WalkaboutGame.h"
 #include "src\gsm\sprite\SpriteDesignations.h"
 
-class Vine : public Bot
+class Flamethrower : public Bot
 {
 public:
-	Vine(int designation) { this->designation = designation;  }
+	Flamethrower(int designation) { this->designation = designation;  }
 	void	update(Game *game);
 	Bot*    clone() { return NULL; }
 	void	playSound(Game *game, SpriteDesignations soundType) {}

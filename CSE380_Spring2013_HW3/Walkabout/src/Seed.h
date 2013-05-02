@@ -15,4 +15,5 @@ public:
 	Bot*    clone() { return NULL; }
 	void	playSound(Game *game, SpriteDesignations soundType) {}
 	void	stun(int framesStunned) {}
+	void	init(float px, float py, AnimatedSpriteType *sprite);
 };
