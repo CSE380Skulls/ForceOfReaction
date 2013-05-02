@@ -76,7 +76,7 @@ void SpriteManager::addSpriteItemsToRenderList(	Game *game)
 		addSpriteToRenderList(game, player, renderList, viewport);
 
 		//add the auxiliary sprites
-		list<AnimatedSprite*>::iterator auxIterator;
+		/*list<AnimatedSprite*>::iterator auxIterator;
 		auxIterator = auxiliarySprites.begin();
 		while (auxIterator != auxiliarySprites.end())
 		{			
@@ -84,7 +84,7 @@ void SpriteManager::addSpriteItemsToRenderList(	Game *game)
 			addSpriteToRenderList(game, auxSprite, renderList, viewport);
 			auxIterator++;
 		}
-
+		*/
 		// NOW ADD THE REST OF THE SPRITES
 		list<Bot*>::iterator botIterator;
 		botIterator = bots.begin();
@@ -106,14 +106,16 @@ void SpriteManager::addBot(Bot *botToAdd)
 {
 	bots.push_back(botToAdd);
 }
+
 /*
 	add an auxiliary sprite to the sprite manager, such as a dynamic
 	object, projectile, etc.
 */
+/*
 void SpriteManager::addAuxiliarySprite(AnimatedSprite *spriteToAdd){
 	auxiliarySprites.push_back(spriteToAdd);
 }
-
+*/
 /*
 	addSpriteType - This method is for adding a new sprite
 	type. Note that one sprite type can have many sprites. For
@@ -190,7 +192,7 @@ void SpriteManager::unloadAnimatedSprites()
 	// Clear out the bot removal list
 	clearBotRemovalList();
 
-	list<AnimatedSprite*>::iterator spriteIterator;
+	/*list<AnimatedSprite*>::iterator spriteIterator;
 	spriteIterator = auxiliarySprites.begin();
 	// Iterate over all sprites and delete them all.
 	while(spriteIterator != auxiliarySprites.end()){
@@ -202,6 +204,7 @@ void SpriteManager::unloadAnimatedSprites()
 		// Free memory
 		delete temp;
 	}
+	*/
 }
 
 void SpriteManager::removeBot(Bot *botToRemove)

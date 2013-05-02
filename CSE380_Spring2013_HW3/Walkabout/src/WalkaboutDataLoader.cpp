@@ -235,7 +235,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 		vine->setOnTileThisFrame(false);
 		vine->setOnTileLastFrame(false);
 		vine->affixTightAABBBoundingVolume();
-		spriteManager->addAuxiliarySprite(vine);
+		spriteManager->addBot(vine);
 		spritesList.push_back(vine);
 	}
 	//now create the test rope
