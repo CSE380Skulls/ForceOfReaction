@@ -7,9 +7,9 @@
 #include "src\WalkaboutKeyEventHandler.h"
 #include "src\WalkaboutTextGenerator.h"
 #include "src\FORFloatingBot.h"
-#include "src\Breakable_Wall.h"
-#include "Boss_Bot.h"
-#include "FOR_Player.h"
+#include "src\BreakableWall.h"
+#include "BossBot.h"
+#include "FORPlayer.h"
 #include "Vine.h"
 
 // GAME OBJECT INCLUDES
@@ -224,7 +224,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	Physics *physics = gsm->getPhysics();
 	physics->setGravity(W_GRAVITY);
 	SpriteManager *spriteManager = gsm->getSpriteManager();
-	FOR_Player *player = new FOR_Player(PLAYER_ATTACK_COOLDOWN, PLAYER_DEATH_COOLDOWN, PLAYER_DESIGNATION);
+	FORPlayer *player = new FORPlayer(PLAYER_ATTACK_COOLDOWN, PLAYER_DEATH_COOLDOWN, PLAYER_DESIGNATION);
 	spriteManager->setPlayer(player);
 	physics->addCollidableObject(player);
 
@@ -277,7 +277,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 	// Wall1
 	AnimatedSpriteType *breakable_wall = spriteManager->getSpriteType(2);
-	Breakable_Wall *wall1 = new Breakable_Wall(WALL_DESIGNATION);
+	BreakableWall *wall1 = new BreakableWall(WALL_DESIGNATION);
 	wall1->setHitPoints(WALL_HITPOINTS);
 	wall1->setDamage(0);
 	wall1->setSpriteType(breakable_wall);
@@ -300,7 +300,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 
 
 	// Wall2
-	Breakable_Wall *wall2 = new Breakable_Wall(WALL_DESIGNATION);
+	BreakableWall *wall2 = new BreakableWall(WALL_DESIGNATION);
 	wall2->setHitPoints(WALL_HITPOINTS);
 	wall2->setDamage(0);
 	wall2->setSpriteType(breakable_wall);
@@ -324,7 +324,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	// Boss
 	AnimatedSpriteType *bossSpriteType = spriteManager->getSpriteType(6);
 	//FORFloatingBot *boss = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, BOSS_X, BOT_ATTACK_RANGE);
-	Boss_Bot *boss = new Boss_Bot(BULLET_SPEED, BOT_ATTACK_RANGE, BULLET_SPEED, BOT_ATTACK_COOLDOWN, BOT_DESIGNATION);
+	BossBot *boss = new BossBot(BULLET_SPEED, BOT_ATTACK_RANGE, BULLET_SPEED, BOT_ATTACK_COOLDOWN, BOT_DESIGNATION);
 	boss->setHitPoints(BOSS_HITPOINTS);
 	boss->setDamage(1);
 	boss->setSpriteType(bossSpriteType);

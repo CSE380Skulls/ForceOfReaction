@@ -4,25 +4,25 @@
 
 #include "stdafx.h"
 #include "src\Seed.h"
-#include "Boss_Bot.h"
+#include "BossBot.h"
 #include "src\game\Game.h"
 #include "src\gsm\sprite\SpriteManager.h"
 #include "src\WalkaboutGame.h"
 #include "src\audio\GameAudioManager.h"
 
 
-Boss_Bot::Boss_Bot(int att_speed, int att_range, int att_dmg, int cool_down, int designation) { 
-	attack_Speed = att_speed; 
-	attack_Range = att_range; 
-	attack_Damage = att_dmg; 
-	attack_Cool_Down = cool_down; 
-	cd_Counter = 0; 
+BossBot::BossBot(int attSpeed, int attRange, int attDmg, int cooldown, int designation) { 
+	attackSpeed = attSpeed; 
+	attackRange = attRange; 
+	attackDamage = attDmg; 
+	attackCooldown = cooldown; 
+	cooldownCounter = 0; 
 	this->designation = designation; 
 	stunned = false;
 }
 
 
-void Boss_Bot::update(Game *game){
+void BossBot::update(Game *game){
 	if(dead)
 		return;
 	// If hitpoints are 0, remove it
@@ -33,9 +33,9 @@ void Boss_Bot::update(Game *game){
 	}
 
 	// Decrement frames since last attack
-	cd_Counter--;
+	cooldownCounter--;
 	// If can attack, check if player in range.
-	if(cd_Counter <= 0){
+	if(cooldownCounter <= 0){
 		// If player is next to this bot, do something different
 		int botX = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
 		int pX = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
@@ -46,7 +46,7 @@ void Boss_Bot::update(Game *game){
 			int pY = game->getGSM()->getSpriteManager()->getPlayer()->getCurrentBodyY() * BOX2D_CONVERSION_FACTOR;
 			// Make sure the player is in the same y area
 			if(std::abs(botY - pY) < 200){
-				cd_Counter = attack_Cool_Down;
+				cooldownCounter = attackCooldown;
 
 				// Seed
 				AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
@@ -70,7 +70,7 @@ void Boss_Bot::update(Game *game){
 				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,seed,false);
 
 				// Set the velocity of the seed
-				seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(attack_Speed, 0.5));
+				seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(attackSpeed, 0.5));
 
 				game->getGSM()->getPhysics()->addCollidableObject(seed);
 				game->getGSM()->getSpriteManager()->addBot(seed);
@@ -80,17 +80,17 @@ void Boss_Bot::update(Game *game){
 }
 
 
-bool Boss_Bot::isInBounds(int x){
+bool BossBot::isInBounds(int x){
 	int bX = getCurrentBodyX() * BOX2D_CONVERSION_FACTOR;
 
-	if(x > (bX + attack_Range))
+	if(x > (bX + attackRange))
 		return false;
-	if(x < (bX - attack_Range))
+	if(x < (bX - attackRange))
 		return false;
 	return true;
 }
 
-void Boss_Bot::playSound(Game *game, SpriteDesignations soundType) {
+void BossBot::playSound(Game *game, SpriteDesignations soundType) {
 	if(soundType == SPRITE_DEAD && !dead){
 		game->getGAM()->playSound(C_EXPLOSION2);
 	}

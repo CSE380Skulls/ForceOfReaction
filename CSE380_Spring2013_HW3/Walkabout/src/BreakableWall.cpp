@@ -3,13 +3,13 @@
 */
 
 #include "stdafx.h"
-#include "src\Breakable_Wall.h"
+#include "src\BreakableWall.h"
 #include "src\game\Game.h"
 #include "src\gsm\sprite\SpriteManager.h"
 #include "src\WalkaboutGame.h"
 #include "src\audio\GameAudioManager.h"
 
-void Breakable_Wall::update(Game *game){
+void BreakableWall::update(Game *game){
 	if(dead)
 		return;
 
@@ -28,7 +28,7 @@ void Breakable_Wall::update(Game *game){
 	}
 }
 
-void Breakable_Wall::playSound(Game *game, SpriteDesignations soundType) {
+void BreakableWall::playSound(Game *game, SpriteDesignations soundType) {
 	if(soundType == SPRITE_DEAD && !dead){
 		game->getGAM()->playSound(C_EXPLOSION);
 	}

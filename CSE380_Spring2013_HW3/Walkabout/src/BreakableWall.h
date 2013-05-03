@@ -7,17 +7,10 @@
 #include "src\WalkaboutGame.h"
 #include "src\gsm\sprite\SpriteDesignations.h"
 
-class Boss_Bot : public Bot
+class BreakableWall : public Bot
 {
-private:
-	int attack_Speed;
-	int attack_Range;
-	int attack_Damage;
-	int attack_Cool_Down;
-	int cd_Counter;
-	bool isInBounds(int px);
 public:
-	Boss_Bot(int att_speed, int att_range, int att_dmg, int cool_down, int designation);
+	BreakableWall(int designation) { this->designation = designation; }
 	void	update(Game *game);
 	Bot*    clone() { return NULL; }
 	void	playSound(Game *game, SpriteDesignations soundType);

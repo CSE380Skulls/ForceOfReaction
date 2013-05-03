@@ -6,7 +6,7 @@
 #include "src\gsm\sprite\SpriteManager.h"
 #include "src\gui\ScreenGUI.h"
 #include "src\WalkaboutGame.h"
-#include "FOR_Player.h"
+#include "FORPlayer.h"
 #include "src\gsm\sprite\SpriteDesignations.h"
 #include "src\audio\GameAudioManager.h"
 #include "src\FireBall.h"
@@ -16,40 +16,40 @@
 
 
 // Initialize stuff, att_Cooldown -> The number of frames between player attacks
-FOR_Player::FOR_Player(int att_Cooldown, int d_Cooldown, int designation){
+FORPlayer::FORPlayer(int att_Cooldown, int d_Cooldown, int designation){
 	dead = false;
 	stunned = false;
-	cd_Counter = 0;
-	death_Cooldown = d_Cooldown;
-	attack_Cooldown = att_Cooldown;
-	selected_element = NOTHING;
+	cooldownCounter = 0;
+	deathCooldown = d_Cooldown;
+	attackCooldown = att_Cooldown;
+	selectedElement = NOTHING;
 	this->designation = designation;
-	available_Elements = 3;
+	availableElements = 3;
 	projectile = NULL;
 }
 
 // Can this player attack?  Assumes that the player is going to attack if they can
-bool FOR_Player::canAttack(){
+bool FORPlayer::canAttack(){
 	return projectile == NULL;
 }
 
-void FOR_Player::update(Game* game){
+void FORPlayer::update(Game* game){
 	updateStatusGUI(game);
-	cd_Counter--;
+	cooldownCounter--;
 	// If dead and cd_Counter <= 0
 	if(dead) {
-		if(cd_Counter <= 0)
+		if(cooldownCounter <= 0)
 			game->getGSM()->goToGameOver();
 		return;
 	}
 	// If stunned and shouldn't be anymore, unstun
-	if(stunned && (cd_Counter <= 0) )
+	if(stunned && (cooldownCounter <= 0) )
 		stunned = false;
 
 	// If hitpoints are 0, remove it
 	if(hitPoints <= 0){
 		dead = true;
-		cd_Counter = death_Cooldown;
+		cooldownCounter = deathCooldown;
 		setCurrentState(DEAD);
 		return;
 	}
@@ -58,7 +58,7 @@ void FOR_Player::update(Game* game){
 		game->getGSM()->goToLevelWon();
 }
 
-void FOR_Player::updateStatusGUI(Game* game){
+void FORPlayer::updateStatusGUI(Game* game){
 	ScreenGUI *gui = game->getGUI()->getScreen(GS_GAME_IN_PROGRESS);
 	TextureManager *tm = game->getGraphics()->getGUITextureManager();
 	int hp = this->getHitPoints()/(PLAYER_HITPOINTS/10);
@@ -114,7 +114,7 @@ void FOR_Player::updateStatusGUI(Game* game){
 	gui->addOverlayImage(imageToAdd);
 
 	imageToAdd = new OverlayImage();
-	if (selected_element == EARTH)
+	if (selectedElement == EARTH)
 		imageID = tm->retrieveTexture(W_STATUS_EARTH_SELECTED_PATH);
 	else 
 		imageID = tm->retrieveTexture(W_STATUS_EARTH_UNSELECTED_PATH);
@@ -128,7 +128,7 @@ void FOR_Player::updateStatusGUI(Game* game){
 	gui->addOverlayImage(imageToAdd);
 
 	imageToAdd = new OverlayImage();
-	if (selected_element == WATER)
+	if (selectedElement == WATER)
 		imageID = tm->retrieveTexture(W_STATUS_WATER_SELECTED_PATH);
 	else 
 		imageID = tm->retrieveTexture(W_STATUS_WATER_UNSELECTED_PATH);
@@ -142,7 +142,7 @@ void FOR_Player::updateStatusGUI(Game* game){
 	gui->addOverlayImage(imageToAdd);
 
 	imageToAdd = new OverlayImage();
-	if (selected_element == FIRE)
+	if (selectedElement == FIRE)
 		imageID = tm->retrieveTexture(W_STATUS_FIRE_SELECTED_PATH);
 	else 
 		imageID = tm->retrieveTexture(W_STATUS_FIRE_UNSELECTED_PATH);
@@ -156,7 +156,7 @@ void FOR_Player::updateStatusGUI(Game* game){
 	gui->addOverlayImage(imageToAdd);
 }
 
-void FOR_Player::playSound(Game* game, SpriteDesignations soundType){
+void FORPlayer::playSound(Game* game, SpriteDesignations soundType){
 
 	if(soundType == SPRITE_DEAD && !dead){
 		game->getGAM()->playSound(C_DEATH);
@@ -167,11 +167,11 @@ void FOR_Player::playSound(Game* game, SpriteDesignations soundType){
 	}
 }
 
-void FOR_Player::stun(int framesStunned) {
+void FORPlayer::stun(int framesStunned) {
 	// If the player is dead, don't do anything if gets stunned
 	if(!dead && !stunned) {
 		stunned = true;
-		cd_Counter =  framesStunned;
+		cooldownCounter =  framesStunned;
 	}
 }
 
@@ -179,12 +179,12 @@ void FOR_Player::stun(int framesStunned) {
 //THIS CURRENTLY causes a problem where the first element you select is water:
 //this is a side effect of starting at element NOTHING when you have 3 available elements.
 //this will not happen if you have element NOTHING and have NO available elements.
-void FOR_Player::nextElement() {
-	int element = available_Elements>0?(getSelectedElement()+1)%available_Elements:NOTHING;
+void FORPlayer::nextElement() {
+	int element = availableElements>0?(getSelectedElement()+1)%availableElements:NOTHING;
 	setSelectedElement(element);
 }
 
-void FOR_Player::run() {
+void FORPlayer::run() {
 	if(canMove()) {
 		float y = getPhysicsBody()->GetLinearVelocity().y;
 		float x = getPhysicsBody()->GetLinearVelocity().x;
@@ -205,7 +205,7 @@ void FOR_Player::run() {
 	}
 }
 
-void FOR_Player::hover() {
+void FORPlayer::hover() {
 	getPhysicsBody()->SetLinearVelocity(b2Vec2(0, getPhysicsBody()->GetLinearVelocity().y));
 	if(		isMovingV() && !(isFloating()||isAttacking()) ||
 			(isAttacking() && getFrameIndex()==12))
@@ -216,7 +216,7 @@ void FOR_Player::hover() {
 		setCurrentState(direction==1?IDLE_RIGHT:IDLE_LEFT);
 }
 
-void FOR_Player::jump(Game *game){
+void FORPlayer::jump(Game *game){
 	if(canMove()) {
 		if(getPhysicsBody()->GetLinearVelocity().y==0)
 		{
@@ -229,7 +229,7 @@ void FOR_Player::jump(Game *game){
 	}
 }
 
-void FOR_Player::leftAttack(Game* game, float mx, float my){
+void FORPlayer::leftAttack(Game* game, float mx, float my){
 	if(canAttack()){
 		if(getSelectedElement() == EARTH)
 			earthAttackL(game, mx, my);
@@ -240,7 +240,7 @@ void FOR_Player::leftAttack(Game* game, float mx, float my){
 	}
 }
 
-void FOR_Player::rightAttack(Game *game, float mx, float my){
+void FORPlayer::rightAttack(Game *game, float mx, float my){
 	if(canAttack()) {
 		if(getSelectedElement() == EARTH)
 			earthAttackR(game, mx, my);
@@ -251,7 +251,7 @@ void FOR_Player::rightAttack(Game *game, float mx, float my){
 	}
 }
 
-void FOR_Player::earthAttackL(Game *game, float mx, float my) {
+void FORPlayer::earthAttackL(Game *game, float mx, float my) {
 	game->getGAM()->playSound(C_SWING);
 	setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 
@@ -329,7 +329,7 @@ void FOR_Player::earthAttackL(Game *game, float mx, float my) {
 }
 
 // Throw a seed
-void FOR_Player::earthAttackR(Game *game, float mx, float my){
+void FORPlayer::earthAttackR(Game *game, float mx, float my){
 	game->getGAM()->playSound(C_SWING);
 	// Get mouse and player locations
 	float px = game->getGSM()->physicsToScreenX(getCurrentBodyX());
@@ -374,7 +374,7 @@ void FOR_Player::earthAttackR(Game *game, float mx, float my){
 	projectile = seed;
 }
 
-void FOR_Player::waterAttackL(Game *game, float mx, float my) {
+void FORPlayer::waterAttackL(Game *game, float mx, float my) {
 	game->getGAM()->playSound(C_SWING);
 	setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 
@@ -426,7 +426,7 @@ void FOR_Player::waterAttackL(Game *game, float mx, float my) {
 	getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
 }
 
-void  FOR_Player::waterAttackR(Game* game, float mx, float my) {
+void  FORPlayer::waterAttackR(Game* game, float mx, float my) {
 	game->getGAM()->playSound(C_SWING);
 	setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 
@@ -458,7 +458,7 @@ void  FOR_Player::waterAttackR(Game* game, float mx, float my) {
 	projectile = fountain;
 }
 
-void FOR_Player::fireAttackL(Game *game, float mx, float my) {
+void FORPlayer::fireAttackL(Game *game, float mx, float my) {
 	game->getGAM()->playSound(C_SWING);
 	setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 
@@ -490,7 +490,7 @@ void FOR_Player::fireAttackL(Game *game, float mx, float my) {
 	projectile = flamethrower;
 }
 
-void  FOR_Player::fireAttackR(Game* game, float mx, float my) {
+void  FORPlayer::fireAttackR(Game* game, float mx, float my) {
 	game->getGAM()->playSound(C_SWING);
 	// Get mouse and player locations
 	float px = game->getGSM()->physicsToScreenX(getCurrentBodyX());

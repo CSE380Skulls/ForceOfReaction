@@ -13,7 +13,7 @@
 #include "src\WalkaboutKeyEventHandler.h"
 #include "src\Seed.h"
 #include "src\Vine.h"
-#include "src\FOR_Player.h"
+#include "src\FORPlayer.h"
 #include "src\game\Game.h"
 #include "src\game\WStringTable.h"
 #include "src\graphics\GameGraphics.h"
@@ -42,7 +42,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 
 	// LET'S GET THE PLAYER'S PHYSICAL PROPERTIES, IN CASE WE WANT TO CHANGE THEM
 	GameStateManager *gsm = game->getGSM();
-	FOR_Player *player = (FOR_Player*)gsm->getSpriteManager()->getPlayer();
+	FORPlayer *player = (FORPlayer*)gsm->getSpriteManager()->getPlayer();
 	PhysicalProperties *pp = player->getPhysicalProperties();
 
 	//((FOR_Player*)player)->update();

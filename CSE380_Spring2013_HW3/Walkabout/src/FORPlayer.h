@@ -8,16 +8,16 @@
 #include "src\WalkaboutGame.h"
 #include "src\gsm\sprite\SpriteDesignations.h"
 
-class FOR_Player : public AnimatedSprite
+class FORPlayer : public AnimatedSprite
 {
 private:
-	int attack_Cooldown;
-	int cd_Counter;
-	int death_Cooldown;
-	int selected_element;
-	int num_elements;
+	int attackCooldown;
+	int cooldownCounter;
+	int deathCooldown;
+	int selectedElement;
+	int numElements;
 	int direction;
-	int available_Elements;
+	int availableElements;
 	void earthAttackL(Game *game, float mx, float my);
 	void earthAttackR(Game *game, float mx, float my);
 	void waterAttackL(Game *game, float mx, float my);
@@ -32,7 +32,7 @@ private:
 	static const int NOTHING =  3;
 
 public:
-	FOR_Player(int att_Cooldown, int d_Cooldown, int designation);
+	FORPlayer(int attCooldown, int dCooldown, int designation);
 
 	void update(Game *game);
 	void updateStatusGUI(Game* game);
@@ -48,7 +48,7 @@ public:
 	void jump(Game* game);
 	void nextElement();
 
-	int getSelectedElement() { return selected_element; }
+	int getSelectedElement() { return selectedElement; }
 	int getDirection() { return direction; }
 	bool isMovingV() {return getPhysicsBody()->GetLinearVelocity().y != 0.0f; }
 	bool isFloating() { return (getCurrentState() == JUMPING_RIGHT || getCurrentState() == FALLING_RIGHT ||
@@ -56,7 +56,7 @@ public:
 	bool isAttacking() { return (getCurrentState() == ATTACKING_RIGHT || getCurrentState() == ATTACKING_LEFT); }
 
 	void setDirection(int i) { direction = i; }
-	void setSelectedElement(int i) { selected_element = i; }
+	void setSelectedElement(int i) { selectedElement = i; }
 	
 	void playSound(Game* game, SpriteDesignations soundType);
 	void destroyProjectile() { projectile = NULL; }
