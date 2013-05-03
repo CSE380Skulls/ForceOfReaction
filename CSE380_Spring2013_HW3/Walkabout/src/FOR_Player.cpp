@@ -254,38 +254,80 @@ void FOR_Player::rightAttack(Game *game, float mx, float my){
 
 void FOR_Player::earthAttackL(Game *game, float mx, float my) {
 	game->getGAM()->playSound(C_SWING);
-		setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
+	setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 
-		float px = game->getGSM()->physicsToScreenX(getCurrentBodyX());
-		float py = game->getGSM()->physicsToScreenY(getCurrentBodyY());
-		//py = game->getGSM()->getWorld()->getWorldHeight() - py;
+	float px = game->getGSM()->physicsToScreenX(getCurrentBodyX());
+	float py = game->getGSM()->physicsToScreenY(getCurrentBodyY());
+	//py = game->getGSM()->getWorld()->getWorldHeight() - py;
 
+	// Get the difference bewteen these loactions
+	float difX = mx - px;
+	float difY = my - py;
+	
+	float vine_x;
+	if(difX > 0){
+		setDirection(1);
+		setCurrentState(ATTACKING_RIGHT);
+		vine_x = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0;
+	}
+	else {
+		setDirection(-1);
+		setCurrentState(ATTACKING_LEFT);
+		vine_x = px - game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0;
+	}
 
-		AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
-		float vineX;
-		if(mx > px){
-			// Right side click
-			setDirection(1);
-			setCurrentState(ATTACKING_RIGHT);
-			vineX = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0;
-		}
-		else {
-			// Left side click
-			setDirection(-1);
-			setCurrentState(ATTACKING_LEFT);
-			vineX = px - vineSpriteType->getTextureWidth()*2;
-		}
+	// Get the length of the vector from player to mouse
+	float length = std::sqrt( (difX * difX) + (difY * difY) );
 
+	// Normalize the distances
+	difX /= length;
+	difY /= length;
+
+	//the angle needs to be negated because the y axis is flipped for
+	//screen coordinates. The degrees here sweep counter clockwise from
+	//the first quadrant
+	float angle = -(atan2(difY,difX) * 180) / PI; //degrees
+	if(angle<0)
+		angle = -angle + 180;
+
+	angle = (angle * PI) / 180; // radians
+
+	// Scale distances to be x and y velocity
+	difX *= PROJECTILE_VELOCITY *4;
+	difY *= PROJECTILE_VELOCITY *4;
+
+	float box_player_x = game->getGSM()->screenToPhysicsX(vine_x);
+	float box_player_y = game->getGSM()->screenToPhysicsY(py);
+
+	//Create TEST ROPE!
+	vector<AnimatedSprite *> spritesList;
+	AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
+	SpriteManager *spriteManager = game->getGSM()->getSpriteManager();
+	for(int i = 0; i < 10; i++){
 		Vine *vine = new Vine(PROJECTILE_DESIGNATION);
-		vine->init(vineX,py,vineSpriteType);
+		vine->setHitPoints(1);
+		vine->setDamage(VINE_DAMAGE);
+		vine->setSpriteType(vineSpriteType);
+		vine->setAlpha(255);
+		vine->setCurrentState(IDLE_LEFT);
+		PhysicalProperties *vineProps = vine->getPhysicalProperties();
+		vineProps->setX(px);
+		vineProps->setY(py);
+		vineProps->setVelocity(0.0f, 0.0f);
+		vineProps->setAccelerationX(0);
+		vineProps->setAccelerationY(0);
+		vine->setOnTileThisFrame(false);
+		vine->setOnTileLastFrame(false);
+		vine->affixTightAABBBoundingVolume();
+		spriteManager->addAuxiliarySprite(vine);
+		spritesList.push_back(vine);
+	}
+	//now create the test rope
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createAttackRope(game,spritesList,
+		box_player_x,box_player_y, angle);
 
-		//create a physics object for the vine
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,vine,false);
-		game->getGSM()->getPhysics()->addCollidableObject(vine);
-		game->getGSM()->getSpriteManager()->addBot(vine);
-
-		// Remove this vine after 15 frames
-		game->getGSM()->getSpriteManager()->addBotToRemovalList(vine, 15);
+	//set the velocity for the first segment of the vine
+	spritesList[0]->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
 }
 
 // Throw a seed
