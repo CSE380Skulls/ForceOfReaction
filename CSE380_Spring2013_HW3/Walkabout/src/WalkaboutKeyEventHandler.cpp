@@ -107,8 +107,11 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 			gsm->goToGameOver();
 		}
 
-		if(input->isKeyDownForFirstTime(Z_KEY)){
+		if(input->isKeyDownForFirstTime(Q_KEY)){
 			player->nextElement();
+		}
+		if(input->isKeyDownForFirstTime(Z_KEY)){
+			gsm->goToCutscene();
 		}
 
 		bool viewportMoved = false;

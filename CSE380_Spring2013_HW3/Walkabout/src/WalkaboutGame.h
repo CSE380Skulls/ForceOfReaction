@@ -25,7 +25,17 @@ static const wstring	W_QUIT_COMMAND			= L"Quit";
 static const wstring	W_HELP_COMMAND			= L"Help";
 static const wstring	W_CREDITS_COMMAND		= L"Credits";
 static const wstring	W_RETURN_COMMAND		= L"Return";
+static const wstring	W_NEXT_SCENE_COMMAND	= L"Scene";
 
+static const wstring	W_CUTSCENE_1_1			= L"data/gui/cutscenes/cut_1_1.png";
+static const wstring	W_CUTSCENE_1_2			= L"data/gui/cutscenes/cut_1_2.png";
+static const wstring	W_CUTSCENE_1_3			= L"data/gui/cutscenes/cut_1_3.png";
+
+static const wstring	W_CUTSCENE_2_1			= L"data/gui/cutscenes/cut_2_1.png";
+static const wstring	W_CUTSCENE_2_2			= L"data/gui/cutscenes/cut_2_2.png";
+static const wstring	W_CUTSCENE_2_3			= L"data/gui/cutscenes/cut_2_3.png";
+
+static const wstring	W_INVISIBILE_PIXEL		= L"data/gui/cutscenes/invisible.png";
 // Lua stuff
 static const char*		LUA_TITLE				= "title";
 static const char*		LUA_SCREEN_WIDTH		= "screen_width";
@@ -171,6 +181,7 @@ const unsigned int S_KEY = (unsigned int)'S';
 const unsigned int D_KEY = (unsigned int)'D';
 const unsigned int P_KEY = (unsigned int)'P';
 const unsigned int T_KEY = (unsigned int)'T';
+const unsigned int Q_KEY = (unsigned int)'Q';
 const unsigned int Z_KEY = (unsigned int)'Z';
 const unsigned int ONE_KEY = (unsigned int)'1';
 const unsigned int TWO_KEY = (unsigned int)'2';

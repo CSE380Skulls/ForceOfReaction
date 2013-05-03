@@ -14,6 +14,7 @@
 #include "src\game\Game.h"
 #include "src\gsm\state\GameStateManager.h"
 #include "src\audio\GameAudioManager.h"
+#include "src\gui\ScreenGUI.h"
 
 void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game, 
 													wstring command)
@@ -62,4 +63,19 @@ void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game,
 		game->getGAM()->setMusic(C_INTRO);
 		game->quitGame();
 	}
+	else if (command.compare(W_NEXT_SCENE_COMMAND) == 0)
+	{
+		OverlayImage* currentImage = game->getGSM()->getCutsceneImage();
+		if (currentImage==NULL){
+			currentImage = game->getGSM()->initCutscene();
+		}
+		setCutsceneImage(currentImage,game);
+	}
+}
+
+void WalkaboutButtonEventHandler::setCutsceneImage(OverlayImage* whatever, Game* game)
+{
+	ScreenGUI* myGUI = game->getGUI()->getScreen(GS_CUTSCENE);
+	myGUI->popOverlayImage(1);
+	myGUI->addOverlayImage(whatever);
 }

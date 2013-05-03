@@ -102,6 +102,30 @@ void GameStateManager::goToMainMenu()
 	currentGameState = GS_MAIN_MENU;
 }
 
+
+void GameStateManager::goToCutscene()
+{
+	currentGameState = GS_CUTSCENE;
+	currentCutscene = cutscenes.front();
+}
+
+OverlayImage* GameStateManager::getCutsceneImage()
+{
+	if (currentCutscene->isFinished()){
+		goToGame();
+		endScene();
+		return NULL;
+	}
+	return currentCutscene->nextImage();
+}
+OverlayImage* GameStateManager::initCutscene()
+{
+	if (cutscenes.size()>0){
+		currentCutscene = cutscenes.front();
+		return currentCutscene->nextImage();
+	}
+	return NULL;
+}
 /*
 	isAtSplashScreen - Used to test if this application is currently
 	at the splash screen. This will dictate what to render, but also
@@ -151,7 +175,8 @@ bool GameStateManager::isWorldRenderable()
 	return (	(currentGameState == GS_GAME_IN_PROGRESS)
 		||		(currentGameState == GS_PAUSED)
 		||		(currentGameState == GS_GAME_OVER)
-		||      (currentGameState == GS_LEVEL_WON));
+		||      (currentGameState == GS_LEVEL_WON)
+		||		(currentGameState == GS_CUTSCENE));
 }
 
 /*
@@ -205,6 +230,7 @@ void GameStateManager::loadLevel(Game *game, wstring levelName)
 	unsigned int levelIndex = getLevelNum(levelName);
 	loadLevel(game, levelIndex);
 }
+
 
 /*
 	shutdown - this method is called when the user wants to quit the
