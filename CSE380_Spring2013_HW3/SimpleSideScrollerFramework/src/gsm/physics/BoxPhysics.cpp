@@ -79,76 +79,59 @@ void BoxPhysics::update(Game *game)
 }
 
 void BoxPhysics::updateContacts(Game *game){
-
+	// I GUARENTEE THAT THE ONLY CONTACTS THAT ARE CONTAINED HERE ARE CONTACTS BETWEEN PLAYERS AND BOTS
 	C_Node *n = contacts.head;
 
+	// GO THROUGH ALL OF THE CONTACTS
 	while(n != NULL){
-		// Currently only adding contacts between animated sprites
 		AnimatedSprite *a = (AnimatedSprite*)n->contact->GetFixtureA()->GetBody()->GetUserData();
 		AnimatedSprite *b = (AnimatedSprite*)n->contact->GetFixtureB()->GetBody()->GetUserData();
 
-		// If this contact isn't enabled, remove it
-		if(!n->contact->IsEnabled()) {
-			C_Node *temp = n;
-			n = n->next;
-			removeContact(temp->contact);
-			continue;	
-		}
-
-		// If one of these two are dead, disable the contact
-		if(a->getHitPoints() <=0 || b->getHitPoints() <= 0){
-			n->contact->SetEnabled(false);
-		}
-
-		// I want a to always be the player in a collision, this cuts out a lot of redundant code
+		// I ALWAYS WANT SPRITE A TO BE THE PLAYER
 		if(b == game->getGSM()->getSpriteManager()->getPlayer()) {
 			AnimatedSprite *temp = a;
 			a=  b;
 			b = temp;
 		}
 		
-		// Player is sprite A always
-		if(a == game->getGSM()->getSpriteManager()->getPlayer()){
-			// Not hitting into a wall (this means the breakable wall, not any wall)
-			if(!(b->getDesignation() == WALL_DESIGNATION)) {
-				// What its hitting isn't dead
-				if(b->getHitPoints() > 0) {
-					// Hurt me
-					a->decrementHitPoints(b->getDamage());
-					// If I died, play dead sound
-					if (a->getHitPoints() <= 0)
-						a->playSound(game, SPRITE_DEAD);
-					else if(n->firstContact) {
-						// handle the contact
-						handlePlayerCollision(game, a, b);
-					}
+		// I ALWAYS WANT SPRITE B TO BE A PROJECTILE
+		if(a->getDesignation() == PROJECTILE_DESIGNATION) {
+			AnimatedSprite *temp = a;
+			a = b;
+			b = temp;
+		}
+
+		// NEED TO CHECK IF PLAYER IS BEING HIT BY A PROJECTILE
+		if(a == game->getGSM()->getSpriteManager()->getPlayer()) {
+			if((b->getHitPoints() > 0) || (b->getDesignation() == PROJECTILE_DESIGNATION)) {
+				if(b->getDesignation() == PROJECTILE_DESIGNATION)
+					b->setHitPoints(0);
+				handlePlayerCollision(game, a, b);
+				// IF THE PLAYER DIED, PLAY DEAD SOUND AND DISABLE CONTACT
+				if(a->getHitPoints() <= 0) {
+					n->contact->SetEnabled(false);
 				}
+			}
+			else {
+				n->contact->SetEnabled(false);
 			}
 		}
 		else {
-			if(a->getDesignation() == PROJECTILE_DESIGNATION || b->getDesignation() == PROJECTILE_DESIGNATION){
-				// One of the two things involved in this contact is a projectile
-				if(b->getHitPoints() > 0 && a->getHitPoints() > 0){
-					// Deal damage to the projectile to tell it that it was involved in a collision, also do damage to what it hits
-					a->decrementHitPoints(b->getDamage());
-					b->decrementHitPoints(a->getDamage());
-					// Play sound that two things were hit
-					a->playSound(game, SPRITE_HIT);
-					b->playSound(game, SPRITE_HIT);
-					// If either or both are dead, play dead sound
-					if(b->getHitPoints() <= 0 || a->getHitPoints() <= 0){
-						if(a->getHitPoints() <= 0)
-							a->playSound(game, SPRITE_DEAD);
-						if(b->getHitPoints() <= 0)
-							b->playSound(game, SPRITE_DEAD);
-					}
-				}
-
+			// PROJECTILE TO PROJECTILE, PROJECTILE TO BOT, PROJECTILE TO WALL
+			b->setHitPoints(0);
+			a->decrementHitPoints(b->getDamage());
+			if(a->getHitPoints() <= 0) {
+				a->playSound(game, SPRITE_DEAD);
+			}
+			else {
+				a->playSound(game, SPRITE_HIT);
 			}
 		}
-		// This is no longer the first contact between the two things
-		n->firstContact = false;
+
+		// I'M ONLY DEALING WITH THESE CONTACTS ONCE, AFTER DEALING WITH THEM, REMOVE THEM (THIS DOESN'T DISABLE PHYSICS)
+		C_Node *temp = n;
 		n = n->next;
+		removeContact(temp->contact);
 	}
 }
 
@@ -156,29 +139,67 @@ void BoxPhysics::updateContacts(Game *game){
 	Add a contact to contact list.
 */
 void BoxPhysics::addContact(b2Contact *contact){
-
+	// I GUARENTEE THAT AT LEAST ONE OF THE BODY USER DATA AREN'T NULL COMMING INTO THIS METHOD
 	void * bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
  	void * bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
+	
+	// This ensures that if there is a collision with a wall, the non wall will always be bodyUserDataA
+	if(!bodyUserDataA) {
+		bodyUserDataA = bodyUserDataB;
+		bodyUserDataB = NULL;
+	}
 
 	// This deals with projectiles hitting walls, I want them to be removed
 	if(bodyUserDataA && !bodyUserDataB){
 		AnimatedSprite *a = (AnimatedSprite*)bodyUserDataA;
 		if(a->getDesignation() == PROJECTILE_DESIGNATION)
 			a->setHitPoints(0);
+		return;
 	}
-	if(bodyUserDataB && !bodyUserDataA){
-		AnimatedSprite *b = (AnimatedSprite*)bodyUserDataB;
-		if(b->getDesignation() == PROJECTILE_DESIGNATION)
-			b->setHitPoints(0);
+	/// END PROJECTILE HITTING WALL CHECKS
+
+	// AT THIS POINT, ONLY SPRITE TO SPRITE COLLISIONS REMAIN
+	AnimatedSprite *a = (AnimatedSprite*)bodyUserDataA;
+	AnimatedSprite *b = (AnimatedSprite*)bodyUserDataB;
+
+	// IF EITHER SPRITE IS DEAD, IGNORE THIS COLLISION
+	if(a->getHitPoints() <= 0 || b->getHitPoints() <= 0) {
+		contact->SetEnabled(false);
+		return;
 	}
 
+	// IF EITHER SPRITE IS A PROJECTILE, MAKE SURE THE PROJECTILE DIES, BUT AFTER IT DOES ITS DAMAGE
+	if(a->getDesignation() == PROJECTILE_DESIGNATION) {
+		// KILL THE PROJECTILE, DAMAGE WHATEVER IT HIT
+		//a->setHitPoints(0);
+		//b->decrementHitPoints(a->getDamage());
+		// THIS IS ONLY GOING TO PLAY A SOUND BASED ON BEING HIT OR KILLED
+		createContact(contact);
+		return;
+	}
+	if(b->getDesignation() == PROJECTILE_DESIGNATION) {
+		// KILL THE PROJECTILE, DAMAGE WHATEVER IT HIT
+		//b->setHitPoints(0);
+		//a->decrementHitPoints(b->getDamage());
+		// THIS IS ONLY GOING TO PLAY A SOUND BASE ON BEING HIT OR KILLED
+		createContact(contact);
+		return;
+	}
+	// NOTE THAT I AM NOT SETTING PROJECTILE COLLISIONS TO FALSE, I WANT THE PHYSICS TO STILL BE APPLIED!!!
+	// END PROJECTILE CHECKS
+
+
+	// IF ONE OF THE THINGS IN THIS COLLISION IS A WALL, DON'T DO ANYTHING BESIDES APPLY THE PHYSICS
+	// NOTE: THE PROJECTILES HAVE BEEN DEALT WITH, ONLY PROJECTILES CAN BREAK WALLS
+	if(a->getDesignation() == WALL_DESIGNATION || b->getDesignation()== WALL_DESIGNATION){
+		return;
+	}
+
+	// AT THIS POINT, ALL THAT REMAINS IS PLAYER TO BOT COLLISIONS
+	// I WANT TO FULLY GET RID OF THIS CONTACT LIST, BUT NO WAY OF TELLING WHO PLAYER IS BESIDES UPDATE METHOD
 	if(bodyUserDataA && bodyUserDataB) {
 		// At this point, both things in collision are animated sprites
-		C_Node *n = new C_Node();
-		n->next = contacts.head;
-		n->contact = contact;
-		n->firstContact = true;
-		contacts.head = n;
+		createContact(contact);
 	}
 }
 
@@ -346,19 +367,22 @@ void BoxPhysics::createWorldChains(){
 
 void BoxPhysics::handlePlayerCollision(Game *game, AnimatedSprite *player, AnimatedSprite *other){
 
+		// DAMAGE THE PLAYER
+		player->decrementHitPoints(other->getDamage());
+
+		if(player->getHitPoints() <= 0) {
+			player->playSound(game, SPRITE_DEAD);
+			return;
+		}
+
 		float px = game->getGSM()->physicsToScreenX(player->getCurrentBodyX());
 		float bx = game->getGSM()->physicsToScreenX(other->getCurrentBodyX());
 		float py = game->getGSM()->physicsToScreenY(player->getCurrentBodyY());
 		float by = game->getGSM()->physicsToScreenY(other->getCurrentBodyY());
-
-		// Find the bottom of player and top of bot, with a little buffer inbetween
-		//float playerBottom = py + (player->getSpriteType()->getTextureHeight() / 1.9f);
-		//float botTop = by - (other->getSpriteType()->getTextureHeight() / 1.9f);
 	
 		// If the player isn't on top of the bot, don't stun and push the player away
 		if(py > by) {
 			player->stun(8);
-			player->setInvincible();
 			other->stun(30);
 			if(px > bx){
 				player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(50.0f, 10.0f), player->getPhysicsBody()->GetPosition());
@@ -371,7 +395,6 @@ void BoxPhysics::handlePlayerCollision(Game *game, AnimatedSprite *player, Anima
 		}
 		else {
 			// Make the player bounce up
-			player->setInvincible();
 			other->stun(60);
 			player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(player->getPhysicsBody()->GetLinearVelocity().x, 60.0f), player->getPhysicsBody()->GetPosition());
 		}
@@ -390,4 +413,11 @@ void BoxPhysics::deleteChainList(){
 		chainList.at(x)->GetWorld()->DestroyBody(chainList.at(x));
 	}
 	chainList.clear();
+}
+
+void BoxPhysics::createContact(b2Contact *contact) {
+	C_Node *n = new C_Node();
+	n->next = contacts.head;
+	n->contact = contact;
+	contacts.head = n;
 }

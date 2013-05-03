@@ -1,5 +1,9 @@
-﻿Build started 5/2/2013 7:53:12 PM.
+﻿Build started 5/3/2013 3:49:00 PM.
+     1>Project "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Box2D\Build\vs2010\Box2D.vcxproj" on node 3 (clean target(s)).
+     1>_PrepareForClean:
+         Deleting file "obj\x32\Debug\Box2D\Box2D.lastbuildstate".
+     1>Done Building Project "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Box2D\Build\vs2010\Box2D.vcxproj" (clean target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.02
+Time Elapsed 00:00:00.15

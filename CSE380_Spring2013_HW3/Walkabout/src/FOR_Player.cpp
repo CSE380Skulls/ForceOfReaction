@@ -46,9 +46,6 @@ void FOR_Player::update(Game* game){
 	if(stunned && (cd_Counter <= 0) )
 		stunned = false;
 
-	if(isInvincible && (cd_Counter <= 0))
-		isInvincible = false;
-
 	// If hitpoints are 0, remove it
 	if(hitPoints <= 0){
 		dead = true;
@@ -189,6 +186,14 @@ void FOR_Player::nextElement() {
 
 void FOR_Player::run() {
 	if(canMove()) {
+		float y = getPhysicsBody()->GetLinearVelocity().y;
+		float x = getPhysicsBody()->GetLinearVelocity().x;
+
+		// This is an attempt to fix the sticking to walls, doesn't work in all cases but does work sometimes
+		/*if(getPhysicsBody()->GetLinearVelocity().y !=0 && getPhysicsBody()->GetLinearVelocity().x == 0){
+			return;
+		}
+		*/
 		getPhysicsBody()->SetLinearVelocity(
 				b2Vec2(	PLAYER_VELOCITY*direction,
 						getPhysicsBody()->GetLinearVelocity().y));

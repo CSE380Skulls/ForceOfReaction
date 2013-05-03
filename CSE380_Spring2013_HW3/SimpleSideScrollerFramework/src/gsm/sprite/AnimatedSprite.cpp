@@ -27,7 +27,6 @@ AnimatedSprite::AnimatedSprite()
 	pp.setPosition(0.0f, 0.0f);
 	dead = false;
 	designation = -1;
-	isInvincible = false;
 }
 
 /*

@@ -104,6 +104,7 @@
     <ClCompile Include="src\gsm\sprite\AnimatedSprite.cpp" />
     <ClCompile Include="src\gsm\sprite\AnimatedSpriteType.cpp" />
     <ClCompile Include="src\gsm\sprite\SpriteManager.cpp" />
+    <ClCompile Include="src\gsm\state\Cutscene.cpp" />
     <ClCompile Include="src\gsm\state\GameStateManager.cpp" />
     <ClCompile Include="src\gsm\world\SparseLayer.cpp" />
     <ClCompile Include="src\gsm\world\TiledLayer.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="src\gsm\sprite\AnimatedSpriteType.h" />
     <ClInclude Include="src\gsm\sprite\SpriteDesignations.h" />
     <ClInclude Include="src\gsm\sprite\SpriteManager.h" />
+    <ClInclude Include="src\gsm\state\Cutscene.h" />
     <ClInclude Include="src\gsm\state\GameState.h" />
     <ClInclude Include="src\gsm\state\GameStateManager.h" />
     <ClInclude Include="src\gsm\world\SparseLayer.h" />

@@ -15,32 +15,31 @@ void BoxContactListener::BeginContact(b2Contact *contact){
 		that is not collidable it would be senseless to give it properties
 		like health, etc.
 	*/
+
+	// THIS OCCURS WHEN TWO OBJECTS FIRST COLLIDE
  	void * bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
  	void * bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
 
+	// BOX PHYSICS ONLY USES CONTACTS THAT ARE BETWEEN TWO SPRITES, ADD CONTACT PRUNES OUT NON-SPRITE TO SPRITE CONTACTS
 	if(bodyUserDataA || bodyUserDataB){
-		if(contact->IsEnabled())
-			box_physics->addContact(contact);
+		box_physics->addContact(contact);
 	}
 }
 
 void BoxContactListener::EndContact(b2Contact *contact){
 	/*Get the sprites that are colliding */
+	/*
 	void * bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
 	void * bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
 
 	if(bodyUserDataA && bodyUserDataB){
 		box_physics->removeContact(contact);
 	}
+	*/
 }
 
 void BoxContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold){
-	/*If you want to ignore the collision before the defuat impluses
-		are applied use this: contact->SetEnabled(false);
-		This needs to be set every step for continued effect.
-		Also this could be useful for ONE WAY PLATFORMS, so we could
-		check the players y value against the platform accordingly.
-	*/
+	// THIS HAPPENS EVERY FRAME AND OCCURS AFTER THE FIRST CALL TO BEGIN CONTACT
 	
 	void * bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
 	void * bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
@@ -48,10 +47,11 @@ void BoxContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManif
 	if(bodyUserDataA && bodyUserDataB){
 		AnimatedSprite *a = (AnimatedSprite *) bodyUserDataA;
 		AnimatedSprite *b = (AnimatedSprite *) bodyUserDataB;
-
-		if(b->getHitPoints() <= 0 || a->getHitPoints() <= 0 || a->isSpriteInvincible() || b->isSpriteInvincible())
+		// If either of the things are dead ignore the contact
+		if(b->getHitPoints() <= 0 || a->getHitPoints() <= 0)
 			contact->SetEnabled(false);
 	}
+
 }
 
 void BoxContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *impulse){

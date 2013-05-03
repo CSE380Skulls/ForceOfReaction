@@ -19,7 +19,6 @@
 struct C_Node{
 	C_Node *next;
 	b2Contact *contact;
-	bool firstContact;
 };
 
 struct contact_list{
@@ -70,4 +69,5 @@ private:
 	void deleteAdjacencyList();
 	void deleteChainList();
 	void clearContacts();
+	void createContact(b2Contact *contact);
 };
