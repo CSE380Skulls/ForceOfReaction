@@ -276,6 +276,15 @@ void FOR_Player::earthAttackL(Game *game, float mx, float my) {
 	difX /= length;
 	difY /= length;
 
+	//the angle needs to be negated because the y axis is flipped for
+	//screen coordinates. The degrees here sweep counter clockwise from
+	//the first quadrant
+	float angle = -(atan2(difY,difX) * 180) / PI; //degrees
+	if(angle<0)
+		angle = -angle + 180;
+
+	angle = (angle * PI) / 180; // radians
+
 	// Scale distances to be x and y velocity
 	difX *= PROJECTILE_VELOCITY *4;
 	difY *= PROJECTILE_VELOCITY *4;
@@ -308,11 +317,10 @@ void FOR_Player::earthAttackL(Game *game, float mx, float my) {
 	}
 	//now create the test rope
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createAttackRope(game,spritesList,
-		box_player_x,box_player_y);
+		box_player_x,box_player_y, angle);
 
 	//set the velocity for the first segment of the vine
 	spritesList[0]->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
-
 }
 
 // Throw a seed
