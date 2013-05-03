@@ -178,6 +178,42 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	//add all of the items to the physics system
 	game->getGSM()->getWorld()->initWorldPhysicsSystem(game);
 
+	game->getGSM()->clearScenes();
+	DirectXTextureManager* guiTextureManager = (DirectXTextureManager*)game->getGraphics()->getGUITextureManager();
+	unsigned int imageIDs [6];
+	OverlayImage* images [6];
+	imageIDs[0] = guiTextureManager->loadTexture(W_CUTSCENE_1_1);
+	imageIDs[1] = guiTextureManager->loadTexture(W_CUTSCENE_1_2);
+	imageIDs[2] = guiTextureManager->loadTexture(W_CUTSCENE_1_3);
+	imageIDs[3] = guiTextureManager->loadTexture(W_CUTSCENE_2_1);
+	imageIDs[4] = guiTextureManager->loadTexture(W_CUTSCENE_2_2);
+	imageIDs[5] = guiTextureManager->loadTexture(W_CUTSCENE_2_3);
+	for (int i=0;i<6;i++){
+		OverlayImage* imageToAdd = new OverlayImage();
+		imageToAdd->x = 112;
+		imageToAdd->y = 608;
+		imageToAdd->z = 0;
+		imageToAdd->alpha = 255;
+		imageToAdd->width = 800;
+		imageToAdd->height = 150;
+		imageToAdd->imageID = imageIDs[i];
+		images[i]=imageToAdd;
+	}
+	Cutscene* cuts = new Cutscene();
+	cuts->addImage(images[0]);
+	cuts->addImage(images[1]);
+	game->getGSM()->addCutscene(cuts);
+	cuts = new Cutscene();
+	cuts->addImage(images[2]);
+	cuts->addImage(images[3]);
+	cuts->addImage(images[4]);
+	cuts->addImage(images[5]);
+	game->getGSM()->addCutscene(cuts);
+
+	ScreenGUI* gui = game->getGUI()->getScreen(GS_CUTSCENE);
+	gui->popOverlayImage(1);
+	gui->addOverlayImage(game->getGSM()->initCutscene());
+
 	// LOAD THE LEVEL'S SPRITE IMAGES
 	PoseurSpriteTypesImporter psti;
 	psti.loadSpriteTypes(game, SPRITE_TYPES_LIST);
@@ -199,7 +235,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	player->setDamage(0);
 	player->setSpriteType(playerSpriteType);
 	player->setAlpha(255);
-	player->setCurrentState(IDLE_RIGHT);
+	player->setCurrentState(FALLING_RIGHT);
 	player->setDirection(1);
 
 	PhysicalProperties *playerProps = player->getPhysicalProperties();
@@ -430,7 +466,7 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	game->getGUI()->getViewport()->setViewportX(0);
 	game->getGUI()->getViewport()->setViewportY(0);
 
-	game->getGSM()->goToGame();
+	game->getGSM()->goToCutscene();
 }
 /*
 void WalkaboutDataLoader::makeRandomJumpingBot(Game *game, AnimatedSpriteType *randomJumpingBotType, float initX, float initY)
@@ -472,6 +508,7 @@ void WalkaboutDataLoader::hardCodedLoadGUIExample(Game *game)
 	initPaused(gui, guiTextureManager);
 	initLevelWon(gui, guiTextureManager);
 	initGameOver(gui, guiTextureManager);
+	initCutscene(game, gui, guiTextureManager);
 }
 /*
 	loadSounds - This method loads all the GUI assets described in the guiInitFile
@@ -978,4 +1015,26 @@ void WalkaboutDataLoader::initInGameGUI(GameGUI *gui, DirectXTextureManager *gui
 
 	// AND LET'S ADD OUR SCREENS
 	gui->addScreenGUI(GS_GAME_IN_PROGRESS,	inGameGUI);
+}
+void WalkaboutDataLoader::initCutscene(Game *game, GameGUI *gui, DirectXTextureManager *guiTextureManager)
+{
+	// NOW, FIRST LET'S ADD A CUTSCENE GUI
+	ScreenGUI *cutsceneGUI = new ScreenGUI();
+
+	unsigned int textureID = guiTextureManager->loadTexture(W_INVISIBILE_PIXEL);
+	// INIT THE CUTSCENE BUTTON
+	Button *buttonToAdd = new Button();
+	buttonToAdd->initButton(textureID, 
+							textureID,
+							0,
+							0,
+							0,
+							255,
+							game->getGraphics()->getScreenWidth(),
+							game->getGraphics()->getScreenHeight(),
+							false,
+							W_NEXT_SCENE_COMMAND);
+	cutsceneGUI->addButton(buttonToAdd);
+	// AND REGISTER IT WITH THE GUI
+	gui->addScreenGUI(GS_CUTSCENE, cutsceneGUI);
 }

@@ -14,6 +14,7 @@
 #pragma once
 #include "stdafx.h"
 #include "src\input\ButtonEventHandler.h"
+#include "src\gui\OverlayImage.h"
 
 class Game;
 
@@ -28,4 +29,5 @@ public:
 	// DEFINED INSIDE WalkaboutButtonEventHandler.cpp
 	void handleButtonEvents(Game *game, 
 							wstring command);
+	void setCutsceneImage(OverlayImage* image, Game* game);
 };

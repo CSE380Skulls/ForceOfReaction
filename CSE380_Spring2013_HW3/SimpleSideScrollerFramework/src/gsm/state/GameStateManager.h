@@ -26,6 +26,7 @@
 #include "src\gsm\sprite\SpriteManager.h"
 #include "src\gsm\world\World.h"
 #include "src\gsm\world\WorldLayer.h"
+#include "src\gsm\state\Cutscene.h"
 
 class Game;
 
@@ -66,6 +67,10 @@ private:
 	//This is the Box 2d Physics engine
 	BoxPhysics		boxPhysics;
 
+	//Cutscenes
+	list<Cutscene*>	cutscenes;
+	Cutscene* currentCutscene;
+
 public:
 	// INLINED ACCESSOR METHODS
 	GameState		getCurrentGameState()	{ return currentGameState;			}
@@ -95,6 +100,9 @@ public:
 	void            goToGameOver();
 	void            goToLevelWon();
 
+	void			goToCutscene();
+	OverlayImage*	getCutsceneImage();
+	OverlayImage*	initCutscene();
 	// METHODS DEFINED in GameStateManager.cpp
 	GameStateManager();
 	~GameStateManager();
@@ -123,4 +131,8 @@ public:
 	//check this function for correctness later, could be wrong
 	float32 screenToPhysicsY	(float32 screenY) 
 	{ return (world.getWorldHeight() - screenY) / world.getWorldConvFactor(); }
+
+	void addCutscene (Cutscene* initScene) { cutscenes.push_back(initScene); }
+	void endScene() {cutscenes.pop_front();}
+	void clearScenes() { cutscenes.clear(); }
 };
