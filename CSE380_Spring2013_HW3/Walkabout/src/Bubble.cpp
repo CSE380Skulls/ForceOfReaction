@@ -27,16 +27,25 @@ void Bubble::update(Game *game){
 	// Get the length of the vector from player to mouse
 	float length = std::sqrt((difX * difX) + (difY * difY) );
 
-	// Normalize the distances
-	difX /= length;
-	difY /= length;
 
-	// Scale distances to be x and y velocity
-	difX *= BUBBLE_VELOCITY;
-	difY *= BUBBLE_VELOCITY;
+	// Avoid div by 0
+	if(length != 0) {
+		// Normalize the distances
+		difX /= length;
+		difY /= length;
+
+		// Scale distances to be x and y velocity
+		difX *= BUBBLE_VELOCITY;
+		difY *= BUBBLE_VELOCITY;
+
+		if(abs(mx - bx) < abs(difX)) 
+			difX = mx - bx;
 	
-	// Update velocity
-	getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
+		if(abs(my - by) < abs(difY))
+			difY = my - by;
+	
+		getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
+	}
 
 	// If hitpoints are 0 or this seed stopped moving, remove it
 	if(hitPoints <= 0){

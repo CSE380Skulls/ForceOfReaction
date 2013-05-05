@@ -62,6 +62,7 @@ void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game,
 	{
 		game->getGAM()->setMusic(C_INTRO);
 		game->quitGame();
+		game->getGSM()->goToMainMenu();
 	}
 	else if (command.compare(W_NEXT_SCENE_COMMAND) == 0)
 	{
@@ -70,6 +71,29 @@ void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game,
 			currentImage = game->getGSM()->initCutscene();
 		}
 		setCutsceneImage(currentImage,game);
+	}
+	else if(command.compare(W_NEXT_LEVEL_COMMAND) == 0) {
+		GameStateManager *gsm = game->getGSM();
+		game->quitGame();
+		if(game->getCurrentLevelFileName().compare(W_LEVEL_1_NAME) == 0) {
+			// If finished first level, load second
+			game->getGAM()->setMusic(C_LEVEL2);
+			game->setCurrentLevelFileName(W_LEVEL_2_NAME);
+			game->startGame();
+		}
+		else if(game->getCurrentLevelFileName().compare(W_LEVEL_2_NAME) == 0) {
+			// If finished second level, load third
+			/*game->getGAM()->setMusic(C_LEVEL3);
+			game->setCurrentLevelFileName(W_LEVEL_3_NAME);
+			game->startGame();
+			*/
+			//CURRENTLY NO THIRD LEVEL IMPLEMENTED
+			game->getGSM()->goToMainMenu();
+		}
+		else {
+			// ONLY THREE LEVELS, GO TO MAIN MENU WHEN DONE, COULD ALSO JUMP INTO A CUTSCENE HERE TO END THE GAME
+			game->getGSM()->goToMainMenu();
+		}
 	}
 }
 

@@ -10,8 +10,14 @@
 
 // Paths of initialization files
 static const wstring	W_LEVEL_1_DIR			= L"data/levels/earth/";
-static const wstring	W_LEVEL_1_NAME			= L"earth_test.tmx";
+static const wstring	W_LEVEL_1_NAME			= L"earth.tmx";
 static const wstring	W_LEVEL_1_PATH			= W_LEVEL_1_DIR + W_LEVEL_1_NAME;
+static const wstring	W_LEVEL_2_DIR			= L"data/levels/water/";
+static const wstring	W_LEVEL_2_NAME			= L"water.tmx";
+static const wstring	W_LEVEL_2_PATH			= W_LEVEL_2_DIR + W_LEVEL_2_NAME;
+static const wstring	W_LEVEL_3_DIR			= L"data/levels/fire/";
+static const wstring	W_LEVEL_3_NAME			= L"fire.tmx";
+static const wstring	W_LEVEL_3_PATH			= W_LEVEL_3_DIR + W_LEVEL_3_NAME;
 static const wstring	W_INIT_FILE				= L"data/WalkaboutInit.txt";
 static const wstring	W_GUI_INIT_FILE			= L"data/WalkaboutGUI.txt";
 static const string		W_DEBUG_FILE			= "DebugOutput.txt";
@@ -26,6 +32,7 @@ static const wstring	W_HELP_COMMAND			= L"Help";
 static const wstring	W_CREDITS_COMMAND		= L"Credits";
 static const wstring	W_RETURN_COMMAND		= L"Return";
 static const wstring	W_NEXT_SCENE_COMMAND	= L"Scene";
+static const wstring	W_NEXT_LEVEL_COMMAND	= L"Next";
 
 static const wstring	W_CUTSCENE_1_1			= L"data/gui/cutscenes/cut_1_1.png";
 static const wstring	W_CUTSCENE_1_2			= L"data/gui/cutscenes/cut_1_2.png";
@@ -80,7 +87,10 @@ static const wstring	W_RETURN_IMAGE_MO_PATH	= L"data/gui/buttons/return_mo.png";
 
 // Music
 static char				*C_INTRO				= "data/audio/music/Lullaby.mp3";
-static char				*C_LEVEL1				= "data/audio/music/Hunting.mp3";
+//static char				*C_LEVEL1				= "data/audio/music/Hunting.mp3";
+static char				*C_LEVEL1				= "data/audio/music/In_The_Jungle.mp3";
+static char				*C_LEVEL2				= "data/audio/music/Smoke_On_The_Water.mp3";
+static char				*C_LEVEL3				= "data/audio/music/Highway_To_Hell.mp3";
 // Sounds
 static char				*C_EXPLOSION			= "data/audio/sounds/explosion.wav";
 static char				*C_DEATH				= "data/audio/sounds/death.wav";

@@ -21,6 +21,9 @@ private:
 	// WE NEED THESE GUYS TO INIT OUR WINDOWS WINDOW
 	HINSTANCE hInstance;
 	int nCmdShow;
+	void loadLevel1(Game *game);
+	void loadLevel2(Game *game);
+	void loadLevel3(Game *game);
 
 public:
 	WalkaboutDataLoader()	{}
