@@ -19,4 +19,6 @@ enum SpriteDesignations
 	SPRITE_HIT,
 	// This sprite just died
 	SPRITE_DEAD,
+	// Spikes
+	SPIKES_DESIGNATION,
 };

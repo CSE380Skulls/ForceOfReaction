@@ -37,6 +37,7 @@ void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game,
 	// SO LET'S START THE GAME FROM THE FIRST LEVEL
 	else if (command.compare(W_START_COMMAND) == 0)
 	{
+		game->getGSM()->getSpriteManager()->getPlayer()->setHitPoints(PLAYER_HITPOINTS);
 		game->getGAM()->setMusic(C_LEVEL1);
 		game->setCurrentLevelFileName(W_LEVEL_1_NAME);
 		game->startGame();
@@ -87,8 +88,36 @@ void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game,
 			game->setCurrentLevelFileName(W_LEVEL_3_NAME);
 			game->startGame();
 			*/
+
 			//CURRENTLY NO THIRD LEVEL IMPLEMENTED
 			game->getGSM()->goToMainMenu();
+		}
+		else {
+			// ONLY THREE LEVELS, GO TO MAIN MENU WHEN DONE, COULD ALSO JUMP INTO A CUTSCENE HERE TO END THE GAME
+			game->getGSM()->goToMainMenu();
+		}
+	}
+	else if(command.compare(W_RESTART_LEVEL_COMMAND) == 0) {
+		GameStateManager *gsm = game->getGSM();
+		gsm->getSpriteManager()->getPlayer()->setHitPoints(PLAYER_HITPOINTS);
+		game->quitGame();
+		if(game->getCurrentLevelFileName().compare(W_LEVEL_1_NAME) == 0) {
+			// Reload first level
+			game->getGAM()->setMusic(C_LEVEL1);
+			game->setCurrentLevelFileName(W_LEVEL_1_NAME);
+			game->startGame();
+		}
+		else if(game->getCurrentLevelFileName().compare(W_LEVEL_2_NAME) == 0) {
+			// Reload second level
+			game->getGAM()->setMusic(C_LEVEL2);
+			game->setCurrentLevelFileName(W_LEVEL_2_NAME);
+			game->startGame();
+		}
+		else if(game->getCurrentLevelFileName().compare(W_LEVEL_3_NAME) == 0) {
+			// Reload third level
+			game->getGAM()->setMusic(C_LEVEL3);
+			game->setCurrentLevelFileName(W_LEVEL_3_NAME);
+			game->startGame();
 		}
 		else {
 			// ONLY THREE LEVELS, GO TO MAIN MENU WHEN DONE, COULD ALSO JUMP INTO A CUTSCENE HERE TO END THE GAME

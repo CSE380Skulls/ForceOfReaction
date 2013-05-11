@@ -44,10 +44,10 @@
   </tile>
   <tile id="6">
    <properties>
-    <property name="bottom_collidable" value="false"/>
+    <property name="bottom_collidable" value="true"/>
     <property name="left_collidable" value="false"/>
     <property name="right_collidable" value="false"/>
-    <property name="top_collidable" value="false"/>
+    <property name="top_collidable" value="true"/>
    </properties>
   </tile>
   <tile id="7">
@@ -618,12 +618,12 @@
    <tile gid="3"/>
    <tile gid="3"/>
    <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
+   <tile gid="9"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="8"/>
    <tile gid="3"/>
    <tile gid="3"/>
    <tile gid="3"/>
@@ -678,12 +678,12 @@
    <tile gid="5"/>
    <tile gid="5"/>
    <tile gid="5"/>
-   <tile gid="5"/>
-   <tile gid="5"/>
-   <tile gid="5"/>
-   <tile gid="5"/>
-   <tile gid="5"/>
-   <tile gid="5"/>
+   <tile gid="4"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="2"/>
    <tile gid="5"/>
    <tile gid="5"/>
    <tile gid="5"/>
@@ -738,12 +738,12 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
+   <tile gid="11"/>
+   <tile gid="7"/>
+   <tile gid="7"/>
+   <tile gid="7"/>
+   <tile gid="7"/>
+   <tile gid="10"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>

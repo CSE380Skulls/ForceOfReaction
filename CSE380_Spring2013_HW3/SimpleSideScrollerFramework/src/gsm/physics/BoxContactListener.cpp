@@ -27,15 +27,6 @@ void BoxContactListener::BeginContact(b2Contact *contact){
 }
 
 void BoxContactListener::EndContact(b2Contact *contact){
-	/*Get the sprites that are colliding */
-	/*
-	void * bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
-	void * bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
-
-	if(bodyUserDataA && bodyUserDataB){
-		box_physics->removeContact(contact);
-	}
-	*/
 }
 
 void BoxContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold){
@@ -51,10 +42,8 @@ void BoxContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManif
 		if(b->getHitPoints() <= 0 || a->getHitPoints() <= 0)
 			contact->SetEnabled(false);
 	}
-
 }
 
 void BoxContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *impulse){
-	
 }
 

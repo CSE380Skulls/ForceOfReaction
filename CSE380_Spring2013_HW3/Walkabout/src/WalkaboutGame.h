@@ -33,6 +33,7 @@ static const wstring	W_CREDITS_COMMAND		= L"Credits";
 static const wstring	W_RETURN_COMMAND		= L"Return";
 static const wstring	W_NEXT_SCENE_COMMAND	= L"Scene";
 static const wstring	W_NEXT_LEVEL_COMMAND	= L"Next";
+static const wstring	W_RESTART_LEVEL_COMMAND = L"Restart";
 
 static const wstring	W_CUTSCENE_1_1			= L"data/gui/cutscenes/cut_1_1.png";
 static const wstring	W_CUTSCENE_1_2			= L"data/gui/cutscenes/cut_1_2.png";
@@ -84,6 +85,8 @@ static const wstring	W_CREDITS_IMAGE_PATH	= L"data/gui/buttons/credits.png";
 static const wstring	W_CREDITS_IMAGE_MO_PATH	= L"data/gui/buttons/credits_mo.png";
 static const wstring	W_RETURN_IMAGE_PATH		= L"data/gui/buttons/return.png";
 static const wstring	W_RETURN_IMAGE_MO_PATH	= L"data/gui/buttons/return_mo.png";
+static const wstring	W_RESTART_LEVEL_PATH    = L"data/gui/buttons/restart.png";
+static const wstring	W_RESTART_LEVEL_MO_PATH = L"data/gui/buttons/restart_mo.png";
 
 // Music
 static char				*C_INTRO				= "data/audio/music/Lullaby.mp3";
@@ -153,6 +156,8 @@ static const int		WALL_HITPOINTS = 50;
 static const int		WALL1_X = 1152;
 static const int		WALL_Y = 1792;
 static const int		WALL2_X = 1984;
+static const int		SPIKES_Y = 576;
+static const int		SPIKES_X = 704;
 static const int		BULLET_SPEED = 100;
 static const int		BULLET_DAMAGE = 50;
 static const int		BOSS_HITPOINTS = 100;
@@ -164,6 +169,7 @@ static const int		PLAYER_DEATH_COOLDOWN = 60;
 static const int		FIRE_BALL_DAMAGE = 10;
 static const int		FLAMETHROWER_DAMAGE = 10;
 static const int		BUBBLE_VELOCITY = 20;
+static const int		MAX_HITPOINTS = 10000;
 
 
 // Animated Sprite States

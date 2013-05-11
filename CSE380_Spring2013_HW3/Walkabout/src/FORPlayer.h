@@ -38,7 +38,7 @@ public:
 	void updateStatusGUI(Game* game);
 
 	bool canAttack();
-	bool canMove() { return !dead && !stunned; }
+	bool canMove() { return (hitPoints > 0) && !stunned; }
 
 	void stun(int framesStunned);
 	void run();

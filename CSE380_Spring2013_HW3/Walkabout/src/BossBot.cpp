@@ -23,10 +23,12 @@ BossBot::BossBot(int attSpeed, int attRange, int attDmg, int cooldown, int desig
 
 
 void BossBot::update(Game *game){
-	if(dead)
+	if(dead) {
 		return;
+	}
 	// If hitpoints are 0, remove it
 	if(hitPoints <= 0){
+		game->getGSM()->goToLevelWon();
 		game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 0);
 		dead = true;
 		return;

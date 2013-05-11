@@ -53,9 +53,6 @@ void FORPlayer::update(Game* game){
 		setCurrentState(DEAD);
 		return;
 	}
-	// Quick fix for winning a level
-	if(game->getGSM()->getSpriteManager()->areEnemiesDead())
-		game->getGSM()->goToLevelWon();
 }
 
 void FORPlayer::updateStatusGUI(Game* game){
@@ -186,14 +183,9 @@ void FORPlayer::nextElement() {
 
 void FORPlayer::run() {
 	if(canMove()) {
-		float y = getPhysicsBody()->GetLinearVelocity().y;
-		float x = getPhysicsBody()->GetLinearVelocity().x;
+		//float y = getPhysicsBody()->GetLinearVelocity().y;
+		//float x = getPhysicsBody()->GetLinearVelocity().x;
 
-		// This is an attempt to fix the sticking to walls, doesn't work in all cases but does work sometimes
-		/*if(getPhysicsBody()->GetLinearVelocity().y !=0 && getPhysicsBody()->GetLinearVelocity().x == 0){
-			return;
-		}
-		*/
 		getPhysicsBody()->SetLinearVelocity(
 				b2Vec2(	PLAYER_VELOCITY*direction,
 						getPhysicsBody()->GetLinearVelocity().y));

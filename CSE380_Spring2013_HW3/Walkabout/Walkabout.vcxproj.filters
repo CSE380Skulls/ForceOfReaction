@@ -114,5 +114,8 @@
     <ClInclude Include="src\FORPlayer.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\Spikes.h">
+      <Filter>src\Static Objects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

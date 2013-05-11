@@ -103,11 +103,10 @@ void BoxPhysics::updateContacts(Game *game){
 
 		// NEED TO CHECK IF PLAYER IS BEING HIT BY A PROJECTILE
 		if(a == game->getGSM()->getSpriteManager()->getPlayer()) {
-			if((b->getHitPoints() > 0) || (b->getDesignation() == PROJECTILE_DESIGNATION)) {
+			if((b->getHitPoints() > 0) || (b->getDesignation() == PROJECTILE_DESIGNATION) || (b->getDesignation() == SPIKES_DESIGNATION)) {
 				if(b->getDesignation() == PROJECTILE_DESIGNATION)
 					b->setHitPoints(0);
 				handlePlayerCollision(game, a, b);
-				// IF THE PLAYER DIED, PLAY DEAD SOUND AND DISABLE CONTACT
 				if(a->getHitPoints() <= 0) {
 					n->contact->SetEnabled(false);
 				}
@@ -169,25 +168,11 @@ void BoxPhysics::addContact(b2Contact *contact){
 	}
 
 	// IF EITHER SPRITE IS A PROJECTILE, MAKE SURE THE PROJECTILE DIES, BUT AFTER IT DOES ITS DAMAGE
-	if(a->getDesignation() == PROJECTILE_DESIGNATION) {
-		// KILL THE PROJECTILE, DAMAGE WHATEVER IT HIT
-		//a->setHitPoints(0);
-		//b->decrementHitPoints(a->getDamage());
-		// THIS IS ONLY GOING TO PLAY A SOUND BASED ON BEING HIT OR KILLED
+	if(a->getDesignation() == PROJECTILE_DESIGNATION || b->getDesignation() == PROJECTILE_DESIGNATION) {
 		createContact(contact);
 		return;
 	}
-	if(b->getDesignation() == PROJECTILE_DESIGNATION) {
-		// KILL THE PROJECTILE, DAMAGE WHATEVER IT HIT
-		//b->setHitPoints(0);
-		//a->decrementHitPoints(b->getDamage());
-		// THIS IS ONLY GOING TO PLAY A SOUND BASE ON BEING HIT OR KILLED
-		createContact(contact);
-		return;
-	}
-	// NOTE THAT I AM NOT SETTING PROJECTILE COLLISIONS TO FALSE, I WANT THE PHYSICS TO STILL BE APPLIED!!!
 	// END PROJECTILE CHECKS
-
 
 	// IF ONE OF THE THINGS IN THIS COLLISION IS A WALL, DON'T DO ANYTHING BESIDES APPLY THE PHYSICS
 	// NOTE: THE PROJECTILES HAVE BEEN DEALT WITH, ONLY PROJECTILES CAN BREAK WALLS
