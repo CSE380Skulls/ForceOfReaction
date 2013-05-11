@@ -807,15 +807,11 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	physics->setGravity(W_GRAVITY);
 	SpriteManager *spriteManager = gsm->getSpriteManager();
 	FORPlayer *player = (FORPlayer*)spriteManager->getPlayer();
-	//spriteManager->setPlayer(player);
 	physics->addCollidableObject(player);
 
 	// INITIALIZE THE PLAYER
 	AnimatedSpriteType *playerSpriteType = spriteManager->getSpriteType(0);
-	//player->setHitPoints(PLAYER_HITPOINTS);
-	//player->setDamage(0);
 	player->setSpriteType(playerSpriteType);
-	//player->setAlpha(255);
 	player->setCurrentState(FALLING_RIGHT);
 	player->setDirection(1);
 	player->destroyProjectile();
@@ -1348,9 +1344,7 @@ void WalkaboutDataLoader::loadLevel2(Game *game) {
 	// Reset viewport
 	game->getGUI()->getViewport()->setViewportX(0);
 	game->getGUI()->getViewport()->setViewportY(0);
-
-	game->getGSM()->goToCutscene();
-
+	//game->getGSM()->goToCutscene();
 }
 
 //@TODO: CREATE SET UP FOR LEVEL 3
@@ -1638,5 +1632,5 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 	// Reset viewport
 	game->getGUI()->getViewport()->setViewportX(0);
 	game->getGUI()->getViewport()->setViewportY(0);
-	game->getGSM()->goToCutscene();
+	//game->getGSM()->goToCutscene();
 }

@@ -117,5 +117,8 @@
     <ClInclude Include="src\Spikes.h">
       <Filter>src\Static Objects</Filter>
     </ClInclude>
+    <ClInclude Include="src\StaticSeed.h">
+      <Filter>src\Static Objects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

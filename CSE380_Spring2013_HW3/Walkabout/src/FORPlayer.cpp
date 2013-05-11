@@ -26,6 +26,7 @@ FORPlayer::FORPlayer(int att_Cooldown, int d_Cooldown, int designation){
 	this->designation = designation;
 	availableElements = 3;
 	projectile = NULL;
+	staticSeed = NULL;
 }
 
 // Can this player attack?  Assumes that the player is going to attack if they can
@@ -322,6 +323,11 @@ void FORPlayer::earthAttackL(Game *game, float mx, float my) {
 
 // Throw a seed
 void FORPlayer::earthAttackR(Game *game, float mx, float my){
+	if(staticSeed != NULL) {
+		game->getGSM()->getSpriteManager()->addBotToRemovalList(staticSeed, 0);
+		staticSeed = NULL;
+	}
+
 	game->getGAM()->playSound(C_SWING);
 	// Get mouse and player locations
 	float px = game->getGSM()->physicsToScreenX(getCurrentBodyX());
@@ -357,7 +363,7 @@ void FORPlayer::earthAttackR(Game *game, float mx, float my){
 	seed->init(px,py,seedSpriteType);
 
 	//create a physics object for the seed
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createFriendlyProjectile(game,seed,true);
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createFriendlyProjectile(game,seed,false);
 	game->getGSM()->getPhysics()->addCollidableObject(seed);
 	game->getGSM()->getSpriteManager()->addBot(seed);
 
@@ -366,7 +372,7 @@ void FORPlayer::earthAttackR(Game *game, float mx, float my){
 	projectile = seed;
 }
 
-void FORPlayer::waterAttackL(Game *game, float mx, float my) {
+void FORPlayer::waterAttackR(Game *game, float mx, float my) {
 	game->getGAM()->playSound(C_SWING);
 	setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 
@@ -418,7 +424,7 @@ void FORPlayer::waterAttackL(Game *game, float mx, float my) {
 	getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
 }
 
-void  FORPlayer::waterAttackR(Game* game, float mx, float my) {
+void  FORPlayer::waterAttackL(Game* game, float mx, float my) {
 	game->getGAM()->playSound(C_SWING);
 	setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 
@@ -524,4 +530,28 @@ void  FORPlayer::fireAttackR(Game* game, float mx, float my) {
 	// Set the velocity of the fireball
 	fireball->getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
 	projectile = fireball;
+}
+
+void FORPlayer::createStaticSeed(Game * game, int x, int y) {
+	AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
+	staticSeed = new StaticSeed(WALL_DESIGNATION);
+	staticSeed->setDamage(0);
+	staticSeed->setSpriteType(seedSpriteType);
+	staticSeed->setAlpha(255);
+	staticSeed->setCurrentState(IDLE_LEFT);
+	PhysicalProperties *seedProps = staticSeed->getPhysicalProperties();
+	seedProps->setX(x);
+	seedProps->setY(y);
+	seedProps->setVelocity(0.0f, 0.0f);
+	seedProps->setAccelerationX(0);
+	seedProps->setAccelerationY(0);
+	staticSeed->setOnTileThisFrame(false);
+	staticSeed->setOnTileLastFrame(false);
+	staticSeed->affixTightAABBBoundingVolume();
+
+	//create a physics object for the seed
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticPlayerObject(game, staticSeed);
+	staticSeed->getPhysicsBody()->SetLinearVelocity(b2Vec2(0.0f,0.0f));
+	game->getGSM()->getPhysics()->addCollidableObject(staticSeed);
+	game->getGSM()->getSpriteManager()->addBot(staticSeed);
 }

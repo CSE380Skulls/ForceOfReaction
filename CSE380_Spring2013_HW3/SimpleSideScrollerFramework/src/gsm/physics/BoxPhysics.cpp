@@ -151,8 +151,11 @@ void BoxPhysics::addContact(b2Contact *contact){
 	// This deals with projectiles hitting walls, I want them to be removed
 	if(bodyUserDataA && !bodyUserDataB){
 		AnimatedSprite *a = (AnimatedSprite*)bodyUserDataA;
-		if(a->getDesignation() == PROJECTILE_DESIGNATION)
+		if(a->getDesignation() == PROJECTILE_DESIGNATION) {
+			// Tell this projectile it just hit a wall.
+			a->setWallCollision();
 			a->setHitPoints(0);
+		}
 		return;
 	}
 	/// END PROJECTILE HITTING WALL CHECKS

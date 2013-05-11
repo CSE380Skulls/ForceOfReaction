@@ -7,6 +7,7 @@
 #include "src\game\Game.h"
 #include "src\WalkaboutGame.h"
 #include "src\gsm\sprite\SpriteDesignations.h"
+#include "src\StaticSeed.h"
 
 class FORPlayer : public AnimatedSprite
 {
@@ -24,12 +25,15 @@ private:
 	void waterAttackR(Game *game, float mx, float my);
 	void fireAttackL(Game *game, float mx, float my);
 	void fireAttackR(Game *game, float mx, float my);
+	// Current Projectile
 	AnimatedSprite* projectile;
+	// Player  can have both a static seed and projectile out at once, but not two static seeds.
+	StaticSeed* staticSeed;
 
 	static const int EARTH   =	0;
 	static const int WATER   =	1;
 	static const int FIRE	 =	2;
-	static const int NOTHING =  3;
+	static const int NOTHING =  -1;
 
 public:
 	FORPlayer(int attCooldown, int dCooldown, int designation);
@@ -60,4 +64,5 @@ public:
 	
 	void playSound(Game* game, SpriteDesignations soundType);
 	void destroyProjectile() { projectile = NULL; }
+	void createStaticSeed(Game* game, int x, int y);
 };

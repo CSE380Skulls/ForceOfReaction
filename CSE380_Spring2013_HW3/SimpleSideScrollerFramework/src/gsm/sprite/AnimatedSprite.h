@@ -52,6 +52,9 @@ protected:
 	// Can this sprite move/attack?
 	bool stunned;
 
+	// THIS IS CURRENTLY ONLY USED FOR SEEDS STICKING TO WALLS, MAY BE A BETTER WAY...
+	bool wallCollision;
+
 public:
 	// INLINED ACCESSOR METHODS
 	int					getAlpha()			{ return alpha;				}
@@ -83,6 +86,7 @@ public:
 	int getHitPoints() { return hitPoints; }
 	int getDamage() { return damage; }
 	int getDesignation() { return designation; }
+	void setWallCollision() { wallCollision = true; }
 	virtual void update(Game *game)=0;
 	virtual void playSound(Game *game, SpriteDesignations soundType)=0;
 	virtual void stun(int framesStunned)=0;
