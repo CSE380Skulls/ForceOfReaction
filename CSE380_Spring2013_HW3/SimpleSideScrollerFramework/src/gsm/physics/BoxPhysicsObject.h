@@ -8,9 +8,11 @@ class BoxPhysicsObject
 protected:
 	//TEST OBJECT FOR BOX 2D
 	b2Body *box2d_body;
+	//boolen that indicates whether the object is not jumping
+	bool objectJumping;
 
 public:
-	BoxPhysicsObject(){box2d_body = NULL;};
+	BoxPhysicsObject(){box2d_body = NULL; objectJumping = false;}
 	~BoxPhysicsObject(){};
 
 	bool				isDynamicObject()			{ return (box2d_body->GetType() == b2_dynamicBody);}
@@ -21,6 +23,8 @@ public:
 	float32				getCurrentBodyAngle()		{ return box2d_body->GetAngle();		}
 	void				setCurrentBodyAngleVelocity(float32 a) { box2d_body->SetAngularVelocity(a); }
 	b2Body*				getPhysicsBody()			{ return box2d_body;					}
+	bool				isJumping()					{ return objectJumping;					}
+	void				setIsJumping(bool jump)		{ objectJumping = jump;					}
 
 	void initPhysicsBody(b2Body *body){
 		//we only want to assign the bodies once to a physics object

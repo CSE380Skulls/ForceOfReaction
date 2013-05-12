@@ -248,7 +248,8 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	player->affixTightAABBBoundingVolume();
 
 	//create the player object in the physics world
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player,false);
+
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createMainPlayer(game,player);
 
 	//Create TEST ROPE!
 	vector<AnimatedSprite *> spritesList;

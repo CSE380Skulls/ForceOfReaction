@@ -18,6 +18,21 @@ void BoxContactListener::BeginContact(b2Contact *contact){
  	void * bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
  	void * bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
 
+	//Simple test to find if a sprite is standing on something
+	//by using the sensors under their feet. currently there is only
+	//one type of sensor per sprite, and its under them.
+	//NOTE: This logic may be expanded or modified to support multiple
+	//		sensors in the future
+	if(contact->GetFixtureA()->IsSensor()){
+		BoxPhysicsObject * object = (BoxPhysicsObject *)(contact->GetFixtureA()->GetUserData());
+		object->setIsJumping(false);
+	}	
+
+	if(contact->GetFixtureB()->IsSensor()){
+		BoxPhysicsObject * object = (BoxPhysicsObject *)(contact->GetFixtureB()->GetUserData());
+		object->setIsJumping(false);
+	}
+
 	if(bodyUserDataA || bodyUserDataB){
 		if(contact->IsEnabled())
 			box_physics->addContact(contact);
@@ -28,6 +43,20 @@ void BoxContactListener::EndContact(b2Contact *contact){
 	/*Get the sprites that are colliding */
 	void * bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
 	void * bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
+
+	//See comments in addContact(...) for more info on this logic. Set
+	//the object to jumping. This needs to be done here for accurate determanation
+	//of whether or not the player is jumping or not
+	if(contact->GetFixtureA()->IsSensor()){
+		BoxPhysicsObject * object = (BoxPhysicsObject *)(contact->GetFixtureA()->GetUserData());
+		if(object->getPhysicsBody()->GetLinearVelocity().y != 0)
+			object->setIsJumping(true);
+	}
+	if(contact->GetFixtureB()->IsSensor()){
+		BoxPhysicsObject * object = (BoxPhysicsObject *)(contact->GetFixtureB()->GetUserData());
+		if(object->getPhysicsBody()->GetLinearVelocity().y != 0)
+			object->setIsJumping(true);
+	}
 
 	if(bodyUserDataA && bodyUserDataB){
 		box_physics->removeContact(contact);

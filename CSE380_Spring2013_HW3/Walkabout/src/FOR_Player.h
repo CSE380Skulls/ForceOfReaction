@@ -50,7 +50,7 @@ public:
 
 	int getSelectedElement() { return selected_element; }
 	int getDirection() { return direction; }
-	bool isMovingV() {return getPhysicsBody()->GetLinearVelocity().y != 0.0f; }
+	bool isMovingV() {return objectJumping; }
 	bool isFloating() { return (getCurrentState() == JUMPING_RIGHT || getCurrentState() == FALLING_RIGHT ||
 								getCurrentState() == JUMPING_LEFT || getCurrentState() == FALLING_LEFT); } 
 	bool isAttacking() { return (getCurrentState() == ATTACKING_RIGHT || getCurrentState() == ATTACKING_LEFT); }

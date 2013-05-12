@@ -193,7 +193,7 @@ void FOR_Player::run() {
 				b2Vec2(	PLAYER_VELOCITY*direction,
 						getPhysicsBody()->GetLinearVelocity().y));
 
-		if (getPhysicsBody()->GetLinearVelocity().y==0)
+		if (!isMovingV())
 			setCurrentState(direction==1?WALKING_RIGHT:WALKING_LEFT);
 		else if(isAttacking() && getFrameIndex()==12)
 			setCurrentState(direction==1?FALLING_RIGHT:FALLING_LEFT);
@@ -202,7 +202,7 @@ void FOR_Player::run() {
 
 void FOR_Player::hover() {
 	getPhysicsBody()->SetLinearVelocity(b2Vec2(0, getPhysicsBody()->GetLinearVelocity().y));
-	if(		isMovingV() && !(isFloating()||isAttacking()) ||
+	if(	isMovingV() && !(isFloating()||isAttacking()) ||
 			(isAttacking() && getFrameIndex()==12))
 		setCurrentState(direction==1?FALLING_RIGHT:FALLING_LEFT);
 	if(!isMovingV() && !isAttacking())
@@ -213,8 +213,9 @@ void FOR_Player::hover() {
 
 void FOR_Player::jump(Game *game){
 	if(canMove()) {
-		if(getPhysicsBody()->GetLinearVelocity().y==0)
+		if(!objectJumping)
 		{
+			objectJumping = true;
 			game->getGAM()->playSound(C_JUMP);
 			getPhysicsBody()->ApplyLinearImpulse(
 					b2Vec2(0.0f, JUMP_VELOCITY),

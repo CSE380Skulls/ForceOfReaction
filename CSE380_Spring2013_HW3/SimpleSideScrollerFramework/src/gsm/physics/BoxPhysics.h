@@ -1,8 +1,4 @@
 /*	
-	Author: Richard McKenna
-
-	Physics.h
-
 	This class will be used to manage all game collisions
 	and physics. This includes collision detection, and resolution.
 	Each frame we will update the collided objects velocities and
