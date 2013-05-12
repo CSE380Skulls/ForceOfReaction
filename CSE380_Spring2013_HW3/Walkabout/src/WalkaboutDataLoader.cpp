@@ -762,8 +762,38 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	PoseurSpriteTypesImporter psti;
 	psti.loadSpriteTypes(game, SPRITE_TYPES_LIST);
 
-	// LEVEL SET UP GOES AFTER THIS POINT, ALL LEVELS MUST LOAD THESE THINGS UP TO THIS POINT BEFORE ADDING ANYTHING ELSE
+	// LET'S MAKE A PLAYER SPRITE
+	GameStateManager *gsm = game->getGSM();
+	Physics *physics = gsm->getPhysics();
+	physics->setGravity(W_GRAVITY);
+	SpriteManager *spriteManager = gsm->getSpriteManager();
+	FORPlayer *player = (FORPlayer*)spriteManager->getPlayer();
+	physics->addCollidableObject(player);
 
+	// INITIALIZE THE PLAYER
+	AnimatedSpriteType *playerSpriteType = spriteManager->getSpriteType(0);
+	player->setSpriteType(playerSpriteType);
+	player->setCurrentState(FALLING_RIGHT);
+	player->setDirection(1);
+	player->destroyProjectile();
+	player->destorySeed();
+
+	PhysicalProperties *playerProps = player->getPhysicalProperties();
+	playerProps->setX(PLAYER_INIT_X);
+	playerProps->setY(PLAYER_INIT_Y);
+	playerProps->setVelocity(0.0f, 0.0f);
+	playerProps->setAccelerationX(0);
+	playerProps->setAccelerationY(0);
+	player->setOnTileThisFrame(false);
+	player->setOnTileLastFrame(false);
+	player->affixTightAABBBoundingVolume();
+
+	//create the player object in the physics world
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player,false);
+
+
+	// LEVEL SET UP GOES AFTER THIS POINT, ALL LEVELS MUST LOAD THESE THINGS UP TO THIS POINT BEFORE ADDING ANYTHING ELSE
+	
 	// Add cut scenes
 	game->getGSM()->clearScenes();
 	DirectXTextureManager* guiTextureManager = (DirectXTextureManager*)game->getGraphics()->getGUITextureManager();
@@ -801,131 +831,88 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	gui->popOverlayImage(1);
 	gui->addOverlayImage(game->getGSM()->initCutscene());
 
-	// LET'S MAKE A PLAYER SPRITE
-	GameStateManager *gsm = game->getGSM();
-	Physics *physics = gsm->getPhysics();
-	physics->setGravity(W_GRAVITY);
-	SpriteManager *spriteManager = gsm->getSpriteManager();
-	FORPlayer *player = (FORPlayer*)spriteManager->getPlayer();
-	physics->addCollidableObject(player);
+	// CREATE VINES
+	createVine(game, 832, 192);
+	createVine(game, 2368, 768);
 
-	// INITIALIZE THE PLAYER
-	AnimatedSpriteType *playerSpriteType = spriteManager->getSpriteType(0);
-	player->setSpriteType(playerSpriteType);
-	player->setCurrentState(FALLING_RIGHT);
-	player->setDirection(1);
-	player->destroyProjectile();
-
-	PhysicalProperties *playerProps = player->getPhysicalProperties();
-	playerProps->setX(PLAYER_INIT_X);
-	playerProps->setY(PLAYER_INIT_Y);
-	playerProps->setVelocity(0.0f, 0.0f);
-	playerProps->setAccelerationX(0);
-	playerProps->setAccelerationY(0);
-	player->setOnTileThisFrame(false);
-	player->setOnTileLastFrame(false);
-	player->affixTightAABBBoundingVolume();
-
-	//create the player object in the physics world
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player,false);
-
-	//Create TEST ROPE!
-	vector<AnimatedSprite *> spritesList;
-	AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
-	for(int i = 0; i < 10; i++){
-		Vine *vine = new Vine(PROJECTILE_DESIGNATION);
-		vine->setHitPoints(1);
-		vine->setDamage(0);
-		vine->setSpriteType(vineSpriteType);
-		vine->setAlpha(255);
-		vine->setCurrentState(IDLE_LEFT);
-		PhysicalProperties *vineProps = vine->getPhysicalProperties();
-		vineProps->setX(800);
-		vineProps->setY(200);
-		vineProps->setVelocity(0.0f, 0.0f);
-		vineProps->setAccelerationX(0);
-		vineProps->setAccelerationY(0);
-		vine->setOnTileThisFrame(false);
-		vine->setOnTileLastFrame(false);
-		vine->affixTightAABBBoundingVolume();
-		spriteManager->addBot(vine);
-		spritesList.push_back(vine);
-	}
-	//now create the test rope
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createTestRope(game,spritesList);
-
-	// Wall1
+	// CREATE BREAKABLE WALLS
 	AnimatedSpriteType *breakable_wall = spriteManager->getSpriteType(2);
-	BreakableWall *wall1 = new BreakableWall(WALL_DESIGNATION);
-	wall1->setHitPoints(WALL_HITPOINTS);
-	wall1->setDamage(0);
-	wall1->setSpriteType(breakable_wall);
-	wall1->setAlpha(255);
-	wall1->setCurrentState(FIVE);
-	PhysicalProperties *wall1Props = wall1->getPhysicalProperties();
-	wall1Props->setX(WALL1_X);
-	wall1Props->setY(WALL_Y);
-	wall1Props->setVelocity(0.0f, 0.0f);
-	wall1Props->setAccelerationX(0);
-	wall1Props->setAccelerationY(0);
-	wall1->setOnTileThisFrame(false);
-	wall1->setOnTileLastFrame(false);
-	wall1->affixTightAABBBoundingVolume();
+	createBreakableWall(game, breakable_wall, 2368, 1536);
+	createBreakableWall(game, breakable_wall, 2752, 1536);
+	createBreakableWall(game, breakable_wall, 3136, 1536);
 
-	//create a physics object for the wall
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldObject(game,wall1);
-	physics->addCollidableObject(wall1);
-	spriteManager->addBot(wall1);
+	//CREATE SPIKES
+	AnimatedSpriteType *spikes = spriteManager->getSpriteType(11);
+	// First set
+	createSpikes(game, spikes, 704, 576);
+	createSpikes(game, spikes, 768, 576);
+	createSpikes(game, spikes, 832, 576);
+	createSpikes(game, spikes, 896, 576);
+	// Second set
+	createSpikes(game, spikes, 2496, 576);
+	createSpikes(game, spikes, 2624, 576);
+	createSpikes(game, spikes, 2752, 576);
+	createSpikes(game, spikes, 2880, 576);
+	createSpikes(game, spikes, 3008, 576);
+	// Third set
+	createSpikes(game, spikes, 2240, 1152);
+	createSpikes(game, spikes, 2304, 1152);
+	createSpikes(game, spikes, 2368, 1152);
+	createSpikes(game, spikes, 2432, 1152);
+	// Fourth set
+	createSpikes(game, spikes, 832, 1152);
+	createSpikes(game, spikes, 896, 1152);
 
+	createSpikes(game, spikes, 1024, 1152);
+	createSpikes(game, spikes, 1088, 1152);
+	
+	createSpikes(game, spikes, 1216, 1152);
+	createSpikes(game, spikes, 1280, 1152);
+	
+	createSpikes(game, spikes, 1408, 1152);
+	createSpikes(game, spikes, 1472, 1152);
+	
+	createSpikes(game, spikes, 1600, 1152);
+	createSpikes(game, spikes, 1664, 1152);
+	// Fifth set
+	createSpikes(game, spikes, 576, 1728);
+	createSpikes(game, spikes, 640, 1728);
+	createSpikes(game, spikes, 704, 1728);
 
-	// Wall2
-	BreakableWall *wall2 = new BreakableWall(WALL_DESIGNATION);
-	wall2->setHitPoints(WALL_HITPOINTS);
-	wall2->setDamage(0);
-	wall2->setSpriteType(breakable_wall);
-	wall2->setAlpha(255);
-	wall2->setCurrentState(FIVE);
-	PhysicalProperties *wall2Props = wall2->getPhysicalProperties();
-	wall2Props->setX(WALL2_X);
-	wall2Props->setY(WALL_Y);
-	wall2Props->setVelocity(0.0f, 0.0f);
-	wall2Props->setAccelerationX(0);
-	wall2Props->setAccelerationY(0);
-	wall2->setOnTileThisFrame(false);
-	wall2->setOnTileLastFrame(false);
-	wall2->affixTightAABBBoundingVolume();
+	createSpikes(game, spikes, 832, 1728);
+	createSpikes(game, spikes, 896, 1728);
+	createSpikes(game, spikes, 960, 1728);
+	
+	createSpikes(game, spikes, 1088, 1728);
+	createSpikes(game, spikes, 1152, 1728);
+	createSpikes(game, spikes, 1216, 1728);
+	
+	createSpikes(game, spikes, 1344, 1728);
+	createSpikes(game, spikes, 1408, 1728);
+	createSpikes(game, spikes, 1472, 1728);
+	
+	createSpikes(game, spikes, 1600, 1728);
+	createSpikes(game, spikes, 1664, 1728);
+	createSpikes(game, spikes, 1728, 1728);
 
-	//create a physics object for the wall
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldObject(game,wall2);
-	physics->addCollidableObject(wall2);
-	spriteManager->addBot(wall2);
+	// CREATE BOTS
+	AnimatedSpriteType *bot = spriteManager->getSpriteType(1);
+	// FIRST LEVEL
+	createFORFloatingBot(game, bot, 1344, 256, 256);
+	createFORFloatingBot(game, bot, 2048, 256, 256);
+	// SECOND LEVEL
+	createFORFloatingBot(game, bot, 2880, 896, 256);
+	createFORFloatingBot(game, bot, 1984, 896, 128);
+	// THIRD LEVEL
+	createFORFloatingBot(game, bot, 2048, 1472, 192);
+	createFORFloatingBot(game, bot, 2496, 1472, 128);
+	createFORFloatingBot(game, bot, 2944, 1472, 128);
+	// FOURTH LEVEL
+	createFORFloatingBot(game, bot, 1152, 2048, 384);
+	createFORFloatingBot(game, bot, 1920, 2048, 384);
+	createFORFloatingBot(game, bot, 2688, 2048, 384);
 
-	// Spikes
-	AnimatedSpriteType *spikesSprite = spriteManager->getSpriteType(11);
-	for(int x = 0; x < 4; x++){
-		Spikes *spikes = new Spikes(SPIKES_DESIGNATION);
-		spikes->setHitPoints(WALL_HITPOINTS);
-		spikes->setDamage(PLAYER_HITPOINTS);
-		spikes->setSpriteType(spikesSprite);
-		spikes->setAlpha(255);
-		spikes->setCurrentState(IDLE_LEFT);
-		PhysicalProperties *spikesProps = spikes->getPhysicalProperties();
-		spikesProps->setX(SPIKES_X + (spikesSprite->getTextureWidth()*x));
-		spikesProps->setY(SPIKES_Y);
-		spikesProps->setVelocity(0.0f, 0.0f);
-		spikesProps->setAccelerationX(0);
-		spikesProps->setAccelerationY(0);
-		spikes->setOnTileThisFrame(false);
-		spikes->setOnTileLastFrame(false);
-		spikes->affixTightAABBBoundingVolume();
-
-		//create a physics object for the spikes
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldObject(game,spikes);
-		physics->addCollidableObject(spikes);
-		spriteManager->addBot(spikes);
-	}
-
-	// Boss
+	// CREATE THE BOSS
 	AnimatedSpriteType *bossSpriteType = spriteManager->getSpriteType(6);
 	BossBot *boss = new BossBot(BULLET_SPEED, BOT_ATTACK_RANGE, BULLET_SPEED, BOT_ATTACK_COOLDOWN, BOT_DESIGNATION);
 	boss->setHitPoints(BOSS_HITPOINTS);
@@ -934,8 +921,8 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	boss->setAlpha(255);
 	boss->setCurrentState(IDLE_RIGHT);
 	PhysicalProperties *bossProps = boss->getPhysicalProperties();
-	bossProps->setX(BOSS_X);
-	bossProps->setY(BOSS_Y);
+	bossProps->setX(512);
+	bossProps->setY(2048);
 	bossProps->setVelocity(0.0f, 0.0f);
 	bossProps->setAccelerationX(0);
 	bossProps->setAccelerationY(0);
@@ -947,110 +934,6 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,boss,false);
 	physics->addCollidableObject(boss);
 	spriteManager->addBot(boss);
-
-	int worldWidth = game->getGSM()->getWorld()->getWorldWidth();
-	
-	AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
-	int ySpawn = BOT_INIT_Y;
-
-	// CREATE FIRST SET OF BOTS
-	for(int x = 2; x < 4; x ++){
-		int xSpawn = x * worldWidth / 4.0f;
-		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
-		bot->setHitPoints(BOT_HITPOINTS);
-		bot->setDamage(BOT_DAMAGE);
-		bot->setSpriteType(botSpriteType);
-		bot->setAlpha(255);
-		bot->setCurrentState(IDLE_RIGHT);
-		PhysicalProperties *botProps = bot->getPhysicalProperties();
-		botProps->setX(xSpawn);
-		botProps->setY(ySpawn);
-		botProps->setVelocity(0.0f, 0.0f);
-		botProps->setAccelerationX(0);
-		botProps->setAccelerationY(0);
-		bot->setOnTileThisFrame(false);
-		bot->setOnTileLastFrame(false);
-		bot->affixTightAABBBoundingVolume();
-			
-		//create a physics object for the bot
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot,false);
-		physics->addCollidableObject(bot);
-		spriteManager->addBot(bot);
-	}
-
-	// CREATE SECOND SET OF BOTS
-	ySpawn = 2100;
-	for(int x = 1; x < 4; x ++){
-		int xSpawn = x * worldWidth / 4.0f;
-		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
-		bot->setHitPoints(BOT_HITPOINTS);
-		bot->setDamage(BOT_DAMAGE);
-		bot->setSpriteType(botSpriteType);
-		bot->setAlpha(255);
-		bot->setCurrentState(IDLE_RIGHT);
-		PhysicalProperties *botProps = bot->getPhysicalProperties();
-		botProps->setX(xSpawn);
-		botProps->setY(ySpawn);
-		botProps->setVelocity(0.0f, 0.0f);
-		botProps->setAccelerationX(0);
-		botProps->setAccelerationY(0);
-		bot->setOnTileThisFrame(false);
-		bot->setOnTileLastFrame(false);
-		bot->affixTightAABBBoundingVolume();
-			
-		//create a physics object for the bot
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot,false);
-		physics->addCollidableObject(bot);
-		spriteManager->addBot(bot);
-	}
-
-	// ANOTHER BOT
-	ySpawn = 1700;
-	int xSpawn = 3 * worldWidth / 4.0f;
-	FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
-	bot->setHitPoints(BOT_HITPOINTS);
-	bot->setDamage(BOT_DAMAGE);
-	bot->setSpriteType(botSpriteType);
-	bot->setAlpha(255);
-	bot->setCurrentState(IDLE_RIGHT);
-	PhysicalProperties *botProps = bot->getPhysicalProperties();
-	botProps->setX(xSpawn);
-	botProps->setY(ySpawn);
-	botProps->setVelocity(0.0f, 0.0f);
-	botProps->setAccelerationX(0);
-	botProps->setAccelerationY(0);
-	bot->setOnTileThisFrame(false);
-	bot->setOnTileLastFrame(false);
-	bot->affixTightAABBBoundingVolume();
-		
-	//create a physics object for the bot
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot,false);
-	physics->addCollidableObject(bot);
-	spriteManager->addBot(bot);
-	
-	// ONE LAST BOT
-	ySpawn = 1200;
-	xSpawn = 3 * worldWidth / 4.0f;
-	bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
-	bot->setHitPoints(BOT_HITPOINTS);
-	bot->setDamage(BOT_DAMAGE);
-	bot->setSpriteType(botSpriteType);
-	bot->setAlpha(255);
-	bot->setCurrentState(IDLE_RIGHT);
-	botProps = bot->getPhysicalProperties();
-	botProps->setX(xSpawn);
-	botProps->setY(ySpawn);
-	botProps->setVelocity(0.0f, 0.0f);
-	botProps->setAccelerationX(0);
-	botProps->setAccelerationY(0);
-	bot->setOnTileThisFrame(false);
-	bot->setOnTileLastFrame(false);
-	bot->affixTightAABBBoundingVolume();
-		
-	//create a physics object for the bot
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot,false);
-	physics->addCollidableObject(bot);
-	spriteManager->addBot(bot);
 	
 	// Reset viewport
 	game->getGUI()->getViewport()->setViewportX(0);
@@ -1077,19 +960,17 @@ void WalkaboutDataLoader::loadLevel2(Game *game) {
 	Physics *physics = gsm->getPhysics();
 	physics->setGravity(W_GRAVITY);
 	SpriteManager *spriteManager = gsm->getSpriteManager();
-	FORPlayer *player = (FORPlayer*)spriteManager->getPlayer();// new FORPlayer(PLAYER_ATTACK_COOLDOWN, PLAYER_DEATH_COOLDOWN, PLAYER_DESIGNATION);
+	FORPlayer *player = (FORPlayer*)spriteManager->getPlayer();
 	spriteManager->setPlayer(player);
 	physics->addCollidableObject(player);
 
 	// INITIALIZE THE PLAYER
 	AnimatedSpriteType *playerSpriteType = spriteManager->getSpriteType(0);
-	//player->setHitPoints(PLAYER_HITPOINTS);
-	//player->setDamage(0);
 	player->setSpriteType(playerSpriteType);
-	//player->setAlpha(255);
 	player->setCurrentState(FALLING_RIGHT);
 	player->setDirection(1);
 	player->destroyProjectile();
+	player->destorySeed();
 
 	PhysicalProperties *playerProps = player->getPhysicalProperties();
 	playerProps->setX(PLAYER_INIT_X);
@@ -1365,19 +1246,17 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 	Physics *physics = gsm->getPhysics();
 	physics->setGravity(W_GRAVITY);
 	SpriteManager *spriteManager = gsm->getSpriteManager();
-	FORPlayer *player = (FORPlayer*)spriteManager->getPlayer();// new FORPlayer(PLAYER_ATTACK_COOLDOWN, PLAYER_DEATH_COOLDOWN, PLAYER_DESIGNATION);
+	FORPlayer *player = (FORPlayer*)spriteManager->getPlayer();
 	spriteManager->setPlayer(player);
 	physics->addCollidableObject(player);
 
 	// INITIALIZE THE PLAYER
 	AnimatedSpriteType *playerSpriteType = spriteManager->getSpriteType(0);
-	//player->setHitPoints(PLAYER_HITPOINTS);
-	//player->setDamage(0);
 	player->setSpriteType(playerSpriteType);
-	//player->setAlpha(255);
 	player->setCurrentState(FALLING_RIGHT);
 	player->setDirection(1);
 	player->destroyProjectile();
+	player->destorySeed();
 
 	PhysicalProperties *playerProps = player->getPhysicalProperties();
 	playerProps->setX(PLAYER_INIT_X);
@@ -1633,4 +1512,104 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 	game->getGUI()->getViewport()->setViewportX(0);
 	game->getGUI()->getViewport()->setViewportY(0);
 	//game->getGSM()->goToCutscene();
+}
+
+/*
+	Create a vine at a given x,y coordinate
+*/
+void WalkaboutDataLoader::createVine(Game* game, int x, int y) {
+	// Create all parts of the vine
+	vector<AnimatedSprite *> spritesList;
+	AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
+	for(int i = 0; i < 10; i++){
+		Vine *vine = new Vine(PROJECTILE_DESIGNATION);
+		vine->setHitPoints(1);
+		vine->setDamage(0);
+		vine->setSpriteType(vineSpriteType);
+		vine->setAlpha(255);
+		vine->setCurrentState(IDLE_LEFT);
+		PhysicalProperties *vineProps = vine->getPhysicalProperties();
+		vineProps->setX(x);
+		vineProps->setY(y);
+		vineProps->setVelocity(0.0f, 0.0f);
+		vineProps->setAccelerationX(0);
+		vineProps->setAccelerationY(0);
+		vine->setOnTileThisFrame(false);
+		vine->setOnTileLastFrame(false);
+		vine->affixTightAABBBoundingVolume();
+		game->getGSM()->getSpriteManager()->addBot(vine);
+		spritesList.push_back(vine);
+	}
+	//now create the vine
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticRope(game,spritesList,x,y);
+}
+
+void WalkaboutDataLoader::createSpikes(Game *game, AnimatedSpriteType *spriteType, int x, int y) {
+	Spikes *spikes = new Spikes(SPIKES_DESIGNATION);
+	spikes->setHitPoints(WALL_HITPOINTS);
+	spikes->setDamage(PLAYER_HITPOINTS);
+	spikes->setSpriteType(spriteType);
+	spikes->setAlpha(255);
+	spikes->setCurrentState(IDLE_LEFT);
+	PhysicalProperties *spikesProps = spikes->getPhysicalProperties();
+	spikesProps->setX(x);
+	spikesProps->setY(y);
+	spikesProps->setVelocity(0.0f, 0.0f);
+	spikesProps->setAccelerationX(0);
+	spikesProps->setAccelerationY(0);
+	spikes->setOnTileThisFrame(false);
+	spikes->setOnTileLastFrame(false);
+	spikes->affixTightAABBBoundingVolume();
+
+	//create a physics object for the spikes
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldObject(game,spikes);
+	game->getGSM()->getPhysics()->addCollidableObject(spikes);
+	game->getGSM()->getSpriteManager()->addBot(spikes);
+}
+
+void WalkaboutDataLoader::createBreakableWall(Game *game, AnimatedSpriteType* spriteType, int x, int y) {
+	BreakableWall *wall = new BreakableWall(WALL_DESIGNATION);
+	wall->setHitPoints(WALL_HITPOINTS);
+	wall->setDamage(0);
+	wall->setSpriteType(spriteType);
+	wall->setAlpha(255);
+	wall->setCurrentState(FIVE);
+	PhysicalProperties *wallProps = wall->getPhysicalProperties();
+	wallProps->setX(x);
+	wallProps->setY(y);
+	wallProps->setVelocity(0.0f, 0.0f);
+	wallProps->setAccelerationX(0);
+	wallProps->setAccelerationY(0);
+	wall->setOnTileThisFrame(false);
+	wall->setOnTileLastFrame(false);
+	wall->affixTightAABBBoundingVolume();
+
+	//create a physics object for the wall
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldObject(game,wall);
+	game->getGSM()->getPhysics()->addCollidableObject(wall);
+	game->getGSM()->getSpriteManager()->addBot(wall);
+}
+
+
+void WalkaboutDataLoader::createFORFloatingBot(Game *game, AnimatedSpriteType* spriteType, int x, int y, int range) {
+	FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, x, range, BOT_DESIGNATION);
+	bot->setHitPoints(BOT_HITPOINTS);
+	bot->setDamage(BOT_DAMAGE);
+	bot->setSpriteType(spriteType);
+	bot->setAlpha(255);
+	bot->setCurrentState(IDLE_RIGHT);
+	PhysicalProperties *botProps = bot->getPhysicalProperties();
+	botProps->setX(x);
+	botProps->setY(y);
+	botProps->setVelocity(0.0f, 0.0f);
+	botProps->setAccelerationX(0);
+	botProps->setAccelerationY(0);
+	bot->setOnTileThisFrame(false);
+	bot->setOnTileLastFrame(false);
+	bot->affixTightAABBBoundingVolume();
+			
+	//create a physics object for the bot
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot,false);
+	game->getGSM()->getPhysics()->addCollidableObject(bot);
+	game->getGSM()->getSpriteManager()->addBot(bot);
 }
