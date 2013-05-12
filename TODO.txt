@@ -1,7 +1,6 @@
 ANDRIY:
 1) Bubbles
 2) Cutscenes
-3?) Figure out rendering problem
 
 ART:
 
@@ -20,6 +19,4 @@ Fire GUI element
 ======================================================
 JAMIE:
 
-1) Implement impulses when player and bot hit into eachother
-2) Set up levels using purely lua
-3) Implement system for transitioning between levels
+1) Make seed stick to walls.

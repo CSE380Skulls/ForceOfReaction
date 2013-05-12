@@ -11,4 +11,5 @@
   <sprite_type>flamethrower</sprite_type>
   <sprite_type>bubble</sprite_type>
   <sprite_type>fountain</sprite_type>
+  <sprite_type>spikes</sprite_type>
 </sprite_type_list>

@@ -88,5 +88,5 @@ public:
 	void				updateSpriteLocations(int conversion_factor);
 	void				setPlayer(AnimatedSprite *p) { player = p; }
 	// Temporarily here as a way to win a level, will be removed
-	bool				areEnemiesDead() { return bots.size() == 0; }
+	//bool				areEnemiesDead() { return bots.size() == 0; }
 };

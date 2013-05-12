@@ -201,6 +201,8 @@ void TiledLayer::addItemsToPhysicsSystem(Game *game){
 		TileProps tileProperties;
 		float physics_x1, physics_y1, physics_x2, physics_y2;
 		int id1, id2;
+		// This has to be here because different layers will have different texture ids
+		//int offset = getTile(0,0)->textureID;
 		for (int i = 0; i < rows; i++)
 		{
 			for (int j = 0; j < columns; j++)
@@ -209,6 +211,7 @@ void TiledLayer::addItemsToPhysicsSystem(Game *game){
 				if(tile->collidable == true){
 					count++;
 					tileProperties = tilePropertyVector->at(tile->textureID - 1);
+					//tileProperties = tilePropertyVector->at(tile->textureID - (offset + 1));
 					//check to see if the tile is left collidable
 					if(tileProperties.left_collidable){
 						physics_x1 = game->getGSM()->screenToPhysicsX(j * tileWidth);

@@ -7,16 +7,16 @@
 #include "src\game\Game.h"
 #include "src\gsm\sprite\SpriteManager.h"
 #include "src\WalkaboutGame.h"
-#include "src\FOR_Player.h"
+#include "src\FORPlayer.h"
 
 void Vine::update(Game *game){
 	if(dead)
 		return;
 
 	// If hitpoints are 0 or this seed stopped moving, remove it
-	if(hitPoints <= 0){
+	if(hitPoints <= 0 && vineDestroyed){
 		game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 0);
-		((FOR_Player*)game->getGSM()->getSpriteManager()->getPlayer())->destroyProjectile();
+		((FORPlayer*)game->getGSM()->getSpriteManager()->getPlayer())->destroyProjectile();
 		dead = true;
 	}
 }

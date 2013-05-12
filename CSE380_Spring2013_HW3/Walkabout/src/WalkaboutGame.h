@@ -10,8 +10,14 @@
 
 // Paths of initialization files
 static const wstring	W_LEVEL_1_DIR			= L"data/levels/earth/";
-static const wstring	W_LEVEL_1_NAME			= L"earth_test.tmx";
+static const wstring	W_LEVEL_1_NAME			= L"earth.tmx";
 static const wstring	W_LEVEL_1_PATH			= W_LEVEL_1_DIR + W_LEVEL_1_NAME;
+static const wstring	W_LEVEL_2_DIR			= L"data/levels/water/";
+static const wstring	W_LEVEL_2_NAME			= L"water.tmx";
+static const wstring	W_LEVEL_2_PATH			= W_LEVEL_2_DIR + W_LEVEL_2_NAME;
+static const wstring	W_LEVEL_3_DIR			= L"data/levels/fire/";
+static const wstring	W_LEVEL_3_NAME			= L"fire.tmx";
+static const wstring	W_LEVEL_3_PATH			= W_LEVEL_3_DIR + W_LEVEL_3_NAME;
 static const wstring	W_INIT_FILE				= L"data/WalkaboutInit.txt";
 static const wstring	W_GUI_INIT_FILE			= L"data/WalkaboutGUI.txt";
 static const string		W_DEBUG_FILE			= "DebugOutput.txt";
@@ -26,6 +32,8 @@ static const wstring	W_HELP_COMMAND			= L"Help";
 static const wstring	W_CREDITS_COMMAND		= L"Credits";
 static const wstring	W_RETURN_COMMAND		= L"Return";
 static const wstring	W_NEXT_SCENE_COMMAND	= L"Scene";
+static const wstring	W_NEXT_LEVEL_COMMAND	= L"Next";
+static const wstring	W_RESTART_LEVEL_COMMAND = L"Restart";
 
 static const wstring	W_CUTSCENE_1_1			= L"data/gui/cutscenes/cut_1_1.png";
 static const wstring	W_CUTSCENE_1_2			= L"data/gui/cutscenes/cut_1_2.png";
@@ -77,10 +85,15 @@ static const wstring	W_CREDITS_IMAGE_PATH	= L"data/gui/buttons/credits.png";
 static const wstring	W_CREDITS_IMAGE_MO_PATH	= L"data/gui/buttons/credits_mo.png";
 static const wstring	W_RETURN_IMAGE_PATH		= L"data/gui/buttons/return.png";
 static const wstring	W_RETURN_IMAGE_MO_PATH	= L"data/gui/buttons/return_mo.png";
+static const wstring	W_RESTART_LEVEL_PATH    = L"data/gui/buttons/restart.png";
+static const wstring	W_RESTART_LEVEL_MO_PATH = L"data/gui/buttons/restart_mo.png";
 
 // Music
 static char				*C_INTRO				= "data/audio/music/Lullaby.mp3";
-static char				*C_LEVEL1				= "data/audio/music/Hunting.mp3";
+//static char				*C_LEVEL1				= "data/audio/music/Hunting.mp3";
+static char				*C_LEVEL1				= "data/audio/music/In_The_Jungle.mp3";
+static char				*C_LEVEL2				= "data/audio/music/Smoke_On_The_Water.mp3";
+static char				*C_LEVEL3				= "data/audio/music/Highway_To_Hell.mp3";
 // Sounds
 static char				*C_EXPLOSION			= "data/audio/sounds/explosion.wav";
 static char				*C_DEATH				= "data/audio/sounds/death.wav";
@@ -121,7 +134,7 @@ static const float		MAX_VIEWPORT_AXIS_VELOCITY = 5.0f;
 static const float		W_GRAVITY = 0.95f;
 static const float		BOT_MIN_CYCLES = 45;
 static const float		BOT_MAX_CYCLES = 75;
-static const float		BOT_VELOCITY = 12;
+static const float		BOT_VELOCITY = 8;
 static const float		BOT_INIT_X = 750;
 static const float		BOT_INIT_Y = 250;
 static const float		PLAYER_INIT_X = 250.0f;
@@ -136,13 +149,15 @@ static const int        BOT_ATTACK_RANGE = 500;
 static const int 		PROJECTILE_VELOCITY = 50;
 static const int		PLAYER_HITPOINTS = 30;
 static const int		BOT_HITPOINTS = 10;
-static const int		BOT_DAMAGE = 1;
+static const int		BOT_DAMAGE = 5;
 static const int		SEED_DAMAGE = 5;
 static const int		VINE_DAMAGE = 10;
 static const int		WALL_HITPOINTS = 50;
 static const int		WALL1_X = 1152;
 static const int		WALL_Y = 1792;
 static const int		WALL2_X = 1984;
+static const int		SPIKES_Y = 576;
+static const int		SPIKES_X = 704;
 static const int		BULLET_SPEED = 100;
 static const int		BULLET_DAMAGE = 50;
 static const int		BOSS_HITPOINTS = 100;
@@ -151,9 +166,10 @@ static const int		BOSS_Y = 2000;
 static const int		BOT_ATTACK_COOLDOWN = 30;
 static const int		PLAYER_ATTACK_COOLDOWN = 30;
 static const int		PLAYER_DEATH_COOLDOWN = 60;
-static const int		FIRE_BALL_DAMAGE = 25;
-static const int		FLAMETHROWER_DAMAGE = 25;
+static const int		FIRE_BALL_DAMAGE = 10;
+static const int		FLAMETHROWER_DAMAGE = 10;
 static const int		BUBBLE_VELOCITY = 20;
+static const int		MAX_HITPOINTS = 10000;
 
 
 // Animated Sprite States

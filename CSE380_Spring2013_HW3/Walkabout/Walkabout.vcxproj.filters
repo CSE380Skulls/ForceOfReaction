@@ -37,17 +37,8 @@
     <ClCompile Include="src\FORFloatingBot.cpp">
       <Filter>src\Bots</Filter>
     </ClCompile>
-    <ClCompile Include="src\Boss_Bot.cpp">
-      <Filter>src\Bots</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FOR_Player.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\Seed.cpp">
       <Filter>src\Projectiles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Breakable_Wall.cpp">
-      <Filter>src\Static Objects</Filter>
     </ClCompile>
     <ClCompile Include="src\FireBall.cpp">
       <Filter>src\Projectiles</Filter>
@@ -63,6 +54,15 @@
     </ClCompile>
     <ClCompile Include="src\Flamethrower.cpp">
       <Filter>src\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BossBot.cpp">
+      <Filter>src\Bots</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BreakableWall.cpp">
+      <Filter>src\Static Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FORPlayer.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -87,20 +87,11 @@
     <ClInclude Include="src\FORFloatingBot.h">
       <Filter>src\Bots</Filter>
     </ClInclude>
-    <ClInclude Include="src\Boss_Bot.h">
-      <Filter>src\Bots</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FOR_Player.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\Vine.h">
       <Filter>src\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="src\Seed.h">
       <Filter>src\Projectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Breakable_Wall.h">
-      <Filter>src\Static Objects</Filter>
     </ClInclude>
     <ClInclude Include="src\FireBall.h">
       <Filter>src\Projectiles</Filter>
@@ -113,6 +104,21 @@
     </ClInclude>
     <ClInclude Include="src\Flamethrower.h">
       <Filter>src\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BossBot.h">
+      <Filter>src\Bots</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BreakableWall.h">
+      <Filter>src\Static Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FORPlayer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Spikes.h">
+      <Filter>src\Static Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StaticSeed.h">
+      <Filter>src\Static Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

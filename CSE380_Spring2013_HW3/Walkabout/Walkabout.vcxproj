@@ -79,13 +79,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Boss_Bot.cpp" />
-    <ClCompile Include="src\Breakable_Wall.cpp" />
+    <ClCompile Include="src\BossBot.cpp" />
+    <ClCompile Include="src\BreakableWall.cpp" />
     <ClCompile Include="src\Bubble.cpp" />
     <ClCompile Include="src\FireBall.cpp" />
     <ClCompile Include="src\Flamethrower.cpp" />
     <ClCompile Include="src\FORFloatingBot.cpp" />
-    <ClCompile Include="src\FOR_Player.cpp" />
+    <ClCompile Include="src\FORPlayer.cpp" />
     <ClCompile Include="src\Fountain.cpp" />
     <ClCompile Include="src\Seed.cpp" />
     <ClCompile Include="src\Vine.cpp" />
@@ -97,15 +97,17 @@
     <ClCompile Include="src\WalkaboutTextGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Boss_Bot.h" />
-    <ClInclude Include="src\Breakable_Wall.h" />
+    <ClInclude Include="src\BossBot.h" />
+    <ClInclude Include="src\BreakableWall.h" />
     <ClInclude Include="src\Bubble.h" />
     <ClInclude Include="src\FireBall.h" />
     <ClInclude Include="src\Flamethrower.h" />
     <ClInclude Include="src\FORFloatingBot.h" />
-    <ClInclude Include="src\FOR_Player.h" />
+    <ClInclude Include="src\FORPlayer.h" />
     <ClInclude Include="src\Fountain.h" />
     <ClInclude Include="src\Seed.h" />
+    <ClInclude Include="src\Spikes.h" />
+    <ClInclude Include="src\StaticSeed.h" />
     <ClInclude Include="src\Vine.h" />
     <ClInclude Include="src\WalkaboutButtonEventHandler.h" />
     <ClInclude Include="src\WalkaboutCollisionListener.h" />

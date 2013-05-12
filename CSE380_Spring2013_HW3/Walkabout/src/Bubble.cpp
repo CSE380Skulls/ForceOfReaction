@@ -7,7 +7,7 @@
 #include "src\game\Game.h"
 #include "src\gsm\sprite\SpriteManager.h"
 #include "src\WalkaboutGame.h"
-#include "src\FOR_Player.h"
+#include "src\FORPlayer.h"
 #include "src\gui\Cursor.h"
 
 void Bubble::update(Game *game){
@@ -27,21 +27,30 @@ void Bubble::update(Game *game){
 	// Get the length of the vector from player to mouse
 	float length = std::sqrt((difX * difX) + (difY * difY) );
 
-	// Normalize the distances
-	difX /= length;
-	difY /= length;
 
-	// Scale distances to be x and y velocity
-	difX *= BUBBLE_VELOCITY;
-	difY *= BUBBLE_VELOCITY;
+	// Avoid div by 0
+	if(length != 0) {
+		// Normalize the distances
+		difX /= length;
+		difY /= length;
+
+		// Scale distances to be x and y velocity
+		difX *= BUBBLE_VELOCITY;
+		difY *= BUBBLE_VELOCITY;
+
+		if(abs(mx - bx) < abs(difX)) 
+			difX = mx - bx;
 	
-	// Update velocity
-	getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
+		if(abs(my - by) < abs(difY))
+			difY = my - by;
+	
+		getPhysicsBody()->SetLinearVelocity(b2Vec2(difX, -difY));
+	}
 
 	// If hitpoints are 0 or this seed stopped moving, remove it
 	if(hitPoints <= 0){
 		game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 0);
-		((FOR_Player*)game->getGSM()->getSpriteManager()->getPlayer())->destroyProjectile();
+		((FORPlayer*)game->getGSM()->getSpriteManager()->getPlayer())->destroyProjectile();
 		dead = true;
 	}
 }

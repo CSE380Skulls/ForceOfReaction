@@ -10,6 +10,7 @@ protected:
 	b2Body *box2d_body;
 	//boolen that indicates whether the object is not jumping
 	bool objectJumping;
+	bool collidingStatic;
 
 public:
 	BoxPhysicsObject(){box2d_body = NULL; objectJumping = false;}

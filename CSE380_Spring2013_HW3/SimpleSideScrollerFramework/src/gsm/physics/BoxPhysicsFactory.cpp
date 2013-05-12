@@ -292,12 +292,14 @@ void BoxPhysicsFactory::createAttackRope(Game * game, vector<AnimatedSprite *>sp
 	fd.shape = &shape;
 	fd.density = 10.0f;
 	fd.friction = 10.0f;
+	fd.filter.groupIndex = 3;
 
 	b2RevoluteJointDef revoluteJointDef;
 	revoluteJointDef.collideConnected = false;
 
 	//create the first body in the list and assign a body to it
 	b2Body *currentBody, *prevBody;
+	bdef.userData = spritesArray[0];
 	currentBody = physicsWorldRef->CreateBody(&bdef);
 	currentBody->CreateFixture(&fd);
 	spritesArray[0]->initPhysicsBody(currentBody);
@@ -305,6 +307,7 @@ void BoxPhysicsFactory::createAttackRope(Game * game, vector<AnimatedSprite *>sp
 	prevBody = currentBody;
 
 	for(int i = 1; i < spritesArray.size(); i++){
+		bdef.userData = spritesArray[i];
 		currentBody = physicsWorldRef->CreateBody(&bdef);
 		currentBody->CreateFixture(&fd);
 
