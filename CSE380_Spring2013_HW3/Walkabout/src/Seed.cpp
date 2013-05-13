@@ -18,7 +18,7 @@ void Seed::update(Game *game){
 		game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 0);
 		((FORPlayer*)game->getGSM()->getSpriteManager()->getPlayer())->destroyProjectile();
 		// If this seed died because it hit a wall, create a static seed, otherwise just kill it
-		if(wallCollision) {
+		if(wallCollision && !enemySeed) {
 			// CREATE A SEED THAT STAYS AT THE LOCATION THAT THIS SEED DIED AT.
 			float width = getSpriteType()->getTextureWidth();
 			float height = getSpriteType()->getTextureHeight();

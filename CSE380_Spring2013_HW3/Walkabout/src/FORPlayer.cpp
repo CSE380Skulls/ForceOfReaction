@@ -360,7 +360,7 @@ void FORPlayer::earthAttackR(Game *game, float mx, float my){
 
 	// Seed
 	AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
-	Seed *seed = new Seed(PROJECTILE_DESIGNATION);
+	Seed *seed = new Seed(PROJECTILE_DESIGNATION, false);
 	seed->init(px,py,seedSpriteType);
 
 	//create a physics object for the seed

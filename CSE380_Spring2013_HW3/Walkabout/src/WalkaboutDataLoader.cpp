@@ -917,8 +917,6 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	createFORFloatingBot(game, bot, 1920, 2048, 384);
 	createFORFloatingBot(game, bot, 2688, 2048, 384);
 
-	bot = spriteManager->getSpriteType(15);
-	createMonkeyBot(game, bot, 1344, 256, 256,-1);
 	// CREATE THE BOSS
 	AnimatedSpriteType *bossSpriteType = spriteManager->getSpriteType(6);
 	BossBot *boss = new BossBot(BULLET_SPEED, BOT_ATTACK_RANGE, BULLET_SPEED, BOT_ATTACK_COOLDOWN, BOT_DESIGNATION);
@@ -1055,7 +1053,9 @@ void WalkaboutDataLoader::loadLevel2(Game *game) {
 	createVine(game, 1792, 1472);
 
 	// Create Monkies
-
+	AnimatedSpriteType *monkey = spriteManager->getSpriteType(15);
+	createMonkeyBot(game, monkey, 3216, 1024, 256, -1);
+	createMonkeyBot(game, monkey, 400, 704, 256, 1);
 
 	// Create Bots
 	AnimatedSpriteType *bot = spriteManager->getSpriteType(1);
@@ -1097,8 +1097,6 @@ void WalkaboutDataLoader::loadLevel2(Game *game) {
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,boss,false);
 	physics->addCollidableObject(boss);
 	spriteManager->addBot(boss);
-
-
 
 	// Reset viewport
 	game->getGUI()->getViewport()->setViewportX(0);
@@ -1183,81 +1181,51 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 	ScreenGUI* gui = game->getGUI()->getScreen(GS_CUTSCENE);
 	gui->popOverlayImage(1);
 	gui->addOverlayImage(game->getGSM()->initCutscene());
+	*/
 
-	//Create TEST ROPE!
-	vector<AnimatedSprite *> spritesList;
-	AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
-	for(int i = 0; i < 10; i++){
-		Vine *vine = new Vine(PROJECTILE_DESIGNATION);
-		vine->setHitPoints(1);
-		vine->setDamage(0);
-		vine->setSpriteType(vineSpriteType);
-		vine->setAlpha(255);
-		vine->setCurrentState(IDLE_LEFT);
-		PhysicalProperties *vineProps = vine->getPhysicalProperties();
-		vineProps->setX(800);
-		vineProps->setY(200);
-		vineProps->setVelocity(0.0f, 0.0f);
-		vineProps->setAccelerationX(0);
-		vineProps->setAccelerationY(0);
-		vine->setOnTileThisFrame(false);
-		vine->setOnTileLastFrame(false);
-		vine->affixTightAABBBoundingVolume();
-		spriteManager->addBot(vine);
-		spritesList.push_back(vine);
-	}
-	//now create the test rope
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createTestRope(game,spritesList);
-
-	// Wall1
-	AnimatedSpriteType *breakable_wall = spriteManager->getSpriteType(2);
-	BreakableWall *wall1 = new BreakableWall(WALL_DESIGNATION);
-	wall1->setHitPoints(WALL_HITPOINTS);
-	wall1->setDamage(0);
-	wall1->setSpriteType(breakable_wall);
-	wall1->setAlpha(255);
-	wall1->setCurrentState(FIVE);
-	PhysicalProperties *wall1Props = wall1->getPhysicalProperties();
-	wall1Props->setX(WALL1_X);
-	wall1Props->setY(WALL_Y);
-	wall1Props->setVelocity(0.0f, 0.0f);
-	wall1Props->setAccelerationX(0);
-	wall1Props->setAccelerationY(0);
-	wall1->setOnTileThisFrame(false);
-	wall1->setOnTileLastFrame(false);
-	wall1->affixTightAABBBoundingVolume();
-
-	//create a physics object for the wall
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldObject(game,wall1);
-	physics->addCollidableObject(wall1);
-	spriteManager->addBot(wall1);
+	// Create Monkeys
+	AnimatedSpriteType *monkey = spriteManager->getSpriteType(15);
+	createMonkeyBot(game, monkey, 1232, 2048, 256, -1);
+	createMonkeyBot(game, monkey, 2000, 1920, 256, -1);
+	createMonkeyBot(game, monkey, 400, 1664, 256, 1);
+	createMonkeyBot(game, monkey, 1232, 1408, 256, -1);
+	createMonkeyBot(game, monkey, 1744, 1472, 256, -1);
+	createMonkeyBot(game, monkey, 848, 960, 256, 1);
+	createMonkeyBot(game, monkey, 848, 704, 256, 1);
+	createMonkeyBot(game, monkey, 464, 576, 256, 1);
+	createMonkeyBot(game, monkey, 272, 448, 256, 1);
+	createMonkeyBot(game, monkey, 2192, 384, 256, -1);
 
 
-	// Wall2
-	BreakableWall *wall2 = new BreakableWall(WALL_DESIGNATION);
-	wall2->setHitPoints(WALL_HITPOINTS);
-	wall2->setDamage(0);
-	wall2->setSpriteType(breakable_wall);
-	wall2->setAlpha(255);
-	wall2->setCurrentState(FIVE);
-	PhysicalProperties *wall2Props = wall2->getPhysicalProperties();
-	wall2Props->setX(WALL2_X);
-	wall2Props->setY(WALL_Y);
-	wall2Props->setVelocity(0.0f, 0.0f);
-	wall2Props->setAccelerationX(0);
-	wall2Props->setAccelerationY(0);
-	wall2->setOnTileThisFrame(false);
-	wall2->setOnTileLastFrame(false);
-	wall2->affixTightAABBBoundingVolume();
+	// Create Bots
+	AnimatedSpriteType *bot = spriteManager->getSpriteType(1);
+	// Level 1
+	createFORFloatingBot(game, bot, 896, 2176, 192);
+	// Level 2
+	createFORFloatingBot(game, bot, 1408, 2304, 192);
+	createFORFloatingBot(game, bot, 1728, 2304, 192);
+	createFORFloatingBot(game, bot, 2048, 2304, 192);
+	// Level 3
+	createFORFloatingBot(game, bot, 1664, 2048, 256);
+	// Level 4
+	createFORFloatingBot(game, bot, 768, 1792, 192);
+	createFORFloatingBot(game, bot, 1152, 1792, 192);
+	createFORFloatingBot(game, bot, 1536, 1792, 192);
+	// Level 5
+	createFORFloatingBot(game, bot, 834, 1536, 256);
+	// Level 6
+	createFORFloatingBot(game, bot, 1024, 1410, 256);
+	// Level 7
+	createFORFloatingBot(game, bot, 1216, 576, 192);
+	createFORFloatingBot(game, bot, 1600, 576, 192);
+	createFORFloatingBot(game, bot, 1984, 576, 192);
+	// Level 8
+	createFORFloatingBot(game, bot, 640, 384, 256);
+	createFORFloatingBot(game, bot, 1984, 384, 256);
 
-	//create a physics object for the wall
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldObject(game,wall2);
-	physics->addCollidableObject(wall2);
-	spriteManager->addBot(wall2);
 
-	// Boss
+	// Create Boss
 	AnimatedSpriteType *bossSpriteType = spriteManager->getSpriteType(6);
-	//FORFloatingBot *boss = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, BOSS_X, BOT_ATTACK_RANGE);
 	BossBot *boss = new BossBot(BULLET_SPEED, BOT_ATTACK_RANGE, BULLET_SPEED, BOT_ATTACK_COOLDOWN, BOT_DESIGNATION);
 	boss->setHitPoints(BOSS_HITPOINTS);
 	boss->setDamage(1);
@@ -1265,8 +1233,8 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 	boss->setAlpha(255);
 	boss->setCurrentState(IDLE_RIGHT);
 	PhysicalProperties *bossProps = boss->getPhysicalProperties();
-	bossProps->setX(BOSS_X);
-	bossProps->setY(BOSS_Y);
+	bossProps->setX(1280);
+	bossProps->setY(256);
 	bossProps->setVelocity(0.0f, 0.0f);
 	bossProps->setAccelerationX(0);
 	bossProps->setAccelerationY(0);
@@ -1278,111 +1246,6 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,boss,false);
 	physics->addCollidableObject(boss);
 	spriteManager->addBot(boss);
-
-	int worldWidth = game->getGSM()->getWorld()->getWorldWidth();
-	// Bots
-	AnimatedSpriteType *botSpriteType = spriteManager->getSpriteType(1);
-
-	int ySpawn = BOT_INIT_Y;
-
-	for(int x = 2; x < 4; x ++){
-		int xSpawn = x * worldWidth / 4.0f;
-		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
-		bot->setHitPoints(BOT_HITPOINTS);
-		bot->setDamage(BOT_DAMAGE);
-		bot->setSpriteType(botSpriteType);
-		bot->setAlpha(255);
-		bot->setCurrentState(IDLE_RIGHT);
-		PhysicalProperties *botProps = bot->getPhysicalProperties();
-		botProps->setX(xSpawn);
-		botProps->setY(ySpawn);
-		botProps->setVelocity(0.0f, 0.0f);
-		botProps->setAccelerationX(0);
-		botProps->setAccelerationY(0);
-		bot->setOnTileThisFrame(false);
-		bot->setOnTileLastFrame(false);
-		bot->affixTightAABBBoundingVolume();
-			
-		//create a physics object for the bot
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot,false);
-		physics->addCollidableObject(bot);
-		spriteManager->addBot(bot);
-	}
-
-	ySpawn = 2100;
-	for(int x = 1; x < 4; x ++){
-		int xSpawn = x * worldWidth / 4.0f;
-		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
-		bot->setHitPoints(BOT_HITPOINTS);
-		bot->setDamage(BOT_DAMAGE);
-		bot->setSpriteType(botSpriteType);
-		bot->setAlpha(255);
-		bot->setCurrentState(IDLE_RIGHT);
-		PhysicalProperties *botProps = bot->getPhysicalProperties();
-		botProps->setX(xSpawn);
-		botProps->setY(ySpawn);
-		botProps->setVelocity(0.0f, 0.0f);
-		botProps->setAccelerationX(0);
-		botProps->setAccelerationY(0);
-		bot->setOnTileThisFrame(false);
-		bot->setOnTileLastFrame(false);
-		bot->affixTightAABBBoundingVolume();
-			
-		//create a physics object for the bot
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot,false);
-		physics->addCollidableObject(bot);
-		spriteManager->addBot(bot);
-	}
-
-	ySpawn = 1700;
-	for(int x = 3; x < 4; x ++){
-		int xSpawn = x * worldWidth / 4.0f;
-		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
-		bot->setHitPoints(BOT_HITPOINTS);
-		bot->setDamage(BOT_DAMAGE);
-		bot->setSpriteType(botSpriteType);
-		bot->setAlpha(255);
-		bot->setCurrentState(IDLE_RIGHT);
-		PhysicalProperties *botProps = bot->getPhysicalProperties();
-		botProps->setX(xSpawn);
-		botProps->setY(ySpawn);
-		botProps->setVelocity(0.0f, 0.0f);
-		botProps->setAccelerationX(0);
-		botProps->setAccelerationY(0);
-		bot->setOnTileThisFrame(false);
-		bot->setOnTileLastFrame(false);
-		bot->affixTightAABBBoundingVolume();
-			
-		//create a physics object for the bot
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot,false);
-		physics->addCollidableObject(bot);
-		spriteManager->addBot(bot);
-	}
-
-	ySpawn = 1200;
-	for(int x = 3; x < 4; x ++){
-		int xSpawn = x * worldWidth / 4.0f;
-		FORFloatingBot *bot = new FORFloatingBot(BOT_MIN_CYCLES, BOT_MAX_CYCLES, BOT_VELOCITY, xSpawn, BOT_ATTACK_RANGE, BOT_DESIGNATION);
-		bot->setHitPoints(BOT_HITPOINTS);
-		bot->setDamage(BOT_DAMAGE);
-		bot->setSpriteType(botSpriteType);
-		bot->setAlpha(255);
-		bot->setCurrentState(IDLE_RIGHT);
-		PhysicalProperties *botProps = bot->getPhysicalProperties();
-		botProps->setX(xSpawn);
-		botProps->setY(ySpawn);
-		botProps->setVelocity(0.0f, 0.0f);
-		botProps->setAccelerationX(0);
-		botProps->setAccelerationY(0);
-		bot->setOnTileThisFrame(false);
-		bot->setOnTileLastFrame(false);
-		bot->affixTightAABBBoundingVolume();
-			
-		//create a physics object for the bot
-		game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot,false);
-		physics->addCollidableObject(bot);
-		spriteManager->addBot(bot);
-	}*/
 
 	// Reset viewport
 	game->getGUI()->getViewport()->setViewportX(0);
@@ -1489,6 +1352,7 @@ void WalkaboutDataLoader::createFORFloatingBot(Game *game, AnimatedSpriteType* s
 	game->getGSM()->getPhysics()->addCollidableObject(bot);
 	game->getGSM()->getSpriteManager()->addBot(bot);
 }
+
 void WalkaboutDataLoader::createMonkeyBot(Game *game, AnimatedSpriteType* spriteType, int x, int y, int range, int direction) {
 	MonkeyBot *monkey = new MonkeyBot(BULLET_SPEED, BOT_ATTACK_RANGE, MONKEY_DAMAGE, MONKEY_ATTACK_COOLDOWN, BOT_DESIGNATION, direction);
 	monkey->setHitPoints(MONKEY_HITPOINTS);
@@ -1511,6 +1375,7 @@ void WalkaboutDataLoader::createMonkeyBot(Game *game, AnimatedSpriteType* sprite
 	game->getGSM()->getPhysics()->addCollidableObject(monkey);
 	game->getGSM()->getSpriteManager()->addBot(monkey);
 }
+
 SwitchWall* WalkaboutDataLoader::createSwitchWall(Game *game, AnimatedSpriteType* spriteType, int x, int y){
 	SwitchWall *wall = new SwitchWall(WALL_DESIGNATION);
 	wall->setHitPoints(MAX_HITPOINTS);

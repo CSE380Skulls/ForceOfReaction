@@ -101,7 +101,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 				gsm->getPhysics()->togglePhysics();
 			gsm->goToLevelWon();
 		}
-		// CTRL + 2 = auto lose level (temporary until actuall impemented)
+		// CTRL + 2 = auto lose level
 		if(input->isKeyDown(CTRL_KEY) && input->isKeyDownForFirstTime(TWO_KEY)){
 			if (gsm->getPhysics()->isActivated())
 				gsm->getPhysics()->togglePhysics();

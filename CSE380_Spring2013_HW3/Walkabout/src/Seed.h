@@ -9,8 +9,10 @@
 
 class Seed : public Bot
 {
+private:
+	bool enemySeed;
 public:
-	Seed(int designation) { this->designation = designation; }
+	Seed(int designation, bool enemy) { this->designation = designation; enemySeed = enemy; }
 	void	update(Game *game);
 	Bot*    clone() { return NULL; }
 	void	playSound(Game *game, SpriteDesignations soundType) {}
