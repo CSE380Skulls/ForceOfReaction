@@ -70,6 +70,9 @@
     <ClCompile Include="src\SwitchWall.cpp">
       <Filter>src\Static Objects</Filter>
     </ClCompile>
+    <ClCompile Include="src\CutsceneTrigger.cpp">
+      <Filter>src\Static Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\WalkaboutButtonEventHandler.h">
@@ -130,6 +133,9 @@
       <Filter>src\Static Objects</Filter>
     </ClInclude>
     <ClInclude Include="src\SwitchWall.h">
+      <Filter>src\Static Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CutsceneTrigger.h">
       <Filter>src\Static Objects</Filter>
     </ClInclude>
   </ItemGroup>

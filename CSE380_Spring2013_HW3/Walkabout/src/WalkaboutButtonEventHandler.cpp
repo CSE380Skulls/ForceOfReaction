@@ -67,6 +67,7 @@ void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game,
 	}
 	else if (command.compare(W_NEXT_SCENE_COMMAND) == 0)
 	{
+		game->getGAM()->playSound(C_SWOOSHTALK);
 		OverlayImage* currentImage = game->getGSM()->getCutsceneImage();
 		if (currentImage==NULL){
 			currentImage = game->getGSM()->initCutscene();

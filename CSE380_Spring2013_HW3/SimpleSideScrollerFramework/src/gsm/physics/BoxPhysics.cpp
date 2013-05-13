@@ -103,7 +103,12 @@ void BoxPhysics::updateContacts(Game *game){
 
 		// NEED TO CHECK IF PLAYER IS BEING HIT BY A PROJECTILE
 		if(a == game->getGSM()->getSpriteManager()->getPlayer()) {
-			if((b->getHitPoints() > 0) || (b->getDesignation() == PROJECTILE_DESIGNATION) || (b->getDesignation() == SPIKES_DESIGNATION)) {
+			if (b->getDesignation()==CUTSCENE_DESIGNATION) {
+				b->setHitPoints(0);
+				n->contact->SetEnabled(false);
+				game->getGSM()->goToCutscene();
+			}
+			else if((b->getHitPoints() > 0) || (b->getDesignation() == PROJECTILE_DESIGNATION) || (b->getDesignation() == SPIKES_DESIGNATION)) {
 				if(b->getDesignation() == PROJECTILE_DESIGNATION)
 					b->setHitPoints(0);
 				handlePlayerCollision(game, a, b);
@@ -111,15 +116,12 @@ void BoxPhysics::updateContacts(Game *game){
 					n->contact->SetEnabled(false);
 				}
 			}
-			else if (b->getDesignation()==CUTSCENE_DESIGNATION) {
-				b->setHitPoints(0);
-				game->getGSM()->getSpriteManager()->addBotToRemovalList(b, 0);
-			}
 			else {
 				n->contact->SetEnabled(false);
 			}
 		}
 		else {
+
 			// PROJECTILE TO PROJECTILE, PROJECTILE TO BOT, PROJECTILE TO WALL
 			b->setHitPoints(0);
 			a->decrementHitPoints(b->getDamage());

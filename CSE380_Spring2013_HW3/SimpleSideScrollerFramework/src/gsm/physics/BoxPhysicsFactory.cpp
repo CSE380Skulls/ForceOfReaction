@@ -40,6 +40,15 @@ void BoxPhysicsFactory::createStaticWorldObject(Game *game, AnimatedSprite *spri
 		(sprite_y + extent_y),extent_x,extent_y);
 }
 
+void BoxPhysicsFactory::createStaticWorldTrigger(Game *game, AnimatedSprite *sprite, int width, int height){
+	float extent_x = width*1.0;
+	float extent_y = height*1.0;
+	float sprite_x = sprite->getPhysicalProperties()->getX();
+	float sprite_y = sprite->getPhysicalProperties()->getY();
+	createStaticBox(game,sprite,sprite,OTHER,(sprite_x + extent_x),
+		(sprite_y + extent_y),extent_x,extent_y);
+}
+
 /* Create an enemy physics object*/
 void BoxPhysicsFactory::createEnemyObject(Game *game, AnimatedSprite *sprite, bool rotate){
 	float extent_x = sprite->getSpriteType()->getTextureWidth()/2.0f;

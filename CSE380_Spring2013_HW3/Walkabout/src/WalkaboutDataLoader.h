@@ -30,6 +30,7 @@ private:
 	void createBreakableWall(Game *game, AnimatedSpriteType* spriteType, int x, int y);
 	void createFORFloatingBot(Game *game, AnimatedSpriteType* spriteType, int x, int y, int range);
 	void createSwitch(Game *game, AnimatedSpriteType* spriteType, SwitchWall *switchWall, int x, int y, bool dirL);
+	void createCutscene(Game *game, AnimatedSpriteType *spriteType, int x, int y, int width, int height);
 	SwitchWall *createSwitchWall(Game *game, AnimatedSpriteType* spriteType, int x, int y);
 
 public:

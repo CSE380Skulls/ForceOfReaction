@@ -8,6 +8,7 @@
 #include "src\WalkaboutTextGenerator.h"
 #include "src\FORFloatingBot.h"
 #include "src\BreakableWall.h"
+#include "src\CutsceneTrigger.h"
 #include "src\BossBot.h"
 #include "src\FORPlayer.h"
 #include "src\Vine.h"
@@ -241,6 +242,7 @@ void WalkaboutDataLoader::hardCodedLoadAudioExample(Game* game)
 	gam->addSound(C_MENUBUTTON);
 	gam->addSound(C_PLAYERHIT);
 	gam->addSound(C_SWING);
+	gam->addSound(C_SWOOSHTALK);
 
 	gam->initMusic(C_INTRO);
 }
@@ -790,6 +792,8 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	player->setOnTileLastFrame(false);
 	player->affixTightAABBBoundingVolume();
 
+	AnimatedSpriteType *cutsceneTriggerSprite = spriteManager->getSpriteType(16);
+	createCutscene(game,cutsceneTriggerSprite,256,350,1,200);
 	//create the player object in the physics world
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player,false);
 
@@ -1681,4 +1685,29 @@ void WalkaboutDataLoader::createSwitch(Game *game, AnimatedSpriteType* spriteTyp
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldObject(game,_switch);
 	game->getGSM()->getPhysics()->addCollidableObject(_switch);
 	game->getGSM()->getSpriteManager()->addBot(_switch);
+}
+
+void WalkaboutDataLoader::createCutscene(Game *game, AnimatedSpriteType *spriteType, int x, int y, int height, int width){
+	CutsceneTrigger *trigger = new CutsceneTrigger(CUTSCENE_DESIGNATION);
+
+	trigger->setHitPoints(1);
+	trigger->setDamage(0);
+	trigger->setSpriteType(spriteType);
+	trigger->setAlpha(255);
+	trigger->setCurrentState(IDLE_LEFT);
+
+	PhysicalProperties *triggerProps = trigger->getPhysicalProperties();
+	triggerProps->setX(x);
+	triggerProps->setY(y);
+	triggerProps->setVelocity(0.0f, 0.0f);
+	triggerProps->setAccelerationX(0);
+	triggerProps->setAccelerationY(0);
+	trigger->setOnTileThisFrame(false);
+	trigger->setOnTileLastFrame(false);
+	trigger->affixTightAABBBoundingVolume();
+
+	//create a physics object for the wall
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldTrigger(game,trigger,width,height);
+	game->getGSM()->getPhysics()->addCollidableObject(trigger);
+	game->getGSM()->getSpriteManager()->addBot(trigger);
 }

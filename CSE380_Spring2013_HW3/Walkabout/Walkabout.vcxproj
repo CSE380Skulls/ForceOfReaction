@@ -82,6 +82,7 @@
     <ClCompile Include="src\BossBot.cpp" />
     <ClCompile Include="src\BreakableWall.cpp" />
     <ClCompile Include="src\Bubble.cpp" />
+    <ClCompile Include="src\CutsceneTrigger.cpp" />
     <ClCompile Include="src\FireBall.cpp" />
     <ClCompile Include="src\Flamethrower.cpp" />
     <ClCompile Include="src\FORFloatingBot.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="src\BossBot.h" />
     <ClInclude Include="src\BreakableWall.h" />
     <ClInclude Include="src\Bubble.h" />
+    <ClInclude Include="src\CutsceneTrigger.h" />
     <ClInclude Include="src\FireBall.h" />
     <ClInclude Include="src\Flamethrower.h" />
     <ClInclude Include="src\FORFloatingBot.h" />

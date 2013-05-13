@@ -103,6 +103,7 @@ static char				*C_JUMP					= "data/audio/sounds/jump.wav";
 static char				*C_MENUBUTTON			= "data/audio/sounds/menubutton.wav";
 static char				*C_PLAYERHIT			= "data/audio/sounds/playerhit.wav";
 static char				*C_SWING				= "data/audio/sounds/swing.wav";
+static char				*C_SWOOSHTALK			= "data/audio/sounds/spritetalk.wav";
 
 // Element bars
 static const wstring	W_STATUS_HEAD_PATH		= L"data/gui/ingame/mc_head.png";

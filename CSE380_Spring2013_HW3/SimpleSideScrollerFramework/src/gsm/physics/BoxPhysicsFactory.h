@@ -33,6 +33,7 @@ public:
 	void createStaticPlayerObject(Game *game, AnimatedSprite *sprite);
 	void createFriendlyProjectile(Game *game, AnimatedSprite *sprite, bool rotate);
 	void createStaticWorldObject(Game *game, AnimatedSprite *sprite);
+	void createStaticWorldTrigger(Game *game, AnimatedSprite *sprite, int width, int height);
 	// Used for rope objects
 	void createStaticRope(Game *game, vector<AnimatedSprite *>spritesArray, float x, float y);
 	void createAttackRope(Game * game, vector<AnimatedSprite *>spritesArray, float px, float py, float angle);
