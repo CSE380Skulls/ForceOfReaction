@@ -190,9 +190,9 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	else if(levelInitFile.compare(W_LEVEL_2_NAME) == 0 ) {
 		loadLevel2(game);
 	}
-	/*else if(levelInitFile.compare(W_LEVEL_3_NAME) == 0 ) {
+	else if(levelInitFile.compare(W_LEVEL_3_NAME) == 0 ) {
 		loadLevel3(game);
-	}*/
+	}
 	else {
 		game->getGSM()->goToMainMenu();
 	}
@@ -778,8 +778,6 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	player->setSpriteType(playerSpriteType);
 	player->setCurrentState(FALLING_RIGHT);
 	player->setDirection(1);
-	//player->destroyProjectile();
-	//player->destorySeed();
 	player->reset();
 
 	PhysicalProperties *playerProps = player->getPhysicalProperties();
@@ -974,13 +972,11 @@ void WalkaboutDataLoader::loadLevel2(Game *game) {
 	player->setSpriteType(playerSpriteType);
 	player->setCurrentState(FALLING_RIGHT);
 	player->setDirection(1);
-	//player->destroyProjectile();
-	//player->destorySeed();
 	player->reset();
 
 	PhysicalProperties *playerProps = player->getPhysicalProperties();
-	playerProps->setX(PLAYER_INIT_X);
-	playerProps->setY(PLAYER_INIT_Y);
+	playerProps->setX(256);
+	playerProps->setY(256);
 	playerProps->setVelocity(0.0f, 0.0f);
 	playerProps->setAccelerationX(0);
 	playerProps->setAccelerationY(0);
@@ -1276,13 +1272,11 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 	player->setSpriteType(playerSpriteType);
 	player->setCurrentState(FALLING_RIGHT);
 	player->setDirection(1);
-	//player->destroyProjectile();
-	//player->destorySeed();
 	player->reset();
 
 	PhysicalProperties *playerProps = player->getPhysicalProperties();
-	playerProps->setX(PLAYER_INIT_X);
-	playerProps->setY(PLAYER_INIT_Y);
+	playerProps->setX(256);
+	playerProps->setY(2048);
 	playerProps->setVelocity(0.0f, 0.0f);
 	playerProps->setAccelerationX(0);
 	playerProps->setAccelerationY(0);
@@ -1531,7 +1525,7 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 
 	// Reset viewport
 	game->getGUI()->getViewport()->setViewportX(0);
-	game->getGUI()->getViewport()->setViewportY(0);
+	game->getGUI()->getViewport()->setViewportY(2560);
 	//game->getGSM()->goToCutscene();
 }
 
