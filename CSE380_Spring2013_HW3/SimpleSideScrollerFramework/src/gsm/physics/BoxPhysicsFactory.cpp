@@ -40,6 +40,15 @@ void BoxPhysicsFactory::createStaticWorldObject(Game *game, AnimatedSprite *spri
 		(sprite_y + extent_y),extent_x,extent_y);
 }
 
+void BoxPhysicsFactory::createStaticWorldTrigger(Game *game, AnimatedSprite *sprite, int width, int height){
+	float extent_x = width*1.0;
+	float extent_y = height*1.0;
+	float sprite_x = sprite->getPhysicalProperties()->getX();
+	float sprite_y = sprite->getPhysicalProperties()->getY();
+	createStaticBox(game,sprite,sprite,OTHER,(sprite_x + extent_x),
+		(sprite_y + extent_y),extent_x,extent_y);
+}
+
 /* Create an enemy physics object*/
 void BoxPhysicsFactory::createEnemyObject(Game *game, AnimatedSprite *sprite, bool rotate){
 	float extent_x = sprite->getSpriteType()->getTextureWidth()/2.0f;
@@ -238,6 +247,7 @@ void BoxPhysicsFactory::createStaticRope(Game *game, vector<AnimatedSprite *>spr
 	b2FixtureDef fd;
 	fd.shape = &shape;
 	fd.density = 10.0f;
+	fd.filter.groupIndex = FRIENDLY_PROJECTILE_INDEX;
 	b2Body* prevBody = tempObj->getPhysicsBody();
 
 	float phyX = game->getGSM()->screenToPhysicsX(x);
@@ -245,6 +255,7 @@ void BoxPhysicsFactory::createStaticRope(Game *game, vector<AnimatedSprite *>spr
 
 	for(int i = 0; i < spritesArray.size(); i++){
 		b2BodyDef bdef;
+		bdef.userData = spritesArray[i];
 		bdef.type = b2_dynamicBody;
 		bdef.position.Set(phyX - 5.0f, phyY - 5.0f);
 		shape.SetAsBox(physics_width, physics_height);
@@ -293,12 +304,12 @@ void BoxPhysicsFactory::createAttackRope(Game * game, vector<AnimatedSprite *>sp
 	bdef.position.Set(px,py);
 	bdef.angle = -angle; // negative for now, find out why, probably rotation is in a different coordinate system
 	fd.shape = &shape;
-	fd.density = 1.0f;
+	fd.density = 10.0f;
 	fd.friction = 10.0f;
-	fd.filter.groupIndex = 3;
+	fd.filter.groupIndex = FRIENDLY_PROJECTILE_INDEX;
 
-	b2RevoluteJointDef revoluteJointDef;
-	revoluteJointDef.collideConnected = false;
+	b2RevoluteJointDef ropeJointDef;
+	ropeJointDef.collideConnected = false;
 
 	//create the first body in the list and assign a body to it
 	b2Body *currentBody, *prevBody;
@@ -307,6 +318,7 @@ void BoxPhysicsFactory::createAttackRope(Game * game, vector<AnimatedSprite *>sp
 	currentBody->CreateFixture(&fd);
 	spritesArray[0]->initPhysicsBody(currentBody);
 
+	fd.density = 5.0f;
 	prevBody = currentBody;
 
 	for(int i = 1; i < spritesArray.size(); i++){
@@ -314,14 +326,14 @@ void BoxPhysicsFactory::createAttackRope(Game * game, vector<AnimatedSprite *>sp
 		currentBody = physicsWorldRef->CreateBody(&bdef);
 		currentBody->CreateFixture(&fd);
 
-		revoluteJointDef.bodyA = prevBody;
-		revoluteJointDef.bodyB = currentBody;
+		ropeJointDef.bodyA = prevBody;
+		ropeJointDef.bodyB = currentBody;
 		//these are static values now for testing, scaling the width and height
 		//of the sprite's width and height
-		revoluteJointDef.localAnchorA.Set(0,-joint_position);
-		revoluteJointDef.localAnchorB.Set(0,joint_position);
+		ropeJointDef.localAnchorA.Set(0,-joint_position);
+		ropeJointDef.localAnchorB.Set(0,joint_position);
 		//revoluteJointDef.referenceAngle = currentBody->GetAngle() - prevBody->GetAngle();
-		physicsWorldRef->CreateJoint(&revoluteJointDef);
+		physicsWorldRef->CreateJoint(&ropeJointDef);
 		
 		spritesArray[i]->initPhysicsBody(currentBody);
 

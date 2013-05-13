@@ -47,8 +47,7 @@
    <animation_sequence>
    <pose image_id="7" duration="5"/>
    <pose image_id="8" duration="5"/>
-   <pose image_id="9" duration="5"/>
-   <pose image_id="9" duration="5"/>
+   <pose image_id="9" duration="10"/>
    <pose image_id="10" duration="5"/>
    <pose image_id="11" duration="5"/>
    <pose image_id="10" duration="5"/>

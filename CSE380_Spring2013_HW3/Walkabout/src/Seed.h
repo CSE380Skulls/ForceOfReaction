@@ -6,11 +6,13 @@
 #include "src\game\Game.h"
 #include "src\WalkaboutGame.h"
 #include "src\gsm\sprite\SpriteDesignations.h"
+#include "FOR_Projectile.h"
 
-class Seed : public Bot
+class Seed : public FOR_Projectile
 {
 public:
-	Seed(int designation) { this->designation = designation; }
+	Seed(int designation) : FOR_Projectile(SEED_DESG) 
+		{ this->designation = designation; }
 	void	update(Game *game);
 	Bot*    clone() { return NULL; }
 	void	playSound(Game *game, SpriteDesignations soundType) {}

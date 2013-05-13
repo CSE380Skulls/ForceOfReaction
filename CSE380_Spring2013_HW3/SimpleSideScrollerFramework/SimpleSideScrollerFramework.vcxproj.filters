@@ -345,5 +345,8 @@
     <ClInclude Include="src\gsm\state\Cutscene.h">
       <Filter>src\gsm\state</Filter>
     </ClInclude>
+    <ClInclude Include="src\gsm\sprite\Projectile.h">
+      <Filter>src\gsm\sprite</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

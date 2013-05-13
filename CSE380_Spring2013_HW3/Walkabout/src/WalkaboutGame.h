@@ -103,6 +103,7 @@ static char				*C_JUMP					= "data/audio/sounds/jump.wav";
 static char				*C_MENUBUTTON			= "data/audio/sounds/menubutton.wav";
 static char				*C_PLAYERHIT			= "data/audio/sounds/playerhit.wav";
 static char				*C_SWING				= "data/audio/sounds/swing.wav";
+static char				*C_SWOOSHTALK			= "data/audio/sounds/spritetalk.wav";
 
 // Element bars
 static const wstring	W_STATUS_HEAD_PATH		= L"data/gui/ingame/mc_head.png";
@@ -184,6 +185,8 @@ static const wstring	FALLING_LEFT(L"FALLING_LEFT");
 static const wstring	ATTACKING_RIGHT(L"ATTACKING_RIGHT");
 static const wstring	ATTACKING_LEFT(L"ATTACKING_LEFT");
 static const wstring	DEAD(L"DEAD");
+static const wstring	DYING_RIGHT(L"DYING_RIGHT");
+static const wstring	DYING_LEFT(L"DYING_LEFT");
 static const wstring	ONE(L"ONE");
 static const wstring	TWO(L"TWO");
 static const wstring	THREE(L"THREE");
@@ -198,6 +201,7 @@ const unsigned int D_KEY = (unsigned int)'D';
 const unsigned int P_KEY = (unsigned int)'P';
 const unsigned int T_KEY = (unsigned int)'T';
 const unsigned int Q_KEY = (unsigned int)'Q';
+const unsigned int E_KEY = (unsigned int)'E';
 const unsigned int Z_KEY = (unsigned int)'Z';
 const unsigned int ONE_KEY = (unsigned int)'1';
 const unsigned int TWO_KEY = (unsigned int)'2';

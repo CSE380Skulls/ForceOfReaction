@@ -8,10 +8,12 @@
 #include "src\WalkaboutTextGenerator.h"
 #include "src\FORFloatingBot.h"
 #include "src\BreakableWall.h"
-#include "BossBot.h"
-#include "FORPlayer.h"
-#include "Vine.h"
-#include "Spikes.h"
+#include "src\CutsceneTrigger.h"
+#include "src\BossBot.h"
+#include "src\FORPlayer.h"
+#include "src\Vine.h"
+#include "src\Spikes.h"
+#include "src\Switch.h"
 
 // GAME OBJECT INCLUDES
 #include "src\game\Game.h"
@@ -188,9 +190,9 @@ void WalkaboutDataLoader::loadWorld(Game *game, wstring levelInitFile)
 	else if(levelInitFile.compare(W_LEVEL_2_NAME) == 0 ) {
 		loadLevel2(game);
 	}
-	/*else if(levelInitFile.compare(W_LEVEL_3_NAME) == 0 ) {
+	else if(levelInitFile.compare(W_LEVEL_3_NAME) == 0 ) {
 		loadLevel3(game);
-	}*/
+	}
 	else {
 		game->getGSM()->goToMainMenu();
 	}
@@ -240,6 +242,7 @@ void WalkaboutDataLoader::hardCodedLoadAudioExample(Game* game)
 	gam->addSound(C_MENUBUTTON);
 	gam->addSound(C_PLAYERHIT);
 	gam->addSound(C_SWING);
+	gam->addSound(C_SWOOSHTALK);
 
 	gam->initMusic(C_INTRO);
 }
@@ -774,12 +777,11 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	player->setSpriteType(playerSpriteType);
 	player->setCurrentState(FALLING_RIGHT);
 	player->setDirection(1);
-	player->destroyProjectile();
-	player->destorySeed();
+	player->reset();
 
 	PhysicalProperties *playerProps = player->getPhysicalProperties();
-	playerProps->setX(PLAYER_INIT_X);
-	playerProps->setY(PLAYER_INIT_Y);
+	playerProps->setX(256);
+	playerProps->setY(256);
 	playerProps->setVelocity(0.0f, 0.0f);
 	playerProps->setAccelerationX(0);
 	playerProps->setAccelerationY(0);
@@ -787,6 +789,8 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	player->setOnTileLastFrame(false);
 	player->affixTightAABBBoundingVolume();
 
+	AnimatedSpriteType *cutsceneTriggerSprite = spriteManager->getSpriteType(16);
+	createCutscene(game,cutsceneTriggerSprite,256,350,1,200);
 	//create the player object in the physics world
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createMainPlayer(game,player);
 
@@ -952,8 +956,7 @@ void WalkaboutDataLoader::loadLevel2(Game *game) {
 	PoseurSpriteTypesImporter psti;
 	psti.loadSpriteTypes(game, SPRITE_TYPES_LIST);
 
-
-		// LET'S MAKE A PLAYER SPRITE
+	// LET'S MAKE A PLAYER SPRITE
 	GameStateManager *gsm = game->getGSM();
 	Physics *physics = gsm->getPhysics();
 	physics->setGravity(W_GRAVITY);
@@ -967,12 +970,11 @@ void WalkaboutDataLoader::loadLevel2(Game *game) {
 	player->setSpriteType(playerSpriteType);
 	player->setCurrentState(FALLING_RIGHT);
 	player->setDirection(1);
-	player->destroyProjectile();
-	player->destorySeed();
+	player->reset();
 
 	PhysicalProperties *playerProps = player->getPhysicalProperties();
-	playerProps->setX(PLAYER_INIT_X);
-	playerProps->setY(PLAYER_INIT_Y);
+	playerProps->setX(256);
+	playerProps->setY(256);
 	playerProps->setVelocity(0.0f, 0.0f);
 	playerProps->setAccelerationX(0);
 	playerProps->setAccelerationY(0);
@@ -1018,7 +1020,22 @@ void WalkaboutDataLoader::loadLevel2(Game *game) {
 	ScreenGUI* gui = game->getGUI()->getScreen(GS_CUTSCENE);
 	gui->popOverlayImage(1);
 	gui->addOverlayImage(game->getGSM()->initCutscene());
+	*/
 
+	// Create first switch wall
+	AnimatedSpriteType *wall_2 = spriteManager->getSpriteType(12);
+	SwitchWall* wall = createSwitchWall(game, wall_2, 2880, 1152);
+	
+	// Create switch for the wall
+	AnimatedSpriteType *_switch = spriteManager->getSpriteType(14);
+	createSwitch(game, _switch, wall, 3392, 1088, true);
+
+	// Create second switch wall
+	AnimatedSpriteType *wall_3 = spriteManager->getSpriteType(13);
+	wall = createSwitchWall(game, wall_3, 384, 1024);
+	createSwitch(game, _switch, wall, 256, 768, false);
+
+	/*
 	//Create TEST ROPE!
 	vector<AnimatedSprite *> spritesList;
 	AnimatedSpriteType *vineSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(4);
@@ -1239,7 +1256,7 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 	PoseurSpriteTypesImporter psti;
 	psti.loadSpriteTypes(game, SPRITE_TYPES_LIST);
 
-		// LET'S MAKE A PLAYER SPRITE
+	// LET'S MAKE A PLAYER SPRITE
 	GameStateManager *gsm = game->getGSM();
 	Physics *physics = gsm->getPhysics();
 	physics->setGravity(W_GRAVITY);
@@ -1253,12 +1270,11 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 	player->setSpriteType(playerSpriteType);
 	player->setCurrentState(FALLING_RIGHT);
 	player->setDirection(1);
-	player->destroyProjectile();
-	player->destorySeed();
+	player->reset();
 
 	PhysicalProperties *playerProps = player->getPhysicalProperties();
-	playerProps->setX(PLAYER_INIT_X);
-	playerProps->setY(PLAYER_INIT_Y);
+	playerProps->setX(256);
+	playerProps->setY(2048);
 	playerProps->setVelocity(0.0f, 0.0f);
 	playerProps->setAccelerationX(0);
 	playerProps->setAccelerationY(0);
@@ -1268,7 +1284,6 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 
 	//create the player object in the physics world
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player,false);
-
 
 	/*game->getGSM()->clearScenes();
 	DirectXTextureManager* guiTextureManager = (DirectXTextureManager*)game->getGraphics()->getGUITextureManager();
@@ -1508,7 +1523,7 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 
 	// Reset viewport
 	game->getGUI()->getViewport()->setViewportX(0);
-	game->getGUI()->getViewport()->setViewportY(0);
+	game->getGUI()->getViewport()->setViewportY(2560);
 	//game->getGSM()->goToCutscene();
 }
 
@@ -1610,4 +1625,81 @@ void WalkaboutDataLoader::createFORFloatingBot(Game *game, AnimatedSpriteType* s
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,bot,false);
 	game->getGSM()->getPhysics()->addCollidableObject(bot);
 	game->getGSM()->getSpriteManager()->addBot(bot);
+}
+
+SwitchWall* WalkaboutDataLoader::createSwitchWall(Game *game, AnimatedSpriteType* spriteType, int x, int y){
+	SwitchWall *wall = new SwitchWall(WALL_DESIGNATION);
+	wall->setHitPoints(MAX_HITPOINTS);
+	wall->setDamage(0);
+	wall->setSpriteType(spriteType);
+	wall->setAlpha(255);
+	wall->setCurrentState(IDLE_LEFT);
+	PhysicalProperties *wallProps = wall->getPhysicalProperties();
+	wallProps->setX(x);
+	wallProps->setY(y);
+	wallProps->setVelocity(0.0f, 0.0f);
+	wallProps->setAccelerationX(0);
+	wallProps->setAccelerationY(0);
+	wall->setOnTileThisFrame(false);
+	wall->setOnTileLastFrame(false);
+	wall->affixTightAABBBoundingVolume();
+
+	//create a physics object for the wall
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldObject(game,wall);
+	game->getGSM()->getPhysics()->addCollidableObject(wall);
+	game->getGSM()->getSpriteManager()->addBot(wall);
+
+	return wall;
+}
+
+void WalkaboutDataLoader::createSwitch(Game *game, AnimatedSpriteType* spriteType, SwitchWall *target, int x, int y, bool dirL){
+	Switch *_switch = new Switch(WALL_DESIGNATION, target);
+
+	_switch->setHitPoints(1);
+	_switch->setDamage(0);
+	_switch->setSpriteType(spriteType);
+	_switch->setAlpha(255);
+	if(dirL)
+		_switch->setCurrentState(IDLE_LEFT);
+	else
+		_switch->setCurrentState(IDLE_RIGHT);
+	PhysicalProperties *_switchProps = _switch->getPhysicalProperties();
+	_switchProps->setX(x);
+	_switchProps->setY(y);
+	_switchProps->setVelocity(0.0f, 0.0f);
+	_switchProps->setAccelerationX(0);
+	_switchProps->setAccelerationY(0);
+	_switch->setOnTileThisFrame(false);
+	_switch->setOnTileLastFrame(false);
+	_switch->affixTightAABBBoundingVolume();
+
+	//create a physics object for the wall
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldObject(game,_switch);
+	game->getGSM()->getPhysics()->addCollidableObject(_switch);
+	game->getGSM()->getSpriteManager()->addBot(_switch);
+}
+
+void WalkaboutDataLoader::createCutscene(Game *game, AnimatedSpriteType *spriteType, int x, int y, int height, int width){
+	CutsceneTrigger *trigger = new CutsceneTrigger(CUTSCENE_DESIGNATION);
+
+	trigger->setHitPoints(1);
+	trigger->setDamage(0);
+	trigger->setSpriteType(spriteType);
+	trigger->setAlpha(255);
+	trigger->setCurrentState(IDLE_LEFT);
+
+	PhysicalProperties *triggerProps = trigger->getPhysicalProperties();
+	triggerProps->setX(x);
+	triggerProps->setY(y);
+	triggerProps->setVelocity(0.0f, 0.0f);
+	triggerProps->setAccelerationX(0);
+	triggerProps->setAccelerationY(0);
+	trigger->setOnTileThisFrame(false);
+	trigger->setOnTileLastFrame(false);
+	trigger->affixTightAABBBoundingVolume();
+
+	//create a physics object for the wall
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createStaticWorldTrigger(game,trigger,width,height);
+	game->getGSM()->getPhysics()->addCollidableObject(trigger);
+	game->getGSM()->getSpriteManager()->addBot(trigger);
 }

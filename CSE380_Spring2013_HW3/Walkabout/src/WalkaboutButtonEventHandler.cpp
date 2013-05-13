@@ -67,6 +67,7 @@ void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game,
 	}
 	else if (command.compare(W_NEXT_SCENE_COMMAND) == 0)
 	{
+		game->getGAM()->playSound(C_SWOOSHTALK);
 		OverlayImage* currentImage = game->getGSM()->getCutsceneImage();
 		if (currentImage==NULL){
 			currentImage = game->getGSM()->initCutscene();
@@ -84,13 +85,9 @@ void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game,
 		}
 		else if(game->getCurrentLevelFileName().compare(W_LEVEL_2_NAME) == 0) {
 			// If finished second level, load third
-			/*game->getGAM()->setMusic(C_LEVEL3);
+			game->getGAM()->setMusic(C_LEVEL3);
 			game->setCurrentLevelFileName(W_LEVEL_3_NAME);
 			game->startGame();
-			*/
-
-			//CURRENTLY NO THIRD LEVEL IMPLEMENTED
-			game->getGSM()->goToMainMenu();
 		}
 		else {
 			// ONLY THREE LEVELS, GO TO MAIN MENU WHEN DONE, COULD ALSO JUMP INTO A CUTSCENE HERE TO END THE GAME

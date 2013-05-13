@@ -12,6 +12,7 @@
 #include "src\gsm\state\GameStateManager.h"
 #include "src\audio\GameAudioManager.h"
 #include "src\gsm\sprite\SpriteDesignations.h"
+#include "src\gsm\sprite\Projectile.h"
 
 /*
 	The constructor initializes the data structures and loads
@@ -28,7 +29,7 @@ BoxPhysics::BoxPhysics()
 
 	b2StepHertz = 60.0f;
 	velocityIterations = 6;
-	positionIterations = 4;
+	positionIterations = 10;
 
 	BoxContactListener *listener = new BoxContactListener(this);
 	physics_world->SetContactListener(listener);
@@ -103,10 +104,25 @@ void BoxPhysics::updateContacts(Game *game){
 
 		// NEED TO CHECK IF PLAYER IS BEING HIT BY A PROJECTILE
 		if(a == game->getGSM()->getSpriteManager()->getPlayer()) {
-			if((b->getHitPoints() > 0) || (b->getDesignation() == PROJECTILE_DESIGNATION) || (b->getDesignation() == SPIKES_DESIGNATION)) {
-				if(b->getDesignation() == PROJECTILE_DESIGNATION)
-					b->setHitPoints(0);
-				handlePlayerCollision(game, a, b);
+			if (b->getDesignation()==CUTSCENE_DESIGNATION) {
+				b->setHitPoints(0);
+				n->contact->SetEnabled(false);
+				game->getGSM()->goToCutscene();
+			}
+			else if((b->getHitPoints() > 0) 
+				|| ((b->getDesignation() == PROJECTILE_DESIGNATION)) 
+				|| (b->getDesignation() == SPIKES_DESIGNATION)) 
+			{
+				if(b->getDesignation() == PROJECTILE_DESIGNATION){
+					int groupIndex = b->getPhysicsBody()->GetFixtureList()->GetFilterData().groupIndex;
+					((Projectile *)b)->projectileCollisionCallback(game,a);
+					if(groupIndex != FRIENDLY_PROJECTILE_INDEX){
+						handlePlayerCollision(game, a, b);
+					}
+				}
+				else{
+					handlePlayerCollision(game, a, b);
+				}
 				if(a->getHitPoints() <= 0) {
 					n->contact->SetEnabled(false);
 				}
@@ -115,8 +131,22 @@ void BoxPhysics::updateContacts(Game *game){
 				n->contact->SetEnabled(false);
 			}
 		}
+		else if((a->getDesignation() == PROJECTILE_DESIGNATION) && 
+			(b->getDesignation() == PROJECTILE_DESIGNATION))
+		{
+			// PROJECTILE TO PROJECTILE
+			((Projectile *)a)->projectileCollisionCallback(game,b);
+			((Projectile *)b)->projectileCollisionCallback(game,a);
+			if((a->getHitPoints() <= 0) || (b->getHitPoints() <= 0)) {
+				a->playSound(game, SPRITE_DEAD);
+			}
+			else {
+				a->playSound(game, SPRITE_HIT);
+			}
+		}
 		else {
-			// PROJECTILE TO PROJECTILE, PROJECTILE TO BOT, PROJECTILE TO WALL
+			//maybe use the projectileCollisionCallback here? (If needed) #CrunchTime
+			//PROJECTILE TO BOT, PROJECTILE TO WALL
 			b->setHitPoints(0);
 			a->decrementHitPoints(b->getDamage());
 			if(a->getHitPoints() <= 0) {
@@ -408,4 +438,21 @@ void BoxPhysics::createContact(b2Contact *contact) {
 	n->next = contacts.head;
 	n->contact = contact;
 	contacts.head = n;
+}
+
+b2RevoluteJoint * BoxPhysics::createWorldJoint(b2Body * bodyA, b2Body * bodyB){
+	b2RevoluteJointDef vineJointDef;
+	vineJointDef.collideConnected = true;
+	vineJointDef.bodyA = bodyA;
+	vineJointDef.bodyB = bodyB;
+	//these are static values now for testing, scaling the width and height
+	//of the sprite's width and height
+	vineJointDef.localAnchorA.Set(0,0);
+	vineJointDef.localAnchorB.Set(0,0);
+	//revoluteJointDef.referenceAngle = currentBody->GetAngle() - prevBody->GetAngle();
+	return (b2RevoluteJoint *)(physics_world->CreateJoint(&vineJointDef));
+}
+
+void BoxPhysics::deleteWorldJoint(b2RevoluteJoint *joint){
+	physics_world->DestroyJoint(joint);
 }

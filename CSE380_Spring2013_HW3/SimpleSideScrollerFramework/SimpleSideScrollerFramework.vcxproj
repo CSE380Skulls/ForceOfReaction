@@ -149,6 +149,7 @@
     <ClInclude Include="src\gsm\physics\Physics.h" />
     <ClInclude Include="src\gsm\sprite\AnimatedSprite.h" />
     <ClInclude Include="src\gsm\sprite\AnimatedSpriteType.h" />
+    <ClInclude Include="src\gsm\sprite\Projectile.h" />
     <ClInclude Include="src\gsm\sprite\SpriteDesignations.h" />
     <ClInclude Include="src\gsm\sprite\SpriteManager.h" />
     <ClInclude Include="src\gsm\state\Cutscene.h" />

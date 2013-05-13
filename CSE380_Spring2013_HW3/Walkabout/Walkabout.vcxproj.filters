@@ -1,127 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="src\Bots">
-      <UniqueIdentifier>{8b5cb4f4-19c4-484b-83e7-eecf30df7c4e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Projectiles">
-      <UniqueIdentifier>{f66df01f-7876-4cf0-9f0c-123e8214d02f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Static Objects">
-      <UniqueIdentifier>{3a3c1295-246b-4a8e-9288-3f260676411a}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="src\BossBot.cpp" />
+    <ClCompile Include="src\BreakableWall.cpp" />
+    <ClCompile Include="src\Bubble.cpp" />
+    <ClCompile Include="src\CutsceneTrigger.cpp" />
+    <ClCompile Include="src\FireBall.cpp" />
+    <ClCompile Include="src\Flamethrower.cpp" />
+    <ClCompile Include="src\FORFloatingBot.cpp" />
+    <ClCompile Include="src\FORPlayer.cpp" />
+    <ClCompile Include="src\Fountain.cpp" />
+    <ClCompile Include="src\Seed.cpp" />
+    <ClCompile Include="src\Switch.cpp" />
+    <ClCompile Include="src\SwitchWall.cpp" />
+    <ClCompile Include="src\Vine.cpp" />
+    <ClCompile Include="src\WalkaboutButtonEventHandler.cpp" />
+    <ClCompile Include="src\WalkaboutCollisionListener.cpp" />
+    <ClCompile Include="src\WalkaboutDataLoader.cpp" />
+    <ClCompile Include="src\WalkaboutGame.cpp" />
+    <ClCompile Include="src\WalkaboutKeyEventHandler.cpp" />
+    <ClCompile Include="src\WalkaboutTextGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\WalkaboutButtonEventHandler.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WalkaboutDataLoader.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WalkaboutGame.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WalkaboutKeyEventHandler.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WalkaboutTextGenerator.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WalkaboutCollisionListener.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FORFloatingBot.cpp">
-      <Filter>src\Bots</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Seed.cpp">
-      <Filter>src\Projectiles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FireBall.cpp">
-      <Filter>src\Projectiles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vine.cpp">
-      <Filter>src\Projectiles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Bubble.cpp">
-      <Filter>src\Projectiles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Fountain.cpp">
-      <Filter>src\Projectiles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Flamethrower.cpp">
-      <Filter>src\Projectiles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BossBot.cpp">
-      <Filter>src\Bots</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BreakableWall.cpp">
-      <Filter>src\Static Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FORPlayer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\WalkaboutButtonEventHandler.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\WalkaboutDataLoader.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\WalkaboutGame.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\WalkaboutKeyEventHandler.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\WalkaboutTextGenerator.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\WalkaboutCollisionListener.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FORFloatingBot.h">
-      <Filter>src\Bots</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vine.h">
-      <Filter>src\Projectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Seed.h">
-      <Filter>src\Projectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FireBall.h">
-      <Filter>src\Projectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Bubble.h">
-      <Filter>src\Projectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Fountain.h">
-      <Filter>src\Projectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Flamethrower.h">
-      <Filter>src\Projectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BossBot.h">
-      <Filter>src\Bots</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BreakableWall.h">
-      <Filter>src\Static Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FORPlayer.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Spikes.h">
-      <Filter>src\Static Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\StaticSeed.h">
-      <Filter>src\Static Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Projectile.h">
-      <Filter>src\Projectiles</Filter>
-    </ClInclude>
+    <ClInclude Include="src\BossBot.h" />
+    <ClInclude Include="src\BreakableWall.h" />
+    <ClInclude Include="src\Bubble.h" />
+    <ClInclude Include="src\CutsceneTrigger.h" />
+    <ClInclude Include="src\FireBall.h" />
+    <ClInclude Include="src\Flamethrower.h" />
+    <ClInclude Include="src\FORFloatingBot.h" />
+    <ClInclude Include="src\FORPlayer.h" />
+    <ClInclude Include="src\Fountain.h" />
+    <ClInclude Include="src\Seed.h" />
+    <ClInclude Include="src\Spikes.h" />
+    <ClInclude Include="src\StaticSeed.h" />
+    <ClInclude Include="src\Switch.h" />
+    <ClInclude Include="src\SwitchWall.h" />
+    <ClInclude Include="src\Vine.h" />
+    <ClInclude Include="src\WalkaboutButtonEventHandler.h" />
+    <ClInclude Include="src\WalkaboutCollisionListener.h" />
+    <ClInclude Include="src\WalkaboutDataLoader.h" />
+    <ClInclude Include="src\WalkaboutGame.h" />
+    <ClInclude Include="src\WalkaboutKeyEventHandler.h" />
+    <ClInclude Include="src\WalkaboutTextGenerator.h" />
+    <ClInclude Include="src\FOR_Projectile.h" />
   </ItemGroup>
 </Project>

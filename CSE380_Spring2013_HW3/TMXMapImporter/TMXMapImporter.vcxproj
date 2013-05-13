@@ -79,6 +79,7 @@
     <ClCompile Include="src\TMXMapImporter.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Walkabout\src\FOR_Projectile.h" />
     <ClInclude Include="src\TMXMapImporter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

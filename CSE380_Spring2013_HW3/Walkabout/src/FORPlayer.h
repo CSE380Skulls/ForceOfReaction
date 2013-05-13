@@ -32,6 +32,10 @@ private:
 	StaticSeed* staticSeed;
 	//list of all vines that are currently within the world
 	std::list<completeVineRef> vineList;
+	//last vine part collided with
+	Vine * lastCollidedVine;
+	bool isHookedToVine;
+	b2RevoluteJoint * vineJoint;
 
 	static const int EARTH   =	0;
 	static const int WATER   =	1;
@@ -53,6 +57,9 @@ public:
 	void leftAttack(Game* game, float mX, float mY);
 	void rightAttack(Game* game, float mX, float mY);
 	void jump(Game* game);
+	void hookToVine(Game* game);
+	void deleteRopeContainingVinePart(Vine *vine);
+	void deleteCompleteVine(completeVineRef *vineref);
 	void nextElement();
 
 	int getSelectedElement() { return selectedElement; }
@@ -64,9 +71,11 @@ public:
 
 	void setDirection(int i) { direction = i; }
 	void setSelectedElement(int i) { selectedElement = i; }
+	void setLastCollidedVine(Vine *vine) { lastCollidedVine = vine; }
 	
 	void playSound(Game* game, SpriteDesignations soundType);
 	void destroyProjectile() { projectile = NULL; }
 	void createStaticSeed(Game* game, int x, int y);
 	void destorySeed() { staticSeed = NULL; }
+	void reset();
 };

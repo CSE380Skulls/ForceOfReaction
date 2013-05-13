@@ -21,4 +21,6 @@ enum SpriteDesignations
 	SPRITE_DEAD,
 	// Spikes
 	SPIKES_DESIGNATION,
+	// Cutscene
+	CUTSCENE_DESIGNATION,
 };

@@ -26,6 +26,8 @@ FORPlayer::FORPlayer(int att_Cooldown, int d_Cooldown, int designation){
 	availableElements = 3;
 	projectile = NULL;
 	staticSeed = NULL;
+	lastCollidedVine = NULL;
+	isHookedToVine = false;
 }
 
 // Can this player attack?  Assumes that the player is going to attack if they can
@@ -43,30 +45,37 @@ void FORPlayer::update(Game* game){
 		return;
 	}
 	// If stunned and shouldn't be anymore, unstun
-	if(stunned && (cooldownCounter <= 0) )
+	if(stunned && (cooldownCounter <= 0) ){
+		setCurrentState(direction==1?DYING_RIGHT:DYING_LEFT);
 		stunned = false;
-
+	}
 	// If hitpoints are 0, remove it
 	if(hitPoints <= 0){
 		dead = true;
 		cooldownCounter = deathCooldown;
-		setCurrentState(DEAD);
+		setCurrentState(direction==1?DYING_RIGHT:DYING_LEFT);
 		return;
 	}
 
 	//This really shouldn't be here, but I need to update this somewhere
 	//check if the vine should be destroyed or not. This should really
 	//be handled by the contact listener to increment a count of how many
-	//collided, but this will do for now
+	//collided, but this will do for now... #CrunchTime
 	int numCollided = 0;
+	bool attachedToSeed = false;
 	if(!vineList.empty()){
 		std::vector<AnimatedSprite *> vineParts = vineList.front().vineParts;
 		for(int i = 0; i < vineParts.size(); i++){
 			if(vineParts[i]->getWallCollision() == true){
 				numCollided ++;
 			}
+			if(((Vine *)vineParts[i])->getStaticSeed() != NULL){
+				attachedToSeed = true;
+				break;
+			}
+
 		}
-		if(numCollided > 4){
+		if(numCollided > 4 && !attachedToSeed){
 			for(int i = 0; i < vineParts.size(); i++){
 				vineParts[i]->setHitPoints(0);
 				((Vine *) vineParts[i])->setVineDestroyed(true);
@@ -232,7 +241,7 @@ void FORPlayer::hover() {
 
 void FORPlayer::jump(Game *game){
 	if(canMove()) {
-		if(!objectJumping)
+		if(!objectJumping || isHookedToVine)
 		{
 			objectJumping = true;
 			game->getGAM()->playSound(C_JUMP);
@@ -240,6 +249,37 @@ void FORPlayer::jump(Game *game){
 					b2Vec2(0.0f, JUMP_VELOCITY),
 					getPhysicsBody()->GetPosition());
 			setCurrentState(direction==1?JUMPING_RIGHT:JUMPING_LEFT);
+			if(isHookedToVine){
+				isHookedToVine = false;
+				game->getGSM()->getBoxPhysics()->deleteWorldJoint(vineJoint);
+			}
+		}
+	}
+}
+
+void FORPlayer::hookToVine(Game *game){
+	if(lastCollidedVine != NULL && !isHookedToVine){
+		//Of course we have to make sure that this vine is within acceptable range!
+		PhysicalProperties * playerProperties = this->getPhysicalProperties();
+		float vine_x = lastCollidedVine->getPhysicalProperties()->getX();
+		float vine_y = lastCollidedVine->getPhysicalProperties()->getY();
+
+		float acceptableRangeX = this->getSpriteType()->getTextureWidth() + 
+			lastCollidedVine->getSpriteType()->getTextureWidth();
+		float acceptableRangeY = (this->getSpriteType()->getTextureHeight()/2) +
+			(lastCollidedVine->getSpriteType()->getTextureHeight()/2);
+
+		if((abs(playerProperties->getX() - vine_x) < acceptableRangeX ) &&
+			(abs(playerProperties->getY() - vine_y) < acceptableRangeY ))
+		{
+			vineJoint = game->getGSM()->getBoxPhysics()->createWorldJoint
+				(this->getPhysicsBody(),lastCollidedVine->getPhysicsBody());
+			isHookedToVine = true;
+		}
+		else
+		{
+			lastCollidedVine = NULL;
+			isHookedToVine = false;
 		}
 	}
 }
@@ -267,6 +307,16 @@ void FORPlayer::rightAttack(Game *game, float mx, float my){
 }
 
 void FORPlayer::earthAttackL(Game *game, float mx, float my) {
+	if(!vineList.empty()){
+		std::vector<AnimatedSprite *> vineParts = vineList.front().vineParts;
+		for(int i = 0; i < vineParts.size(); i++){
+			vineParts[i]->setHitPoints(0);
+			((Vine *) vineParts[i])->setVineDestroyed(true);
+			//the sprite will be deleted in the sprite manager
+		}
+		vineList.pop_front();
+	}
+
 	game->getGAM()->playSound(C_SWING);
 	setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 
@@ -306,8 +356,8 @@ void FORPlayer::earthAttackL(Game *game, float mx, float my) {
 	angle = (angle * PI) / 180; // radians
 
 	// Scale distances to be x and y velocity
-	difX *= PROJECTILE_VELOCITY *6;
-	difY *= PROJECTILE_VELOCITY *6;
+	difX *= PROJECTILE_VELOCITY *4;
+	difY *= PROJECTILE_VELOCITY *4;
 
 	float box_player_x = game->getGSM()->screenToPhysicsX(vine_x);
 	float box_player_y = game->getGSM()->screenToPhysicsY(py);
@@ -349,6 +399,9 @@ void FORPlayer::earthAttackL(Game *game, float mx, float my) {
 void FORPlayer::earthAttackR(Game *game, float mx, float my){
 	if(staticSeed != NULL) {
 		game->getGSM()->getSpriteManager()->addBotToRemovalList(staticSeed, 0);
+		if(staticSeed->getAttachedVine() != NULL){
+			deleteRopeContainingVinePart(staticSeed->getAttachedVine());
+		}
 		staticSeed = NULL;
 	}
 
@@ -558,7 +611,7 @@ void  FORPlayer::fireAttackR(Game* game, float mx, float my) {
 
 void FORPlayer::createStaticSeed(Game * game, int x, int y) {
 	AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
-	staticSeed = new StaticSeed(WALL_DESIGNATION);
+	staticSeed = new StaticSeed(PROJECTILE_DESIGNATION);
 	staticSeed->setDamage(0);
 	staticSeed->setSpriteType(seedSpriteType);
 	staticSeed->setAlpha(255);
@@ -579,3 +632,46 @@ void FORPlayer::createStaticSeed(Game * game, int x, int y) {
 	game->getGSM()->getPhysics()->addCollidableObject(staticSeed);
 	game->getGSM()->getSpriteManager()->addBot(staticSeed);
 }
+
+void FORPlayer::reset() {
+	destroyProjectile();
+	destorySeed();
+	dead = false;
+}
+
+void FORPlayer::deleteRopeContainingVinePart(Vine *vine){
+	bool listFound = false;
+	if(!vineList.empty()){
+		list<completeVineRef>::iterator ropeIterator = vineList.begin();
+		while(ropeIterator != vineList.end()){
+			std::vector<AnimatedSprite *> vineParts = ropeIterator->vineParts;
+			for(int i = 0; i < vineParts.size(); i++){
+				if(vine == vineParts[i]){
+					listFound = true;
+					break;
+				}
+			}
+			if(listFound){
+				for(int i = 0; i < vineParts.size(); i++){
+					vineParts[i]->setHitPoints(0);
+					((Vine *) vineParts[i])->setVineDestroyed(true);
+					//the sprite will be deleted in the sprite manager
+				}
+				return;
+			}
+			ropeIterator++;
+		}
+	}
+}
+
+//void FORPlayer::deleteCompleteVine(completeVineRef *vineref){
+//	std::vector<AnimatedSprite *> vineParts = vineref->vineParts;
+//	for(int i = 0; i < vineParts.size(); i++){
+//		Vine *vine = ((Vine *) vineParts[i]);
+//		vine->setHitPoints(0);
+//		vine->setVineDestroyed(true);
+//		if(vine->getStaticSeed() != NULL)
+//			vine->setAttachedSeed(NULL);
+//		//the sprite will be deleted in the sprite manager
+//	}
+//}

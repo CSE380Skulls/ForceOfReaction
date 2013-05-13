@@ -36,3 +36,26 @@ void Vine::init(float px, float py, AnimatedSpriteType *sprite){
 	setOnTileLastFrame(false);
 	affixTightAABBBoundingVolume();
 }
+
+void Vine::projectileCollisionCallback(Game *game, AnimatedSprite *collidedObject){
+	//part of this vine collided with the player, notify the player
+	//casting galore -_- #CrunchTime
+	if(collidedObject == game->getGSM()->getSpriteManager()->getPlayer()){
+		((FORPlayer *)collidedObject)->setLastCollidedVine(this);
+	}
+
+	if(collidedObject->getDesignation() == PROJECTILE_DESIGNATION){
+		//vine collided with another projectile
+		FOR_Projectile * projectile = (FOR_Projectile *)collidedObject;
+		if(projectile->getProjectileDesignation() == STATIC_SEED_DESG){
+			StaticSeed * seed = (StaticSeed *)projectile;
+			if(seed->getAttachedVine() == NULL){
+				seed->setAttachedVine(this);
+				seedAttached = seed;
+				game->getGSM()->getBoxPhysics()->
+					createWorldJoint(this->getPhysicsBody(),seed->getPhysicsBody());
+				//create JOINT!! :)
+			}
+		}
+	}
+}
