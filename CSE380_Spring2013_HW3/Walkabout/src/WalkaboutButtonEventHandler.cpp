@@ -38,8 +38,10 @@ void WalkaboutButtonEventHandler::handleButtonEvents(	Game *game,
 	else if (command.compare(W_START_COMMAND) == 0)
 	{
 		game->getGSM()->getSpriteManager()->getPlayer()->setHitPoints(PLAYER_HITPOINTS);
-		game->getGAM()->setMusic(C_LEVEL1);
-		game->setCurrentLevelFileName(W_LEVEL_1_NAME);
+		//game->getGAM()->setMusic(C_LEVEL1);
+		//game->setCurrentLevelFileName(W_LEVEL_1_NAME);
+		game->getGAM()->setMusic(C_LEVEL2);
+		game->setCurrentLevelFileName(W_LEVEL_2_NAME);
 		game->startGame();
 	}
 	else if (command.compare(W_RETURN_COMMAND) == 0)
