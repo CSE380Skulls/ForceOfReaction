@@ -209,7 +209,7 @@ void BoxPhysics::addContact(b2Contact *contact){
 
 	// IF ONE OF THE THINGS IN THIS COLLISION IS A WALL, DON'T DO ANYTHING BESIDES APPLY THE PHYSICS
 	// NOTE: THE PROJECTILES HAVE BEEN DEALT WITH, ONLY PROJECTILES CAN BREAK WALLS
-	if(a->getDesignation() == WALL_DESIGNATION || b->getDesignation()== WALL_DESIGNATION){
+	if(a->getDesignation() == WALL_DESIGNATION || b->getDesignation() == WALL_DESIGNATION){
 		return;
 	}
 
@@ -388,10 +388,18 @@ void BoxPhysics::handlePlayerCollision(Game *game, AnimatedSprite *player, Anima
 		// DAMAGE THE PLAYER
 		player->decrementHitPoints(other->getDamage());
 
+		// If the player died play the player dead sound
 		if(player->getHitPoints() <= 0) {
 			player->playSound(game, SPRITE_DEAD);
 			return;
 		}
+
+		// Player isn't dead if this spot it reached, play player hit sound.
+		player->playSound(game, SPRITE_HIT);
+
+		// Make sure the player doesn't go flying from hitting a projectile
+		if(other->getDesignation() == PROJECTILE_DESIGNATION)
+			return;
 
 		float px = game->getGSM()->physicsToScreenX(player->getCurrentBodyX());
 		float bx = game->getGSM()->physicsToScreenX(other->getCurrentBodyX());
@@ -416,7 +424,6 @@ void BoxPhysics::handlePlayerCollision(Game *game, AnimatedSprite *player, Anima
 			other->stun(60);
 			player->getPhysicsBody()->ApplyLinearImpulse(b2Vec2(player->getPhysicsBody()->GetLinearVelocity().x, 60.0f), player->getPhysicsBody()->GetPosition());
 		}
-		player->playSound(game, SPRITE_HIT);
 }
 
 void BoxPhysics::iterativeDFS(BoxVertexStart * startNode){

@@ -10,9 +10,11 @@
 
 class Seed : public FOR_Projectile
 {
+private:
+	bool enemySeed;
 public:
-	Seed(int designation) : FOR_Projectile(SEED_DESG) 
-		{ this->designation = designation; }
+	Seed(int designation, bool enemy) : FOR_Projectile(SEED_DESG) 
+		{ this->designation = designation;  enemySeed = enemy;}
 	void	update(Game *game);
 	Bot*    clone() { return NULL; }
 	void	playSound(Game *game, SpriteDesignations soundType) {}

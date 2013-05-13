@@ -88,6 +88,7 @@
     <ClCompile Include="src\FORFloatingBot.cpp" />
     <ClCompile Include="src\FORPlayer.cpp" />
     <ClCompile Include="src\Fountain.cpp" />
+    <ClCompile Include="src\MonkeyBot.cpp" />
     <ClCompile Include="src\Seed.cpp" />
     <ClCompile Include="src\Switch.cpp" />
     <ClCompile Include="src\SwitchWall.cpp" />
@@ -110,6 +111,7 @@
     <ClInclude Include="src\FORPlayer.h" />
     <ClInclude Include="src\FOR_Projectile.h" />
     <ClInclude Include="src\Fountain.h" />
+    <ClInclude Include="src\MonkeyBot.h" />
     <ClInclude Include="src\Seed.h" />
     <ClInclude Include="src\Spikes.h" />
     <ClInclude Include="src\StaticSeed.h" />

@@ -17,4 +17,5 @@
   <sprite_type>switch</sprite_type>
   <sprite_type>enemy_monkey</sprite_type>
   <sprite_type>cutscene</sprite_type>
+  <sprite_type>water</sprite_type>
 </sprite_type_list>
