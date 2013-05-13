@@ -68,11 +68,11 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 			{
 				player->hover();
 			}
-			if (input->isKeyDownForFirstTime(W_KEY) || input->isKeyDownForFirstTime(UP_KEY) || input->isKeyDownForFirstTime(SPACE_KEY))
+			if (input->isKeyDownForFirstTime(SPACE_KEY))
 			{
 				player->jump(game);
 			}
-			if (input->isKeyDown(E_KEY)){
+			if (input->isKeyDownForFirstTime(W_KEY)){
 				player->hookToVine(game);
 			}
 			if (input->isKeyDownForFirstTime(ESCAPE_KEY))
