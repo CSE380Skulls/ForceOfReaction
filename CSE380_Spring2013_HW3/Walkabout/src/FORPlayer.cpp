@@ -194,19 +194,21 @@ void FORPlayer::run() {
 
 		if (getPhysicsBody()->GetLinearVelocity().y==0)
 			setCurrentState(direction==1?WALKING_RIGHT:WALKING_LEFT);
-		else if(isAttacking() && getFrameIndex()==12)
+		else if(isAttacking() && getFrameIndex()==12 ||
+				isCharging() && getFrameIndex()==8)
 			setCurrentState(direction==1?FALLING_RIGHT:FALLING_LEFT);
 	}
 }
 
 void FORPlayer::hover() {
 	getPhysicsBody()->SetLinearVelocity(b2Vec2(0, getPhysicsBody()->GetLinearVelocity().y));
-	if(		isMovingV() && !(isFloating()||isAttacking()) ||
-			(isAttacking() && getFrameIndex()==12))
+	if(		isMovingV() && !(isFloating()||isAttacking()||isCharging()) ||
+			(isAttacking() && getFrameIndex()==12) ||
+			(isCharging() && getFrameIndex()==8))
 		setCurrentState(direction==1?FALLING_RIGHT:FALLING_LEFT);
-	if(!isMovingV() && !isAttacking())
+	if(!isMovingV() && !isAttacking() && !isCharging())
 		setCurrentState(direction==1?IDLE_RIGHT:IDLE_LEFT);
-	if(!isMovingV() && isAttacking() && getFrameIndex()==12)
+	if( !isMovingV() && ((isAttacking() && getFrameIndex()==12)||(isCharging() && getFrameIndex()==8)) )
 		setCurrentState(direction==1?IDLE_RIGHT:IDLE_LEFT);
 }
 
@@ -437,18 +439,18 @@ void  FORPlayer::waterAttackL(Game* game, float mx, float my) {
 	if(mx > px){
 		// Right side click
 		setDirection(1);
-		setCurrentState(ATTACKING_RIGHT);
+		setCurrentState(CHARGING_RIGHT);
 		fountainX = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0;
 	}
 	else {
 		// Left side click
 		setDirection(-1);
-		setCurrentState(ATTACKING_LEFT);
+		setCurrentState(CHARGING_LEFT);
 		fountainX = px - fountainSpriteType->getTextureWidth()*2;
 	}
 
 	Fountain *fountain = new Fountain(PROJECTILE_DESIGNATION);
-	fountain->init(fountainX,py,fountainSpriteType);
+	fountain->init(fountainX,py,fountainSpriteType,(fountainX<px?-1:1));
 
 	//create a physics object for the fountain
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,fountain,false);
@@ -469,18 +471,18 @@ void FORPlayer::fireAttackL(Game *game, float mx, float my) {
 	if(mx > px){
 		// Right side click
 		setDirection(1);
-		setCurrentState(ATTACKING_RIGHT);
+		setCurrentState(CHARGING_RIGHT);
 		flamethrowerX = px + game->getGSM()->getSpriteManager()->getPlayer()->getSpriteType()->getTextureWidth() / 2.0;
 	}
 	else {
 		// Left side click
 		setDirection(-1);
-		setCurrentState(ATTACKING_LEFT);
+		setCurrentState(CHARGING_LEFT);
 		flamethrowerX = px - flamethrowerSpriteType->getTextureWidth()*2;
 	}
 
 	Flamethrower *flamethrower = new Flamethrower(PROJECTILE_DESIGNATION);
-	flamethrower->init(flamethrowerX,py,flamethrowerSpriteType);
+	flamethrower->init(flamethrowerX,py,flamethrowerSpriteType,(flamethrowerX<px?-1:1));
 
 	//create a physics object for the flamethrower
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,flamethrower,false);

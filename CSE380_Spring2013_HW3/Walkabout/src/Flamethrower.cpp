@@ -21,12 +21,12 @@ void Flamethrower::update(Game *game){
 	}
 }
 
-void Flamethrower::init(float px, float py, AnimatedSpriteType *sprite){
+void Flamethrower::init(float px, float py, AnimatedSpriteType *sprite, int direction){
 	setHitPoints(1);
 	setDamage(FLAMETHROWER_DAMAGE);
 	setSpriteType(sprite);
 	setAlpha(255);
-	setCurrentState(IDLE_LEFT);
+	setCurrentState(direction==1?IDLE_RIGHT:IDLE_LEFT);
 	pp.setX(px);
 	pp.setY(py);
 	pp.setVelocity(0.0f, 0.0f);

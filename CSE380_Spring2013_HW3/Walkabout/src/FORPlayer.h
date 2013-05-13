@@ -58,6 +58,7 @@ public:
 	bool isFloating() { return (getCurrentState() == JUMPING_RIGHT || getCurrentState() == FALLING_RIGHT ||
 								getCurrentState() == JUMPING_LEFT || getCurrentState() == FALLING_LEFT); } 
 	bool isAttacking() { return (getCurrentState() == ATTACKING_RIGHT || getCurrentState() == ATTACKING_LEFT); }
+	bool isCharging() { return (getCurrentState() == CHARGING_RIGHT || getCurrentState() ==CHARGING_LEFT); }
 
 	void setDirection(int i) { direction = i; }
 	void setSelectedElement(int i) { selectedElement = i; }

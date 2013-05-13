@@ -56,6 +56,14 @@
   <image_file id="51" file_name="DEAD_LEFT_2.png"/>
   <image_file id="52" file_name="DEAD_LEFT_3.png"/>
   <image_file id="53" file_name="DEAD_LEFT_4.png"/>
+  <image_file id="54" file_name="charge_left_1.png"/>
+  <image_file id="55" file_name="charge_left_2.png"/>
+  <image_file id="56" file_name="charge_left_3.png"/>
+  <image_file id="57" file_name="charge_left_4.png"/>
+  <image_file id="58" file_name="charge_right_1.png"/>
+  <image_file id="59" file_name="charge_right_2.png"/>
+  <image_file id="60" file_name="charge_right_3.png"/>
+  <image_file id="61" file_name="charge_right_4.png"/>
  </images_list>
  <animations_list>
   <animation_state>
@@ -176,6 +184,26 @@
 	<pose image_id="51" duration="3"/>
 	<pose image_id="52" duration="3"/>
 	<pose image_id="53" duration="10000"/>
+   </animation_sequence>
+  </animation_state>
+  <animation_state>
+   <state>CHARGING_LEFT</state>
+   <animation_sequence>
+    <pose image_id="54" duration="3"/>
+	<pose image_id="55" duration="3"/>
+	<pose image_id="56" duration="3"/>
+	<pose image_id="57" duration="3"/>
+	<pose image_id="57" duration="100"/>
+   </animation_sequence>
+  </animation_state>
+  <animation_state>
+   <state>CHARGING_RIGHT</state>
+   <animation_sequence>
+    <pose image_id="58" duration="3"/>
+	<pose image_id="59" duration="3"/>
+	<pose image_id="60" duration="3"/>
+	<pose image_id="61" duration="3"/>
+	<pose image_id="61" duration="1000000"/>
    </animation_sequence>
   </animation_state>
  </animations_list>  
