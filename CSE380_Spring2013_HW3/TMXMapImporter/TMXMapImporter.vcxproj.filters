@@ -18,5 +18,8 @@
     <ClInclude Include="src\TMXMapImporter.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Walkabout\src\FOR_Projectile.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

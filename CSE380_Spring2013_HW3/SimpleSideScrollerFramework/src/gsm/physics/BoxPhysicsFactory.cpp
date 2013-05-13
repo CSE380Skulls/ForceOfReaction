@@ -63,6 +63,26 @@ void BoxPhysicsFactory::createEnemyObject(Game *game, AnimatedSprite *sprite, bo
 		(sprite_y + extent_y),extent_x,extent_y,!rotate);
 }
 
+void BoxPhysicsFactory::createMainPlayer(Game *game, AnimatedSprite *sprite){
+	createPlayerObject(game,sprite,false);
+	//now create the foot sensor, to detect when the player is standing on the ground
+	//add foot sensor fixture
+	float32 worldConv = game->getGSM()->getWorld()->getWorldConvFactor();
+	float sensor_extent_x = game->getGSM()->screenToPhysicsX(sprite->getSpriteType()->getTextureWidth())/2;
+	float sensor_extent_y = (1.0f/worldConv); //extremely small sensor that extends slightly below the feet
+	float sensor_y_start = (sprite->getSpriteType()->getTextureHeight()/2)/worldConv;
+
+	b2FixtureDef myFixtureDef;
+	b2PolygonShape polygonShape;
+    myFixtureDef.shape = &polygonShape;
+	myFixtureDef.filter.groupIndex = FRIENDLY_OBJECT_INDEX;
+    myFixtureDef.density = .01; //small density
+	polygonShape.SetAsBox(sensor_extent_x, sensor_extent_y, b2Vec2(0,-sensor_y_start), 0);
+    myFixtureDef.isSensor = true;
+	b2Fixture* footSensorFixture = sprite->getPhysicsBody()->CreateFixture(&myFixtureDef);
+    footSensorFixture->SetUserData( (BoxPhysicsObject *)sprite );
+}
+
 void BoxPhysicsFactory::createFriendlyProjectile(Game *game, AnimatedSprite *sprite, bool rotate){
 	createPlayerObject(game,sprite,rotate);
 	sprite->getPhysicsBody()->SetBullet(true);
@@ -122,14 +142,14 @@ void BoxPhysicsFactory::createStaticBox(Game *game, BoxPhysicsObject *phyobj,
 
 //this will eventually return something to the user, a reference to a box2d body
 void BoxPhysicsFactory::createDynamicBox(Game *game, BoxPhysicsObject *phyobj, AnimatedSprite * obj, int groupIndex,
-	float screen_center_x, float screen_center_y, float screen_extent_x, float screen_extent_y, bool rotate)
+	float screen_center_x, float screen_center_y, float screen_extent_x, float screen_extent_y, bool fixedRotate)
 {
 	b2BodyDef dynamicBodyDef;
 	b2PolygonShape dynamicBox;
 	b2FixtureDef fixtureDef;
 
 	dynamicBodyDef.type = b2_dynamicBody;
-	dynamicBodyDef.fixedRotation = rotate;
+	dynamicBodyDef.fixedRotation = fixedRotate;
 	dynamicBodyDef.userData = obj;
 
 	//convert to physics coordinates using the conversion factor
@@ -147,7 +167,7 @@ void BoxPhysicsFactory::createDynamicBox(Game *game, BoxPhysicsObject *phyobj, A
 	dynamicBox.SetAsBox(extent_x, extent_y);
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 10.0f;
+	fixtureDef.friction = 1.0f;
 
 	//This allows no collision to occur between two objects of the same
 	//group (if the inde is negative). Each group will have a different index.
@@ -227,6 +247,7 @@ void BoxPhysicsFactory::createStaticRope(Game *game, vector<AnimatedSprite *>spr
 	b2FixtureDef fd;
 	fd.shape = &shape;
 	fd.density = 10.0f;
+	fd.filter.groupIndex = FRIENDLY_PROJECTILE_INDEX;
 	b2Body* prevBody = tempObj->getPhysicsBody();
 
 	float phyX = game->getGSM()->screenToPhysicsX(x);
@@ -234,6 +255,7 @@ void BoxPhysicsFactory::createStaticRope(Game *game, vector<AnimatedSprite *>spr
 
 	for(int i = 0; i < spritesArray.size(); i++){
 		b2BodyDef bdef;
+		bdef.userData = spritesArray[i];
 		bdef.type = b2_dynamicBody;
 		bdef.position.Set(phyX - 5.0f, phyY - 5.0f);
 		shape.SetAsBox(physics_width, physics_height);
@@ -283,30 +305,35 @@ void BoxPhysicsFactory::createAttackRope(Game * game, vector<AnimatedSprite *>sp
 	bdef.angle = -angle; // negative for now, find out why, probably rotation is in a different coordinate system
 	fd.shape = &shape;
 	fd.density = 10.0f;
+	fd.friction = 10.0f;
+	fd.filter.groupIndex = FRIENDLY_PROJECTILE_INDEX;
 
-	b2RevoluteJointDef revoluteJointDef;
-	revoluteJointDef.collideConnected = false;
+	b2RevoluteJointDef ropeJointDef;
+	ropeJointDef.collideConnected = false;
 
 	//create the first body in the list and assign a body to it
 	b2Body *currentBody, *prevBody;
+	bdef.userData = spritesArray[0];
 	currentBody = physicsWorldRef->CreateBody(&bdef);
 	currentBody->CreateFixture(&fd);
 	spritesArray[0]->initPhysicsBody(currentBody);
 
+	fd.density = 5.0f;
 	prevBody = currentBody;
 
 	for(int i = 1; i < spritesArray.size(); i++){
+		bdef.userData = spritesArray[i];
 		currentBody = physicsWorldRef->CreateBody(&bdef);
 		currentBody->CreateFixture(&fd);
 
-		revoluteJointDef.bodyA = prevBody;
-		revoluteJointDef.bodyB = currentBody;
+		ropeJointDef.bodyA = prevBody;
+		ropeJointDef.bodyB = currentBody;
 		//these are static values now for testing, scaling the width and height
 		//of the sprite's width and height
-		revoluteJointDef.localAnchorA.Set(0,-joint_position);
-		revoluteJointDef.localAnchorB.Set(0,joint_position);
-		revoluteJointDef.referenceAngle = currentBody->GetAngle() - prevBody->GetAngle();
-		physicsWorldRef->CreateJoint(&revoluteJointDef);
+		ropeJointDef.localAnchorA.Set(0,-joint_position);
+		ropeJointDef.localAnchorB.Set(0,joint_position);
+		//revoluteJointDef.referenceAngle = currentBody->GetAngle() - prevBody->GetAngle();
+		physicsWorldRef->CreateJoint(&ropeJointDef);
 		
 		spritesArray[i]->initPhysicsBody(currentBody);
 

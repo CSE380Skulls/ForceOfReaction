@@ -86,7 +86,8 @@ public:
 	int getHitPoints() { return hitPoints; }
 	int getDamage() { return damage; }
 	int getDesignation() { return designation; }
-	void setWallCollision() { wallCollision = true; }
+	bool getWallCollision()	{ return wallCollision; }
+	virtual void setWallCollision() { wallCollision = true; }
 	virtual void update(Game *game)=0;
 	virtual void playSound(Game *game, SpriteDesignations soundType)=0;
 	virtual void stun(int framesStunned)=0;

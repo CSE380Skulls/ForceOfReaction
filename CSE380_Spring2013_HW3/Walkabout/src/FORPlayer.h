@@ -8,6 +8,7 @@
 #include "src\WalkaboutGame.h"
 #include "src\gsm\sprite\SpriteDesignations.h"
 #include "src\StaticSeed.h"
+#include "src\Vine.h"
 
 class FORPlayer : public AnimatedSprite
 {
@@ -29,6 +30,12 @@ private:
 	AnimatedSprite* projectile;
 	// Player  can have both a static seed and projectile out at once, but not two static seeds.
 	StaticSeed* staticSeed;
+	//list of all vines that are currently within the world
+	std::list<completeVineRef> vineList;
+	//last vine part collided with
+	Vine * lastCollidedVine;
+	bool isHookedToVine;
+	b2RevoluteJoint * vineJoint;
 
 	static const int EARTH   =	0;
 	static const int WATER   =	1;
@@ -50,11 +57,14 @@ public:
 	void leftAttack(Game* game, float mX, float mY);
 	void rightAttack(Game* game, float mX, float mY);
 	void jump(Game* game);
+	void hookToVine(Game* game);
+	void deleteRopeContainingVinePart(Vine *vine);
+	void deleteCompleteVine(completeVineRef *vineref);
 	void nextElement();
 
 	int getSelectedElement() { return selectedElement; }
 	int getDirection() { return direction; }
-	bool isMovingV() {return getPhysicsBody()->GetLinearVelocity().y != 0.0f; }
+	bool isMovingV() {return objectJumping; }
 	bool isFloating() { return (getCurrentState() == JUMPING_RIGHT || getCurrentState() == FALLING_RIGHT ||
 								getCurrentState() == JUMPING_LEFT || getCurrentState() == FALLING_LEFT); } 
 	bool isAttacking() { return (getCurrentState() == ATTACKING_RIGHT || getCurrentState() == ATTACKING_LEFT); }
@@ -62,6 +72,7 @@ public:
 
 	void setDirection(int i) { direction = i; }
 	void setSelectedElement(int i) { selectedElement = i; }
+	void setLastCollidedVine(Vine *vine) { lastCollidedVine = vine; }
 	
 	void playSound(Game* game, SpriteDesignations soundType);
 	void destroyProjectile() { projectile = NULL; }

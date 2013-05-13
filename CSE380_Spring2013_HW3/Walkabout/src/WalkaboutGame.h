@@ -206,6 +206,7 @@ const unsigned int D_KEY = (unsigned int)'D';
 const unsigned int P_KEY = (unsigned int)'P';
 const unsigned int T_KEY = (unsigned int)'T';
 const unsigned int Q_KEY = (unsigned int)'Q';
+const unsigned int E_KEY = (unsigned int)'E';
 const unsigned int Z_KEY = (unsigned int)'Z';
 const unsigned int ONE_KEY = (unsigned int)'1';
 const unsigned int TWO_KEY = (unsigned int)'2';

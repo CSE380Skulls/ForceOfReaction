@@ -61,7 +61,7 @@ void MonkeyBot::update(Game *game){
 				this->setCurrentState(direction==1?ATTACKING_RIGHT:ATTACKING_LEFT);
 				// Seed
 				AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
-				Seed *seed = new Seed(PROJECTILE_DESIGNATION);
+				Seed *seed = new Seed(PROJECTILE_DESIGNATION, true);
 
 				seed->setHitPoints(1);
 				seed->setDamage(SEED_DAMAGE);

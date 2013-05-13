@@ -6,13 +6,22 @@
 #include "src\game\Game.h"
 #include "src\WalkaboutGame.h"
 #include "src\gsm\sprite\SpriteDesignations.h"
-
-class StaticSeed : public Bot
+#include "FOR_Projectile.h"
+#include "Vine.h"
+class Vine;
+class StaticSeed : public FOR_Projectile
 {
+private:
+	Vine *attachedVine;
 public:
-	StaticSeed(int designation) { this->designation = designation; }
+	StaticSeed(int designation) : FOR_Projectile(STATIC_SEED_DESG) 
+		{ this->designation = designation; attachedVine = NULL;}
+
+	~StaticSeed(){}
 	void	update(Game *game) {this->hitPoints = MAX_HITPOINTS;}
 	Bot*    clone() { return NULL; } 
 	void	playSound(Game *game, SpriteDesignations soundType) {}
 	void	stun(int framesStunned) {}
+	void	setAttachedVine(Vine *vine) {attachedVine = vine;}
+	Vine *	getAttachedVine() {return attachedVine;}
 };

@@ -14,7 +14,7 @@ void Vine::update(Game *game){
 		return;
 
 	// If hitpoints are 0 or this seed stopped moving, remove it
-	if(hitPoints <= 0){
+	if(hitPoints <= 0 && vineDestroyed){
 		game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 0);
 		((FORPlayer*)game->getGSM()->getSpriteManager()->getPlayer())->destroyProjectile();
 		dead = true;
@@ -35,4 +35,27 @@ void Vine::init(float px, float py, AnimatedSpriteType *sprite){
 	setOnTileThisFrame(false);
 	setOnTileLastFrame(false);
 	affixTightAABBBoundingVolume();
+}
+
+void Vine::projectileCollisionCallback(Game *game, AnimatedSprite *collidedObject){
+	//part of this vine collided with the player, notify the player
+	//casting galore -_- #CrunchTime
+	if(collidedObject == game->getGSM()->getSpriteManager()->getPlayer()){
+		((FORPlayer *)collidedObject)->setLastCollidedVine(this);
+	}
+
+	if(collidedObject->getDesignation() == PROJECTILE_DESIGNATION){
+		//vine collided with another projectile
+		FOR_Projectile * projectile = (FOR_Projectile *)collidedObject;
+		if(projectile->getProjectileDesignation() == STATIC_SEED_DESG){
+			StaticSeed * seed = (StaticSeed *)projectile;
+			if(seed->getAttachedVine() == NULL){
+				seed->setAttachedVine(this);
+				seedAttached = seed;
+				game->getGSM()->getBoxPhysics()->
+					createWorldJoint(this->getPhysicsBody(),seed->getPhysicsBody());
+				//create JOINT!! :)
+			}
+		}
+	}
 }

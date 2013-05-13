@@ -16,11 +16,6 @@
 #include "BoxPhysicsObject.h"
 #include <Box2D\Box2D.h>
 
-/* For temporary testing */
-static const int FRIENDLY_OBJECT_INDEX = -1;
-static const int ENEMY_OBJECT_INDEX = -2;
-static const int OTHER = -3;
-
 class BoxPhysicsFactory
 {
 public:
@@ -32,6 +27,7 @@ public:
 		float screen_center_x, float screen_center_y, float extent_x, float extent_y);
 	void createStaticPlayerObject(Game *game, AnimatedSprite *sprite);
 	void createFriendlyProjectile(Game *game, AnimatedSprite *sprite, bool rotate);
+	void createMainPlayer(Game *game, AnimatedSprite *sprite);
 	void createStaticWorldObject(Game *game, AnimatedSprite *sprite);
 	void createStaticWorldTrigger(Game *game, AnimatedSprite *sprite, int width, int height);
 	// Used for rope objects

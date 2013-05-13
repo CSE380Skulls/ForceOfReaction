@@ -6,11 +6,13 @@
 #include "src\game\Game.h"
 #include "src\WalkaboutGame.h"
 #include "src\gsm\sprite\SpriteDesignations.h"
+#include "FOR_Projectile.h"
 
-class Bubble : public Bot
+class Bubble : public FOR_Projectile
 {
 public:
-	Bubble(int designation) { this->designation = designation; }
+	Bubble(int designation) : FOR_Projectile(BUBBLE_DESG)
+		{ this->designation = designation; }
 	void	update(Game *game);
 	Bot*    clone() { return NULL; }
 	void	playSound(Game *game, SpriteDesignations soundType) {}

@@ -52,7 +52,7 @@ void BossBot::update(Game *game){
 
 				// Seed
 				AnimatedSpriteType *seedSpriteType = game->getGSM()->getSpriteManager()->getSpriteType(3);
-				Seed *seed = new Seed(PROJECTILE_DESIGNATION);
+				Seed *seed = new Seed(PROJECTILE_DESIGNATION, true);
 				seed->setHitPoints(1);
 				seed->setDamage(SEED_DAMAGE);
 				seed->setSpriteType(seedSpriteType);
@@ -69,7 +69,7 @@ void BossBot::update(Game *game){
 				seed->affixTightAABBBoundingVolume();
 
 				//create a physics object for the seed
-				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,seed,false);
+				game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,seed,true);
 
 				// Set the velocity of the seed
 				seed->getPhysicsBody()->SetLinearVelocity(b2Vec2(attackSpeed, 0.5));

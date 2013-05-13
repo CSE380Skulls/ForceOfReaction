@@ -72,6 +72,9 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 			{
 				player->jump(game);
 			}
+			if (input->isKeyDown(E_KEY)){
+				player->hookToVine(game);
+			}
 			if (input->isKeyDownForFirstTime(ESCAPE_KEY))
 			{
 				if (gsm->getPhysics()->isActivated())
@@ -101,7 +104,7 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 				gsm->getPhysics()->togglePhysics();
 			gsm->goToLevelWon();
 		}
-		// CTRL + 2 = auto lose level (temporary until actuall impemented)
+		// CTRL + 2 = auto lose level
 		if(input->isKeyDown(CTRL_KEY) && input->isKeyDownForFirstTime(TWO_KEY)){
 			if (gsm->getPhysics()->isActivated())
 				gsm->getPhysics()->togglePhysics();
