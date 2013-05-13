@@ -7,6 +7,7 @@
 #include "src\WalkaboutKeyEventHandler.h"
 #include "src\WalkaboutTextGenerator.h"
 #include "src\FORFloatingBot.h"
+#include "src\MonkeyBot.h"
 #include "src\BreakableWall.h"
 #include "src\CutsceneTrigger.h"
 #include "src\BossBot.h"
@@ -902,7 +903,7 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	// CREATE BOTS
 	AnimatedSpriteType *bot = spriteManager->getSpriteType(1);
 	// FIRST LEVEL
-	createFORFloatingBot(game, bot, 1344, 256, 256);
+	//createFORFloatingBot(game, bot, 1344, 256, 256);
 	createFORFloatingBot(game, bot, 2048, 256, 256);
 	// SECOND LEVEL
 	createFORFloatingBot(game, bot, 2880, 896, 256);
@@ -916,6 +917,8 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	createFORFloatingBot(game, bot, 1920, 2048, 384);
 	createFORFloatingBot(game, bot, 2688, 2048, 384);
 
+	bot = spriteManager->getSpriteType(15);
+	createMonkeyBot(game, bot, 1344, 256, 256,-1);
 	// CREATE THE BOSS
 	AnimatedSpriteType *bossSpriteType = spriteManager->getSpriteType(6);
 	BossBot *boss = new BossBot(BULLET_SPEED, BOT_ATTACK_RANGE, BULLET_SPEED, BOT_ATTACK_COOLDOWN, BOT_DESIGNATION);
@@ -1628,7 +1631,28 @@ void WalkaboutDataLoader::createFORFloatingBot(Game *game, AnimatedSpriteType* s
 	game->getGSM()->getPhysics()->addCollidableObject(bot);
 	game->getGSM()->getSpriteManager()->addBot(bot);
 }
+void WalkaboutDataLoader::createMonkeyBot(Game *game, AnimatedSpriteType* spriteType, int x, int y, int range, int direction) {
+	MonkeyBot *monkey = new MonkeyBot(BULLET_SPEED, BOT_ATTACK_RANGE, MONKEY_DAMAGE, MONKEY_ATTACK_COOLDOWN, BOT_DESIGNATION, direction);
+	monkey->setHitPoints(MONKEY_HITPOINTS);
+	monkey->setDamage(MONKEY_DAMAGE);
+	monkey->setSpriteType(spriteType);
+	monkey->setAlpha(255);
+	monkey->setCurrentState(direction==1?IDLE_RIGHT:IDLE_LEFT);
+	PhysicalProperties *monkeyProps = monkey->getPhysicalProperties();
+	monkeyProps->setX(x);
+	monkeyProps->setY(y);
+	monkeyProps->setVelocity(0.0f, 0.0f);
+	monkeyProps->setAccelerationX(0);
+	monkeyProps->setAccelerationY(0);
+	monkey->setOnTileThisFrame(false);
+	monkey->setOnTileLastFrame(false);
+	monkey->affixTightAABBBoundingVolume();
 
+	//create a physics object for the monkey
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createEnemyObject(game,monkey,false);
+	game->getGSM()->getPhysics()->addCollidableObject(monkey);
+	game->getGSM()->getSpriteManager()->addBot(monkey);
+}
 SwitchWall* WalkaboutDataLoader::createSwitchWall(Game *game, AnimatedSpriteType* spriteType, int x, int y){
 	SwitchWall *wall = new SwitchWall(WALL_DESIGNATION);
 	wall->setHitPoints(MAX_HITPOINTS);

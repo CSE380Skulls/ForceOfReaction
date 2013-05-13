@@ -50,7 +50,7 @@
    </animation_sequence>
   </animation_state>
   <animation_state>
-   <state>IDLE_RIGHT</state>
+   <state>IDLE_LEFT</state>
    <animation_sequence>
     <pose image_id="6" duration="3"/>
 	<pose image_id="7" duration="3"/>
