@@ -48,7 +48,8 @@
 	<pose image_id="4" duration="3"/>
 	<pose image_id="5" duration="3"/>
    </animation_sequence>
-   <animation_state>
+  </animation_state>
+  <animation_state>
    <state>IDLE_RIGHT</state>
    <animation_sequence>
     <pose image_id="6" duration="3"/>
@@ -57,7 +58,8 @@
 	<pose image_id="9" duration="3"/>
 	<pose image_id="10" duration="3"/>
    </animation_sequence>
-   <animation_state>
+  </animation_state>
+  <animation_state>
    <state>ATTACKING_RIGHT</state>
    <animation_sequence>
     <pose image_id="17" duration="3"/>
@@ -67,7 +69,8 @@
 	<pose image_id="21" duration="3"/>
 	<pose image_id="22" duration="3"/>
    </animation_sequence>
-   <animation_state>
+  </animation_state>
+  <animation_state>
    <state>ATTACKING_LEFT</state>
    <animation_sequence>
     <pose image_id="11" duration="3"/>
@@ -77,7 +80,8 @@
 	<pose image_id="15" duration="3"/>
 	<pose image_id="16" duration="3"/>
    </animation_sequence>
-   <animation_state>
+  </animation_state>
+  <animation_state>
    <state>DYING_RIGHT</state>
    <animation_sequence>
     <pose image_id="29" duration="3"/>
@@ -87,7 +91,8 @@
 	<pose image_id="33" duration="3"/>
 	<pose image_id="34" duration="3"/>
    </animation_sequence>
-   <animation_state>
+  </animation_state>
+  <animation_state>
    <state>DYING_LEFT</state>
    <animation_sequence>
     <pose image_id="23" duration="3"/>

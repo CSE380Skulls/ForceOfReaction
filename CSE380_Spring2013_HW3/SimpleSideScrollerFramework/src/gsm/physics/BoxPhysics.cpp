@@ -111,6 +111,10 @@ void BoxPhysics::updateContacts(Game *game){
 					n->contact->SetEnabled(false);
 				}
 			}
+			else if (b->getDesignation()==CUTSCENE_DESIGNATION) {
+				b->setHitPoints(0);
+				game->getGSM()->getSpriteManager()->addBotToRemovalList(b, 0);
+			}
 			else {
 				n->contact->SetEnabled(false);
 			}
