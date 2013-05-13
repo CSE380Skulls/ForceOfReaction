@@ -120,5 +120,8 @@
     <ClInclude Include="src\StaticSeed.h">
       <Filter>src\Static Objects</Filter>
     </ClInclude>
+    <ClInclude Include="src\Projectile.h">
+      <Filter>src\Projectiles</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

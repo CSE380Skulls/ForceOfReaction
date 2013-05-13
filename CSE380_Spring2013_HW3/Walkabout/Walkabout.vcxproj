@@ -105,6 +105,7 @@
     <ClInclude Include="src\FORFloatingBot.h" />
     <ClInclude Include="src\FORPlayer.h" />
     <ClInclude Include="src\Fountain.h" />
+    <ClInclude Include="src\Projectile.h" />
     <ClInclude Include="src\Seed.h" />
     <ClInclude Include="src\Spikes.h" />
     <ClInclude Include="src\StaticSeed.h" />

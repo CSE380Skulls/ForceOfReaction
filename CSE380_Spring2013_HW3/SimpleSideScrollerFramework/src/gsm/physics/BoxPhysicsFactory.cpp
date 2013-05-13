@@ -222,12 +222,12 @@ void BoxPhysicsFactory::createStaticBox(Game *game, BoxPhysicsObject *phyobj, An
 	phyobj->initPhysicsBody(body);
 }
 
-void BoxPhysicsFactory::createTestRope(Game *game, vector<AnimatedSprite *>spritesArray){
+void BoxPhysicsFactory::createStaticRope(Game *game, vector<AnimatedSprite *>spritesArray, float x, float y){
 	//At this point the sprites are in the manager, now we attach the physics object
 	//to each rectangle joint
 	BoxPhysicsObject *tempObj = new BoxPhysicsObject();
 	//create an invisible box for testing
-	createStaticBox(game,tempObj, NULL, FRIENDLY_OBJECT_INDEX,800,200,4,25);
+	createStaticBox(game,tempObj, NULL, FRIENDLY_OBJECT_INDEX, x , y , 1, 1);
 
 	float physics_width = game->getGSM()->screenToPhysicsX(((float)spritesArray.at(0)->getSpriteType()->getTextureWidth())/2.0f);
 	float physics_height = game->getGSM()->screenToPhysicsX(((float)spritesArray.at(0)->getSpriteType()->getTextureHeight())/2.0f);
@@ -240,10 +240,13 @@ void BoxPhysicsFactory::createTestRope(Game *game, vector<AnimatedSprite *>sprit
 	fd.density = 10.0f;
 	b2Body* prevBody = tempObj->getPhysicsBody();
 
+	float phyX = game->getGSM()->screenToPhysicsX(x);
+	float phyY = game->getGSM()->screenToPhysicsY(y);
+
 	for(int i = 0; i < spritesArray.size(); i++){
 		b2BodyDef bdef;
 		bdef.type = b2_dynamicBody;
-		bdef.position.Set(20,68);
+		bdef.position.Set(phyX - 5.0f, phyY - 5.0f);
 		shape.SetAsBox(physics_width, physics_height);
 		fd.shape = &shape;
 		b2Body* body = physicsWorldRef->CreateBody(&bdef);
@@ -290,7 +293,7 @@ void BoxPhysicsFactory::createAttackRope(Game * game, vector<AnimatedSprite *>sp
 	bdef.position.Set(px,py);
 	bdef.angle = -angle; // negative for now, find out why, probably rotation is in a different coordinate system
 	fd.shape = &shape;
-	fd.density = 10.0f;
+	fd.density = 1.0f;
 	fd.friction = 10.0f;
 	fd.filter.groupIndex = 3;
 
@@ -317,7 +320,7 @@ void BoxPhysicsFactory::createAttackRope(Game * game, vector<AnimatedSprite *>sp
 		//of the sprite's width and height
 		revoluteJointDef.localAnchorA.Set(0,-joint_position);
 		revoluteJointDef.localAnchorB.Set(0,joint_position);
-		revoluteJointDef.referenceAngle = currentBody->GetAngle() - prevBody->GetAngle();
+		//revoluteJointDef.referenceAngle = currentBody->GetAngle() - prevBody->GetAngle();
 		physicsWorldRef->CreateJoint(&revoluteJointDef);
 		
 		spritesArray[i]->initPhysicsBody(currentBody);

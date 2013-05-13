@@ -68,4 +68,5 @@ public:
 	void playSound(Game* game, SpriteDesignations soundType);
 	void destroyProjectile() { projectile = NULL; }
 	void createStaticSeed(Game* game, int x, int y);
+	void destorySeed() { staticSeed = NULL; }
 };

@@ -306,8 +306,8 @@ void FORPlayer::earthAttackL(Game *game, float mx, float my) {
 	angle = (angle * PI) / 180; // radians
 
 	// Scale distances to be x and y velocity
-	difX *= PROJECTILE_VELOCITY *4;
-	difY *= PROJECTILE_VELOCITY *4;
+	difX *= PROJECTILE_VELOCITY *6;
+	difY *= PROJECTILE_VELOCITY *6;
 
 	float box_player_x = game->getGSM()->screenToPhysicsX(vine_x);
 	float box_player_y = game->getGSM()->screenToPhysicsY(py);

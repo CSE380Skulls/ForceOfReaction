@@ -35,7 +35,7 @@ public:
 	void createMainPlayer(Game *game, AnimatedSprite *sprite);
 	void createStaticWorldObject(Game *game, AnimatedSprite *sprite);
 	// Used for rope objects
-	void createTestRope(Game *game, vector<AnimatedSprite *>spritesArray);
+	void createStaticRope(Game *game, vector<AnimatedSprite *>spritesArray, float x, float y);
 	void createAttackRope(Game * game, vector<AnimatedSprite *>spritesArray, float px, float py, float angle);
 
 private:

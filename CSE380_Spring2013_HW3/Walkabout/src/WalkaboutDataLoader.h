@@ -24,6 +24,10 @@ private:
 	void loadLevel1(Game *game);
 	void loadLevel2(Game *game);
 	void loadLevel3(Game *game);
+	void createVine(Game *game, int x, int y);
+	void createSpikes(Game *game, AnimatedSpriteType* spriteType, int x, int y);
+	void createBreakableWall(Game *game, AnimatedSpriteType* spriteType, int x, int y);
+	void createFORFloatingBot(Game *game, AnimatedSpriteType* spriteType, int x, int y, int range);
 
 public:
 	WalkaboutDataLoader()	{}
