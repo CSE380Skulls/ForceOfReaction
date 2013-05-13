@@ -53,46 +53,47 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		// WASD KEY PRESSES WILL CONTROL THE PLAYER
 		// SO WE'LL UPDATE THE PLAYER VELOCITY WHEN THESE KEYS ARE
 		// PRESSED, THAT WAY PHYSICS CAN CORRECT AS NEEDED
-
-		if (input->isKeyDown(A_KEY) || input->isKeyDown(LEFT_KEY))
-		{
-			player->setDirection(-1);
-			player->run();
-		}
-		else if (input->isKeyDown(D_KEY) || input->isKeyDown(RIGHT_KEY))
-		{
-			player->setDirection(1);
-			player->run();
-		}
-		else
-		{
-			player->hover();
-		}
-		if (input->isKeyDownForFirstTime(W_KEY) || input->isKeyDownForFirstTime(UP_KEY) || input->isKeyDownForFirstTime(SPACE_KEY))
-		{
-			player->jump(game);
-		}
-		if (input->isKeyDownForFirstTime(ESCAPE_KEY))
-		{
-			if (gsm->getPhysics()->isActivated())
-				gsm->getPhysics()->togglePhysics();
-			gsm->goToPaused();
-		}
-		if (input->isKeyDownForFirstTime(T_KEY))
-		{
-			gsm->getPhysics()->activateForSingleUpdate();
-		}
-		if (input->isKeyDownForFirstTime(MOUSE_LEFT))
-		{
-			float mX = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
-			float mY = game->getGUI()->getCursor()->getY() + game->getGUI()->getViewport()->getViewportY();
-			player->leftAttack(game, mX, mY);
-		}
-		if(input->isKeyDownForFirstTime(MOUSE_RIGHT))
-		{
-			float mX = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
-			float mY = game->getGUI()->getCursor()->getY() + game->getGUI()->getViewport()->getViewportY();
-			player->rightAttack(game,mX,mY);
+		if (player->getHitPoints()>0) {
+			if (input->isKeyDown(A_KEY) || input->isKeyDown(LEFT_KEY))
+			{
+				player->setDirection(-1);
+				player->run();
+			}
+			else if (input->isKeyDown(D_KEY) || input->isKeyDown(RIGHT_KEY))
+			{
+				player->setDirection(1);
+				player->run();
+			}
+			else
+			{
+				player->hover();
+			}
+			if (input->isKeyDownForFirstTime(W_KEY) || input->isKeyDownForFirstTime(UP_KEY) || input->isKeyDownForFirstTime(SPACE_KEY))
+			{
+				player->jump(game);
+			}
+			if (input->isKeyDownForFirstTime(ESCAPE_KEY))
+			{
+				if (gsm->getPhysics()->isActivated())
+					gsm->getPhysics()->togglePhysics();
+				gsm->goToPaused();
+			}
+			if (input->isKeyDownForFirstTime(T_KEY))
+			{
+				gsm->getPhysics()->activateForSingleUpdate();
+			}
+			if (input->isKeyDownForFirstTime(MOUSE_LEFT))
+			{
+				float mX = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
+				float mY = game->getGUI()->getCursor()->getY() + game->getGUI()->getViewport()->getViewportY();
+				player->leftAttack(game, mX, mY);
+			}
+			if(input->isKeyDownForFirstTime(MOUSE_RIGHT))
+			{
+				float mX = game->getGUI()->getCursor()->getX() + game->getGUI()->getViewport()->getViewportX();
+				float mY = game->getGUI()->getCursor()->getY() + game->getGUI()->getViewport()->getViewportY();
+				player->rightAttack(game,mX,mY);
+			}
 		}
 		// CTRL + 1 = auto win level
 		if(input->isKeyDown(CTRL_KEY) && input->isKeyDownForFirstTime(ONE_KEY)){

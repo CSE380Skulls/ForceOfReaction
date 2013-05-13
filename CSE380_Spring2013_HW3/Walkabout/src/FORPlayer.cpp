@@ -44,14 +44,15 @@ void FORPlayer::update(Game* game){
 		return;
 	}
 	// If stunned and shouldn't be anymore, unstun
-	if(stunned && (cooldownCounter <= 0) )
+	if(stunned && (cooldownCounter <= 0) ){
+		setCurrentState(direction==1?DYING_RIGHT:DYING_LEFT);
 		stunned = false;
-
+	}
 	// If hitpoints are 0, remove it
 	if(hitPoints <= 0){
 		dead = true;
 		cooldownCounter = deathCooldown;
-		setCurrentState(DEAD);
+		setCurrentState(direction==1?DYING_RIGHT:DYING_LEFT);
 		return;
 	}
 }

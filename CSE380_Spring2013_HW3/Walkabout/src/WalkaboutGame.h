@@ -184,6 +184,8 @@ static const wstring	FALLING_LEFT(L"FALLING_LEFT");
 static const wstring	ATTACKING_RIGHT(L"ATTACKING_RIGHT");
 static const wstring	ATTACKING_LEFT(L"ATTACKING_LEFT");
 static const wstring	DEAD(L"DEAD");
+static const wstring	DYING_RIGHT(L"DYING_RIGHT");
+static const wstring	DYING_LEFT(L"DYING_LEFT");
 static const wstring	ONE(L"ONE");
 static const wstring	TWO(L"TWO");
 static const wstring	THREE(L"THREE");
