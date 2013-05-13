@@ -14,6 +14,7 @@
 #include "src\game\Game.h"
 #include "src\gsm\sprite\AnimatedSpriteType.h"
 #include "src\PlatformPlugins\DirectXPlugin\DirectXTextureManager.h"
+#include "src\SwitchWall.h"
 
 class WalkaboutDataLoader : public GameDataLoader
 {
@@ -28,6 +29,8 @@ private:
 	void createSpikes(Game *game, AnimatedSpriteType* spriteType, int x, int y);
 	void createBreakableWall(Game *game, AnimatedSpriteType* spriteType, int x, int y);
 	void createFORFloatingBot(Game *game, AnimatedSpriteType* spriteType, int x, int y, int range);
+	void createSwitch(Game *game, AnimatedSpriteType* spriteType, SwitchWall *switchWall, int x, int y, bool dirL);
+	SwitchWall *createSwitchWall(Game *game, AnimatedSpriteType* spriteType, int x, int y);
 
 public:
 	WalkaboutDataLoader()	{}
