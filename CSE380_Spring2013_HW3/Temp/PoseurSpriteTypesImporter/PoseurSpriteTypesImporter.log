@@ -1,0 +1,22 @@
+﻿Build started 5/13/2013 1:02:30 AM.
+     1>Project "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\PoseurSpriteTypesImporter\PoseurSpriteTypesImporter.vcxproj" on node 3 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\PoseurSpriteTypesImporter\PoseurSpriteTypesImporter.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Box2D\ /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\PoseurSpriteTypesImporter\\" /Fd"C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\PoseurSpriteTypesImporter\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt src\PoseurSpriteTypesImporter.cpp
+         PoseurSpriteTypesImporter.cpp
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\poseurspritetypesimporter\src\poseurspritetypesimporter.cpp(6): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\poseurspritetypesimporter\src\poseurspritetypesimporter.cpp(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\poseurspritetypesimporter\src\poseurspritetypesimporter.cpp(39): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\poseurspritetypesimporter\src\poseurspritetypesimporter.cpp(131): warning C4715: 'PoseurSpriteTypesImporter::loadSpriteTypeInfo' : not all control paths return a value
+       Lib:
+         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Common\PoseurSpriteTypesImporter.lib" /NOLOGO C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\PoseurSpriteTypesImporter\PoseurSpriteTypesImporter.obj
+         PoseurSpriteTypesImporter.vcxproj -> C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Common\PoseurSpriteTypesImporter.lib
+       FinalizeBuildStatus:
+         Deleting file "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\PoseurSpriteTypesImporter\PoseurSpriteTypesImporter.unsuccessfulbuild".
+         Touching "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\PoseurSpriteTypesImporter\PoseurSpriteTypesImporter.lastbuildstate".
+     1>Done Building Project "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\PoseurSpriteTypesImporter\PoseurSpriteTypesImporter.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:09.42

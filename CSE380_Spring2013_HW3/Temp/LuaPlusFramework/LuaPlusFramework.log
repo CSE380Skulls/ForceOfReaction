@@ -1,0 +1,117 @@
+﻿Build started 5/13/2013 1:01:00 AM.
+     1>Project "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\LuaPlusFramework\LuaPlusFramework.vcxproj" on node 3 (build target(s)).
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(298,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(299,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+     1>InitializeBuildStatus:
+         Creating "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaPlusFramework.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W0 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\\" /Fd"C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt auxiliar.c LuaPlusAddons.c luathread.c Lua\lapi.c Lua\lauxlib.c Lua\lbaselib.c Lua\lcode.c Lua\ldblib.c Lua\ldebug.c Lua\ldo.c Lua\ldump.c Lua\lfunc.c Lua\lgc.c Lua\linit.c Lua\liolib.c Lua\llex.c Lua\lmathlib.c Lua\lmem.c Lua\loadlib.c Lua\lobject.c Lua\lopcodes.c Lua\loslib.c Lua\lparser.c Lua\lstate.c Lua\lstring.c Lua\lstrlib.c Lua\ltable.c Lua\ltablib.c Lua\ltm.c Lua\lundump.c Lua\lvm.c Lua\lzio.c Lua\print.c lwstrlib.c pt.c srm.c
+         srm.c
+         pt.c
+         lwstrlib.c
+         print.c
+         lzio.c
+         lvm.c
+         lundump.c
+         ltm.c
+         ltablib.c
+         ltable.c
+         lstrlib.c
+         lstring.c
+         lstate.c
+         lparser.c
+         loslib.c
+         lopcodes.c
+         lobject.c
+         loadlib.c
+         lmem.c
+         lmathlib.c
+         Generating Code...
+         Compiling...
+         llex.c
+         liolib.c
+         linit.c
+         lgc.c
+         lfunc.c
+         ldump.c
+         ldo.c
+         ldebug.c
+         ldblib.c
+         lcode.c
+         lbaselib.c
+         lauxlib.c
+         lapi.c
+         luathread.c
+         LuaPlusAddons.c
+         auxiliar.c
+         Generating Code...
+         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W0 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\\" /Fd"C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt LuaCall.cpp LuaObject.cpp LuaPlus.cpp LuaPlusFunctions.cpp LuaPlus_Libs.cpp LuaStackObject.cpp LuaStackTableIterator.cpp LuaState.cpp LuaStateOutFile.cpp LuaState_DumpObject.cpp LuaTableIterator.cpp
+         LuaTableIterator.cpp
+         LuaState_DumpObject.cpp
+         LuaStateOutFile.cpp
+         LuaState.cpp
+         LuaStackTableIterator.cpp
+         LuaStackObject.cpp
+         LuaPlus_Libs.cpp
+         LuaPlusFunctions.cpp
+         LuaPlus.cpp
+         LuaObject.cpp
+         LuaCall.cpp
+         Generating Code...
+       Lib:
+         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Common\LuaPlusFramework.lib" /NOLOGO C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\auxiliar.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaCall.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaObject.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaPlus.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaPlusAddons.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaPlusFunctions.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaPlus_Libs.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaStackObject.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaStackTableIterator.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaState.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaStateOutFile.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaState_DumpObject.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaTableIterator.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\luathread.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lapi.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lauxlib.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lbaselib.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lcode.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\ldblib.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\ldebug.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\ldo.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\ldump.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lfunc.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lgc.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\linit.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\liolib.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\llex.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lmathlib.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lmem.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\loadlib.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lobject.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lopcodes.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\loslib.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lparser.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lstate.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lstring.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lstrlib.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\ltable.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\ltablib.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\ltm.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lundump.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lvm.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lzio.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\print.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\lwstrlib.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\pt.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\srm.obj
+         LuaPlusFramework.vcxproj -> C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Common\LuaPlusFramework.lib
+       FinalizeBuildStatus:
+         Deleting file "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaPlusFramework.unsuccessfulbuild".
+         Touching "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\LuaPlusFramework\LuaPlusFramework.lastbuildstate".
+     1>Done Building Project "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\LuaPlusFramework\LuaPlusFramework.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:30.86

@@ -1,0 +1,21 @@
+﻿Build started 5/13/2013 1:00:18 AM.
+     1>Project "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\XMLFileImporter\XMLFileImporter.vcxproj" on node 3 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\XMLFileImporter\XMLFileImporter.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\XMLFileImporter\\" /Fd"C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\XMLFileImporter\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt src\XMLFileImporter.cpp
+         XMLFileImporter.cpp
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\xmlfileimporter\src\xmlfileimporter.cpp(10): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\xmlfileimporter\src\xmlfileimporter.cpp(20): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\xmlfileimporter\src\xmlfileimporter.cpp(21): warning C4244: '=' : conversion from 'wchar_t' to 'char', possible loss of data
+       Lib:
+         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Common\XMLFileImporter.lib" /NOLOGO C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\XMLFileImporter\XMLFileImporter.obj
+         XMLFileImporter.vcxproj -> C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Common\XMLFileImporter.lib
+       FinalizeBuildStatus:
+         Deleting file "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\XMLFileImporter\XMLFileImporter.unsuccessfulbuild".
+         Touching "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\XMLFileImporter\XMLFileImporter.lastbuildstate".
+     1>Done Building Project "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\XMLFileImporter\XMLFileImporter.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:08.37

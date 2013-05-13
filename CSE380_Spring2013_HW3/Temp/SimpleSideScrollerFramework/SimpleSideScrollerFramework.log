@@ -1,0 +1,124 @@
+﻿Build started 5/13/2013 1:00:13 AM.
+     1>Project "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\SimpleSideScrollerFramework\SimpleSideScrollerFramework.vcxproj" on node 3 (build target(s)).
+     1>PrepareForBuild:
+         Creating directory "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Common\".
+       InitializeBuildStatus:
+         Creating "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\SimpleSideScrollerFramework.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\\" /Fd"C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt src\audio\GameAudioManager.cpp src\dataLoader\GameDataLoader.cpp src\game\Game.cpp src\game\WStringTable.cpp src\graphics\GameGraphics.cpp src\graphics\RenderList.cpp src\graphics\TextureManager.cpp src\gsm\ai\BotRecycler.cpp src\gsm\physics\AABB.cpp src\gsm\physics\BoxContactListener.cpp src\gsm\physics\BoxPhysics.cpp src\gsm\physics\BoxPhysicsFactory.cpp src\gsm\physics\CollidableObject.cpp src\gsm\physics\Physics.cpp src\gsm\sprite\AnimatedSprite.cpp src\gsm\sprite\AnimatedSpriteType.cpp src\gsm\sprite\SpriteManager.cpp src\gsm\state\Cutscene.cpp src\gsm\state\GameStateManager.cpp src\gsm\world\SparseLayer.cpp src\gsm\world\TiledLayer.cpp src\gsm\world\World.cpp src\gui\Button.cpp src\gui\Cursor.cpp src\gui\GameGUI.cpp src\gui\ScreenGUI.cpp src\gui\Viewport.cpp src\input\GameInput.cpp src\PlatformPlugins\DirectXPlugin\DirectXGraphics.cpp src\PlatformPlugins\DirectXPlugin\DirectXTextureManager.cpp src\PlatformPlugins\WindowsPlugin\WindowsInput.cpp src\PlatformPlugins\WindowsPlugin\WindowsOS.cpp src\PlatformPlugins\WindowsPlugin\WindowsTimer.cpp src\text\BufferedTextFileReader.cpp src\text\GameText.cpp src\text\TextFileWriter.cpp stdafx.cpp
+         stdafx.cpp
+         TextFileWriter.cpp
+         GameText.cpp
+         BufferedTextFileReader.cpp
+         WindowsTimer.cpp
+         WindowsOS.cpp
+         WindowsInput.cpp
+         DirectXTextureManager.cpp
+         DirectXGraphics.cpp
+         GameInput.cpp
+         Viewport.cpp
+         ScreenGUI.cpp
+         GameGUI.cpp
+         Cursor.cpp
+         Button.cpp
+         World.cpp
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\world.cpp(98): warning C4018: '<' : signed/unsigned mismatch
+         TiledLayer.cpp
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(58): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(217): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(218): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(219): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(220): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(226): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(227): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(228): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(229): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(235): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(236): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(237): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(238): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(244): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(245): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(246): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(247): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(203): warning C4101: 'id2' : unreferenced local variable
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\world\tiledlayer.cpp(203): warning C4101: 'id1' : unreferenced local variable
+         SparseLayer.cpp
+         GameStateManager.cpp
+         Cutscene.cpp
+         Generating Code...
+         Compiling...
+         SpriteManager.cpp
+         AnimatedSpriteType.cpp
+         AnimatedSprite.cpp
+         Physics.cpp
+         CollidableObject.cpp
+         BoxPhysicsFactory.cpp
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\physics\boxphysicsfactory.cpp(44): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\physics\boxphysicsfactory.cpp(45): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\physics\boxphysicsfactory.cpp(235): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\physics\boxphysicsfactory.cpp(254): warning C4305: 'argument' : truncation from 'double' to 'float32'
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\physics\boxphysicsfactory.cpp(255): warning C4305: 'argument' : truncation from 'double' to 'float32'
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\physics\boxphysicsfactory.cpp(274): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\physics\boxphysicsfactory.cpp(298): warning C4018: '<' : signed/unsigned mismatch
+         BoxPhysics.cpp
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\gsm\physics\boxphysics.cpp(406): warning C4018: '<' : signed/unsigned mismatch
+         BoxContactListener.cpp
+         AABB.cpp
+         BotRecycler.cpp
+         TextureManager.cpp
+         RenderList.cpp
+         GameGraphics.cpp
+         WStringTable.cpp
+         Game.cpp
+         GameDataLoader.cpp
+         GameAudioManager.cpp
+         Generating Code...
+     1>c:\users\jamie\documents\github\forceofreaction\cse380_spring2013_hw3\simplesidescrollerframework\src\graphics\renderlist.cpp(104): warning C4715: 'RenderList::next' : not all control paths return a value
+       Lib:
+         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Common\SimpleSideScrollerFramework.lib" Box2D.lib irrKlang.lib /LIBPATH:C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Common\ /NOLOGO C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\GameAudioManager.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\GameDataLoader.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\Game.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\WStringTable.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\GameGraphics.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\RenderList.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\TextureManager.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\BotRecycler.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\AABB.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\BoxContactListener.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\BoxPhysics.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\BoxPhysicsFactory.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\CollidableObject.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\Physics.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\AnimatedSprite.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\AnimatedSpriteType.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\SpriteManager.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\Cutscene.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\GameStateManager.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\SparseLayer.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\TiledLayer.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\World.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\Button.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\Cursor.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\GameGUI.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\ScreenGUI.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\Viewport.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\GameInput.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\DirectXGraphics.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\DirectXTextureManager.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\WindowsInput.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\WindowsOS.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\WindowsTimer.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\BufferedTextFileReader.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\GameText.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\TextFileWriter.obj
+         C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\stdafx.obj
+         SimpleSideScrollerFramework.vcxproj -> C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Common\SimpleSideScrollerFramework.lib
+       FinalizeBuildStatus:
+         Deleting file "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\SimpleSideScrollerFramework.unsuccessfulbuild".
+         Touching "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\Temp\SimpleSideScrollerFramework\SimpleSideScrollerFramework.lastbuildstate".
+     1>Done Building Project "C:\Users\Jamie\Documents\GitHub\ForceOfReaction\CSE380_Spring2013_HW3\SimpleSideScrollerFramework\SimpleSideScrollerFramework.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:02:16.78
