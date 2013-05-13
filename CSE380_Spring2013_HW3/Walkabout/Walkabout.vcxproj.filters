@@ -64,6 +64,12 @@
     <ClCompile Include="src\FORPlayer.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Switch.cpp">
+      <Filter>src\Static Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SwitchWall.cpp">
+      <Filter>src\Static Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\WalkaboutButtonEventHandler.h">
@@ -118,6 +124,12 @@
       <Filter>src\Static Objects</Filter>
     </ClInclude>
     <ClInclude Include="src\StaticSeed.h">
+      <Filter>src\Static Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Switch.h">
+      <Filter>src\Static Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SwitchWall.h">
       <Filter>src\Static Objects</Filter>
     </ClInclude>
   </ItemGroup>

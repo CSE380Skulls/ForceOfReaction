@@ -555,3 +555,9 @@ void FORPlayer::createStaticSeed(Game * game, int x, int y) {
 	game->getGSM()->getPhysics()->addCollidableObject(staticSeed);
 	game->getGSM()->getSpriteManager()->addBot(staticSeed);
 }
+
+void FORPlayer::reset() {
+	destroyProjectile();
+	destorySeed();
+	dead = false;
+}

@@ -88,6 +88,8 @@
     <ClCompile Include="src\FORPlayer.cpp" />
     <ClCompile Include="src\Fountain.cpp" />
     <ClCompile Include="src\Seed.cpp" />
+    <ClCompile Include="src\Switch.cpp" />
+    <ClCompile Include="src\SwitchWall.cpp" />
     <ClCompile Include="src\Vine.cpp" />
     <ClCompile Include="src\WalkaboutButtonEventHandler.cpp" />
     <ClCompile Include="src\WalkaboutCollisionListener.cpp" />
@@ -108,6 +110,8 @@
     <ClInclude Include="src\Seed.h" />
     <ClInclude Include="src\Spikes.h" />
     <ClInclude Include="src\StaticSeed.h" />
+    <ClInclude Include="src\Switch.h" />
+    <ClInclude Include="src\SwitchWall.h" />
     <ClInclude Include="src\Vine.h" />
     <ClInclude Include="src\WalkaboutButtonEventHandler.h" />
     <ClInclude Include="src\WalkaboutCollisionListener.h" />
