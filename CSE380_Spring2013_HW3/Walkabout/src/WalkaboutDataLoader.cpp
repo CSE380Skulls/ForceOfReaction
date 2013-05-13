@@ -1166,7 +1166,7 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 	createCutscene(game,cutsceneTriggerSprite,240,2080,100,100);
 
 	//create the player object in the physics world
-	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player,false);
+	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createMainPlayer(game,player);
 
 	game->getGSM()->clearScenes();
 	DirectXTextureManager* guiTextureManager = (DirectXTextureManager*)game->getGraphics()->getGUITextureManager();
@@ -1231,7 +1231,6 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 	// Level 8
 	createFORFloatingBot(game, bot, 640, 384, 256);
 	createFORFloatingBot(game, bot, 1984, 384, 256);
-
 
 	// Create Boss
 	AnimatedSpriteType *bossSpriteType = spriteManager->getSpriteType(6);

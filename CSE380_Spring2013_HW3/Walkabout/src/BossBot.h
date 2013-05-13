@@ -16,6 +16,7 @@ private:
 	int attackCooldown;
 	int cooldownCounter;
 	bool isInBounds(int px);
+	int direction;
 public:
 	BossBot(int attSpeed, int attRange, int attDmg, int cooldown, int designation);
 	void	update(Game *game);

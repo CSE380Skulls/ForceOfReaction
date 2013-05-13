@@ -633,6 +633,7 @@ void FORPlayer::createStaticSeed(Game * game, int x, int y) {
 	staticSeed->getPhysicsBody()->SetLinearVelocity(b2Vec2(0.0f,0.0f));
 	game->getGSM()->getPhysics()->addCollidableObject(staticSeed);
 	game->getGSM()->getSpriteManager()->addBot(staticSeed);
+	this->lastCollidedVine = NULL;
 }
 
 void FORPlayer::reset() {

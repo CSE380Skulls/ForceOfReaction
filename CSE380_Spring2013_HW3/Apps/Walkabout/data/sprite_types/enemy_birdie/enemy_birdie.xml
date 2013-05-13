@@ -4,6 +4,7 @@
  <height>128</height>
  <images_list>
   <image_file id="1" file_name="idle_right.png"/>
+  <image_file id="2" file_name="idle_left.png"/>
  </images_list>
  <animations_list>
   <animation_state>
@@ -15,7 +16,7 @@
   <animation_state>
    <state>IDLE_LEFT</state>
    <animation_sequence>
-    <pose image_id="1" duration="100"/>
+    <pose image_id="2" duration="100"/>
    </animation_sequence>
   </animation_state>
   <animation_state>
@@ -27,11 +28,17 @@
   <animation_state>
    <state>ATTACKING_LEFT</state>
    <animation_sequence>
-    <pose image_id="1" duration="100"/>
+    <pose image_id="2" duration="100"/>
+   </animation_sequence>
+  </animation_state>
+    <animation_state>
+  <state>DYING_LEFT</state>
+   <animation_sequence>
+    <pose image_id="2" duration="100"/>
    </animation_sequence>
   </animation_state>
   <animation_state>
-   <state>DEAD</state>
+   <state>DYING_RIGHT</state>
    <animation_sequence>
     <pose image_id="1" duration="100"/>
    </animation_sequence>
