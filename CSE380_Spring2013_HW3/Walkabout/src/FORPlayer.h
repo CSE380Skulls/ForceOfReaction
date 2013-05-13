@@ -73,6 +73,7 @@ public:
 	void setDirection(int i) { direction = i; }
 	void setSelectedElement(int i) { selectedElement = i; }
 	void setLastCollidedVine(Vine *vine) { lastCollidedVine = vine; }
+	void setNumElements(int i) {numElements = i; }
 	
 	void playSound(Game* game, SpriteDesignations soundType);
 	void destroyProjectile() { projectile = NULL; }

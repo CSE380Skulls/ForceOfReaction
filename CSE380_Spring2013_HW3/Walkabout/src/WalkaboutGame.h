@@ -35,13 +35,24 @@ static const wstring	W_NEXT_SCENE_COMMAND	= L"Scene";
 static const wstring	W_NEXT_LEVEL_COMMAND	= L"Next";
 static const wstring	W_RESTART_LEVEL_COMMAND = L"Restart";
 
-static const wstring	W_CUTSCENE_1_1			= L"data/gui/cutscenes/cut_1_1.png";
-static const wstring	W_CUTSCENE_1_2			= L"data/gui/cutscenes/cut_1_2.png";
-static const wstring	W_CUTSCENE_1_3			= L"data/gui/cutscenes/cut_1_3.png";
+static const wstring	W_CUTSCENE_1_1			= L"data/gui/cutscenes/intro_1_1.png";
+static const wstring	W_CUTSCENE_1_2			= L"data/gui/cutscenes/intro_1_2.png";
 
-static const wstring	W_CUTSCENE_2_1			= L"data/gui/cutscenes/cut_2_1.png";
-static const wstring	W_CUTSCENE_2_2			= L"data/gui/cutscenes/cut_2_2.png";
-static const wstring	W_CUTSCENE_2_3			= L"data/gui/cutscenes/cut_2_3.png";
+static const wstring	W_CUTSCENE_2_1			= L"data/gui/cutscenes/cut_1_1.png";
+static const wstring	W_CUTSCENE_2_2			= L"data/gui/cutscenes/cut_1_2.png";
+static const wstring	W_CUTSCENE_2_3			= L"data/gui/cutscenes/cut_1_3.png";
+static const wstring	W_CUTSCENE_2_4			= L"data/gui/cutscenes/cut_1_4.png";
+static const wstring	W_CUTSCENE_2_5			= L"data/gui/cutscenes/cut_1_5.png";
+
+static const wstring	W_CUTSCENE_3_1			= L"data/gui/cutscenes/cut_2_1.png";
+
+static const wstring	W_CUTSCENE_4_1			= L"data/gui/cutscenes/cut_3_1.png";
+static const wstring	W_CUTSCENE_4_2			= L"data/gui/cutscenes/cut_3_2.png";
+static const wstring	W_CUTSCENE_4_3			= L"data/gui/cutscenes/cut_3_3.png";
+
+static const wstring	W_CUTSCENE_5_1			= L"data/gui/cutscenes/cut_4_1.png";
+
+static const wstring	W_CUTSCENE_6_1			= L"data/gui/cutscenes/cut_5_1.png";
 
 static const wstring	W_INVISIBILE_PIXEL		= L"data/gui/cutscenes/invisible.png";
 // Lua stuff

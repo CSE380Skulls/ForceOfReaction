@@ -33,9 +33,9 @@ void WalkaboutTextGenerator::appendTargetFPS(Game *game)
 	WindowsTimer *timer = (WindowsTimer*)game->getTimer();
 
 	// BUILD THE WIDE STRING
-	textToGenerate.append(W_TARGET_FPS_TEXT);
+	//textToGenerate.append(W_TARGET_FPS_TEXT);
 	wss << timer->getTargetFPS();
-	textToGenerate.append(wss.str());
+	//textToGenerate.append(wss.str());
 }
 
 /*
@@ -74,6 +74,6 @@ void WalkaboutTextGenerator::updateText(Game *game)
 		wstringstream wss;
 		wss << L"Player HealtH: ";
 		wss << game->getGSM()->getSpriteManager()->getPlayer()->getHitPoints();
-		textToGenerate.append(wss.str());
+		//textToGenerate.append(wss.str());
 	}
 }

@@ -779,7 +779,8 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	player->setCurrentState(FALLING_RIGHT);
 	player->setDirection(1);
 	player->reset();
-
+	player->setNumElements(1);
+	player->setSelectedElement(0);
 	PhysicalProperties *playerProps = player->getPhysicalProperties();
 	playerProps->setX(256);
 	playerProps->setY(256);
@@ -791,7 +792,8 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	player->affixTightAABBBoundingVolume();
 
 	AnimatedSpriteType *cutsceneTriggerSprite = spriteManager->getSpriteType(16);
-	createCutscene(game,cutsceneTriggerSprite,256,350,1,200);
+	createCutscene(game,cutsceneTriggerSprite,400,256,400,1);
+	createCutscene(game,cutsceneTriggerSprite,2000,600,3,1000);
 	//create the player object in the physics world
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createMainPlayer(game,player);
 
@@ -801,15 +803,28 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	// Add cut scenes
 	game->getGSM()->clearScenes();
 	DirectXTextureManager* guiTextureManager = (DirectXTextureManager*)game->getGraphics()->getGUITextureManager();
-	unsigned int imageIDs [6];
-	OverlayImage* images [6];
+	unsigned int imageIDs [8];
+	OverlayImage* images [8];
 	imageIDs[0] = guiTextureManager->loadTexture(W_CUTSCENE_1_1);
 	imageIDs[1] = guiTextureManager->loadTexture(W_CUTSCENE_1_2);
-	imageIDs[2] = guiTextureManager->loadTexture(W_CUTSCENE_1_3);
-	imageIDs[3] = guiTextureManager->loadTexture(W_CUTSCENE_2_1);
-	imageIDs[4] = guiTextureManager->loadTexture(W_CUTSCENE_2_2);
-	imageIDs[5] = guiTextureManager->loadTexture(W_CUTSCENE_2_3);
-	for (int i=0;i<6;i++){
+	imageIDs[2] = guiTextureManager->loadTexture(W_CUTSCENE_2_1);
+	imageIDs[3] = guiTextureManager->loadTexture(W_CUTSCENE_2_2);
+	imageIDs[4] = guiTextureManager->loadTexture(W_CUTSCENE_2_3);
+	imageIDs[5] = guiTextureManager->loadTexture(W_CUTSCENE_2_4);
+	imageIDs[6] = guiTextureManager->loadTexture(W_CUTSCENE_2_5);
+	imageIDs[7] = guiTextureManager->loadTexture(W_CUTSCENE_3_1);
+	for (int i=0;i<2;i++){
+		OverlayImage* imageToAdd = new OverlayImage();
+		imageToAdd->x = 0;
+		imageToAdd->y = 0;
+		imageToAdd->z = 0;
+		imageToAdd->alpha = 255;
+		imageToAdd->width = 1024;
+		imageToAdd->height = 768;
+		imageToAdd->imageID = imageIDs[i];
+		images[i]=imageToAdd;
+	}
+	for (int i=2;i<8;i++){
 		OverlayImage* imageToAdd = new OverlayImage();
 		imageToAdd->x = 112;
 		imageToAdd->y = 608;
@@ -829,6 +844,10 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	cuts->addImage(images[3]);
 	cuts->addImage(images[4]);
 	cuts->addImage(images[5]);
+	cuts->addImage(images[6]);
+	game->getGSM()->addCutscene(cuts);
+	cuts = new Cutscene();
+	cuts->addImage(images[7]);
 	game->getGSM()->addCutscene(cuts);
 
 	ScreenGUI* gui = game->getGUI()->getScreen(GS_CUTSCENE);
@@ -972,6 +991,8 @@ void WalkaboutDataLoader::loadLevel2(Game *game) {
 	player->setCurrentState(FALLING_RIGHT);
 	player->setDirection(1);
 	player->reset();
+	player->setNumElements(2);
+	player->setSelectedElement(1);
 
 	PhysicalProperties *playerProps = player->getPhysicalProperties();
 	playerProps->setX(256);
@@ -983,20 +1004,21 @@ void WalkaboutDataLoader::loadLevel2(Game *game) {
 	player->setOnTileLastFrame(false);
 	player->affixTightAABBBoundingVolume();
 
+	AnimatedSpriteType *cutsceneTriggerSprite = spriteManager->getSpriteType(16);
+	createCutscene(game,cutsceneTriggerSprite,2000,600,3,1000);
+
 	//create the player object in the physics world
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createMainPlayer(game,player);
 
-	/*game->getGSM()->clearScenes();
+	game->getGSM()->clearScenes();
 	DirectXTextureManager* guiTextureManager = (DirectXTextureManager*)game->getGraphics()->getGUITextureManager();
-	unsigned int imageIDs [6];
-	OverlayImage* images [6];
-	imageIDs[0] = guiTextureManager->loadTexture(W_CUTSCENE_1_1);
-	imageIDs[1] = guiTextureManager->loadTexture(W_CUTSCENE_1_2);
-	imageIDs[2] = guiTextureManager->loadTexture(W_CUTSCENE_1_3);
-	imageIDs[3] = guiTextureManager->loadTexture(W_CUTSCENE_2_1);
-	imageIDs[4] = guiTextureManager->loadTexture(W_CUTSCENE_2_2);
-	imageIDs[5] = guiTextureManager->loadTexture(W_CUTSCENE_2_3);
-	for (int i=0;i<6;i++){
+	unsigned int imageIDs [4];
+	OverlayImage* images [4];
+	imageIDs[0] = guiTextureManager->loadTexture(W_CUTSCENE_4_1);
+	imageIDs[1] = guiTextureManager->loadTexture(W_CUTSCENE_4_2);
+	imageIDs[2] = guiTextureManager->loadTexture(W_CUTSCENE_4_3);
+	imageIDs[3] = guiTextureManager->loadTexture(W_CUTSCENE_5_1);
+	for (int i=0;i<4;i++){
 		OverlayImage* imageToAdd = new OverlayImage();
 		imageToAdd->x = 112;
 		imageToAdd->y = 608;
@@ -1010,18 +1032,15 @@ void WalkaboutDataLoader::loadLevel2(Game *game) {
 	Cutscene* cuts = new Cutscene();
 	cuts->addImage(images[0]);
 	cuts->addImage(images[1]);
+	cuts->addImage(images[2]);
 	game->getGSM()->addCutscene(cuts);
 	cuts = new Cutscene();
-	cuts->addImage(images[2]);
 	cuts->addImage(images[3]);
-	cuts->addImage(images[4]);
-	cuts->addImage(images[5]);
 	game->getGSM()->addCutscene(cuts);
 
 	ScreenGUI* gui = game->getGUI()->getScreen(GS_CUTSCENE);
 	gui->popOverlayImage(1);
 	gui->addOverlayImage(game->getGSM()->initCutscene());
-	*/
 
 	// Create wall switches
 	AnimatedSpriteType *wall_2 = spriteManager->getSpriteType(12);
@@ -1099,7 +1118,7 @@ void WalkaboutDataLoader::loadLevel2(Game *game) {
 	// Reset viewport
 	game->getGUI()->getViewport()->setViewportX(0);
 	game->getGUI()->getViewport()->setViewportY(0);
-	//game->getGSM()->goToCutscene();
+	game->getGSM()->goToCutscene();
 }
 
 //@TODO: CREATE SET UP FOR LEVEL 3
@@ -1130,6 +1149,8 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 	player->setCurrentState(FALLING_RIGHT);
 	player->setDirection(1);
 	player->reset();
+	player->setNumElements(3);
+	player->setSelectedElement(2);
 
 	PhysicalProperties *playerProps = player->getPhysicalProperties();
 	playerProps->setX(256);
@@ -1141,20 +1162,18 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 	player->setOnTileLastFrame(false);
 	player->affixTightAABBBoundingVolume();
 
+	AnimatedSpriteType *cutsceneTriggerSprite = spriteManager->getSpriteType(16);
+	createCutscene(game,cutsceneTriggerSprite,240,2080,100,100);
+
 	//create the player object in the physics world
 	game->getGSM()->getBoxPhysics()->getPhysicsFactory()->createPlayerObject(game,player,false);
 
-	/*game->getGSM()->clearScenes();
+	game->getGSM()->clearScenes();
 	DirectXTextureManager* guiTextureManager = (DirectXTextureManager*)game->getGraphics()->getGUITextureManager();
-	unsigned int imageIDs [6];
-	OverlayImage* images [6];
-	imageIDs[0] = guiTextureManager->loadTexture(W_CUTSCENE_1_1);
-	imageIDs[1] = guiTextureManager->loadTexture(W_CUTSCENE_1_2);
-	imageIDs[2] = guiTextureManager->loadTexture(W_CUTSCENE_1_3);
-	imageIDs[3] = guiTextureManager->loadTexture(W_CUTSCENE_2_1);
-	imageIDs[4] = guiTextureManager->loadTexture(W_CUTSCENE_2_2);
-	imageIDs[5] = guiTextureManager->loadTexture(W_CUTSCENE_2_3);
-	for (int i=0;i<6;i++){
+	unsigned int imageIDs [1];
+	OverlayImage* images [1];
+	imageIDs[0] = guiTextureManager->loadTexture(W_CUTSCENE_6_1);
+	for (int i=0;i<1;i++){
 		OverlayImage* imageToAdd = new OverlayImage();
 		imageToAdd->x = 112;
 		imageToAdd->y = 608;
@@ -1167,19 +1186,11 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 	}
 	Cutscene* cuts = new Cutscene();
 	cuts->addImage(images[0]);
-	cuts->addImage(images[1]);
-	game->getGSM()->addCutscene(cuts);
-	cuts = new Cutscene();
-	cuts->addImage(images[2]);
-	cuts->addImage(images[3]);
-	cuts->addImage(images[4]);
-	cuts->addImage(images[5]);
 	game->getGSM()->addCutscene(cuts);
 
 	ScreenGUI* gui = game->getGUI()->getScreen(GS_CUTSCENE);
 	gui->popOverlayImage(1);
 	gui->addOverlayImage(game->getGSM()->initCutscene());
-	*/
 
 	// Create Monkeys
 	AnimatedSpriteType *monkey = spriteManager->getSpriteType(15);
