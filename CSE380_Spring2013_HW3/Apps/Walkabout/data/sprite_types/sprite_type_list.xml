@@ -15,4 +15,5 @@
   <sprite_type>breakable_wall_2</sprite_type>
   <sprite_type>breakable_wall_3</sprite_type>
   <sprite_type>switch</sprite_type>
+  <sprite_type>enemy_monkey</sprite_type>
 </sprite_type_list>
