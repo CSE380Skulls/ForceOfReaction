@@ -28,7 +28,8 @@ public:
 	void	playSound(Game *game, SpriteDesignations soundType) {}
 	void    stun(int framesStunned) {}
 	void	init(float px, float py, AnimatedSpriteType *sprite);
-	void	projectileCollisionCallback(Game *game, AnimatedSprite *collidedObject);
+	bool	projectileCollisionCallback(Game *game, AnimatedSprite *collidedObject);
+	void	projectileWallCollisionCallback();
 	void	setAttachedSeed(StaticSeed *seed) {seedAttached = seed;}
 	StaticSeed * getStaticSeed() {return seedAttached;}
 };

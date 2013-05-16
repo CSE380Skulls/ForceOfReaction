@@ -102,9 +102,9 @@ static const wstring	W_RESTART_LEVEL_MO_PATH = L"data/gui/buttons/restart_mo.png
 // Music
 static char				*C_INTRO				= "data/audio/music/Lullaby.mp3";
 //static char				*C_LEVEL1				= "data/audio/music/Hunting.mp3";
-static char				*C_LEVEL1				= "data/audio/music/In_The_Jungle.mp3";
-static char				*C_LEVEL2				= "data/audio/music/Smoke_On_The_Water.mp3";
-static char				*C_LEVEL3				= "data/audio/music/Highway_To_Hell.mp3";
+static char				*C_LEVEL1				= "data/audio/music/temple.mp3";
+static char				*C_LEVEL2				= "data/audio/music/poseidon.mp3";
+static char				*C_LEVEL3				= "data/audio/music/dusk_falls.mp3";
 // Sounds
 static char				*C_EXPLOSION			= "data/audio/sounds/explosion.wav";
 static char				*C_DEATH				= "data/audio/sounds/death.wav";

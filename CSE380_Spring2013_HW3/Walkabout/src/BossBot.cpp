@@ -35,6 +35,7 @@ void BossBot::update(Game *game){
 		setCurrentState(direction==1?DYING_RIGHT:DYING_LEFT);
 		game->getGSM()->getSpriteManager()->addBotToRemovalList(this, 15);
 		dead = true;
+		game->getGSM()->goToLevelWon();
 		return;
 	}
 

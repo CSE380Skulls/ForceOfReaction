@@ -72,9 +72,6 @@ void SpriteManager::addSpriteItemsToRenderList(	Game *game)
 		RenderList *renderList = graphics->getWorldRenderList();
 		Viewport *viewport = gui->getViewport();
 
-		// ADD THE PLAYER SPRITE
-		addSpriteToRenderList(game, player, renderList, viewport);
-
 		//add the auxiliary sprites
 		/*list<AnimatedSprite*>::iterator auxIterator;
 		auxIterator = auxiliarySprites.begin();
@@ -94,6 +91,9 @@ void SpriteManager::addSpriteItemsToRenderList(	Game *game)
 			addSpriteToRenderList(game, bot, renderList, viewport);
 			botIterator++;
 		}
+
+		// ADD THE PLAYER SPRITE
+		addSpriteToRenderList(game, player, renderList, viewport);
 	}
 }
 

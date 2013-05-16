@@ -115,7 +115,7 @@ void BoxPhysics::updateContacts(Game *game){
 			{
 				if(b->getDesignation() == PROJECTILE_DESIGNATION){
 					int groupIndex = b->getPhysicsBody()->GetFixtureList()->GetFilterData().groupIndex;
-					((Projectile *)b)->projectileCollisionCallback(game,a);
+					n->contact->SetEnabled(((Projectile *)b)->projectileCollisionCallback(game,a));
 					if(groupIndex != FRIENDLY_PROJECTILE_INDEX){
 						handlePlayerCollision(game, a, b);
 					}
@@ -183,8 +183,7 @@ void BoxPhysics::addContact(b2Contact *contact){
 		AnimatedSprite *a = (AnimatedSprite*)bodyUserDataA;
 		if(a->getDesignation() == PROJECTILE_DESIGNATION) {
 			// Tell this projectile it just hit a wall.
-			a->setWallCollision();
-			a->setHitPoints(0);
+			((Projectile *)a)->projectileWallCollisionCallback();
 		}
 		return;
 	}
@@ -447,15 +446,30 @@ void BoxPhysics::createContact(b2Contact *contact) {
 	contacts.head = n;
 }
 
-b2RevoluteJoint * BoxPhysics::createWorldJoint(b2Body * bodyA, b2Body * bodyB){
+b2RevoluteJoint * BoxPhysics::createWorldJoint(AnimatedSprite * spriteA, AnimatedSprite * spriteB, 
+	float bodyAAnchorY_px, float bodyBAnchorY_px)
+{
+	b2Body * bodyA = spriteA->getPhysicsBody();
+	b2Body * bodyB = spriteB->getPhysicsBody();
+
+	//convert the pixel coordinates to the appropriate points relative to the
+	//center of each physics body
+	float centerY_A = (spriteA->getSpriteType()->getTextureHeight()/2);
+	float centerY_B = (spriteB->getSpriteType()->getTextureHeight()/2);
+
+	//The hard-coded 32 is the conversion factor, find it appropriately later
+	float bodyAJointY = (centerY_A - bodyAAnchorY_px) / 32;
+	float bodyBJointY = (centerY_B - bodyBAnchorY_px) / 32;
+
+
 	b2RevoluteJointDef vineJointDef;
-	vineJointDef.collideConnected = true;
+	vineJointDef.collideConnected = false;
 	vineJointDef.bodyA = bodyA;
 	vineJointDef.bodyB = bodyB;
 	//these are static values now for testing, scaling the width and height
 	//of the sprite's width and height
-	vineJointDef.localAnchorA.Set(0,0);
-	vineJointDef.localAnchorB.Set(0,0);
+	vineJointDef.localAnchorA.Set(0,bodyAJointY);
+	vineJointDef.localAnchorB.Set(0,bodyBJointY);
 	//revoluteJointDef.referenceAngle = currentBody->GetAngle() - prevBody->GetAngle();
 	return (b2RevoluteJoint *)(physics_world->CreateJoint(&vineJointDef));
 }
