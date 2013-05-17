@@ -1071,8 +1071,8 @@ void WalkaboutDataLoader::loadLevel2(Game *game) {
 
 	// Create Monkies
 	AnimatedSpriteType *monkey = spriteManager->getSpriteType(15);
-	createMonkeyBot(game, monkey, 3216, 1024, 256, -1);
-	createMonkeyBot(game, monkey, 400, 704, 256, 1);
+	createMonkeyBot(game, monkey, 3216, 1024, 500, -1);
+	createMonkeyBot(game, monkey, 400, 704, 450, 1);
 
 	// Create Bots
 	AnimatedSpriteType *bot = spriteManager->getSpriteType(1);
@@ -1194,16 +1194,16 @@ void WalkaboutDataLoader::loadLevel3(Game *game) {
 
 	// Create Monkeys
 	AnimatedSpriteType *monkey = spriteManager->getSpriteType(15);
-	createMonkeyBot(game, monkey, 1232, 2048, 256, -1);
-	createMonkeyBot(game, monkey, 2000, 1920, 256, -1);
-	createMonkeyBot(game, monkey, 400, 1664, 256, 1);
-	createMonkeyBot(game, monkey, 1232, 1408, 256, -1);
-	createMonkeyBot(game, monkey, 1744, 1472, 256, -1);
-	createMonkeyBot(game, monkey, 848, 960, 256, 1);
-	createMonkeyBot(game, monkey, 848, 704, 256, 1);
-	createMonkeyBot(game, monkey, 464, 576, 256, 1);
-	createMonkeyBot(game, monkey, 272, 448, 256, 1);
-	createMonkeyBot(game, monkey, 2192, 384, 256, -1);
+	createMonkeyBot(game, monkey, 1232, 2048, 500, -1);
+	createMonkeyBot(game, monkey, 2000, 1920, 500, -1);
+	createMonkeyBot(game, monkey, 400, 1664, 500, 1);
+	createMonkeyBot(game, monkey, 1232, 1408, 500, -1);
+	createMonkeyBot(game, monkey, 1744, 1472, 500, -1);
+	createMonkeyBot(game, monkey, 848, 960, 500, 1);
+	createMonkeyBot(game, monkey, 848, 704, 500, 1);
+	createMonkeyBot(game, monkey, 464, 576, 500, 1);
+	createMonkeyBot(game, monkey, 272, 448, 500, 1);
+	createMonkeyBot(game, monkey, 2192, 384, 500, -1);
 
 
 	// Create Bots
@@ -1362,7 +1362,7 @@ void WalkaboutDataLoader::createFORFloatingBot(Game *game, AnimatedSpriteType* s
 }
 
 void WalkaboutDataLoader::createMonkeyBot(Game *game, AnimatedSpriteType* spriteType, int x, int y, int range, int direction) {
-	MonkeyBot *monkey = new MonkeyBot(BULLET_SPEED, BOT_ATTACK_RANGE, MONKEY_DAMAGE, MONKEY_ATTACK_COOLDOWN, BOT_DESIGNATION, direction);
+	MonkeyBot *monkey = new MonkeyBot(BULLET_SPEED, range, MONKEY_DAMAGE, MONKEY_ATTACK_COOLDOWN, BOT_DESIGNATION, direction);
 	monkey->setHitPoints(MONKEY_HITPOINTS);
 	monkey->setDamage(MONKEY_DAMAGE);
 	monkey->setSpriteType(spriteType);

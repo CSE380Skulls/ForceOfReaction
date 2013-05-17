@@ -114,11 +114,6 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		if(input->isKeyDownForFirstTime(Q_KEY)){
 			player->nextElement();
 		}
-		/*
-		if(input->isKeyDownForFirstTime(Z_KEY)){
-			gsm->goToCutscene();
-		}
-		*/
 		bool viewportMoved = false;
 		float viewportVx = 0.0f;
 		float viewportVy = 0.0f;
@@ -136,25 +131,25 @@ void WalkaboutKeyEventHandler::handleKeyEvents(Game *game)
 		float vpHeight = viewport->getViewportHeight();
 		 
 		// If player is on left 3/8 of viewport
-		if(pX < ((3.0f / 8.0f * vpWidth) + vpX)) {
+		if(pX < ((15.0f / 32.0f * vpWidth) + vpX)) {
 			viewportVx = -MAX_VIEWPORT_AXIS_VELOCITY; 
 			viewportMoved = true;
 		 }
 
 		 // If player is on right 5/8 of viewport
-		 if(pX > ((5.0f / 8.0f * vpWidth) + vpX)) {
+		 if(pX > ((17.0f / 32.0f * vpWidth) + vpX)) {
 			viewportVx = MAX_VIEWPORT_AXIS_VELOCITY; 
 			viewportMoved = true;
 		 }
 
 		 // If player is on top 3/8 of viewport
-		 if(pY < ((3.0f / 8.0f * vpHeight) + vpY)) {
+		 if(pY < ((15.0f / 32.0f * vpHeight) + vpY)) {
 			viewportVy = -MAX_VIEWPORT_AXIS_VELOCITY; 
 			viewportMoved = true;
 		 }
 
 		 // If player is on bottom 5/8 of viewport
-		 if(pY > ((5.0f / 8.0f * vpHeight) + vpY)) {
+		 if(pY > ((17.0f / 32.0f * vpHeight) + vpY)) {
 			viewportVy = MAX_VIEWPORT_AXIS_VELOCITY; 
 			viewportMoved = true;
 		 }
