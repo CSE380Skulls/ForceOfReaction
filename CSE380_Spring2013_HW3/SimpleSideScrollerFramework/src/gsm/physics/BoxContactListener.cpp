@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BoxContactListener.h"
 #include "src\gsm\sprite\AnimatedSprite.h"
+#include "src\gsm\sprite\Projectile.h"
 
 /*Using a naive implementation to indicate whether or not
 		a body is a animated sprite or not. If a body within a condtact
@@ -76,6 +77,15 @@ void BoxContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManif
 		// If either of the things are dead ignore the contact
 		if(b->getHitPoints() <= 0 || a->getHitPoints() <= 0)
 			contact->SetEnabled(false);
+
+		if(a->getDesignation() == PROJECTILE_DESIGNATION){
+			contact->SetEnabled(((Projectile *)a)->projectilePreCollision(b));
+		}
+
+		if(b->getDesignation() == PROJECTILE_DESIGNATION){
+			contact->SetEnabled(((Projectile *)b)->projectilePreCollision(a));
+		}
+
 	}
 }
 

@@ -37,12 +37,11 @@ void Vine::init(float px, float py, AnimatedSpriteType *sprite){
 	affixTightAABBBoundingVolume();
 }
 
-bool Vine::projectileCollisionCallback(Game *game, AnimatedSprite *collidedObject){
+void Vine::projectileCollisionCallback(Game *game, AnimatedSprite *collidedObject){
 	//part of this vine collided with the player, notify the player
 	//casting galore -_- #CrunchTime
 	if(collidedObject == game->getGSM()->getSpriteManager()->getPlayer()){
-		((FORPlayer *)collidedObject)->setLastCollidedVine(this);
-		return false;
+		//((FORPlayer *)collidedObject)->setLastCollidedVine(this);
 	}
 
 	if(collidedObject->getDesignation() == PROJECTILE_DESIGNATION){
@@ -59,11 +58,18 @@ bool Vine::projectileCollisionCallback(Game *game, AnimatedSprite *collidedObjec
 			}
 		}
 	}
-
-	return true;
 }
 
 void Vine::projectileWallCollisionCallback(){
 	this->setWallCollision();
 	//do nothing here, we will destroy vine parts on our own terms
+}
+
+bool Vine::projectilePreCollision(AnimatedSprite *collidedObject){
+	//don't collide with the main player
+	if(collidedObject->getDesignation() == PLAYER_DESIGNATION){
+		((FORPlayer *)collidedObject)->setLastCollidedVine(this);
+		return false;
+	}
+	return true;
 }

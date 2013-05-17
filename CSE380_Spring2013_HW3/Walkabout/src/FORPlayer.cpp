@@ -263,9 +263,9 @@ void FORPlayer::hookToVine(Game *game){
 		float vine_y = lastCollidedVine->getPhysicalProperties()->getY();
 
 		float acceptableRangeX = this->getSpriteType()->getTextureWidth() + 
-			lastCollidedVine->getSpriteType()->getTextureWidth();
+			lastCollidedVine->getSpriteType()->getTextureWidth() + 5;
 		float acceptableRangeY = (this->getSpriteType()->getTextureHeight()/2) +
-			(lastCollidedVine->getSpriteType()->getTextureHeight()/2);
+			(lastCollidedVine->getSpriteType()->getTextureHeight()/2) + 5;
 
 		if((abs(playerProperties->getX() - vine_x) < acceptableRangeX ) &&
 			(abs(playerProperties->getY() - vine_y) < acceptableRangeY ))

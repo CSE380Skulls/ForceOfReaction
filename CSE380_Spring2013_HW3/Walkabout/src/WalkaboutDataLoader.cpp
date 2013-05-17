@@ -873,7 +873,9 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	// Second set
 	createSpikes(game, spikes, 2496, 576);
 	createSpikes(game, spikes, 2624, 576);
+	createSpikes(game, spikes, 2688, 576);//original removed;
 	createSpikes(game, spikes, 2752, 576);
+	createSpikes(game, spikes, 2816, 576);//original removed;
 	createSpikes(game, spikes, 2880, 576);
 	createSpikes(game, spikes, 3008, 576);
 	// Third set
@@ -900,19 +902,19 @@ void WalkaboutDataLoader::loadLevel1(Game *game) {
 	createSpikes(game, spikes, 576, 1728);
 	createSpikes(game, spikes, 640, 1728);
 	createSpikes(game, spikes, 704, 1728);
-
+	createSpikes(game, spikes, 768, 1728);//original removed;
 	createSpikes(game, spikes, 832, 1728);
 	createSpikes(game, spikes, 896, 1728);
 	createSpikes(game, spikes, 960, 1728);
-	
+	createSpikes(game, spikes, 1024, 1728);//original removed;
 	createSpikes(game, spikes, 1088, 1728);
 	createSpikes(game, spikes, 1152, 1728);
 	createSpikes(game, spikes, 1216, 1728);
-	
+	createSpikes(game, spikes, 1280, 1728);//original removed;
 	createSpikes(game, spikes, 1344, 1728);
 	createSpikes(game, spikes, 1408, 1728);
 	createSpikes(game, spikes, 1472, 1728);
-	
+	createSpikes(game, spikes, 1536, 1728);//original removed;
 	createSpikes(game, spikes, 1600, 1728);
 	createSpikes(game, spikes, 1664, 1728);
 	createSpikes(game, spikes, 1728, 1728);

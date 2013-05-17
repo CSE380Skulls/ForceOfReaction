@@ -115,7 +115,7 @@ void BoxPhysics::updateContacts(Game *game){
 			{
 				if(b->getDesignation() == PROJECTILE_DESIGNATION){
 					int groupIndex = b->getPhysicsBody()->GetFixtureList()->GetFilterData().groupIndex;
-					n->contact->SetEnabled(((Projectile *)b)->projectileCollisionCallback(game,a));
+					((Projectile *)b)->projectileCollisionCallback(game,a);
 					if(groupIndex != FRIENDLY_PROJECTILE_INDEX){
 						handlePlayerCollision(game, a, b);
 					}
